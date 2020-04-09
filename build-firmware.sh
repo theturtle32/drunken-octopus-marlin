@@ -109,7 +109,7 @@ get_config_info() {
   fw_filename=Marlin_${printer}_${toolhead}_${fw_version}_${fw_hash}
   motherboard_name=`grep "define MOTHERBOARD" $config/Configuration.h | awk '{print $3}'`
   motherboard_number=`grep "$motherboard_name\b" Marlin/src/core/boards.h | awk '{print $3}'`
-  is_lulzbot=`grep "LulzBot printers" $config/Configuration.h`
+  is_drunken_octopus=`grep "Drunken Octopus" $config/Configuration.h`
   if [ ! $FULLNAMES ]; then
     # Shorten firmware name (removing the code names)
     fw_filename=`echo $fw_filename | sed 's/Marlin_(.+)_(.+)_(.+)_(.+)_(.+)_(.+)/Marlin_$2_$4_$5_$6/'`
@@ -170,7 +170,7 @@ build_firmware() {
     return
   fi
 
-  if [ -z "$is_lulzbot" ]; then
+  if [ -z "$is_drunken_octopus" ]; then
     # Bail if the FW is not an official Lulzbot build
     echo Skipping $config because it does not appear compatible with this script.
     return
