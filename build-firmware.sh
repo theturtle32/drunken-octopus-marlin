@@ -115,10 +115,11 @@ get_config_info() {
     fw_filename=`echo $fw_filename | sed 's/Marlin_(.+)_(.+)_(.+)_(.+)_(.+)_(.+)/Marlin_$2_$4_$5_$6/'`
   fi
   if [ $motherboard_name = "BOARD_ARCHIM2" ]; then
-    fw_path=build/$group/$printer/$toolhead/$fw_filename.bin
+    fw_type=bin
   else
-    fw_path=build/$group/$printer/$toolhead/$fw_filename.hex
+    fw_type=hex
   fi
+  fw_path=build/$group/$printer/$toolhead/$fw_filename.$fw_type
 }
 
 ####
@@ -208,7 +209,7 @@ build_firmware() {
   # Copy builds to build directory
 
   mkdir -p build/$group/$printer/$toolhead
-  mv Marlin/applet/marlin.bin $fw_path
+  mv Marlin/applet/marlin.$fw_type $fw_path
   chmod a-x build/$group/$printer/$toolhead/*
 
   if [ $GENERATE_CONFIG ]; then
