@@ -2257,7 +2257,7 @@
 //#define EDITABLE_SERVO_ANGLES
 
 /**
- * Extra modifications to Marlin for LulzBot printers
+ * Extra parameters used by Drunken Octopus
  */
 #define SOURCE_CODE_URL "https://github.com/marciot/drunken-octopus-marlin" // <-- changed
 #define TOOLHEAD_NAME "Goostruder" // <-- changed
