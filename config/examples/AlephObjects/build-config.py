@@ -1074,9 +1074,10 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["Z_HOMING_HEIGHT"]                    = 10
             MARLIN["Z_CLEARANCE_DEPLOY_PROBE"]           = 10
             MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 10
-            MARLIN["X_MAX_ENDSTOP_INVERTING"]            = NORMALLY_CLOSED_ENDSTOP
+        if "Oliveoil_TAZ6" in PRINTER or "Juniper_TAZ5" in PRINTER:
             MARLIN["SWAP_E0_AND_E1"]                     = True
             MARLIN["EXTRUDER_FAN_ON_PIN_6"]              = True # For backwards compatibility with TAZ 4
+            MARLIN["X_MAX_ENDSTOP_INVERTING"]            = NORMALLY_CLOSED_ENDSTOP
 
 ############################# UNIVERSAL TOOLHEADS #############################
 
