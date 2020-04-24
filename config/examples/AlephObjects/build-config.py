@@ -1749,7 +1749,7 @@ def make_config(PRINTER, TOOLHEAD):
           MARLIN["FILAMENT_RUNOUT_ENABLE_DEFAULT"]       = "false"
         MARLIN["ACTION_ON_FILAMENT_RUNOUT"]              = C_STRING("pause: filament_runout")
         MARLIN["CURA_LE_RUNOUT_HANDLING_WORKAROUND"]     = True
-        MARLIN["M125_FILAMENT_RUNOUT_WORKAROUND"]        = USE_TOUCH_UI
+        MARLIN["TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS"]   = USE_TOUCH_UI
 
 ############################## MOTOR DRIVER TYPE ##############################
 
@@ -2354,15 +2354,15 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["STATUS_EXPIRE_SECONDS"]                  = 0
 
     if USE_TOUCH_UI:
-        MARLIN["TOUCH_UI_FTDI_EVE"]                       = True
+        MARLIN["TOUCH_UI_FTDI_EVE"]                      = True
         MARLIN["TOUCH_UI_USE_UTF8"]                      = True
         MARLIN["TOUCH_UI_UTF8_COPYRIGHT"]                = True
         MARLIN["TOUCH_UI_UTF8_SUPERSCRIPTS"]             = True
+        MARLIN["TOUCH_UI_DEVELOPER_MENU"]                = True
         MARLIN["LCD_SET_PROGRESS_MANUALLY"]              = True
         MARLIN["SCROLL_LONG_FILENAMES"]                  = False if USE_LESS_MEMORY else True
         MARLIN["NO_PAUSE_FOR_REHEAT"]                    = True
         MARLIN["NO_TIME_AFTER_SD_PRINT"]                 = True
-        MARLIN["DEVELOPER_SCREENS"]                      = True
         MARLIN["LCD_TIMEOUT_TO_STATUS"]                  = 0
 
         # Virtual joystick functionality

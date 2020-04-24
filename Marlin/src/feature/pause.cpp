@@ -613,8 +613,16 @@ void resume_print(const float &slow_load_length/*=0*/, const float &fast_load_le
     thermalManager.reset_hotend_idle_timer(e);
   }
 
+  #if ENABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
+    ExtUI::onStatusChanged(GET_TEXT(MSG_FILAMENT_CHANGE_RESUME));
+    UNUSED(slow_load_length);
+    UNUSED(fast_load_length);
+    UNUSED(purge_length);
+    UNUSED(max_beep_count);
+  #else
   if (nozzle_timed_out || thermalManager.hotEnoughToExtrude(active_extruder)) // Load the new filament
     load_filament(slow_load_length, fast_load_length, purge_length, max_beep_count, true, nozzle_timed_out, PAUSE_MODE_SAME DXC_PASS);
+  #endif
 
   #if HAS_LCD_MENU
     lcd_pause_show_message(PAUSE_MESSAGE_RESUME);
@@ -654,7 +662,9 @@ void resume_print(const float &slow_load_length/*=0*/, const float &fast_load_le
     host_action_resume();
   #endif
 
+  #if DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
   --did_pause_print;
+  #endif
 
   #if ENABLED(HOST_PROMPT_SUPPORT)
     host_prompt_open(PROMPT_INFO, PSTR("Resuming"), DISMISS_STR);

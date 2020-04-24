@@ -2260,6 +2260,7 @@
  * Extra parameters used by Drunken Octopus
  */
 #define SOURCE_CODE_URL "https://github.com/marciot/drunken-octopus-marlin" // <-- changed
+//#define SHORT_BUILD_VERSION
 #define TOOLHEAD_NAME "HE 0.5mm" // <-- changed
 #define TOOLHEAD_TYPE "HardenedExtruder" // <-- changed
 #define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nG0 X-10 Y-9M109 R160\nM107" // <-- changed
@@ -2270,29 +2271,28 @@
 //#define AO_EXP1_DEPRECATED_PINMAP
 //#define DISABLE_DUE_SD_MMC
 //#define EXTRUDER_FAN_ON_PIN_6
-#define ACTION_ON_FILAMENT_RUNOUT "pause: filament_runout" // <-- changed
 //#define ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE
 #define END_G29_ON_BACK_LEFT_CORNER // <-- changed
 //#define USB_DEVICE_VENDOR_ID
 //#define USB_DEVICE_PRODUCT_ID
-//#define NO_PAUSE_FOR_REHEAT
-#define CURA_LE_RUNOUT_HANDLING_WORKAROUND // <-- changed
-//#define E_MIN_PIN
-//#define E_MIN_PIN_INVERTING
-//#define E_MAX_POS
-//#define NO_TOOLHEAD_HEATER_GCODE
-//#define DEVELOPER_SCREENS
 //#define TOUCH_UI_NO_BOOTSCREEN
 //#define TOUCH_UI_LULZBOT_BIO
 //#define TOUCH_UI_FROZEN_THEME
 //#define TOUCH_UI_ROYAL_THEME
-//#define SWAP_E0_AND_E1
+//#define TOUCH_UI_VERSION
+//#define TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS  // <-- changed
+#define CURA_LE_RUNOUT_HANDLING_WORKAROUND // <-- changed
 #define FILAMENT_RUNOUT_ENABLE_DEFAULT false // <-- changed
 //#define FIL_RUNOUT_PIN
+#define ACTION_ON_FILAMENT_RUNOUT "pause: filament_runout" // <-- changed
+//#define SWAP_E0_AND_E1
+//#define E_MIN_PIN
+//#define E_MIN_PIN_INVERTING
+//#define E_MAX_POS
 //#define CONTROLLER_FAN_IGNORE_Z
+//#define NO_PAUSE_FOR_REHEAT
 //#define NO_MOTION_BEFORE_HOMING_WORKAROUND
 //#define NO_TIME_AFTER_SD_PRINT
+//#define NO_TOOLHEAD_HEATER_GCODE
 //#define EMI_MITIGATION
-//#define SHORT_BUILD_VERSION
-//#define TOUCH_UI_VERSION
-//#define M125_FILAMENT_RUNOUT_WORKAROUND  // <-- changed
+FILAMENT_RUNOUT_WORKAROUNDS

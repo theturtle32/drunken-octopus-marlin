@@ -76,7 +76,7 @@ void GcodeSuite::M125() {
   #endif
 
   #if ENABLED(SDSUPPORT)
-    #if ENABLED(M125_FILAMENT_RUNOUT_WORKAROUND)
+    #if ENABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
       const bool sd_printing = card.isFileOpen();
     #else
     const bool sd_printing = IS_SD_PRINTING();
