@@ -29,6 +29,7 @@ PRINTER_CHOICES = [
     "Juniper_TAZ5ArchimBLTouch",
     "Oliveoil_TAZ6",
     "Oliveoil_TAZ6Archim",
+    "Oliveoil_TAZ6BLTouchHallEffect",
     "Oliveoil_TAZ6BLTouch",
     "Oliveoil_TAZ6ArchimBLTouch",
     "Quiver_TAZPro",
@@ -184,6 +185,9 @@ def make_config(PRINTER, TOOLHEAD):
     MARLIN["SDSUPPORT"]                                  = False
     MARLIN["BLTOUCH"]                                    = "BLTouch" in PRINTER
     MARLIN["SHOW_CUSTOM_BOOTSCREEN"]                     = True
+    if "HallEffect" in PRINTER:
+      MARLIN["FILAMENT_RUNOUT_SENSOR"]                   = True
+      MARLIN["FILAMENT_MOTION_SENSOR"]                   = True
 
 ######################## PRINTER MODEL CHARACTERISTICS ########################
 
@@ -312,6 +316,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("5ee798fb-4062-4d35-8224-5e846ffb45a5")
         MARLIN["SDSUPPORT"]                              = True
+        MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
 
     if "Juniper_TAZ5Archim" in PRINTER:
         IS_TAZ                                           = True
@@ -330,8 +335,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["MACHINE_UUID"]                           = C_STRING("c3255c96-4097-4884-8ed0-ded2ff9bae61")
         MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
-        MARLIN["FILAMENT_RUNOUT_ENABLE_DEFAULT"]         = False
-        MARLIN["FILAMENT_MOTION_SENSOR"]                 = False
+        MARLIN["SDSUPPORT"]                              = True
 
     if "Redgum_TAZWorkhorseArchim" in PRINTER:
         IS_TAZ                                           = True
@@ -354,8 +358,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MACHINE_UUID"]                           = C_STRING("fd546ced-5941-44e4-8d17-5d494bfc2ca3")
         MARLIN["SDSUPPORT"]                              = True
         MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
-        MARLIN["FILAMENT_RUNOUT_ENABLE_DEFAULT"]         = False
-        MARLIN["FILAMENT_MOTION_SENSOR"]                 = False
 
     if "Redgum_TAZWorkhorseArchimTouchUSB" in PRINTER:
         IS_TAZ                                           = True
@@ -379,8 +381,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = True
         MARLIN["SDSUPPORT"]                              = True
         MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
-        MARLIN["FILAMENT_RUNOUT_ENABLE_DEFAULT"]         = False
-        MARLIN["FILAMENT_MOTION_SENSOR"]                 = False
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
         # Touch LCD configuration
@@ -585,8 +585,6 @@ def make_config(PRINTER, TOOLHEAD):
         # and homing button wired together)
         BED_WASHERS_PIN                                  = 'SERVO0_PIN'
         MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
-        MARLIN["FILAMENT_RUNOUT_ENABLE_DEFAULT"]         = False
-        MARLIN["FILAMENT_MOTION_SENSOR"]                 = False
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ 6")
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["ENDSTOPS_ALWAYS_ON_DEFAULT"]             = True
@@ -627,7 +625,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = True
         MARLIN["SDSUPPORT"]                              = True
         MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
-        MARLIN["FILAMENT_MOTION_SENSOR"]                 = False
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
         MARLIN["EMI_MITIGATION"]                         = True
@@ -1748,6 +1745,8 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["NUM_RUNOUT_SENSORS"]                     = MARLIN["EXTRUDERS"]
         MARLIN["FILAMENT_RUNOUT_SCRIPT"]                 = C_STRING("M25\n")
         MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 14
+        if not PRINTER in ["Quiver_TAZPro", "Experimental_BLTouch"]:
+          MARLIN["FILAMENT_RUNOUT_ENABLE_DEFAULT"]       = "false"
         MARLIN["ACTION_ON_FILAMENT_RUNOUT"]              = C_STRING("pause: filament_runout")
         MARLIN["CURA_LE_RUNOUT_HANDLING_WORKAROUND"]     = True
 

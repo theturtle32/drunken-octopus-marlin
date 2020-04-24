@@ -1140,7 +1140,7 @@
  * For other boards you may need to define FIL_RUNOUT_PIN, FIL_RUNOUT2_PIN, etc.
  * By default the firmware assumes HIGH=FILAMENT PRESENT.
  */
-//#define FILAMENT_RUNOUT_SENSOR
+#define FILAMENT_RUNOUT_SENSOR // <-- changed
 #if ENABLED(FILAMENT_RUNOUT_SENSOR)
   #define NUM_RUNOUT_SENSORS   1     // Number of sensors, up to one per extruder. Define a FIL_RUNOUT#_PIN for each.
   #define FIL_RUNOUT_INVERTING false // Set to true to invert the logic of the sensor.
@@ -1149,12 +1149,12 @@
 
   // Set one or more commands to execute on filament runout.
   // (After 'M412 H' Marlin will ask the host to handle the process.)
-  #define FILAMENT_RUNOUT_SCRIPT "M600"
+  #define FILAMENT_RUNOUT_SCRIPT "M25" // <-- changed
 
   // After a runout is detected, continue printing this length of filament
   // before executing the runout script. Useful for a sensor at the end of
   // a feed tube. Requires 4 bytes SRAM per sensor, plus 4 bytes overhead.
-  //#define FILAMENT_RUNOUT_DISTANCE_MM 25
+  #define FILAMENT_RUNOUT_DISTANCE_MM 14 // <-- changed
 
   #ifdef FILAMENT_RUNOUT_DISTANCE_MM
     // Enable this option to use an encoder disc that toggles the runout pin
@@ -2270,13 +2270,13 @@
 //#define AO_EXP1_DEPRECATED_PINMAP
 //#define DISABLE_DUE_SD_MMC
 //#define EXTRUDER_FAN_ON_PIN_6
-//#define ACTION_ON_FILAMENT_RUNOUT
+#define ACTION_ON_FILAMENT_RUNOUT "pause: filament_runout" // <-- changed
 //#define ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE
 #define END_G29_ON_BACK_LEFT_CORNER // <-- changed
 //#define USB_DEVICE_VENDOR_ID
 //#define USB_DEVICE_PRODUCT_ID
 //#define NO_PAUSE_FOR_REHEAT
-//#define CURA_LE_RUNOUT_HANDLING_WORKAROUND
+#define CURA_LE_RUNOUT_HANDLING_WORKAROUND // <-- changed
 //#define E_MIN_PIN
 //#define E_MIN_PIN_INVERTING
 //#define E_MAX_POS
@@ -2287,7 +2287,7 @@
 //#define TOUCH_UI_FROZEN_THEME
 //#define TOUCH_UI_ROYAL_THEME
 //#define SWAP_E0_AND_E1
-//#define FILAMENT_RUNOUT_ENABLE_DEFAULT
+#define FILAMENT_RUNOUT_ENABLE_DEFAULT false // <-- changed
 //#define FIL_RUNOUT_PIN
 //#define CONTROLLER_FAN_IGNORE_Z
 //#define NO_MOTION_BEFORE_HOMING_WORKAROUND

@@ -76,6 +76,10 @@
   #define FIL_RUNOUT_PIN                       5
 #endif
 
+#ifndef FIL_RUNOUT2_PIN
+  #define FIL_RUNOUT2_PIN                      5
+#endif
+
 //
 // Steppers
 //

@@ -80,6 +80,17 @@ Patreon supporters will receive firmware or configuration files for modified pri
 
 Source code for building everything will always be available to anyone!
 
+## What pins are used on a RAMBO for extra features?
+
+| Feature                | Port  | Arduino Pin | Rambo Pin  | Description                  |
+|------------------------|-------|-------------|------------|------------------------------|
+| FIL_RUNOUT_PIN         | PE3   | 5           | X34 Pin 5  | Filament Runout 1            |
+| FIL_RUNOUT2_PIN        | PE3   | 5           | X34 Pin 5  | Filament Runout 2            |
+| SERVO0_PIN             | PA0   | 22          | MX1 Pin 3  | Bed Washers or BLTouch Servo |
+
+There is only one available pin for filament runout sensing on the Rambo. Use normally
+open microswitches for sensing filament on dual toolheads and wire them in series.
+
 ## What pin are used when upgrading a TAZ to an Archim 2.0?
 
 | Feature                | Port  | Arduino Pin | Archim Pin | Description                  |
@@ -89,8 +100,8 @@ Source code for building everything will always be available to anyone!
 | -                      | PB3   | 103         | J20 Pin 7  | Unused                       |
 | FIL_RUNOUT_PIN         | PB15  | 66          | J20 Pin 15 | Filament Runout 1            |
 | FIL_RUNOUT2_PIN        | PB16  | 67          | J20 Pin 16 | Filament Runout 2            |
-| SERVO1_PIN             | PB13  | 21          | J20 Pin 19 | Unused                       |
 | SERVO0_PIN             | PB12  | 20          | J20 Pin 20 | Bed Washers or BLTouch Servo |
+| SERVO1_PIN             | PB13  | 21          | J20 Pin 19 | Unused                       |
 
 ## How do I compile *Drunken Octopus* from source?
 
