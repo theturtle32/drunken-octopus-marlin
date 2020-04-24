@@ -1404,7 +1404,7 @@ def make_config(PRINTER, TOOLHEAD):
     elif "Experimental_BLTouch" in PRINTER:
         STANDARD_X_MAX_POS                               = 288
         STANDARD_X_MIN_POS                               = -49
-        STANDARD_Y_MAX_POS                               = 304
+        STANDARD_Y_MAX_POS                               = 303
         STANDARD_Y_MIN_POS                               = -35
 
         STANDARD_X_BED_SIZE                              = 280
@@ -1445,7 +1445,7 @@ def make_config(PRINTER, TOOLHEAD):
         STANDARD_Z_MAX_POS                               = 270
 
     elif "Experimental_BLTouch" in PRINTER:
-        STANDARD_Z_MIN_POS                               = -2
+        STANDARD_Z_MIN_POS                               = 0
         STANDARD_Z_MAX_POS                               = 296
 
     elif IS_TAZ and USE_Z_BELT:
@@ -1454,8 +1454,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     if MARLIN["BLTOUCH"]:
         # If using BLTouch, then set the Z_MIN_POS to zero
-        STANDARD_Z_MAX_POS -= STANDARD_Z_MIN_POS
-        STANDARD_Z_MIN_POS -= STANDARD_Z_MIN_POS
+        STANDARD_Z_MIN_POS = 0
 
     MARLIN["X_MAX_POS"] = STANDARD_X_MAX_POS + TOOLHEAD_X_MAX_ADJ + ADAPTER_X_OFFSET
     MARLIN["X_MIN_POS"] = STANDARD_X_MIN_POS + TOOLHEAD_X_MIN_ADJ + ADAPTER_X_OFFSET
@@ -1614,6 +1613,7 @@ def make_config(PRINTER, TOOLHEAD):
             "M120\n"                                     # Turn on hardware endstops
             "M400\n"                                     # Finish moves
             "G0 Z400 F6000 U\n"                          # Skip steppers against uppers
+            "G92 Z" + str(STANDARD_Z_MAX_POS) + "\n"     # Set position to Z_MAX
             "G0 Z-5 F500 U\n"                            # Move Z-Axis down a bit
             "M400\n"                                     # Finish moves
             "G90\n"                                      # Return to absolute mode
@@ -1647,7 +1647,7 @@ def make_config(PRINTER, TOOLHEAD):
       if IS_MINI:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING("M17 Z")
       elif "Experimental_BLTouch" in PRINTER:
-        MARLIN["STARTUP_COMMANDS"]                       = C_STRING("G29 L1\n" + AXIS_LEVELING_COMMANDS)
+        MARLIN["STARTUP_COMMANDS"]                       = C_STRING("G29 L1\n" + AXIS_LEVELING_COMMANDS + "M280 P0 S60")
       else:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING(AXIS_LEVELING_COMMANDS)
 
@@ -1749,6 +1749,7 @@ def make_config(PRINTER, TOOLHEAD):
           MARLIN["FILAMENT_RUNOUT_ENABLE_DEFAULT"]       = "false"
         MARLIN["ACTION_ON_FILAMENT_RUNOUT"]              = C_STRING("pause: filament_runout")
         MARLIN["CURA_LE_RUNOUT_HANDLING_WORKAROUND"]     = True
+        MARLIN["M125_FILAMENT_RUNOUT_WORKAROUND"]        = USE_TOUCH_UI
 
 ############################## MOTOR DRIVER TYPE ##############################
 

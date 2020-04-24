@@ -76,7 +76,11 @@ void GcodeSuite::M125() {
   #endif
 
   #if ENABLED(SDSUPPORT)
+    #if ENABLED(M125_FILAMENT_RUNOUT_WORKAROUND)
+      const bool sd_printing = card.isFileOpen();
+    #else
     const bool sd_printing = IS_SD_PRINTING();
+    #endif
   #else
     constexpr bool sd_printing = false;
   #endif
@@ -100,3 +104,4 @@ void GcodeSuite::M125() {
 }
 
 #endif // PARK_HEAD_ON_PAUSE
+
