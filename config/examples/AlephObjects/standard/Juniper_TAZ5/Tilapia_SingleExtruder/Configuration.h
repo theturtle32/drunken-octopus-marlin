@@ -2260,6 +2260,7 @@
  * Extra parameters used by Drunken Octopus
  */
 #define SOURCE_CODE_URL "https://github.com/marciot/drunken-octopus-marlin" // <-- changed
+//#define SHORT_BUILD_VERSION
 #define TOOLHEAD_NAME "Single Extruder" // <-- changed
 #define TOOLHEAD_TYPE "SingleExtruder" // <-- changed
 //#define WIPE_SEQUENCE_COMMANDS
@@ -2270,29 +2271,27 @@
 //#define AO_EXP1_DEPRECATED_PINMAP
 //#define DISABLE_DUE_SD_MMC
 //#define EXTRUDER_FAN_ON_PIN_6
-//#define ACTION_ON_FILAMENT_RUNOUT
 //#define ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE
 //#define END_G29_ON_BACK_LEFT_CORNER
 //#define USB_DEVICE_VENDOR_ID
 //#define USB_DEVICE_PRODUCT_ID
-//#define NO_PAUSE_FOR_REHEAT
-//#define CURA_LE_RUNOUT_HANDLING_WORKAROUND
-//#define E_MIN_PIN
-//#define E_MIN_PIN_INVERTING
-//#define E_MAX_POS
-//#define NO_TOOLHEAD_HEATER_GCODE
-//#define DEVELOPER_SCREENS
 //#define TOUCH_UI_NO_BOOTSCREEN
 //#define TOUCH_UI_LULZBOT_BIO
 //#define TOUCH_UI_FROZEN_THEME
 //#define TOUCH_UI_ROYAL_THEME
-//#define SWAP_E0_AND_E1
+//#define TOUCH_UI_VERSION
+//#define TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS
+//#define CURA_LE_RUNOUT_HANDLING_WORKAROUND
 //#define FILAMENT_RUNOUT_ENABLE_DEFAULT
 //#define FIL_RUNOUT_PIN
+//#define ACTION_ON_FILAMENT_RUNOUT
+//#define SWAP_E0_AND_E1
+//#define E_MIN_PIN
+//#define E_MIN_PIN_INVERTING
+//#define E_MAX_POS
 //#define CONTROLLER_FAN_IGNORE_Z
+//#define NO_PAUSE_FOR_REHEAT
 //#define NO_MOTION_BEFORE_HOMING_WORKAROUND
 //#define NO_TIME_AFTER_SD_PRINT
+//#define NO_TOOLHEAD_HEATER_GCODE
 //#define EMI_MITIGATION
-//#define SHORT_BUILD_VERSION
-//#define TOUCH_UI_VERSION
-//#define FILAMENT_RUNOUT_WORKAROUNDS

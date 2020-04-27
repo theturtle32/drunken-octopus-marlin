@@ -35,7 +35,6 @@
 #define DEFAULT_bedKd 382
 #define DEFAULT_bedKi 65
 #define DEFAULT_bedKp 294
-#define DEVELOPER_SCREENS
 #define DISABLE_INACTIVE_Z false
 #define E0_CURRENT 350
 #define E0_DRIVER_TYPE TMC2130
@@ -155,6 +154,7 @@
 #define TOOLHEAD_NAME "Goostruder"
 #define TOOLHEAD_TYPE "SingleExtruder"
 #define TOUCH_UI_480x272
+#define TOUCH_UI_DEVELOPER_MENU
 #define TOUCH_UI_FROZEN_THEME
 #define TOUCH_UI_FTDI_EVE
 #define TOUCH_UI_LULZBOT_BIO
