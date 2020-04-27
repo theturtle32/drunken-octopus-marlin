@@ -104,21 +104,49 @@ void menu_advanced_settings();
     START_MENU();
     BACK_ITEM(MSG_CONFIGURATION);
     #if ENABLED(TOOLCHANGE_FILAMENT_SWAP)
-      static constexpr float max_extrude =
-        #if ENABLED(PREVENT_LENGTHY_EXTRUDE)
-          EXTRUDE_MAXLENGTH
-        #else
-          500
-        #endif
-      ;
+      static constexpr float max_extrude = TERN(PREVENT_LENGTHY_EXTRUDE, EXTRUDE_MAXLENGTH, 500);
+      #if ENABLED(TOOLCHANGE_PARK)
+        EDIT_ITEM(bool, MSG_FILAMENT_PARK_ENABLED, &toolchange_settings.enable_park);
+      #endif
       EDIT_ITEM(float3, MSG_FILAMENT_SWAP_LENGTH, &toolchange_settings.swap_length, 0, max_extrude);
+      EDIT_ITEM(float41sign, MSG_FILAMENT_SWAP_EXTRA, &toolchange_settings.extra_resume, -10, 10);
+      EDIT_ITEM_FAST(int4, MSG_SINGLENOZZLE_RETRACT_SPEED, &toolchange_settings.retract_speed, 10, 5400);
+      EDIT_ITEM_FAST(int4, MSG_SINGLENOZZLE_UNRETRACT_SPEED, &toolchange_settings.unretract_speed, 10, 5400);
       EDIT_ITEM(float3, MSG_FILAMENT_PURGE_LENGTH, &toolchange_settings.extra_prime, 0, max_extrude);
-      EDIT_ITEM_FAST(int4, MSG_SINGLENOZZLE_RETRACT_SPD, &toolchange_settings.retract_speed, 10, 5400);
-      EDIT_ITEM_FAST(int4, MSG_SINGLENOZZLE_PRIME_SPD, &toolchange_settings.prime_speed, 10, 5400);
+      EDIT_ITEM_FAST(int4, MSG_SINGLENOZZLE_PRIME_SPEED, &toolchange_settings.prime_speed, 10, 5400);
+      EDIT_ITEM_FAST(int4, MSG_SINGLENOZZLE_FAN_SPEED, &toolchange_settings.fan_speed, 0, 255);
+      EDIT_ITEM_FAST(int4, MSG_SINGLENOZZLE_FAN_TIME, &toolchange_settings.fan_time, 1, 30);
     #endif
     EDIT_ITEM(float3, MSG_TOOL_CHANGE_ZLIFT, &toolchange_settings.z_raise, 0, 10);
     END_MENU();
   }
+
+  #if ENABLED(TOOLCHANGE_MIGRATION_FEATURE)
+
+    #include "../../module/motion.h" // for active_extruder
+
+    void menu_toolchange_migration() {
+      START_MENU();
+      BACK_ITEM(MSG_CONFIGURATION);
+
+      // Auto mode ON/OFF
+      EDIT_ITEM(bool, MSG_TOOL_MIGRATION_AUTO, &migration.automode);
+      EDIT_ITEM(uint8, MSG_TOOL_MIGRATION_END, &migration.last, 0, EXTRUDERS - 1);
+
+      // Migrate to a chosen extruder
+      PGM_P const msg_migrate = GET_TEXT(MSG_TOOL_MIGRATION_SWAP);
+      LOOP_L_N(s, EXTRUDERS) {
+        if (s != active_extruder) {
+          ACTION_ITEM_N_P(s, msg_migrate, []{
+            char cmd[12];
+            sprintf_P(cmd, PSTR("M217 T%i"), int(MenuItemBase::itemIndex));
+            queue.inject(cmd);
+          });
+        }
+      }
+      END_MENU();
+    }
+  #endif
 
 #endif
 
@@ -178,13 +206,7 @@ void menu_advanced_settings();
   #if ENABLED(BLTOUCH_LCD_VOLTAGE_MENU)
     void bltouch_report() {
       SERIAL_ECHOLNPAIR("EEPROM Last BLTouch Mode - ", (int)bltouch.last_written_mode);
-      SERIAL_ECHOLNPGM("Configuration BLTouch Mode - "
-        #if ENABLED(BLTOUCH_SET_5V_MODE)
-          "5V"
-        #else
-          "OD"
-        #endif
-      );
+      SERIAL_ECHOLNPGM("Configuration BLTouch Mode - " TERN(BLTOUCH_SET_5V_MODE, "5V", "OD"));
       char mess[21];
       strcpy_P(mess, PSTR("BLTouch Mode - "));
       strcpy_P(&mess[15], bltouch.last_written_mode ? PSTR("5V") : PSTR("OD"));
@@ -303,10 +325,10 @@ void menu_advanced_settings();
     BACK_ITEM(MSG_CONFIGURATION);
     EDIT_ITEM(percent, MSG_FAN_SPEED, &ui.preheat_fan_speed[material], 0, 255);
     #if HAS_TEMP_HOTEND
-      EDIT_ITEM(int3, MSG_NOZZLE, &ui.preheat_hotend_temp[material], MINTEMP_ALL, MAXTEMP_ALL - 15);
+      EDIT_ITEM(int3, MSG_NOZZLE, &ui.preheat_hotend_temp[material], MINTEMP_ALL, MAXTEMP_ALL - HOTEND_OVERSHOOT);
     #endif
     #if HAS_HEATED_BED
-      EDIT_ITEM(int3, MSG_BED, &ui.preheat_bed_temp[material], BED_MINTEMP, BED_MAXTEMP - 10);
+      EDIT_ITEM(int3, MSG_BED, &ui.preheat_bed_temp[material], BED_MINTEMP, BED_MAX_TARGET);
     #endif
     #if ENABLED(EEPROM_SETTINGS)
       ACTION_ITEM(MSG_STORE_EEPROM, lcd_store_settings);
@@ -373,6 +395,9 @@ void menu_configuration() {
   //
   #if EXTRUDERS > 1
     SUBMENU(MSG_TOOL_CHANGE, menu_tool_change);
+    #if ENABLED(TOOLCHANGE_MIGRATION_FEATURE)
+      SUBMENU(MSG_TOOL_MIGRATION, menu_toolchange_migration);
+    #endif
   #endif
 
   //
@@ -380,11 +405,7 @@ void menu_configuration() {
   //
   #if ENABLED(CASE_LIGHT_MENU)
     #if DISABLED(CASE_LIGHT_NO_BRIGHTNESS)
-      if (true
-        #if DISABLED(CASE_LIGHT_USE_NEOPIXEL)
-          && PWM_PIN(CASE_LIGHT_PIN)
-        #endif
-      )
+      if (TERN1(CASE_LIGHT_USE_NEOPIXEL, PWM_PIN(CASE_LIGHT_PIN)))
         SUBMENU(MSG_CASE_LIGHT, menu_case_light);
       else
     #endif
@@ -419,12 +440,7 @@ void menu_configuration() {
   #endif
 
   if (!busy)
-    ACTION_ITEM(MSG_RESTORE_DEFAULTS, []{
-      settings.reset();
-      #if HAS_BUZZER
-        ui.completion_feedback();
-      #endif
-    });
+    ACTION_ITEM(MSG_RESTORE_DEFAULTS, []{ settings.reset(); ui.completion_feedback(); });
 
   END_MENU();
 }

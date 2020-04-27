@@ -59,11 +59,11 @@ extern int8_t manual_move_axis;
 // Tell ui.update() to start a move to current_position" after a short delay.
 //
 inline void manual_move_to_current(AxisEnum axis
-  #if E_MANUAL > 1
+  #if MULTI_MANUAL
     , const int8_t eindex=-1
   #endif
 ) {
-  #if E_MANUAL > 1
+  #if MULTI_MANUAL
     if (axis == E_AXIS) ui.manual_move_e_index = eindex >= 0 ? eindex : active_extruder;
   #endif
   manual_move_start_time = millis() + (move_menu_scale < 0.99f ? 0UL : 250UL); // delay for bigger moves
@@ -86,28 +86,16 @@ static void _lcd_move_xyz(PGM_P const name, const AxisEnum axis) {
     #if HAS_SOFTWARE_ENDSTOPS
       if (soft_endstops_enabled) switch (axis) {
         case X_AXIS:
-          #if ENABLED(MIN_SOFTWARE_ENDSTOP_X)
-            min = soft_endstop.min.x;
-          #endif
-          #if ENABLED(MAX_SOFTWARE_ENDSTOP_X)
-            max = soft_endstop.max.x;
-          #endif
+          TERN_(MIN_SOFTWARE_ENDSTOP_X, min = soft_endstop.min.x);
+          TERN_(MAX_SOFTWARE_ENDSTOP_X, max = soft_endstop.max.x);
           break;
         case Y_AXIS:
-          #if ENABLED(MIN_SOFTWARE_ENDSTOP_Y)
-            min = soft_endstop.min.y;
-          #endif
-          #if ENABLED(MAX_SOFTWARE_ENDSTOP_Y)
-            max = soft_endstop.max.y;
-          #endif
+          TERN_(MIN_SOFTWARE_ENDSTOP_Y, min = soft_endstop.min.y);
+          TERN_(MAX_SOFTWARE_ENDSTOP_Y, max = soft_endstop.max.y);
           break;
         case Z_AXIS:
-          #if ENABLED(MIN_SOFTWARE_ENDSTOP_Z)
-            min = soft_endstop.min.z;
-          #endif
-          #if ENABLED(MAX_SOFTWARE_ENDSTOP_Z)
-            max = soft_endstop.max.z;
-          #endif
+          TERN_(MIN_SOFTWARE_ENDSTOP_Z, min = soft_endstop.min.z);
+          TERN_(MAX_SOFTWARE_ENDSTOP_Z, max = soft_endstop.max.z);
         default: break;
       }
     #endif // HAS_SOFTWARE_ENDSTOPS
@@ -156,22 +144,14 @@ void lcd_move_z() { _lcd_move_xyz(GET_TEXT(MSG_MOVE_Z), Z_AXIS); }
 
 #if E_MANUAL
 
-  static void lcd_move_e(
-    #if E_MANUAL > 1
-      const int8_t eindex=-1
-    #endif
-  ) {
+  static void lcd_move_e(TERN_(MULTI_MANUAL, const int8_t eindex=-1)) {
     if (ui.use_click()) return ui.goto_previous_screen_no_defer();
     if (ui.encoderPosition) {
       if (!ui.processing_manual_move) {
         const float diff = float(int32_t(ui.encoderPosition)) * move_menu_scale;
-        #if IS_KINEMATIC
-          manual_move_offset += diff;
-        #else
-          current_position.e += diff;
-        #endif
+        TERN(IS_KINEMATIC, manual_move_offset, current_position.e) += diff;
         manual_move_to_current(E_AXIS
-          #if E_MANUAL > 1
+          #if MULTI_MANUAL
             , eindex
           #endif
         );
@@ -180,24 +160,14 @@ void lcd_move_z() { _lcd_move_xyz(GET_TEXT(MSG_MOVE_Z), Z_AXIS); }
       ui.encoderPosition = 0;
     }
     if (ui.should_draw()) {
-      #if E_MANUAL > 1
+      #if MULTI_MANUAL
         MenuItemBase::init(eindex);
       #endif
       MenuEditItemBase::draw_edit_screen(
-        GET_TEXT(
-          #if E_MANUAL > 1
-            MSG_MOVE_EN
-          #else
-            MSG_MOVE_E
-          #endif
-        ),
+        GET_TEXT(TERN(MULTI_MANUAL, MSG_MOVE_EN, MSG_MOVE_E)),
         ftostr41sign(current_position.e
-          #if IS_KINEMATIC
-            + manual_move_offset
-          #endif
-          #if ENABLED(MANUAL_E_MOVES_RELATIVE)
-            - manual_move_e_origin
-          #endif
+          + TERN0(IS_KINEMATIC, manual_move_offset)
+          - TERN0(MANUAL_E_MOVES_RELATIVE, manual_move_e_origin)
         )
       );
     } // should_draw
@@ -230,9 +200,7 @@ void _menu_move_distance(const AxisEnum axis, const screenFunc_t func, const int
       case Y_AXIS: STATIC_ITEM(MSG_MOVE_Y, SS_CENTER|SS_INVERT); break;
       case Z_AXIS: STATIC_ITEM(MSG_MOVE_Z, SS_CENTER|SS_INVERT); break;
       default:
-        #if ENABLED(MANUAL_E_MOVES_RELATIVE)
-          manual_move_e_origin = current_position.e;
-        #endif
+        TERN_(MANUAL_E_MOVES_RELATIVE, manual_move_e_origin = current_position.e);
         STATIC_ITEM(MSG_MOVE_E, SS_CENTER|SS_INVERT);
         break;
     }
@@ -271,24 +239,12 @@ void menu_move() {
   START_MENU();
   BACK_ITEM(MSG_MOTION);
 
-  #if HAS_SOFTWARE_ENDSTOPS && ENABLED(SOFT_ENDSTOPS_MENU_ITEM)
+  #if BOTH(HAS_SOFTWARE_ENDSTOPS, SOFT_ENDSTOPS_MENU_ITEM)
     EDIT_ITEM(bool, MSG_LCD_SOFT_ENDSTOPS, &soft_endstops_enabled);
   #endif
 
-  if (
-    #if IS_KINEMATIC || ENABLED(NO_MOTION_BEFORE_HOMING)
-      all_axes_homed()
-    #else
-      true
-    #endif
-  ) {
-    if (
-      #if ENABLED(DELTA)
-        current_position.z <= delta_clip_start_height
-      #else
-        true
-      #endif
-    ) {
+  if (NONE(IS_KINEMATIC, NO_MOTION_BEFORE_HOMING) || all_axes_homed()) {
+    if (TERN1(DELTA, current_position.z <= delta_clip_start_height)) {
       SUBMENU(MSG_MOVE_X, []{ _menu_move_distance(X_AXIS, lcd_move_x); });
       SUBMENU(MSG_MOVE_Y, []{ _menu_move_distance(Y_AXIS, lcd_move_y); });
     }
@@ -354,7 +310,7 @@ void menu_move() {
         SUBMENU_MOVE_E(2);
       #endif
 
-    #elif E_MANUAL > 1
+    #elif MULTI_MANUAL
 
       // Independent extruders with one E-stepper per hotend
       LOOP_L_N(n, E_MANUAL) SUBMENU_MOVE_E(n);
