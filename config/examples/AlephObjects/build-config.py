@@ -1749,7 +1749,7 @@ def make_config(PRINTER, TOOLHEAD):
           MARLIN["FILAMENT_RUNOUT_ENABLE_DEFAULT"]       = "false"
         MARLIN["ACTION_ON_FILAMENT_RUNOUT"]              = C_STRING("pause: filament_runout")
         MARLIN["CURA_LE_RUNOUT_HANDLING_WORKAROUND"]     = True
-        MARLIN["M125_FILAMENT_RUNOUT_WORKAROUND"]        = USE_TOUCH_UI
+        MARLIN["FILAMENT_RUNOUT_WORKAROUNDS"]            = USE_TOUCH_UI
 
 ############################## MOTOR DRIVER TYPE ##############################
 
