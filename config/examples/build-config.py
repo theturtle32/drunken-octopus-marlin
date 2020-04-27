@@ -2529,8 +2529,8 @@ if __name__ == "__main__":
 
     if not args.input:
         args.input = [
-            "../../default/Configuration.h",
-            "../../default/Configuration_adv.h"
+            "../default/Configuration.h",
+            "../default/Configuration_adv.h"
         ]
 
     if not args.directory:

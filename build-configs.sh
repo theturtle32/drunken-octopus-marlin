@@ -13,5 +13,5 @@
 # FOR A PARTICULAR PURPOSE.  See the GNU AGPL for more details.
 #
 
-cd config/examples/AlephObjects
+cd config/examples
 ./build-all-configs.sh $1

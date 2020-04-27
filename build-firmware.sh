@@ -1,8 +1,8 @@
 #!/bin/sh
 
 ####
+# Portions copyright (C) 2020, Marcio Teixeira
 # Portions copyright (C) 2019, AlephObjects, Inc.
-# Portions copyright (C) 2019, Marcio Teixeira
 #
 # The bash script in this page is free software: you can
 # redistribute it and/or modify it under the terms of the GNU Affero
@@ -343,15 +343,15 @@ fi
 case $# in
   2)
     # If the user specified a printer and toolhead, try finding the config files
-    CONFIG_DIRS=`ls -d -1 config/examples/AlephObjects/*/$1/$2`
+    CONFIG_DIRS=`ls -d -1 config/examples/*/*/$1/$2`
     ;;
   1)
     # If the user specified a configuration file, use that.
     CONFIG_DIRS=`dirname $1`
     ;;
   0)
-    # Otherwise, build all AlephObjects configuration files
-    CONFIG_DIRS=`find config/examples/AlephObjects/ -name Configuration.h -exec dirname {} \;`
+    # Otherwise, build all configuration files
+    CONFIG_DIRS=`find config/examples/*/ -name Configuration.h -exec dirname {} \;`
     ;;
 esac
 

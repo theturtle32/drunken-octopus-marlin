@@ -16,7 +16,7 @@
 
 fetch_default_config() {
     CONF_URL=https://raw.githubusercontent.com/MarlinFirmware/Configurations/bugfix-2.0.x/config/default
-    CONF_DIR=../../default
+    CONF_DIR=../default
     (wget $CONF_URL/Configuration.h -O $CONF_DIR/Configuration.h &&
     wget $CONF_URL/Configuration_adv.h -O $CONF_DIR/Configuration_adv.h &&
     cat  $CONF_DIR/Configuration_DrunkenOctopus.h >> $CONF_DIR/Configuration.h) ||
@@ -28,8 +28,8 @@ build_config() {
   printer_name=$2
   toolhead_name=$3
 
-  echo ${group}/${printer_name}/${toolhead_name}
-  ./build-config.py $printer_name $toolhead_name -D ${group}/${printer_name}/${toolhead_name} --summary
+  echo ${vendor}/${group}/${printer_name}/${toolhead_name}
+  ./build-config.py $printer_name $toolhead_name -D ${vendor}/${group}/${printer_name}/${toolhead_name} --summary
 }
 
 if [ "$1" = "upgrade" ]; then
@@ -41,6 +41,8 @@ else
   echo
   echo
 fi
+
+vendor=AlephObjects
 
 build_config standard  Gladiola_Mini                             Gladiola_SingleExtruder
 build_config accessory Gladiola_Mini                             Finch_Aerostruder
