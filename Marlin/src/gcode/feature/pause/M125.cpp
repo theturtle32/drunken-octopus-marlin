@@ -76,18 +76,20 @@ void GcodeSuite::M125() {
   #endif
 
   #if ENABLED(SDSUPPORT)
-    #if ENABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
-      const bool sd_printing = card.isFileOpen();
-    #else
     const bool sd_printing = IS_SD_PRINTING();
-    #endif
   #else
     constexpr bool sd_printing = false;
   #endif
 
   #if HAS_LCD_MENU
     lcd_pause_show_message(PAUSE_MESSAGE_PARKING, PAUSE_MODE_PAUSE_PRINT);
-    const bool show_lcd = parser.seenval('P');
+  #endif
+  
+  #if HAS_LCD_MENU
+    const bool show_lcd = parser.seen('P');
+  #elif ENABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
+    const bool show_lcd    = parser.seen('P');
+    const bool auto_resume = parser.seenval('P') && parser.value_byte() != 2;
   #else
     constexpr bool show_lcd = false;
   #endif
@@ -98,10 +100,16 @@ void GcodeSuite::M125() {
     #endif
     if (!sd_printing || show_lcd) {
       wait_for_confirmation(false, 0);
+      #if ENABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
+        // When pausing on filament runout, we don't want to auto
+        // resume after the user acknowledges the dialog box because
+        // they still need to access the change filament screen before
+        // continuing. So we use "M25 P2" to supress the auto-resume.
+        if(auto_resume)
+      #endif
       resume_print(0, 0, PAUSE_PARK_RETRACT_LENGTH, 0);
     }
   }
 }
 
 #endif // PARK_HEAD_ON_PAUSE
-

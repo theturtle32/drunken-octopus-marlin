@@ -478,7 +478,7 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
 
   show_continue_prompt(is_reload);
 
-  #if HAS_BUZZER
+  #if HAS_BUZZER && DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
     filament_change_beep(max_beep_count, true);
   #else
     UNUSED(max_beep_count);
@@ -502,11 +502,15 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
     host_prompt_do(PROMPT_USER_CONTINUE, GET_TEXT(MSG_NOZZLE_PARKED), CONTINUE_STR);
   #endif
   #if ENABLED(EXTENSIBLE_UI)
+    #if ENABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
+    ExtUI::onUserConfirmRequired_P(GET_TEXT(MSG_PRINT_PAUSED));
+    #else
     ExtUI::onUserConfirmRequired_P(GET_TEXT(MSG_NOZZLE_PARKED));
+    #endif
   #endif
   wait_for_user = true;    // LCD click or M108 will clear this
   while (wait_for_user) {
-    #if HAS_BUZZER
+    #if HAS_BUZZER && DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
       filament_change_beep(max_beep_count);
     #endif
 
@@ -662,9 +666,7 @@ void resume_print(const float &slow_load_length/*=0*/, const float &fast_load_le
     host_action_resume();
   #endif
 
-  #if DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
   --did_pause_print;
-  #endif
 
   #if ENABLED(HOST_PROMPT_SUPPORT)
     host_prompt_open(PROMPT_INFO, PSTR("Resuming"), DISMISS_STR);
@@ -697,3 +699,4 @@ void resume_print(const float &slow_load_length/*=0*/, const float &fast_load_le
 }
 
 #endif // ADVANCED_PAUSE_FEATURE
+

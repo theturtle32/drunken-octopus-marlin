@@ -181,6 +181,7 @@ def make_config(PRINTER, TOOLHEAD):
     T1_OFFSET_Y                                          = 0
     T1_OFFSET_Z                                          = 0
 
+    MARLIN["Z_MIN_PROBE_REPEATABILITY_TEST"]             = True
     MARLIN["EXTRUDERS"]                                  = 1
     MARLIN["SDSUPPORT"]                                  = False
     MARLIN["BLTOUCH"]                                    = "BLTouch" in PRINTER
@@ -625,6 +626,9 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = True
         MARLIN["SDSUPPORT"]                              = True
         MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
+        MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("SynDaver AXI")
+        MARLIN["SHORT_BUILD_VERSION"]                    = C_STRING("2.0.x (c834b3)")
+        MARLIN["TOUCH_UI_VERSION"]                       = '\"Release: 1 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
         MARLIN["EMI_MITIGATION"]                         = True
@@ -1743,7 +1747,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     if ENABLED("FILAMENT_RUNOUT_SENSOR"):
         MARLIN["NUM_RUNOUT_SENSORS"]                     = MARLIN["EXTRUDERS"]
-        MARLIN["FILAMENT_RUNOUT_SCRIPT"]                 = C_STRING("M25\n")
+        MARLIN["FILAMENT_RUNOUT_SCRIPT"]                 = C_STRING("M25 P2\n")
         MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 14
         if not PRINTER in ["Quiver_TAZPro", "Experimental_BLTouch"]:
           MARLIN["FILAMENT_RUNOUT_ENABLE_DEFAULT"]       = "false"

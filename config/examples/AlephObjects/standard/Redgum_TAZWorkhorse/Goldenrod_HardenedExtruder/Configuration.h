@@ -1009,7 +1009,7 @@
 #define Z_PROBE_OFFSET_RANGE_MAX 5 // <-- changed
 
 // Enable the M48 repeatability test to test probe accuracy
-//#define Z_MIN_PROBE_REPEATABILITY_TEST
+#define Z_MIN_PROBE_REPEATABILITY_TEST // <-- changed
 
 // Before deploy/stow pause for user confirmation
 //#define PAUSE_BEFORE_DEPLOY_STOW
@@ -1149,7 +1149,7 @@
 
   // Set one or more commands to execute on filament runout.
   // (After 'M412 H' Marlin will ask the host to handle the process.)
-  #define FILAMENT_RUNOUT_SCRIPT "M25" // <-- changed
+  #define FILAMENT_RUNOUT_SCRIPT "M25 P2" // <-- changed
 
   // After a runout is detected, continue printing this length of filament
   // before executing the runout script. Useful for a sensor at the end of
@@ -2295,3 +2295,4 @@
 //#define NO_TIME_AFTER_SD_PRINT
 //#define NO_TOOLHEAD_HEATER_GCODE
 //#define EMI_MITIGATION
+#define Z_MIN_PROBE_REPEATABILITY_TEST // <-- changed
