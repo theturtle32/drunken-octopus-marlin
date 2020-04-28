@@ -1874,13 +1874,9 @@ def make_config(PRINTER, TOOLHEAD):
         # Quickhome does not work with sensorless homing
         MARLIN["QUICK_HOME"]                             = False
 
-        MARLIN["X_HOME_BUMP_MM"]                         = 0
-        MARLIN["Y_HOME_BUMP_MM"]                         = 0
-        MARLIN["Z_HOME_BUMP_MM"]                         = 2
+        MARLIN["SENSORLESS_BACKOFF_MM"]                  = {0, 0, 2}
     else:
-        MARLIN["X_HOME_BUMP_MM"]                         = 5
-        MARLIN["Y_HOME_BUMP_MM"]                         = 5
-        MARLIN["Z_HOME_BUMP_MM"]                         = 2
+        MARLIN["SENSORLESS_BACKOFF_MM"]                  = {5, 5, 2}
 
 ###################### ADVANCED PAUSE / FILAMENT CHANGE #######################
 

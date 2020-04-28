@@ -460,7 +460,7 @@ void GcodeSuite::process_parsed_command(const bool no_ok/*=false*/) {
         case 100: M100(); break;                                  // M100: Free Memory Report
       #endif
 
-      #if EXTRUDERS && !defined(NO_TOOLHEAD_HEATER_GCODE)
+      #if EXTRUDERS && DISABLED(NO_TOOLHEAD_HEATER_GCODE)
         case 104: M104(); break;                                  // M104: Set hot end temperature
         case 109: M109(); break;                                  // M109: Wait for hotend temperature to reach target
       #endif
