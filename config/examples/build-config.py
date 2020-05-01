@@ -701,7 +701,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     if USE_EXPERIMENTAL_FEATURES and not USE_LESS_MEMORY:
         MARLIN["GCODE_MACROS"]                           = True
-        MARLIN["S_CURVE_ACCELERATION"]                   = True
+        #MARLIN["S_CURVE_ACCELERATION"]                   = True
 
     if USE_STATUS_LED:
         MARLIN["NEOPIXEL_LED"]                           = True
@@ -891,15 +891,15 @@ def make_config(PRINTER, TOOLHEAD):
         # On the Mini, raise nozzle to clear wiper pad before homing
         MARLIN["Z_HOMING_HEIGHT"]                        = 4
 
-    if USE_HOME_BUTTON or ENABLED("SENSORLESS_HOMING") or ENABLED("ENDSTOPS_ALWAYS_ON_DEFAULT"):
-        if USE_HOME_BUTTON:
-            # On a TAZ, we need to raise the print head after homing to clear the button
-            MARLIN["HOMING_BACKOFF_MM"]                  = [0, 0, 16]
-        else:
-            # Leaving the toolhead resting on the endstops with sensorless homing
-            # will likely cause chatter if the machine is immediately re-homed, so
-            # don't leave the head sitting on the endstops after homing.
-            MARLIN["HOMING_BACKOFF_MM"]                  = [5, 5, 2]
+    if USE_HOME_BUTTON:
+        # On a TAZ, we need to raise the print head after homing to clear the button
+        MARLIN["SENSORLESS_BACKOFF_MM"]                  = [0, 0, 16]
+            
+    if ENABLED("SENSORLESS_HOMING") or ENABLED("ENDSTOPS_ALWAYS_ON_DEFAULT"):
+        # Leaving the toolhead resting on the endstops with sensorless homing
+        # will likely cause chatter if the machine is immediately re-homed, so
+        # don't leave the head sitting on the endstops after homing.
+        MARLIN["SENSORLESS_BACKOFF_MM"]                  = [5, 5, 16 if USE_HOME_BUTTON else 2]
 
     # Enable NO_MOTION_BEFORE_HOMING on newer printers that have no MAX endstops,
     # but leave TAZ5 as is so we don't introduce a change for those users.
@@ -1873,10 +1873,6 @@ def make_config(PRINTER, TOOLHEAD):
 
         # Quickhome does not work with sensorless homing
         MARLIN["QUICK_HOME"]                             = False
-
-        MARLIN["SENSORLESS_BACKOFF_MM"]                  = {0, 0, 2}
-    else:
-        MARLIN["SENSORLESS_BACKOFF_MM"]                  = {5, 5, 2}
 
 ###################### ADVANCED PAUSE / FILAMENT CHANGE #######################
 

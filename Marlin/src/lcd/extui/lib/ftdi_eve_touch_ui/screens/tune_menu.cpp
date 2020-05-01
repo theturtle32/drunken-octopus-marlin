@@ -72,7 +72,7 @@ void TuneMenu::onRedraw(draw_mode_t what) {
        .enabled(EITHER(LIN_ADVANCE, FILAMENT_RUNOUT_SENSOR))
        .tag(9).button( FILAMENT_POS, GET_TEXT_F(MSG_FILAMENT))
        .enabled(EITHER(HAS_BED_PROBE, BABYSTEPPING))
-       .tag(4).button( NUDGE_NOZ_POS, GET_TEXT_F(TERN(BABYSTEPPING, MSG_NUDGE_NOZZLE, MSG_ZPROBE_ZOFFSET))
+       .tag(4).button( NUDGE_NOZ_POS, GET_TEXT_F(TERN(BABYSTEPPING, MSG_NUDGE_NOZZLE, MSG_ZPROBE_ZOFFSET)))
        .tag(5).button( SPEED_POS, GET_TEXT_F(MSG_PRINT_SPEED))
        .tag(isPrintingFromMediaPaused() ? 7 : 6)
        .enabled(TERN0(SDSUPPORT, isPrintingFromMedia()))
