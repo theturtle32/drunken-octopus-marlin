@@ -70,9 +70,6 @@
 
 #if ENABLED(SDSUPPORT)
   #include "../../sd/cardreader.h"
-  #define IFSD(A,B) (A)
-#else
-  #define IFSD(A,B) (B)
 #endif
 
 #if HAS_TRINAMIC_CONFIG
@@ -164,8 +161,7 @@ namespace ExtUI {
   }
 
   void yield() {
-    if (!flags.printer_killed)
-      thermalManager.manage_heater();
+    if (!flags.printer_killed) thermalManager.manage_heater();
   }
 
   void enableHeater(const extruder_t extruder) {
@@ -180,13 +176,9 @@ namespace ExtUI {
     #if HEATER_IDLE_HANDLER
       switch (heater) {
         #if HAS_HEATED_BED
-          case BED:
-            thermalManager.reset_bed_idle_timer();
-            return;
+          case BED: thermalManager.reset_bed_idle_timer(); return;
         #endif
-        #if HAS_HEATED_CHAMBER
-          case CHAMBER: return; // Chamber has no idle timer
-        #endif
+        TERN_(HAS_HEATED_CHAMBER, case CHAMBER: return); // Chamber has no idle timer
         default:
           TERN_(HAS_HOTEND, thermalManager.reset_hotend_idle_timer(heater - H0));
           break;
@@ -233,28 +225,21 @@ namespace ExtUI {
   #endif
 
   bool isHeaterIdle(const extruder_t extruder) {
-    return false
-      #if HAS_HOTEND && HEATER_IDLE_HANDLER
-        || thermalManager.hotend_idle[extruder - E0].timed_out
-      #else
-        ; UNUSED(extruder)
-      #endif
-    ;
+    #if HAS_HOTEND && HEATER_IDLE_HANDLER
+      return thermalManager.hotend_idle[extruder - E0].timed_out;
+    #else
+      UNUSED(extruder);
+      return false;
+    #endif
   }
 
   bool isHeaterIdle(const heater_t heater) {
     #if HEATER_IDLE_HANDLER
       switch (heater) {
         TERN_(HAS_HEATED_BED, case BED: return thermalManager.bed_idle.timed_out);
-        #if HAS_HEATED_CHAMBER
-          case CHAMBER: return false; // Chamber has no idle timer
-        #endif
+        TERN_(HAS_HEATED_CHAMBER, case CHAMBER: return false); // Chamber has no idle timer
         default:
-          #if HAS_HOTEND
-            return thermalManager.hotend_idle[heater - H0].timed_out;
-          #else
-            return false;
-          #endif
+          return TERN0(HAS_HOTEND, thermalManager.hotend_idle[heater - H0].timed_out);
       }
     #else
       UNUSED(heater);
@@ -311,22 +296,13 @@ namespace ExtUI {
   }
 
   float getAxisPosition_mm(const axis_t axis) {
-    return
-      #if ENABLED(JOYSTICK)
-        flags.jogging ? destination[axis] :
-      #endif
-      current_position[axis];
+    return TERN_(JOYSTICK, flags.jogging ? destination[axis] :) current_position[axis];
   }
 
   float getAxisPosition_mm(const extruder_t extruder) {
     const extruder_t old_tool = getActiveTool();
     setActiveTool(extruder, true);
-    const float epos = (
-      #if ENABLED(JOYSTICK)
-        flags.jogging ? destination.e :
-      #endif
-      current_position.e
-    );
+    const float epos = TERN_(JOYSTICK, flags.jogging ? destination.e :) current_position.e;
     setActiveTool(old_tool, true);
     return epos;
   }
@@ -513,9 +489,14 @@ namespace ExtUI {
 
     int getTMCBumpSensitivity(const axis_t axis) {
       switch (axis) {
-        TERN_(X_SENSORLESS, case X: return stepperX.homing_threshold());
-        TERN_(Y_SENSORLESS, case Y: return stepperY.homing_threshold());
-        TERN_(Z_SENSORLESS, case Z: return stepperZ.homing_threshold());
+        TERN_(X_SENSORLESS,  case X:  return stepperX.homing_threshold());
+        TERN_(X2_SENSORLESS, case X2: return stepperX2.homing_threshold());
+        TERN_(Y_SENSORLESS,  case Y:  return stepperY.homing_threshold());
+        TERN_(Y2_SENSORLESS, case Y2: return stepperY2.homing_threshold());
+        TERN_(Z_SENSORLESS,  case Z:  return stepperZ.homing_threshold());
+        TERN_(Z2_SENSORLESS, case Z2: return stepperZ2.homing_threshold());
+        TERN_(Z3_SENSORLESS, case Z3: return stepperZ3.homing_threshold());
+        TERN_(Z4_SENSORLESS, case Z4: return stepperZ4.homing_threshold());
         default: return 0;
       }
     }
@@ -524,13 +505,28 @@ namespace ExtUI {
       switch (axis) {
         #if X_SENSORLESS || Y_SENSORLESS || Z_SENSORLESS
           #if X_SENSORLESS
-            case X: stepperX.homing_threshold(value); break;
+            case X:  stepperX.homing_threshold(value);  break;
+          #endif
+          #if X2_SENSORLESS
+            case X2: stepperX2.homing_threshold(value); break;
           #endif
           #if Y_SENSORLESS
             case Y: stepperY.homing_threshold(value); break;
           #endif
+          #if Y2_SENSORLESS
+            case Y2: stepperY2.homing_threshold(value); break;
+          #endif
           #if Z_SENSORLESS
             case Z: stepperZ.homing_threshold(value); break;
+          #endif
+          #if Z2_SENSORLESS
+            case Z2: stepperZ2.homing_threshold(value); break;
+          #endif
+          #if Z3_SENSORLESS
+            case Z3: stepperZ3.homing_threshold(value); break;
+          #endif
+          #if Z4_SENSORLESS
+            case Z4: stepperZ4.homing_threshold(value); break;
           #endif
         #else
           UNUSED(value);
@@ -1037,11 +1033,7 @@ namespace ExtUI {
   }
 
   bool FileList::isAtRootDir() {
-    return (true
-      #if ENABLED(SDSUPPORT)
-        && card.flag.workDirIsRoot
-      #endif
-    );
+    return IFSD(card.flag.workDirIsRoot, true);
   }
 
   void FileList::upDir() {
