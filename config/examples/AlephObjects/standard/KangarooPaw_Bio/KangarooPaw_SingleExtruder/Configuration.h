@@ -1019,7 +1019,7 @@
 #define Z_PROBE_OFFSET_RANGE_MAX 20
 
 // Enable the M48 repeatability test to test probe accuracy
-#define Z_MIN_PROBE_REPEATABILITY_TEST // <-- changed
+//#define Z_MIN_PROBE_REPEATABILITY_TEST
 
 // Before deploy/stow pause for user confirmation
 //#define PAUSE_BEFORE_DEPLOY_STOW
@@ -2311,4 +2311,4 @@
 #define NO_TIME_AFTER_SD_PRINT // <-- changed
 #define NO_TOOLHEAD_HEATER_GCODE // <-- changed
 //#define EMI_MITIGATION
-#define Z_MIN_PROBE_REPEATABILITY_TEST // <-- changed
+//#define Z_MIN_PROBE_REPEATABILITY_TEST

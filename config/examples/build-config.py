@@ -181,7 +181,6 @@ def make_config(PRINTER, TOOLHEAD):
     T1_OFFSET_Y                                          = 0
     T1_OFFSET_Z                                          = 0
 
-    MARLIN["Z_MIN_PROBE_REPEATABILITY_TEST"]             = True
     MARLIN["EXTRUDERS"]                                  = 1
     MARLIN["SDSUPPORT"]                                  = False
     MARLIN["BLTOUCH"]                                    = "BLTouch" in PRINTER
@@ -1469,7 +1468,8 @@ def make_config(PRINTER, TOOLHEAD):
     if USE_AUTOLEVELING or MARLIN["BLTOUCH"]:
 
         MARLIN["RESTORE_LEVELING_AFTER_G28"]             = True
-
+        MARLIN["Z_MIN_PROBE_REPEATABILITY_TEST"]         = True
+  
         if MARLIN["BLTOUCH"]:
             # BLTouch Auto-Leveling
             MARLIN["Z_HOMING_HEIGHT"]                    = 10
