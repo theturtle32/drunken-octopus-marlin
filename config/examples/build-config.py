@@ -891,15 +891,9 @@ def make_config(PRINTER, TOOLHEAD):
         # On the Mini, raise nozzle to clear wiper pad before homing
         MARLIN["Z_HOMING_HEIGHT"]                        = 4
 
-    if USE_HOME_BUTTON:
-        # On a TAZ, we need to raise the print head after homing to clear the button
-        MARLIN["SENSORLESS_BACKOFF_MM"]                  = [0, 0, 16]
-            
-    if ENABLED("SENSORLESS_HOMING") or ENABLED("ENDSTOPS_ALWAYS_ON_DEFAULT"):
-        # Leaving the toolhead resting on the endstops with sensorless homing
-        # will likely cause chatter if the machine is immediately re-homed, so
-        # don't leave the head sitting on the endstops after homing.
-        MARLIN["SENSORLESS_BACKOFF_MM"]                  = [5, 5, 16 if USE_HOME_BUTTON else 2]
+    if USE_HOME_BUTTON or ENABLED("ENDSTOPS_ALWAYS_ON_DEFAULT"):
+       # On a TAZ, we need to raise the print head after homing to clear the button
+       MARLIN["HOMING_BACKOFF_POST_MM"]                  = [5, 5, 16 if USE_HOME_BUTTON else 2]
 
     # Enable NO_MOTION_BEFORE_HOMING on newer printers that have no MAX endstops,
     # but leave TAZ5 as is so we don't introduce a change for those users.
@@ -1862,6 +1856,8 @@ def make_config(PRINTER, TOOLHEAD):
         elif IS_MINI:
             MARLIN["X_STALL_SENSITIVITY"]                = 4
             MARLIN["Y_STALL_SENSITIVITY"]                = 4
+
+        MARLIN["SENSORLESS_BACKOFF_MM"]                  = [5, 5]
 
         MARLIN["USE_XMIN_PLUG"]                          = True # Uses Stallguard
         MARLIN["USE_YMAX_PLUG"]                          = True # Uses Stallguard

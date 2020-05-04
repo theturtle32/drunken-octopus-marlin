@@ -606,7 +606,7 @@
  * the position of the toolhead relative to the workspace.
  */
 
-#define SENSORLESS_BACKOFF_MM  {5, 5, 2} // <-- changed:  (mm) Backoff from endstops before sensorless homing
+#define SENSORLESS_BACKOFF_MM  {5, 5} // <-- changed:  (mm) Backoff from endstops before sensorless homing
 
 #define HOMING_BUMP_MM      { 5, 5, 2 }       // (mm) Backoff from endstops after first bump
 #define HOMING_BUMP_DIVISOR { 2, 2, 4 }       // Re-Bump Speed Divisor (Divides the Homing Feedrate)
