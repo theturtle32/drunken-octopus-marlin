@@ -1503,32 +1503,26 @@ def make_config(PRINTER, TOOLHEAD):
             # is called Z_MIN_ENDSTOP
 
             if MINI_BED:
-                STANDARD_LEFT_PROBE_BED_POSITION             = -3
-                STANDARD_RIGHT_PROBE_BED_POSITION            = 163
-                STANDARD_BACK_PROBE_BED_POSITION             = 168
-                STANDARD_FRONT_PROBE_BED_POSITION            = -4
+                STANDARD_LEFT_PROBE_BED_POSITION         = -3
+                STANDARD_RIGHT_PROBE_BED_POSITION        = 163
+                STANDARD_BACK_PROBE_BED_POSITION         = 168
+                STANDARD_FRONT_PROBE_BED_POSITION        = -4
 
                 if USE_Z_SCREW:
                     # The Gladiola has the probe points spaced further apart than
                     # earlier models. Since Gladiola FW has to work on earlier
                     # printers, we need to add a workaround because G29 hits the
                     # endstops and shifts the coordinate system around.
-                    USE_PRE_GLADIOLA_G29_WORKAROUND          = True
-
-            elif TAZ_BED and MARLIN["BLTOUCH"]:
-                STANDARD_LEFT_PROBE_BED_POSITION             = 20
-                STANDARD_RIGHT_PROBE_BED_POSITION            = 260
-                STANDARD_BACK_PROBE_BED_POSITION             = 260
-                STANDARD_FRONT_PROBE_BED_POSITION            = 20
+                    USE_PRE_GLADIOLA_G29_WORKAROUND      = True
 
             elif TAZ_BED:
-                STANDARD_LEFT_PROBE_BED_POSITION             = -10
-                STANDARD_RIGHT_PROBE_BED_POSITION            = 288
-                STANDARD_BACK_PROBE_BED_POSITION             = 291
-                STANDARD_FRONT_PROBE_BED_POSITION            = -9
+                STANDARD_LEFT_PROBE_BED_POSITION         = -10
+                STANDARD_RIGHT_PROBE_BED_POSITION        = 288
+                STANDARD_BACK_PROBE_BED_POSITION         = 291
+                STANDARD_FRONT_PROBE_BED_POSITION        = -9
 
-            MARLIN["AUTO_BED_LEVELING_LINEAR"]             = True
-            MARLIN["NOZZLE_AS_PROBE"]                      = True
+            MARLIN["AUTO_BED_LEVELING_LINEAR"]           = True
+            MARLIN["NOZZLE_AS_PROBE"]                    = True
 
             MARLIN["MULTIPLE_PROBING"]                   = 2
             MARLIN["Z_PROBE_SPEED_SLOW"]                 = 1*60
