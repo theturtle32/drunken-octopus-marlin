@@ -739,7 +739,7 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5, 100.5, 1600, 833} // <-- changed
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 1600, 833} // <-- changed
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -1104,15 +1104,15 @@
 // @section machine
 
 // The size of the print bed
-#define X_BED_SIZE 155 // <-- changed
-#define Y_BED_SIZE 155 // <-- changed
+#define X_BED_SIZE 155.8 // <-- changed
+#define Y_BED_SIZE 155.8 // <-- changed
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
-#define X_MIN_POS 0
-#define Y_MIN_POS -8 // <-- changed
+#define X_MIN_POS 0.0 // <-- changed
+#define Y_MIN_POS -8.0 // <-- changed
 #define Z_MIN_POS -5 // <-- changed
-#define X_MAX_POS 165 // <-- changed
-#define Y_MAX_POS 195 // <-- changed
+#define X_MAX_POS 165.8 // <-- changed
+#define Y_MAX_POS 196.0 // <-- changed
 #define Z_MAX_POS 159 // <-- changed
 
 /**
@@ -1509,7 +1509,7 @@
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
-  #define NOZZLE_PARK_POINT {10, 185, 20} // <-- changed
+  #define NOZZLE_PARK_POINT {10, 186.0, 20} // <-- changed
   //#define NOZZLE_PARK_X_ONLY          // X move only is required to park
   //#define NOZZLE_PARK_Y_ONLY          // Y move only is required to park
   #define NOZZLE_PARK_Z_RAISE_MIN   2   // (mm) Always raise Z by at least this distance
@@ -1566,8 +1566,8 @@
 
   // Specify positions for each tool as { { X, Y, Z }, { X, Y, Z } }
   // Dual hotend system may use { {  -20, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) },  {  420, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) }}
-  #define NOZZLE_CLEAN_START_POINT {45, 174, -0.5} // <-- changed
-  #define NOZZLE_CLEAN_END_POINT   {115, 174, -0.5} // <-- changed
+  #define NOZZLE_CLEAN_START_POINT {45, 175, -0.5} // <-- changed
+  #define NOZZLE_CLEAN_END_POINT   {115, 175, -0.5} // <-- changed
 
   // Circular pattern radius
   #define NOZZLE_CLEAN_CIRCLE_RADIUS 6.5
@@ -2281,7 +2281,7 @@
 //#define SHORT_BUILD_VERSION
 #define TOOLHEAD_NAME "Single Extruder" // <-- changed
 #define TOOLHEAD_TYPE "SingleExtruder" // <-- changed
-#define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X115 Y174 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X115 Y174\nG1 X45 Y174\nG1 X115 Y174\nG1 X45 Y174\nG1 X115 Y174\nG1 X45 Y174\nG1 X115 Y174\nG1 X45 Y174\nG1 X115 Y174\nG1 X45 Y174\nG1 X115 Y174\nG1 X45 Y174\nG1 Z15\nM400\nM106 S255\nG0 X0 Y168M109 R160\nM107" // <-- changed
+#define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X115 Y175 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X115 Y175\nG1 X45 Y175\nG1 X115 Y175\nG1 X45 Y175\nG1 X115 Y175\nG1 X45 Y175\nG1 X115 Y175\nG1 X45 Y175\nG1 X115 Y175\nG1 X45 Y175\nG1 X115 Y175\nG1 X45 Y175\nG1 Z15\nM400\nM106 S255\nG0 X0.0 Y168.8M109 R160\nM107" // <-- changed
 //#define AXIS_LEVELING_COMMANDS
 //#define PARK_AND_RELEASE_COMMANDS
 #define CALIBRATION_COMMANDS "M117 Starting Auto-Calibration\nT0\nG28\nG12\nM117 Calibrating...\nG425\nM500\nM117 Calibration data saved" // <-- changed

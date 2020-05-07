@@ -739,7 +739,7 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5, 100.5, 1600, 830} // <-- changed
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 1600, 830} // <-- changed
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -1104,15 +1104,15 @@
 // @section machine
 
 // The size of the print bed
-#define X_BED_SIZE 288 // <-- changed
-#define Y_BED_SIZE 275 // <-- changed
+#define X_BED_SIZE 289.4 // <-- changed
+#define Y_BED_SIZE 276.4 // <-- changed
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
-#define X_MIN_POS 0
-#define Y_MIN_POS 0
+#define X_MIN_POS 0.0 // <-- changed
+#define Y_MIN_POS 0.0 // <-- changed
 #define Z_MIN_POS 0
-#define X_MAX_POS 298 // <-- changed
-#define Y_MAX_POS 276 // <-- changed
+#define X_MAX_POS 299.5 // <-- changed
+#define Y_MAX_POS 277.4 // <-- changed
 #define Z_MAX_POS 250 // <-- changed
 
 /**
@@ -1509,7 +1509,7 @@
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
-  #define NOZZLE_PARK_POINT {100, 275, 20} // <-- changed
+  #define NOZZLE_PARK_POINT {100, 276.4, 20} // <-- changed
   //#define NOZZLE_PARK_X_ONLY          // X move only is required to park
   //#define NOZZLE_PARK_Y_ONLY          // Y move only is required to park
   #define NOZZLE_PARK_Z_RAISE_MIN   2   // (mm) Always raise Z by at least this distance

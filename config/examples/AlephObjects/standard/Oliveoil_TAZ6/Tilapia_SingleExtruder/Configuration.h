@@ -739,7 +739,7 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100.5, 100.5, 1600, 830} // <-- changed
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 1600, 830} // <-- changed
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -1104,15 +1104,15 @@
 // @section machine
 
 // The size of the print bed
-#define X_BED_SIZE 280 // <-- changed
-#define Y_BED_SIZE 280 // <-- changed
+#define X_BED_SIZE 281.4 // <-- changed
+#define Y_BED_SIZE 281.4 // <-- changed
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
-#define X_MIN_POS -20 // <-- changed
-#define Y_MIN_POS -20 // <-- changed
+#define X_MIN_POS -20.1 // <-- changed
+#define Y_MIN_POS -20.1 // <-- changed
 #define Z_MIN_POS 0
-#define X_MAX_POS 300 // <-- changed
-#define Y_MAX_POS 303 // <-- changed
+#define X_MAX_POS 301.5 // <-- changed
+#define Y_MAX_POS 304.5 // <-- changed
 #define Z_MAX_POS 270 // <-- changed
 
 /**
@@ -1509,7 +1509,7 @@
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
-  #define NOZZLE_PARK_POINT {100, 302, 20} // <-- changed
+  #define NOZZLE_PARK_POINT {100, 303.5, 20} // <-- changed
   //#define NOZZLE_PARK_X_ONLY          // X move only is required to park
   //#define NOZZLE_PARK_Y_ONLY          // Y move only is required to park
   #define NOZZLE_PARK_Z_RAISE_MIN   2   // (mm) Always raise Z by at least this distance
@@ -2281,7 +2281,7 @@
 //#define SHORT_BUILD_VERSION
 #define TOOLHEAD_NAME "Single Extruder" // <-- changed
 #define TOOLHEAD_TYPE "SingleExtruder" // <-- changed
-#define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nG0 X-10 Y-9M109 R160\nM107" // <-- changed
+#define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nG0 X-10.0 Y-9.0M109 R160\nM107" // <-- changed
 //#define AXIS_LEVELING_COMMANDS
 //#define PARK_AND_RELEASE_COMMANDS
 //#define CALIBRATION_COMMANDS

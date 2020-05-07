@@ -153,7 +153,6 @@ def make_config(PRINTER, TOOLHEAD):
     USE_LESS_MEMORY                                      = False
     USE_MIN_ENDSTOPS                                     = False
     USE_MAX_ENDSTOPS                                     = False
-    USE_LEGACY_XY_STEPS                                  = False
     USE_PRE_GLADIOLA_G29_WORKAROUND                      = False
     USE_STATUS_LED                                       = False
 
@@ -196,7 +195,6 @@ def make_config(PRINTER, TOOLHEAD):
         MINI_BED                                         = True
         USE_Z_SCREW                                      = True
         USE_AUTOLEVELING                                 = True
-        USE_LEGACY_XY_STEPS                              = True
         USE_NORMALLY_OPEN_ENDSTOPS                       = True
         USE_MIN_ENDSTOPS                                 = True
         USE_MAX_ENDSTOPS                                 = True
@@ -212,7 +210,6 @@ def make_config(PRINTER, TOOLHEAD):
         IS_TAZ                                           = True
         TAZ_BED                                          = True
         USE_Z_SCREW                                      = True
-        USE_LEGACY_XY_STEPS                              = True
         USE_NORMALLY_OPEN_ENDSTOPS                       = True
         USE_MIN_ENDSTOPS                                 = True
         USE_EXPERIMENTAL_FEATURES                        = True
@@ -226,7 +223,6 @@ def make_config(PRINTER, TOOLHEAD):
         TAZ_BED                                          = True
         USE_Z_SCREW                                      = True
         USE_AUTOLEVELING                                 = True
-        USE_LEGACY_XY_STEPS                              = True
         USE_NORMALLY_CLOSED_ENDSTOPS                     = True
         USE_MIN_ENDSTOPS                                 = True
         USE_MAX_ENDSTOPS                                 = True
@@ -322,7 +318,6 @@ def make_config(PRINTER, TOOLHEAD):
         IS_TAZ                                           = True
         TAZ_BED                                          = True
         USE_Z_SCREW                                      = True
-        USE_LEGACY_XY_STEPS                              = True
         USE_NORMALLY_OPEN_ENDSTOPS                       = True
         USE_MIN_ENDSTOPS                                 = True
         USE_ARCHIM2                                      = True
@@ -486,7 +481,6 @@ def make_config(PRINTER, TOOLHEAD):
         MINI_BED                                         = True
         USE_Z_SCREW                                      = True
         USE_AUTOLEVELING                                 = True
-        USE_LEGACY_XY_STEPS                              = True
         USE_NORMALLY_OPEN_ENDSTOPS                       = True
         USE_MIN_ENDSTOPS                                 = True
         USE_MAX_ENDSTOPS                                 = True
@@ -1363,13 +1357,13 @@ def make_config(PRINTER, TOOLHEAD):
     # standard.
 
     if IS_MINI and USE_Z_SCREW:
-        STANDARD_X_MAX_POS                               = 165
-        STANDARD_X_MIN_POS                               = 0
-        STANDARD_Y_MAX_POS                               = 195
-        STANDARD_Y_MIN_POS                               = -8
+        STANDARD_X_MAX_POS                               = 165.8
+        STANDARD_X_MIN_POS                               =   0.0
+        STANDARD_Y_MAX_POS                               = 196.0
+        STANDARD_Y_MIN_POS                               =  -8.0
 
-        STANDARD_X_BED_SIZE                              = 155
-        STANDARD_Y_BED_SIZE                              = 155
+        STANDARD_X_BED_SIZE                              = 155.8
+        STANDARD_Y_BED_SIZE                              = 155.8
 
     elif IS_MINI and USE_Z_BELT:
         STANDARD_X_MAX_POS                               = 173
@@ -1381,13 +1375,13 @@ def make_config(PRINTER, TOOLHEAD):
         STANDARD_Y_BED_SIZE                              = 157
 
     elif "Juniper_TAZ5" in PRINTER:
-        STANDARD_X_MAX_POS                               = 298
-        STANDARD_X_MIN_POS                               = 0
-        STANDARD_Y_MAX_POS                               = 276
-        STANDARD_Y_MIN_POS                               = 0
+        STANDARD_X_MAX_POS                               = 299.5
+        STANDARD_X_MIN_POS                               =   0.0
+        STANDARD_Y_MAX_POS                               = 277.4
+        STANDARD_Y_MIN_POS                               =   0.0
 
-        STANDARD_X_BED_SIZE                              = 288
-        STANDARD_Y_BED_SIZE                              = 275
+        STANDARD_X_BED_SIZE                              = 289.4
+        STANDARD_Y_BED_SIZE                              = 276.4
 
     elif "Redgum_TAZWorkhorse" in PRINTER:
         STANDARD_X_MAX_POS                               = 295
@@ -1417,13 +1411,13 @@ def make_config(PRINTER, TOOLHEAD):
         STANDARD_Y_BED_SIZE                              = 280
 
     elif IS_TAZ and USE_Z_SCREW:
-        STANDARD_X_MAX_POS                               = 300
-        STANDARD_X_MIN_POS                               = -20
-        STANDARD_Y_MAX_POS                               = 303
-        STANDARD_Y_MIN_POS                               = -20
+        STANDARD_X_MAX_POS                               = 301.5
+        STANDARD_X_MIN_POS                               = -20.1
+        STANDARD_Y_MAX_POS                               = 304.5
+        STANDARD_Y_MIN_POS                               = -20.1
 
-        STANDARD_X_BED_SIZE                              = 280
-        STANDARD_Y_BED_SIZE                              = 280
+        STANDARD_X_BED_SIZE                              = 281.4
+        STANDARD_Y_BED_SIZE                              = 281.4
 
     if IS_MINI and USE_Z_SCREW:
         STANDARD_Z_MIN_POS                               = -5
@@ -1503,10 +1497,10 @@ def make_config(PRINTER, TOOLHEAD):
             # is called Z_MIN_ENDSTOP
 
             if MINI_BED:
-                STANDARD_LEFT_PROBE_BED_POSITION         = -3
-                STANDARD_RIGHT_PROBE_BED_POSITION        = 163
-                STANDARD_BACK_PROBE_BED_POSITION         = 168
-                STANDARD_FRONT_PROBE_BED_POSITION        = -4
+                STANDARD_LEFT_PROBE_BED_POSITION         =  -3.0
+                STANDARD_RIGHT_PROBE_BED_POSITION        = 163.8
+                STANDARD_BACK_PROBE_BED_POSITION         = 168.8
+                STANDARD_FRONT_PROBE_BED_POSITION        =  -4.0
 
                 if USE_Z_SCREW:
                     # The Gladiola has the probe points spaced further apart than
@@ -1516,10 +1510,10 @@ def make_config(PRINTER, TOOLHEAD):
                     USE_PRE_GLADIOLA_G29_WORKAROUND      = True
 
             elif TAZ_BED:
-                STANDARD_LEFT_PROBE_BED_POSITION         = -10
-                STANDARD_RIGHT_PROBE_BED_POSITION        = 288
-                STANDARD_BACK_PROBE_BED_POSITION         = 291
-                STANDARD_FRONT_PROBE_BED_POSITION        = -9
+                STANDARD_LEFT_PROBE_BED_POSITION         = -10.0
+                STANDARD_RIGHT_PROBE_BED_POSITION        = 289.4
+                STANDARD_BACK_PROBE_BED_POSITION         = 292.5
+                STANDARD_FRONT_PROBE_BED_POSITION        =  -9.0
 
             MARLIN["AUTO_BED_LEVELING_LINEAR"]           = True
             MARLIN["NOZZLE_AS_PROBE"]                    = True
@@ -1924,8 +1918,8 @@ def make_config(PRINTER, TOOLHEAD):
             # Mini has a horizontal wiping pad on the back of the bed
             LEFT_WIPE_X1                                 =  45
             LEFT_WIPE_X2                                 = 115
-            LEFT_WIPE_Y1                                 = 174
-            LEFT_WIPE_Y2                                 = 174
+            LEFT_WIPE_Y1                                 = 175
+            LEFT_WIPE_Y2                                 = 175
             if USE_Z_BELT:
                 LEFT_WIPE_Z                              =   1
             else:
@@ -2209,8 +2203,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     # Values for XYZ vary by printer model, values for E vary by toolhead.
 
-    # Older printers had a fudge factor for ABS shrinkage.
-    XY_STEPS                                             = 100.5 if USE_LEGACY_XY_STEPS else 100
+    XY_STEPS                                             = 100
 
     if IS_MINI:
         if ENABLED("JUNCTION_DEVIATION"):

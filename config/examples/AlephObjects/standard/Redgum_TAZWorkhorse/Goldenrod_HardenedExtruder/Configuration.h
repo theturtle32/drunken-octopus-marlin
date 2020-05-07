@@ -2281,7 +2281,7 @@
 //#define SHORT_BUILD_VERSION
 #define TOOLHEAD_NAME "HE 0.5mm" // <-- changed
 #define TOOLHEAD_TYPE "HardenedExtruder" // <-- changed
-#define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nG0 X-10 Y-9M109 R160\nM107" // <-- changed
+#define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nG0 X-10.0 Y-9.0M109 R160\nM107" // <-- changed
 #define AXIS_LEVELING_COMMANDS "M117 Leveling X Axis\nG0 X150 F9999\nG28 Z0\nM117 Leveling done." // <-- changed
 //#define PARK_AND_RELEASE_COMMANDS
 #define CALIBRATION_COMMANDS "M117 Starting Auto-Calibration\nT0\nG0 X150 F9999\nG28 Z0\nG28\nG12\nM117 Calibrating...\nG425\nM500\nM117 Calibration data saved" // <-- changed
