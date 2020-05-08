@@ -191,7 +191,8 @@ def make_config(PRINTER, TOOLHEAD):
       MARLIN["FILAMENT_RUNOUT_SENSOR"]                   = True
       MARLIN["FILAMENT_MOTION_SENSOR"]                   = True
 
-    # Use classic jerk, because junction deviation is borked as of 5/8/2020
+    # Use classic jerk, because junction deviation is causing stuttering as of 5/8/2020
+    # https://github.com/MarlinFirmware/Marlin/issues/17920
     MARLIN["CLASSIC_JERK"]                         = True
 
 ######################## PRINTER MODEL CHARACTERISTICS ########################
