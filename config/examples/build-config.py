@@ -45,7 +45,7 @@ PRINTER_CHOICES = [
     "Gladiola_MiniTouchUSB",
     "Gladiola_MiniEinsyLCD",
     "Gladiola_MiniEinsyTouchUSB",
-    
+
     # Other Printers or Experimental Configurations
     "SynDaver_AXI",
     "Experimental_TouchDemo"
@@ -190,6 +190,9 @@ def make_config(PRINTER, TOOLHEAD):
     if "HallEffect" in PRINTER:
       MARLIN["FILAMENT_RUNOUT_SENSOR"]                   = True
       MARLIN["FILAMENT_MOTION_SENSOR"]                   = True
+
+    # Use classic jerk, because junction deviation is borked as of 5/8/2020
+    MARLIN["CLASSIC_JERK"]                         = True
 
 ######################## PRINTER MODEL CHARACTERISTICS ########################
 
@@ -1464,7 +1467,7 @@ def make_config(PRINTER, TOOLHEAD):
 
         MARLIN["RESTORE_LEVELING_AFTER_G28"]             = True
         MARLIN["Z_MIN_PROBE_REPEATABILITY_TEST"]         = True
-  
+
         if MARLIN["BLTOUCH"]:
             # BLTouch Auto-Leveling
             MARLIN["Z_PROBE_SPEED_SLOW"]                 = 5*60

@@ -786,7 +786,7 @@
  * When changing speed and direction, if the difference is less than the
  * value set here, it may happen instantaneously.
  */
-//#define CLASSIC_JERK
+#define CLASSIC_JERK // <-- changed
 #if ENABLED(CLASSIC_JERK)
   #define DEFAULT_XJERK 8.0 // <-- changed
   #define DEFAULT_YJERK 8.0 // <-- changed
