@@ -46,6 +46,7 @@
 #define EMERGENCY_PARSER
 #define ENDSTOPS_ALWAYS_ON_DEFAULT
 #define ENDSTOP_NOISE_THRESHOLD 2
+#define EXPERIMENTAL_SCURVE
 #define EXTRUDERS 1
 #define EXTRUDE_MINTEMP 120
 #define FAN_KICKSTART_TIME 100
@@ -119,6 +120,7 @@
 #define SOURCE_CODE_URL "https://github.com/marciot/drunken-octopus-marlin"
 #define SPI_SPEED SPI_FULL_SPEED
 #define STRING_CONFIG_H_AUTHOR "(Drunken Octopus Marlin)"
+#define S_CURVE_ACCELERATION
 #define TEMP_BED_HYSTERESIS 5
 #define TEMP_BED_RESIDENCY_TIME 1
 #define TEMP_BED_WINDOW 5

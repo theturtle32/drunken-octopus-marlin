@@ -104,6 +104,8 @@ get_config_info() {
   toolhead=`basename $config`
   parent=`dirname $parent`
   group=`basename $parent`
+  parent=`dirname $parent`
+  vendor=`basename $parent`
   fw_hash=`git rev-parse --verify HEAD --short`
   fw_version=`./version.sh`
   fw_filename=Marlin_${printer}_${toolhead}_${fw_version}_${fw_hash}
@@ -119,7 +121,7 @@ get_config_info() {
   else
     fw_type=hex
   fi
-  fw_path=build/$group/$printer/$toolhead/$fw_filename.$fw_type
+  fw_path=build/$vendor/$group/$printer/$toolhead/$fw_filename.$fw_type
 }
 
 ####
@@ -208,12 +210,12 @@ build_firmware() {
 
   # Copy builds to build directory
 
-  mkdir -p build/$group/$printer/$toolhead
+  mkdir -p build/$vendor/$group/$printer/$toolhead
   mv Marlin/applet/marlin.$fw_type $fw_path
-  chmod a-x build/$group/$printer/$toolhead/*
+  chmod a-x build/$vendor/$group/$printer/$toolhead/*
 
   if [ $GENERATE_CONFIG ]; then
-    cp $config/* build/$group/$printer/$toolhead
+    cp $config/* build/$vendor/$group/$printer/$toolhead
   fi
 }
 
