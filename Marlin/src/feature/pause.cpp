@@ -84,26 +84,30 @@ fil_change_settings_t fc_settings[EXTRUDERS];
 #endif
 
 #if HAS_BUZZER
-  static void filament_change_beep(const int8_t max_beep_count, const bool init=false) {
+  static void impatient_beep(const int8_t max_beep_count, const bool restart=false) {
 
     if (TERN0(HAS_LCD_MENU, pause_mode == PAUSE_MODE_PAUSE_PRINT)) return;
 
     static millis_t next_buzz = 0;
     static int8_t runout_beep = 0;
 
-    if (init) next_buzz = runout_beep = 0;
+    if (restart) next_buzz = runout_beep = 0;
+
+    const bool always = max_beep_count < 0;
 
     const millis_t ms = millis();
     if (ELAPSED(ms, next_buzz)) {
-      if (max_beep_count < 0 || runout_beep < max_beep_count + 5) { // Only beep as long as we're supposed to
-        next_buzz = ms + ((max_beep_count < 0 || runout_beep < max_beep_count) ? 1000 : 500);
+      if (always || runout_beep < max_beep_count + 5) { // Only beep as long as we're supposed to
+        next_buzz = ms + ((always || runout_beep < max_beep_count) ? 1000 : 500);
         BUZZ(50, 880 - (runout_beep & 1) * 220);
         runout_beep++;
       }
     }
   }
+  inline void first_impatient_beep(const int8_t max_beep_count) { impatient_beep(max_beep_count, true); }
 #else
-  inline void filament_change_beep(const int8_t, const bool=false) {}
+  inline void impatient_beep(const int8_t, const bool=false) {}
+  inline void first_impatient_beep(const int8_t) {}
 #endif
 
 /**
@@ -165,7 +169,7 @@ bool load_filament(const float &slow_load_length/*=0*/, const float &fast_load_l
     #endif
     SERIAL_ECHO_MSG(_PMSG(STR_FILAMENT_CHANGE_INSERT));
 
-    filament_change_beep(max_beep_count, true);
+    first_impatient_beep(max_beep_count);
 
     KEEPALIVE_STATE(PAUSED_FOR_USER);
     #if ENABLED(HOST_PROMPT_SUPPORT)
@@ -180,7 +184,7 @@ bool load_filament(const float &slow_load_length/*=0*/, const float &fast_load_l
     #endif
     TERN_(EXTENSIBLE_UI, ExtUI::onUserConfirmRequired_P(PSTR("Load Filament")));
     while (wait_for_user) {
-      filament_change_beep(max_beep_count);
+      impatient_beep(max_beep_count);
       idle_no_sleep();
     }
   }
@@ -448,10 +452,8 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
 
   show_continue_prompt(is_reload);
 
-  #if HAS_BUZZER && DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
-  filament_change_beep(max_beep_count, true);
-  #else
-    UNUSED(max_beep_count);
+  #if DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
+  first_impatient_beep(max_beep_count);
   #endif
 
   // Start the heater idle timers
@@ -477,7 +479,7 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
   wait_for_user = true;    // LCD click or M108 will clear this
   while (wait_for_user) {
     #if DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
-    filament_change_beep(max_beep_count);
+    impatient_beep(max_beep_count);
     #endif
 
     // If the nozzle has timed out...
@@ -520,7 +522,7 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
       #endif // NO_PAUSE_FOR_REHEAT
       nozzle_timed_out = false;
 
-      filament_change_beep(max_beep_count, true);
+      first_impatient_beep(max_beep_count);
     }
     idle_no_sleep();
   }
@@ -551,7 +553,7 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
  * - Send host action for resume, if configured
  * - Resume the current SD print job, if any
  */
-void resume_print(const float &slow_load_length/*=0*/, const float &fast_load_length/*=0*/, const float &purge_length/*=ADVANCED_PAUSE_PURGE_LENGTH*/, const int8_t max_beep_count/*=0*/ DXC_ARGS) {
+void resume_print(const float &slow_load_length/*=0*/, const float &fast_load_length/*=0*/, const float &purge_length/*=ADVANCED_PAUSE_PURGE_LENGTH*/, const int8_t max_beep_count/*=0*/, int16_t targetTemp/*=0*/ DXC_ARGS) {
   /*
   SERIAL_ECHOLNPAIR(
     "start of resume_print()\ndual_x_carriage_mode:", dual_x_carriage_mode,
@@ -570,6 +572,9 @@ void resume_print(const float &slow_load_length/*=0*/, const float &fast_load_le
     thermalManager.reset_hotend_idle_timer(e);
   }
 
+  if (targetTemp > thermalManager.degTargetHotend(active_extruder))
+    thermalManager.setTargetHotend(targetTemp, active_extruder);
+
   #if ENABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
     ExtUI::onStatusChanged(GET_TEXT(MSG_FILAMENT_CHANGE_RESUME));
     UNUSED(slow_load_length);
@@ -580,6 +585,11 @@ void resume_print(const float &slow_load_length/*=0*/, const float &fast_load_le
   if (nozzle_timed_out || thermalManager.hotEnoughToExtrude(active_extruder)) // Load the new filament
     load_filament(slow_load_length, fast_load_length, purge_length, max_beep_count, true, nozzle_timed_out, PAUSE_MODE_SAME DXC_PASS);
   #endif
+
+  if (targetTemp > 0) {
+    thermalManager.setTargetHotend(targetTemp, active_extruder);
+    thermalManager.wait_for_hotend(active_extruder, false);
+  }
 
   TERN_(HAS_LCD_MENU, lcd_pause_show_message(PAUSE_MESSAGE_RESUME));
 
