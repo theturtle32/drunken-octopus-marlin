@@ -191,10 +191,6 @@ def make_config(PRINTER, TOOLHEAD):
       MARLIN["FILAMENT_RUNOUT_SENSOR"]                   = True
       MARLIN["FILAMENT_MOTION_SENSOR"]                   = True
 
-    # Use classic jerk, because junction deviation is causing stuttering as of 5/8/2020
-    # https://github.com/MarlinFirmware/Marlin/issues/17920
-    MARLIN["CLASSIC_JERK"]                         = True
-
 ######################## PRINTER MODEL CHARACTERISTICS ########################
 
     if "Gladiola_Mini" in PRINTER:
@@ -626,7 +622,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SDSUPPORT"]                              = True
         MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("SynDaver AXI")
-        MARLIN["SHORT_BUILD_VERSION"]                    = C_STRING("2.0.x (c834b3)")
+        MARLIN["SHORT_BUILD_VERSION"]                    = C_STRING("2.0.x (1e32df)")
         MARLIN["TOUCH_UI_VERSION"]                       = '\"Release: 2 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
@@ -1732,7 +1728,7 @@ def make_config(PRINTER, TOOLHEAD):
     if ENABLED("FILAMENT_RUNOUT_SENSOR"):
         MARLIN["NUM_RUNOUT_SENSORS"]                     = MARLIN["EXTRUDERS"]
         MARLIN["FILAMENT_RUNOUT_SCRIPT"]                 = C_STRING("M25 P2\n")
-        MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 14
+        MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 0 if PRINTER in ["SynDaver_AXI"] else 14 
         if not PRINTER in ["Quiver_TAZPro", "SynDaver_AXI"]:
           MARLIN["FILAMENT_RUNOUT_ENABLE_DEFAULT"]       = "false"
         MARLIN["ACTION_ON_FILAMENT_RUNOUT"]              = C_STRING("pause: filament_runout")
