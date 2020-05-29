@@ -191,6 +191,11 @@ def make_config(PRINTER, TOOLHEAD):
       MARLIN["FILAMENT_RUNOUT_SENSOR"]                   = True
       MARLIN["FILAMENT_MOTION_SENSOR"]                   = True
 
+    # Use CLASSIC_JERK as the default since it seems JUNC_DEVIATION has issues
+    #    https://github.com/MarlinFirmware/Marlin/issues/17342
+    #    https://github.com/MarlinFirmware/Marlin/issues/17920
+    MARLIN["CLASSIC_JERK"]                               = True
+
 ######################## PRINTER MODEL CHARACTERISTICS ########################
 
     if "Gladiola_Mini" in PRINTER:
@@ -622,7 +627,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SDSUPPORT"]                              = True
         MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("SynDaver AXI")
-        MARLIN["SHORT_BUILD_VERSION"]                    = C_STRING("2.0.x (1e32df)")
+        MARLIN["SHORT_BUILD_VERSION"]                    = C_STRING("2.x.x (1e32df)")
         MARLIN["TOUCH_UI_VERSION"]                       = '\"Release: 2 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
@@ -637,6 +642,8 @@ def make_config(PRINTER, TOOLHEAD):
         # Put filament sensor on X_MAX
         MARLIN["USE_YMAX_PLUG"]                          = False
         MARLIN["FIL_RUNOUT_PIN"]                         = 15 # Archim2 Y-Max
+        # Experiment to see if Classic Jerk leads to better prints
+        #MARLIN["CLASSIC_JERK"]                           = True
 
     if "Experimental_TouchDemo" in PRINTER:
         # Test stand with Einsy Rambo and LulzBot Touch LCD
@@ -696,8 +703,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     if USE_EXPERIMENTAL_FEATURES and not USE_LESS_MEMORY:
         MARLIN["GCODE_MACROS"]                           = True
-        MARLIN["S_CURVE_ACCELERATION"]                   = True
-        MARLIN["EXPERIMENTAL_SCURVE"]                    = True
+        #MARLIN["S_CURVE_ACCELERATION"]                   = True
 
     if USE_STATUS_LED:
         MARLIN["NEOPIXEL_LED"]                           = True
@@ -1728,7 +1734,7 @@ def make_config(PRINTER, TOOLHEAD):
     if ENABLED("FILAMENT_RUNOUT_SENSOR"):
         MARLIN["NUM_RUNOUT_SENSORS"]                     = MARLIN["EXTRUDERS"]
         MARLIN["FILAMENT_RUNOUT_SCRIPT"]                 = C_STRING("M25 P2\n")
-        MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 0 if PRINTER in ["SynDaver_AXI"] else 14 
+        MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 0 if PRINTER in ["SynDaver_AXI"] else 14
         if not PRINTER in ["Quiver_TAZPro", "SynDaver_AXI"]:
           MARLIN["FILAMENT_RUNOUT_ENABLE_DEFAULT"]       = "false"
         MARLIN["ACTION_ON_FILAMENT_RUNOUT"]              = C_STRING("pause: filament_runout")
@@ -1831,6 +1837,14 @@ def make_config(PRINTER, TOOLHEAD):
                 TMC_INIT("stepperE0") +
                 (TMC_INIT("stepperE1") if MARLIN["EXTRUDERS"] > 1 else "") +
             '}')
+
+        # If LIN_ADVANCE enabled, then disable STEALTHCHOP_E, because of the
+        # following bug:
+        #
+        # https://github.com/MarlinFirmware/Marlin/issues/17944
+        #
+        if ENABLED("LIN_ADVANCE"):
+            MARLIN["STEALTHCHOP_E"]                      = False
 
 ########################## TRINAMIC SENSORLESS HOMING ##########################
 
