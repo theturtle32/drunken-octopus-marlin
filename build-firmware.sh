@@ -35,6 +35,8 @@ usage() {
   echo
   echo "   -r|--restart      Restart a compilation that failed (i.e. skip already compiled FW)"
   echo
+  echo "   -p|--platformio   EXPERIMENTAL: Use platformio rather than Makefile to build"
+  echo
   exit
 }
 
@@ -44,6 +46,7 @@ usage() {
 # Compiles dependencies for the specific board
 #
 compile_deps_for_board() {
+  if [ $USE_PIO ] ; then return; fi
   board=$1 ; shift 1
 
   # Only compile dependency once
@@ -76,6 +79,7 @@ compile_deps_for_board() {
 # Locates compilation tools for the specific board
 #
 locate_gcc_for_board() {
+  if [ $USE_PIO ] ; then return; fi
   board=$1 ; shift 1
 
   case $board in
@@ -111,6 +115,8 @@ get_config_info() {
   fw_filename=Marlin_${printer}_${toolhead}_${fw_version}_${fw_hash}
   motherboard_name=`grep "define MOTHERBOARD" $config/Configuration.h | awk '{print $3}'`
   motherboard_number=`grep "$motherboard_name\b" Marlin/src/core/boards.h | awk '{print $3}'`
+  motherboard_shortname=`echo $motherboard_name | sed 's/BOARD_//'`
+  motherboard_pio=`grep "pins_${motherboard_shortname}.h"  Marlin/src/pins/pins.h | grep  -Po 'env:([A-Za-z0-9_]*)' | head -1 | awk -F: '{print $2}'`
   is_drunken_octopus=`grep "Drunken Octopus" $config/Configuration.h`
   if [ ! $FULLNAMES ]; then
     # Shorten firmware name (removing the code names)
@@ -130,15 +136,20 @@ get_config_info() {
 # Compiles firmware for the specified printer and toolhead
 #
 compile_firmware() {
-  (cd Marlin; make clean; make \
-    $MAKE_FLAGS \
-    AVR_TOOLS_PATH=$TOOLS_PATH/ \
-    ARDUINO_INSTALL_DIR=../ArduinoAddons/arduino-1.8.5 \
-    ARDUINO_VERSION=10805 \
-    HARDWARE_MOTHERBOARD=$motherboard_number \
-    LULZBOT_EXTRAS="$EXTRA_OPTS" \
-    DEFINES="$EXTRA_DEFS" \
-    $*) || exit
+  if [ $USE_PIO ]; then
+    echo Compiling using platformio for $motherboard_pio
+    platformio run -e $motherboard_pio || exit
+  else
+    (cd Marlin; make clean; make \
+      $MAKE_FLAGS \
+      AVR_TOOLS_PATH=$TOOLS_PATH/ \
+      ARDUINO_INSTALL_DIR=../ArduinoAddons/arduino-1.8.5 \
+      ARDUINO_VERSION=10805 \
+      HARDWARE_MOTHERBOARD=$motherboard_number \
+      LULZBOT_EXTRAS="$EXTRA_OPTS" \
+      DEFINES="$EXTRA_DEFS" \
+      $*) || exit
+  fi
 }
 
 ####
@@ -211,7 +222,11 @@ build_firmware() {
   # Copy builds to build directory
 
   mkdir -p build/$vendor/$group/$printer/$toolhead
-  mv Marlin/applet/marlin.$fw_type $fw_path
+  if [ $USE_PIO ]; then
+    mv .pio/build/$motherboard_pio/firmware.$fw_type $fw_path
+  else
+    mv Marlin/applet/marlin.$fw_type $fw_path
+  fi
   chmod a-x build/$vendor/$group/$printer/$toolhead/*
 
   if [ $GENERATE_CONFIG ]; then
@@ -239,6 +254,7 @@ check_tool() {
 # stored in <path_var>
 #
 locate_tools() {
+  if [ $USE_PIO ] ; then return; fi
   DEST_VAR=$1
   TOOL_BINARY=`which $2-objcopy`
   if [ $? -eq 0 ]; then
@@ -265,6 +281,7 @@ locate_tools() {
 # directory.
 #
 check_tools() {
+  if [ $USE_PIO ] ; then return; fi
   echo
   echo Using $1 for $2 tools.
   echo
@@ -320,6 +337,10 @@ do
       ;;
     -r|--restart)
       RESTART=1
+      shift
+      ;;
+    -p|--platformio)
+      USE_PIO=1
       shift
       ;;
     -*|--*)
