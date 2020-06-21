@@ -34,6 +34,7 @@ PRINTER_CHOICES = [
     "Oliveoil_TAZ6BLTouch",
     "Oliveoil_TAZ6ArchimBLTouch",
     "Quiver_TAZPro",
+    "Quiver_TAZProBLTouch",
     "Redgum_TAZWorkhorse",
     "Redgum_TAZWorkhorseArchim",
     "Redgum_TAZWorkhorseBLTouch",
@@ -332,7 +333,7 @@ def make_config(PRINTER, TOOLHEAD):
         USE_EXPERIMENTAL_FEATURES                        = True
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ 5")
         MARLIN["STEALTHCHOP_XY"]                         = False
-        MARLIN["STEALTHCHOP_Z"]                          = True
+        MARLIN["STEALTHCHOP_Z"]                          = False
         MARLIN["STEALTHCHOP_E"]                          = True
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["BAUDRATE"]                               = 250000
@@ -525,7 +526,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("Mini")
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["STEALTHCHOP_XY"]                         = False
-        MARLIN["STEALTHCHOP_Z"]                          = True
+        MARLIN["STEALTHCHOP_Z"]                          = False
         MARLIN["STEALTHCHOP_E"]                          = True
         MARLIN["HYBRID_THRESHOLD"]                       = True
         MARLIN["BAUDRATE"]                               = 250000
@@ -550,7 +551,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("Mini")
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["STEALTHCHOP_XY"]                         = False
-        MARLIN["STEALTHCHOP_Z"]                          = True
+        MARLIN["STEALTHCHOP_Z"]                          = False
         MARLIN["STEALTHCHOP_E"]                          = True
         MARLIN["HYBRID_THRESHOLD"]                       = True
         MARLIN["BAUDRATE"]                               = 250000
@@ -591,7 +592,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["ENDSTOPS_ALWAYS_ON_DEFAULT"]             = True
         MARLIN["STEALTHCHOP_XY"]                         = False
-        MARLIN["STEALTHCHOP_Z"]                          = True
+        MARLIN["STEALTHCHOP_Z"]                          = False
         MARLIN["STEALTHCHOP_E"]                          = True
         MARLIN["HYBRID_THRESHOLD"]                       = True
         MARLIN["BAUDRATE"]                               = 250000

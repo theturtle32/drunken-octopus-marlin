@@ -127,6 +127,7 @@ build_config accessory Quiver_TAZPro                             BandedTiger_Har
 build_config accessory Quiver_TAZPro                             DingyCutworm_HardenedSteelPlus
 build_config accessory Quiver_TAZPro                             Goldenrod_HardenedExtruder
 build_config standard  Quiver_TAZPro                             Quiver_DualExtruder
+build_config custom    Quiver_TAZProBLTouch                      CecropiaSilk_SingleExtruderAeroV2
 
 build_config standard  Redgum_TAZWorkhorse                       Goldenrod_HardenedExtruder
 build_config accessory Redgum_TAZWorkhorse                       CecropiaSilk_SingleExtruderAeroV2
