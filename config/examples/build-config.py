@@ -1586,6 +1586,7 @@ def make_config(PRINTER, TOOLHEAD):
             "M906 Z960\n"                                # Restore default current
             "M211 S1\n"                                  # Turn soft endstops back on
             "G28 Z0\n"                                   # Rehome to correct coorinate system
+            "G0 F6000\n"                                 # Leave feedrate at something reasonable
         )
 
     elif USE_Z_BELT and IS_TAZ and not MARLIN["BLTOUCH"]:
@@ -1611,6 +1612,7 @@ def make_config(PRINTER, TOOLHEAD):
             "M211 S1\n"                                  # Turn soft endstops back on
             "M18 Z\n"                                    # Power off stepper to...
             "M17 Z\n"                                    # ...forget current position
+            "G0 F6000\n"                                 # Leave feedrate at something reasonable
         )
         MARLIN["NO_MOTION_BEFORE_HOMING_WORKAROUND"]    = True
         MARLIN["ENDSTOP_INTERRUPTS_FEATURE"]            = True
