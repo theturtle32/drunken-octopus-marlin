@@ -528,7 +528,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["STEALTHCHOP_XY"]                         = False
         MARLIN["STEALTHCHOP_Z"]                          = False
         MARLIN["STEALTHCHOP_E"]                          = True
-        MARLIN["HYBRID_THRESHOLD"]                       = True
+        MARLIN["HYBRID_THRESHOLD"]                       = False
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("b68ff322-3328-4543-bd93-bb8d8eb0c891")
@@ -553,7 +553,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["STEALTHCHOP_XY"]                         = False
         MARLIN["STEALTHCHOP_Z"]                          = False
         MARLIN["STEALTHCHOP_E"]                          = True
-        MARLIN["HYBRID_THRESHOLD"]                       = True
+        MARLIN["HYBRID_THRESHOLD"]                       = False
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("23421dc0-df9f-430b-8f91-0e3bcb55b4e4")
@@ -594,7 +594,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["STEALTHCHOP_XY"]                         = False
         MARLIN["STEALTHCHOP_Z"]                          = False
         MARLIN["STEALTHCHOP_E"]                          = True
-        MARLIN["HYBRID_THRESHOLD"]                       = True
+        MARLIN["HYBRID_THRESHOLD"]                       = False
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("a07987e3-7ca7-48e1-b7a4-cc2c45ff2742")
@@ -1783,8 +1783,9 @@ def make_config(PRINTER, TOOLHEAD):
         elif USE_EINSY_RETRO or USE_EINSY_RAMBO:
             SHAFT_DIR                                    = 1 # Match direction to the Mini-Rambo
 
-        MARLIN["Y_HYBRID_THRESHOLD"]                     = 72
-        MARLIN["X_HYBRID_THRESHOLD"]                     = 72
+        if ENABLED("HYBRID_THRESHOLD"):
+            MARLIN["Y_HYBRID_THRESHOLD"]                 = 72
+            MARLIN["X_HYBRID_THRESHOLD"]                 = 72
 
         MARLIN["CHOPPER_TIMING"]                         = [ 3, -2, 6 ]
 
