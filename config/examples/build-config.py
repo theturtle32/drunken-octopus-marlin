@@ -629,7 +629,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("SynDaver AXI")
         MARLIN["SHORT_BUILD_VERSION"]                    = C_STRING("2.x.x (1e32df)")
-        MARLIN["TOUCH_UI_VERSION"]                       = '\"Release: 2 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+        MARLIN["TOUCH_UI_VERSION"]                       = '\"Release: 3 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
         MARLIN["EMI_MITIGATION"]                         = True
@@ -643,8 +643,6 @@ def make_config(PRINTER, TOOLHEAD):
         # Put filament sensor on X_MAX
         MARLIN["USE_YMAX_PLUG"]                          = False
         MARLIN["FIL_RUNOUT_PIN"]                         = 15 # Archim2 Y-Max
-        # Experiment to see if Classic Jerk leads to better prints
-        #MARLIN["CLASSIC_JERK"]                           = True
 
     if "Experimental_TouchDemo" in PRINTER:
         # Test stand with Einsy Rambo and LulzBot Touch LCD
@@ -1241,16 +1239,24 @@ def make_config(PRINTER, TOOLHEAD):
     MARLIN["PREHEAT_1_TEMP_HOTEND"]                      = 200 # PLA
 
     if IS_MINI:
-        # Heater current: 24V/5.5 Ohms = 4.4A
-        MARLIN["MAX_BED_POWER"]                          = 255 # limits duty cycle to bed; 255=full current
         MARLIN["WATCH_TEMP_PERIOD"]                      = 20  # Seconds
         MARLIN["WATCH_TEMP_INCREASE"]                    = 2   # Degrees Celsius
     elif IS_TAZ:
-        # Heater current: 24V/1.6 Ohms = 15A
-        # Set Max Bed Power to 80% for a safety margin on the 15A fuse.
-        MARLIN["MAX_BED_POWER"]                          = 206 # limits duty cycle to bed; 255=full current
         MARLIN["WATCH_TEMP_PERIOD"]                      = 40  # Seconds
         MARLIN["WATCH_TEMP_INCREASE"]                    = 10  # Degrees Celsius
+
+    # limits duty cycle to bed; 255=full current
+    if IS_MINI:
+        # Heater current: 24V/5.5 Ohms = 4.4A
+        MARLIN["MAX_BED_POWER"]                          = 255 
+    elif "SynDaver_AXI" in PRINTER:
+        # Heater current: 24V/1.6 Ohms = 15A
+        # Verified that the AXI can support 100% power to the bed
+        MARLIN["MAX_BED_POWER"]                          = 255
+    elif IS_TAZ:
+        # Heater current: 24V/1.6 Ohms = 15A
+        # Set Max Bed Power to 80% for a safety margin on the 15A fuse.
+        MARLIN["MAX_BED_POWER"]                          = 206
 
 ############################### HEATING ELEMENTS ##############################
 
