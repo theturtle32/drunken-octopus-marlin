@@ -79,10 +79,12 @@ compile_deps_for_board() {
 # Locates compilation tools for the specific board
 #
 locate_gcc_for_board() {
-  if [ $USE_PIO ] ; then return; fi
   board=$1 ; shift 1
-
+  NEEDS_PIO=0
   case $board in
+    BOARD_BTT_BTT002_V1_0)
+      NEEDS_PIO=1
+      ;;
     BOARD_ARCHIM2)
       locate_tools TOOLS_PATH arm-none-eabi
       check_tools $TOOLS_PATH arm-none-eabi
@@ -124,6 +126,8 @@ get_config_info() {
   fi
   if [ $motherboard_name = "BOARD_ARCHIM2" ]; then
     fw_type=bin
+  elif [ $motherboard_name = "BOARD_BTT_BTT002_V1_0" ]; then
+    fw_type=bin
   else
     fw_type=hex
   fi
@@ -136,7 +140,7 @@ get_config_info() {
 # Compiles firmware for the specified printer and toolhead
 #
 compile_firmware() {
-  if [ $USE_PIO ]; then
+  if [ $USE_PIO -o $NEEDS_PIO ]; then
     echo Compiling using platformio for $motherboard_pio
     platformio run -e $motherboard_pio || exit
   else
@@ -222,7 +226,7 @@ build_firmware() {
   # Copy builds to build directory
 
   mkdir -p build/$vendor/$group/$printer/$toolhead
-  if [ $USE_PIO ]; then
+  if [ $USE_PIO -o $NEEDS_PIO ]; then
     mv .pio/build/$motherboard_pio/firmware.$fw_type $fw_path
   else
     mv Marlin/applet/marlin.$fw_type $fw_path
@@ -314,6 +318,9 @@ build_summary() {
 ############################################
 
 # Parse command line options
+
+USE_PIO=0
+NEEDS_PIO=0
 
 while true
 do

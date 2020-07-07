@@ -66,6 +66,7 @@ build_config custom    Gladiola_MiniEinsyLCD                     Gladiola_Single
 build_config custom    Gladiola_MiniEinsyLCD                     CecropiaSilk_SingleExtruderAeroV2
 build_config custom    Gladiola_MiniEinsyLCD                     BandedTiger_HardenedSteel
 build_config custom    Gladiola_MiniEinsyTouchUSB                Gladiola_SingleExtruder
+build_config custom    Gladiola_MiniBTT002LCD                    BandedTiger_HardenedSteel
 
 build_config accessory Hibiscus_Mini2                            AchemonSphinx_SmallLayer
 build_config standard  Hibiscus_Mini2                            CecropiaSilk_SingleExtruderAeroV2

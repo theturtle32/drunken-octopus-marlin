@@ -43,6 +43,7 @@ PRINTER_CHOICES = [
     "Hibiscus_Mini2TouchSD",
     "Hibiscus_Mini2TouchUSB",
     "KangarooPaw_Bio",
+    "Gladiola_MiniBTT002LCD",
     "Gladiola_MiniTouchUSB",
     "Gladiola_MiniEinsyLCD",
     "Gladiola_MiniEinsyTouchUSB",
@@ -139,6 +140,7 @@ def make_config(PRINTER, TOOLHEAD):
     USE_EINSY_RAMBO                                      = False
     USE_EINSY_RETRO                                      = False
     USE_ARCHIM2                                          = False
+    USE_BTT_002                                          = False
     USE_AUTOLEVELING                                     = False
     USE_Z_BELT                                           = False
     USE_Z_SCREW                                          = False
@@ -534,6 +536,28 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MACHINE_UUID"]                           = C_STRING("b68ff322-3328-4543-bd93-bb8d8eb0c891")
         MARLIN["LIGHTWEIGHT_UI"]                         = True
 
+    if "Gladiola_MiniBTT002LCD" in PRINTER:
+        # Unsupported Mini with BTT002.
+        IS_MINI                                          = True
+        MINI_BED                                         = True
+        USE_Z_SCREW                                      = True
+        USE_AUTOLEVELING                                 = True
+        USE_NORMALLY_OPEN_ENDSTOPS                       = True
+        USE_MIN_ENDSTOPS                                 = True
+        USE_MAX_ENDSTOPS                                 = False
+        USE_BTT_002                                      = True
+        USE_EXPERIMENTAL_FEATURES                        = True
+        CALIBRATE_ON_WASHER                              = "Back Right"
+        MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("Mini")
+        MARLIN["BACKLASH_COMPENSATION"]                  = True
+        MARLIN["STEALTHCHOP_XY"]                         = False
+        MARLIN["STEALTHCHOP_Z"]                          = False
+        MARLIN["STEALTHCHOP_E"]                          = True
+        MARLIN["HYBRID_THRESHOLD"]                       = False
+        MARLIN["BAUDRATE"]                               = 250000
+        MARLIN["MACHINE_UUID"]                           = C_STRING("b68ff322-3328-4543-bd93-bb8d8eb0c891")
+        MARLIN["LIGHTWEIGHT_UI"]                         = True
+
     if "Gladiola_MiniEinsyTouchUSB" in PRINTER:
         # Unsupported Mini with Einsy Retro and 480x272 Touch LCD and USB
         IS_MINI                                          = True
@@ -684,7 +708,7 @@ def make_config(PRINTER, TOOLHEAD):
     MARLIN["SOURCE_CODE_URL"]                            = C_STRING("https://github.com/marciot/drunken-octopus-marlin")
     MARLIN["EEPROM_SETTINGS"]                            = True
     MARLIN["EEPROM_AUTO_INIT"]                           = True
-    MARLIN["EMERGENCY_PARSER"]                           = True
+    MARLIN["EMERGENCY_PARSER"]                           = False if USE_BTT_002 else True
     MARLIN["PAUSE_PARK_NOZZLE_TIMEOUT"]                  = 300
     MARLIN["ADVANCED_OK"]                                = True
     MARLIN["TX_BUFFER_SIZE"]                             = 32
@@ -745,6 +769,15 @@ def make_config(PRINTER, TOOLHEAD):
         else:
             MARLIN["SPI_SPEED"]                          = 'SPI_FULL_SPEED'
 
+    elif USE_BTT_002:
+        MARLIN["MOTHERBOARD"]                            = 'BOARD_BTT_BTT002_V1_0'
+        #MARLIN["CONTROLLER_FAN_PIN"]                    = 'FAN1_PIN' # Digital pin 6
+        MARLIN["SERIAL_PORT"]                            = 1
+        if USE_TOUCH_UI:
+            MARLIN["SPI_SPEED"]                          = 'SPI_SIXTEENTH_SPEED'
+        else:
+            MARLIN["SPI_SPEED"]                          = 'SPI_FULL_SPEED'
+
     elif IS_MINI:
         MARLIN["MOTHERBOARD"]                            = 'BOARD_MINIRAMBO'
         MARLIN["CONTROLLER_FAN_PIN"]                     = 'FAN1_PIN' # Digital pin 6
@@ -767,7 +800,7 @@ def make_config(PRINTER, TOOLHEAD):
     NORMALLY_OPEN_ENDSTOP                                = 1
     NO_ENDSTOP                                           = 1
 
-    if USE_EINSY_RAMBO:
+    if USE_EINSY_RAMBO or USE_BTT_002:
         MARLIN["Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN"]     = False
     elif BED_WASHERS_PIN and not MARLIN["BLTOUCH"]:
         MARLIN["Z_MIN_PROBE_PIN"]                        = BED_WASHERS_PIN
@@ -931,7 +964,7 @@ def make_config(PRINTER, TOOLHEAD):
 ################################ MINI TOOLHEADS ###############################
 
     if TOOLHEAD in ["Gladiola_SingleExtruder","Albatross_Flexystruder","Finch_Aerostruder"]:
-        if USE_EINSY_RETRO or USE_EINSY_RAMBO or USE_ARCHIM2 or PRINTER in ["Finch_Aerostruder"]:
+        if USE_BTT_002 or USE_EINSY_RETRO or USE_EINSY_RAMBO or USE_ARCHIM2 or PRINTER in ["Finch_Aerostruder"]:
             MOTOR_CURRENT_E                              = 960 # mA
         else:
             MOTOR_CURRENT_E                              = 1250 # mA
@@ -1248,7 +1281,7 @@ def make_config(PRINTER, TOOLHEAD):
     # limits duty cycle to bed; 255=full current
     if IS_MINI:
         # Heater current: 24V/5.5 Ohms = 4.4A
-        MARLIN["MAX_BED_POWER"]                          = 255 
+        MARLIN["MAX_BED_POWER"]                          = 255
     elif "SynDaver_AXI" in PRINTER:
         # Heater current: 24V/1.6 Ohms = 15A
         # Verified that the AXI can support 100% power to the bed
@@ -1332,7 +1365,7 @@ def make_config(PRINTER, TOOLHEAD):
     # For the Pelonis C4010L24BPLB1b-7 fan, we need a relative low
     # PWM frequency of about 122Hz in order for the fan to turn.
 
-    if USE_ARCHIM2:
+    if USE_BTT_002 or USE_ARCHIM2:
         # On the Archim, it is necessary to use soft PWM to get the
         # frequency down in the kilohertz
         MARLIN["FAN_SOFT_PWM"]                           = True
@@ -1349,19 +1382,21 @@ def make_config(PRINTER, TOOLHEAD):
     MARLIN["ADAPTIVE_FAN_SLOWING"]                       = True
     MARLIN["NO_FAN_SLOWING_IN_PID_TUNING"]               = True
 
-    MARLIN["USE_CONTROLLER_FAN"]                         = True
-    if USE_EINSY_RETRO or USE_EINSY_RAMBO:
-        # The TMC drivers need a bit more cooling
-        MARLIN["CONTROLLERFAN_SPEED_ACTIVE"]             = 255
-        MARLIN["CONTROLLERFAN_SPEED_IDLE"]               = 120
-        MARLIN["CONTROLLER_FAN_IGNORE_Z"]                = True
-    elif IS_MINI:
-        # The Mini fan runs rather loud at full speed
-        MARLIN["CONTROLLERFAN_SPEED_ACTIVE"]             = 120
-        MARLIN["CONTROLLERFAN_SPEED_IDLE"]               = 120
-    elif IS_TAZ:
-        MARLIN["CONTROLLERFAN_SPEED_ACTIVE"]             = 255
-        MARLIN["CONTROLLERFAN_SPEED_IDLE"]               = 255
+    if not USE_BTT_002:
+        MARLIN["USE_CONTROLLER_FAN"]                     = True
+
+        if USE_EINSY_RETRO or USE_EINSY_RAMBO:
+            # The TMC drivers need a bit more cooling
+            MARLIN["CONTROLLERFAN_SPEED_ACTIVE"]         = 255
+            MARLIN["CONTROLLERFAN_SPEED_IDLE"]           = 120
+            MARLIN["CONTROLLER_FAN_IGNORE_Z"]            = True
+        elif IS_MINI:
+            # The Mini fan runs rather loud at full speed
+            MARLIN["CONTROLLERFAN_SPEED_ACTIVE"]         = 120
+            MARLIN["CONTROLLERFAN_SPEED_IDLE"]           = 120
+        elif IS_TAZ:
+            MARLIN["CONTROLLERFAN_SPEED_ACTIVE"]         = 255
+            MARLIN["CONTROLLERFAN_SPEED_IDLE"]           = 255
 
 ############################### AXIS TRAVEL LIMITS ###############################
 
@@ -1750,7 +1785,9 @@ def make_config(PRINTER, TOOLHEAD):
 
 ############################## MOTOR DRIVER TYPE ##############################
 
-    if USE_EINSY_RETRO or USE_EINSY_RAMBO or USE_ARCHIM2:
+    if USE_BTT_002:
+        DRIVER_TYPE                                      = 'TMC2209'
+    elif USE_EINSY_RETRO or USE_EINSY_RAMBO or USE_ARCHIM2:
         DRIVER_TYPE                                      = 'TMC2130'
     else:
         DRIVER_TYPE                                      = 'A4988'
@@ -1766,11 +1803,14 @@ def make_config(PRINTER, TOOLHEAD):
 
 ######################## TRINAMIC DRIVER CONFIGURATION ########################
 
-    if USE_EINSY_RETRO or USE_EINSY_RAMBO or USE_ARCHIM2:
+    if USE_BTT_002 or USE_EINSY_RETRO or USE_EINSY_RAMBO or USE_ARCHIM2:
         MARLIN["TMC_DEBUG"]                              = True
         MARLIN["MONITOR_DRIVER_STATUS"]                  = True
 
-        RSENSE                                           = 0.12
+        if USE_BTT_002:
+            RSENSE                                       = 0.11
+        else:
+            RSENSE                                       = 0.12
 
         MARLIN["X_RSENSE"]                               = RSENSE
         MARLIN["Y_RSENSE"]                               = RSENSE
@@ -1791,20 +1831,26 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["Y_HYBRID_THRESHOLD"]                 = 72
             MARLIN["X_HYBRID_THRESHOLD"]                 = 72
 
-        MARLIN["CHOPPER_TIMING"]                         = [ 3, -2, 6 ]
+        if USE_BTT_002:
+            MARLIN["CHOPPER_TIMING"]                     = "CHOPPER_DEFAULT_24V"
+        else:
+            MARLIN["CHOPPER_TIMING"]                     = [ 3, -2, 6 ]
 
         def TMC_INIT(st):
-            return (
-                "st.shaft({});".format(SHAFT_DIR) +
-                # Enable coolstep
-                "st.semin(1);"
-                "st.semax(3);"
-            ).replace("st.", st + ".")
+            if not USE_BTT_002:
+                return (
+                    "st.shaft({});".format(SHAFT_DIR) +
+                    # Enable coolstep
+                    "st.semin(1);"
+                    "st.semax(3);"
+                ).replace("st.", st + ".")
+            else:
+                return ""
 
         # Low-noise stepper settings for Mini 2
 
         def TMC_LOW_NOISE(st):
-            if IS_MINI:
+            if IS_MINI and not USE_BTT_002:
                 return (
                     "st.toff(1);"  # TOFF   = [1..15]
                     "st.hstrt(0);" # HSTART = [0..7]
@@ -1824,7 +1870,7 @@ def make_config(PRINTER, TOOLHEAD):
         #  - Setting HEND higher than 1 causes drivers to overheat.
 
         def TMC_LOW_HEAT(st):
-            if IS_MINI:
+            if IS_MINI and not USE_BTT_002:
                 return (
                     "st.toff(1);"  # TOFF   = [1..15]
                     "st.hstrt(4);" # HSTART = [0..7]
