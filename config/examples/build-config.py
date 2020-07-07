@@ -1396,7 +1396,7 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["CONTROLLERFAN_SPEED_IDLE"]           = 120
         elif IS_TAZ:
             MARLIN["CONTROLLERFAN_SPEED_ACTIVE"]         = 255
-            MARLIN["CONTROLLERFAN_SPEED_IDLE"]           = 255
+            MARLIN["CONTROLLERFAN_SPEED_IDLE"]           = 120
 
 ############################### AXIS TRAVEL LIMITS ###############################
 
