@@ -46,7 +46,7 @@ usage() {
 # Compiles dependencies for the specific board
 #
 compile_deps_for_board() {
-  if [ $USE_PIO ] ; then return; fi
+  if [ $USE_PIO -ne 0 ] ; then return; fi
   board=$1 ; shift 1
 
   # Only compile dependency once
@@ -140,7 +140,7 @@ get_config_info() {
 # Compiles firmware for the specified printer and toolhead
 #
 compile_firmware() {
-  if [ $USE_PIO -o $NEEDS_PIO ]; then
+  if [ $USE_PIO -ne 0 -o $NEEDS_PIO -ne 0 ]; then
     echo Compiling using platformio for $motherboard_pio
     platformio run -e $motherboard_pio || exit
   else
@@ -226,7 +226,7 @@ build_firmware() {
   # Copy builds to build directory
 
   mkdir -p build/$vendor/$group/$printer/$toolhead
-  if [ $USE_PIO -o $NEEDS_PIO ]; then
+  if [ $USE_PIO -ne 0 -o $NEEDS_PIO -ne 0 ]; then
     mv .pio/build/$motherboard_pio/firmware.$fw_type $fw_path
   else
     mv Marlin/applet/marlin.$fw_type $fw_path
@@ -258,7 +258,7 @@ check_tool() {
 # stored in <path_var>
 #
 locate_tools() {
-  if [ $USE_PIO ] ; then return; fi
+  if [ $USE_PIO -ne 0 ] ; then return; fi
   DEST_VAR=$1
   TOOL_BINARY=`which $2-objcopy`
   if [ $? -eq 0 ]; then
@@ -285,7 +285,7 @@ locate_tools() {
 # directory.
 #
 check_tools() {
-  if [ $USE_PIO ] ; then return; fi
+  if [ $USE_PIO -ne 0 ] ; then return; fi
   echo
   echo Using $1 for $2 tools.
   echo
