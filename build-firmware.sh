@@ -87,11 +87,11 @@ locate_gcc_for_board() {
       ;;
     BOARD_ARCHIM2)
       locate_tools TOOLS_PATH arm-none-eabi
-      check_tools $TOOLS_PATH arm-none-eabi
+      check_tools "$TOOLS_PATH" arm-none-eabi
       ;;
     *)
       locate_tools TOOLS_PATH avr
-      check_tools $TOOLS_PATH avr
+      check_tools "$TOOLS_PATH" avr
       ;;
   esac
 }
@@ -146,7 +146,7 @@ compile_firmware() {
   else
     (cd Marlin; make clean; make \
       $MAKE_FLAGS \
-      AVR_TOOLS_PATH=$TOOLS_PATH/ \
+      AVR_TOOLS_PATH=$TOOLS_PATH \
       ARDUINO_INSTALL_DIR=../ArduinoAddons/arduino-1.8.5 \
       ARDUINO_VERSION=10805 \
       HARDWARE_MOTHERBOARD=$motherboard_number \
@@ -244,8 +244,8 @@ build_firmware() {
 # Checks whether a tool exists in path
 #
 check_tool() {
-  if [ ! -x "$1/$2" ]; then
-    echo Cannot locate $2 in $1.
+  if ! command -v "${1}$2" ; then
+    echo Cannot locate $2 in "$1".
     exit 1
   fi
 }
@@ -260,22 +260,24 @@ check_tool() {
 locate_tools() {
   if [ $USE_PIO -ne 0 ] ; then return; fi
   DEST_VAR=$1
-  TOOL_BINARY=`which $2-objcopy`
+  TOOL_BINARY=`which $2-gcc`
   if [ $? -eq 0 ]; then
-    TOOLS_PATH=`dirname $TOOL_BINARY`
+    FOUND_PATH=`dirname $TOOL_BINARY`
   fi
-  while [ ! -x $TOOLS_PATH/$2-objcopy ]
+  while [ ! -x $FOUND_PATH/$2-gcc ]
   do
     echo
-    echo $2-objcopy not found!
+    echo $2-gcc not found!
     echo
-    read -p "Type path to $2 tools: " TOOLS_PATH
-    if [ -z $TOOLS_PATH ]; then
+    read -p "Type path to $2 tools: " FOUND_PATH
+    if [ -z $FOUND_PATH ]; then
       echo Aborting.
       exit
     fi
   done
-  eval "$DEST_VAR=$TOOLS_PATH"
+  if [ "$FOUND_PATH" != "/usr/lib/ccache" ]; then
+     eval "$DEST_VAR=$FOUND_PATH/"
+  fi
 }
 
 ####
@@ -290,12 +292,12 @@ check_tools() {
   echo Using $1 for $2 tools.
   echo
 
-  check_tool $1 $2-gcc
-  check_tool $1 $2-objcopy
-  check_tool $1 $2-g++
-  check_tool $1 $2-objdump
-  check_tool $1 $2-ar
-  check_tool $1 $2-size
+  check_tool "$1" $2-gcc
+  check_tool "$1" $2-objcopy
+  check_tool "$1" $2-g++
+  check_tool "$1" $2-objdump
+  check_tool "$1" $2-ar
+  check_tool "$1" $2-size
 }
 
 ####
