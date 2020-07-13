@@ -153,6 +153,7 @@ build_config standard  KangarooPaw_Bio                           KangarooPaw_Sin
 vendor=Experimental
 
 build_config custom    Experimental_TouchDemo                    Gladiola_SingleExtruder
+build_config custom    Experimental_MiniEinsyLCD                 BandedTiger_HardenedSteel
 
 vendor=SynDaver
 

@@ -50,7 +50,8 @@ PRINTER_CHOICES = [
 
     # Other Printers or Experimental Configurations
     "SynDaver_AXI",
-    "Experimental_TouchDemo"
+    "Experimental_TouchDemo",
+    "Experimental_MiniEinsyLCD"
 ]
 
 TOOLHEAD_CHOICES = [
@@ -701,6 +702,29 @@ def make_config(PRINTER, TOOLHEAD):
         # since EXP2 does not have 5V on pin 1
         MARLIN["SDSUPPORT"]                              = False
         MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = False
+
+    if "Experimental_MiniEinsyLCD" in PRINTER:
+        # Marcio's Custom Gladiola
+        IS_MINI                                          = True
+        MINI_BED                                         = True
+        USE_Z_SCREW                                      = True
+        USE_AUTOLEVELING                                 = True
+        USE_NORMALLY_OPEN_ENDSTOPS                       = True
+        USE_MIN_ENDSTOPS                                 = True
+        USE_MAX_ENDSTOPS                                 = False
+        USE_EINSY_RETRO                                  = True
+        USE_EXPERIMENTAL_FEATURES                        = True
+        CALIBRATE_ON_WASHER                              = "Back Right"
+        MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("Mini")
+        MARLIN["BACKLASH_COMPENSATION"]                  = True
+        MARLIN["STEALTHCHOP_XY"]                         = False
+        MARLIN["STEALTHCHOP_Z"]                          = False
+        MARLIN["STEALTHCHOP_E"]                          = True
+        MARLIN["HYBRID_THRESHOLD"]                       = False
+        MARLIN["BAUDRATE"]                               = 250000
+        MARLIN["PRINTCOUNTER"]                           = True
+        MARLIN["MACHINE_UUID"]                           = C_STRING("b68ff322-3328-4543-bd93-bb8d8eb0c891")
+        MARLIN["LIGHTWEIGHT_UI"]                         = True
 
 ############################ GENERAL CONFIGURATION ############################
 
@@ -1405,7 +1429,16 @@ def make_config(PRINTER, TOOLHEAD):
     # This allows us to accomodate toolheads that might be wider or taller than the
     # standard.
 
-    if IS_MINI and USE_Z_SCREW:
+    if "Experimental_MiniEinsyLCD" in PRINTER:
+        STANDARD_X_MAX_POS                               = 165.8
+        STANDARD_X_MIN_POS                               =   0.0
+        STANDARD_Y_MAX_POS                               = 190.0
+        STANDARD_Y_MIN_POS                               = -14.0
+
+        STANDARD_X_BED_SIZE                              = 155.8
+        STANDARD_Y_BED_SIZE                              = 155.8
+
+    elif IS_MINI and USE_Z_SCREW:
         STANDARD_X_MAX_POS                               = 165.8
         STANDARD_X_MIN_POS                               =   0.0
         STANDARD_Y_MAX_POS                               = 196.0
