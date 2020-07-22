@@ -725,6 +725,10 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("b68ff322-3328-4543-bd93-bb8d8eb0c891")
         MARLIN["LIGHTWEIGHT_UI"]                         = True
+        # Put filament sensor on Y_MIN
+        MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
+        MARLIN["USE_YMIN_PLUG"]                          = False
+        MARLIN["FIL_RUNOUT_PIN"]                         = 11 # Einsy Rambo Y-Min
 
 ############################ GENERAL CONFIGURATION ############################
 
