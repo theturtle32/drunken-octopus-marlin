@@ -816,6 +816,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MOTHERBOARD"]                            = 'BOARD_RAMBO'
         MARLIN["CONTROLLER_FAN_PIN"]                     = 'FAN2_PIN' # Digital pin 2
         MARLIN["SERIAL_PORT"]                            = 0
+        MARLIN["SERIAL_PORT_2"]                          = 1
         MARLIN["SPI_SPEED"]                              = 'SPI_FULL_SPEED'
 
     if ENABLED("USB_FLASH_DRIVE_SUPPORT"):
