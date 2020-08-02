@@ -76,6 +76,10 @@ build_config accessory Hibiscus_Mini2                            Goldenrod_Harde
 build_config custom    Hibiscus_Mini2TouchSD                     CecropiaSilk_SingleExtruderAeroV2
 build_config custom    Hibiscus_Mini2TouchUSB                    CecropiaSilk_SingleExtruderAeroV2
 
+build_config custom    Guava_TAZ4                                Buda_SingleExtruder
+build_config custom    Guava_TAZ4Archim                          Buda_SingleExtruder
+build_config custom    Guava_TAZ4ArchimBLTouch                   Buda_SingleExtruder
+
 build_config standard  Juniper_TAZ5                              Tilapia_SingleExtruder
 build_config accessory Juniper_TAZ5                              Angelfish_Aerostruder
 build_config accessory Juniper_TAZ5                              CecropiaSilk_SingleExtruderAeroV2

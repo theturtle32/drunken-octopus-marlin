@@ -662,7 +662,7 @@
 #define X_MIN_ENDSTOP_INVERTING 1 // <-- changed:  Set to true to invert the logic of the endstop.
 #define Y_MIN_ENDSTOP_INVERTING 0 // <-- changed:  Set to true to invert the logic of the endstop.
 #define Z_MIN_ENDSTOP_INVERTING 1 // <-- changed:  Set to true to invert the logic of the endstop.
-#define X_MAX_ENDSTOP_INVERTING 1 // <-- changed:  Set to true to invert the logic of the endstop.
+#define X_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define Y_MAX_ENDSTOP_INVERTING 1 // <-- changed:  Set to true to invert the logic of the endstop.
 #define Z_MAX_ENDSTOP_INVERTING 0 // <-- changed:  Set to true to invert the logic of the endstop.
 #define Z_MIN_PROBE_ENDSTOP_INVERTING 1 // <-- changed:  Set to true to invert the logic of the probe.
@@ -1090,7 +1090,7 @@
 
 // @section homing
 
-#define NO_MOTION_BEFORE_HOMING // <-- changed:  Inhibit movement until all axes have been homed
+//#define NO_MOTION_BEFORE_HOMING // Inhibit movement until all axes have been homed
 
 //#define UNKNOWN_Z_NO_RAISE      // Don't raise Z (lower the bed) if Z is "unknown." For beds that fall when Z is powered off.
 
