@@ -826,7 +826,6 @@ def make_config(PRINTER, TOOLHEAD):
     # Whether endstops are inverting
     NORMALLY_CLOSED_ENDSTOP                              = 0
     NORMALLY_OPEN_ENDSTOP                                = 1
-    NO_ENDSTOP                                           = 1
 
     if USE_EINSY_RAMBO or USE_BTT_002:
         MARLIN["Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN"]     = False
@@ -1198,7 +1197,7 @@ def make_config(PRINTER, TOOLHEAD):
     ]
 
     if TOOLHEAD_IS_UNIVERSAL and USE_Z_SCREW:
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NO_ENDSTOP
+        MARLIN["USE_XMAX_PLUG"]                          = False
         MARLIN["NO_MOTION_BEFORE_HOMING"]                = True
         ADAPTER_X_OFFSET                                 = 0
         ADAPTER_Y_OFFSET                                 = -2.0 if IS_TAZ else -7.2
@@ -1209,7 +1208,7 @@ def make_config(PRINTER, TOOLHEAD):
         "Quiver_TAZPro" in PRINTER or
         "Hibiscus_Mini2" in PRINTER
     ):
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NO_ENDSTOP
+        MARLIN["USE_XMAX_PLUG"]                          = False
         MARLIN["NO_MOTION_BEFORE_HOMING"]                = True
         ADAPTER_X_OFFSET                                 = 29
         ADAPTER_Y_OFFSET                                 = -8
@@ -1240,7 +1239,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SWITCHING_NOZZLE"]                       = True
         MARLIN["SWITCHING_NOZZLE_E1_SERVO_NR"]           = 1
         MARLIN["SWITCHING_NOZZLE_SERVO_ANGLES"]          = [55, 120]
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NO_ENDSTOP
+        MARLIN["USE_XMAX_PLUG"]                          = False
         MARLIN["TEMP_SENSOR_1"]                          = 5
 
 ############################### OTHER TOOLHEADS ###############################
