@@ -77,6 +77,7 @@ build_config custom    Hibiscus_Mini2TouchSD                     CecropiaSilk_Si
 build_config custom    Hibiscus_Mini2TouchUSB                    CecropiaSilk_SingleExtruderAeroV2
 
 build_config custom    Guava_TAZ4                                Buda_SingleExtruder
+build_config custom    Guava_TAZ4BLTouch                         Buda_SingleExtruder
 build_config custom    Guava_TAZ4Archim                          Buda_SingleExtruder
 build_config custom    Guava_TAZ4ArchimBLTouch                   Buda_SingleExtruder
 

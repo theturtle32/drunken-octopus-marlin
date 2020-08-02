@@ -25,6 +25,7 @@ PRINTER_CHOICES = [
     "Gladiola_MiniLCD",
     "Hibiscus_Mini2",
     "Guava_TAZ4",
+    "Guava_TAZ4BLTouch",
     "Guava_TAZ4Archim",
     "Guava_TAZ4ArchimBLTouch",
     "Juniper_TAZ5",
