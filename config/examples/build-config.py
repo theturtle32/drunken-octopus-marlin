@@ -803,6 +803,8 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MOTHERBOARD"]                            = 'BOARD_ARCHIM2'
         MARLIN["CONTROLLER_FAN_PIN"]                     = 'FAN1_PIN'
         MARLIN["SERIAL_PORT"]                            = -1
+        if USE_REPRAP_LCD_DISPLAY:
+            MARLIN["SERIAL_PORT_2"]                      = 0
         MARLIN["SPI_SPEED"]                              = 'SPI_SIXTEENTH_SPEED'
 
         # Force Archim to use same USB ID as Mini-Rambo and Rambo when flashed
@@ -851,7 +853,8 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MOTHERBOARD"]                            = 'BOARD_RAMBO'
         MARLIN["CONTROLLER_FAN_PIN"]                     = 'FAN2_PIN' # Digital pin 2
         MARLIN["SERIAL_PORT"]                            = 0
-        MARLIN["SERIAL_PORT_2"]                          = 1
+        if USE_REPRAP_LCD_DISPLAY:
+            MARLIN["SERIAL_PORT_2"]                      = 1
         MARLIN["SPI_SPEED"]                              = 'SPI_FULL_SPEED'
 
     if ENABLED("USB_FLASH_DRIVE_SUPPORT"):
