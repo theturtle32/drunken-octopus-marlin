@@ -820,6 +820,8 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MOTHERBOARD"]                            = 'BOARD_EINSY_RETRO'
         MARLIN["CONTROLLER_FAN_PIN"]                     = 'FAN1_PIN' # Digital pin 6
         MARLIN["SERIAL_PORT"]                            = 0
+        if USE_REPRAP_LCD_DISPLAY:
+            MARLIN["SERIAL_PORT_2"]                      = 2
         if USE_TOUCH_UI:
             MARLIN["SPI_SPEED"]                          = 'SPI_SIXTEENTH_SPEED'
         else:
@@ -847,6 +849,8 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MOTHERBOARD"]                            = 'BOARD_MINIRAMBO'
         MARLIN["CONTROLLER_FAN_PIN"]                     = 'FAN1_PIN' # Digital pin 6
         MARLIN["SERIAL_PORT"]                            = 0
+        if USE_REPRAP_LCD_DISPLAY:
+            MARLIN["SERIAL_PORT_2"]                      = 2
         MARLIN["SPI_SPEED"]                              = 'SPI_FULL_SPEED'
 
     elif IS_TAZ:
