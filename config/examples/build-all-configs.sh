@@ -163,3 +163,4 @@ build_config custom    Experimental_MiniEinsyLCD                 BandedTiger_Har
 vendor=SynDaver
 
 build_config standard  SynDaver_AXI                              E3D_Hermera
+build_config custom    SynDaver_AXI_2                            E3D_Hermera

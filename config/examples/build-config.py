@@ -54,6 +54,7 @@ PRINTER_CHOICES = [
 
     # Other Printers or Experimental Configurations
     "SynDaver_AXI",
+    "SynDaver_AXI_2",
     "Experimental_TouchDemo",
     "Experimental_MiniEinsyLCD"
 ]
@@ -687,9 +688,14 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = True
         MARLIN["SDSUPPORT"]                              = True
         MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
-        MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("SynDaver AXI")
-        MARLIN["SHORT_BUILD_VERSION"]                    = C_STRING("2.x.x (1e32df)")
-        MARLIN["TOUCH_UI_VERSION"]                       = '\"Release: 3 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+        if "SynDaver_AXI_2" in PRINTER:
+            MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("SynDaver AXI 2")
+            MARLIN["SHORT_BUILD_VERSION"]                    = C_STRING("2.x.x (1e32df)")
+            MARLIN["TOUCH_UI_VERSION"]                       = '\"Release: beta (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+        else:
+            MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("SynDaver AXI")
+            MARLIN["SHORT_BUILD_VERSION"]                    = C_STRING("2.x.x (1e32df)")
+            MARLIN["TOUCH_UI_VERSION"]                       = '\"Release: 3 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
         MARLIN["EMI_MITIGATION"]                         = True
@@ -1561,6 +1567,15 @@ def make_config(PRINTER, TOOLHEAD):
         STANDARD_X_BED_SIZE                              = 280
         STANDARD_Y_BED_SIZE                              = 280
 
+    elif "SynDaver_AXI_2" in PRINTER:
+        STANDARD_X_MAX_POS                               = 288
+        STANDARD_X_MIN_POS                               = -49
+        STANDARD_Y_MAX_POS                               = 303
+        STANDARD_Y_MIN_POS                               = -55
+
+        STANDARD_X_BED_SIZE                              = 280
+        STANDARD_Y_BED_SIZE                              = 280
+        
     elif "SynDaver_AXI" in PRINTER:
         STANDARD_X_MAX_POS                               = 288
         STANDARD_X_MIN_POS                               = -49
@@ -1801,6 +1816,8 @@ def make_config(PRINTER, TOOLHEAD):
     if USE_Z_BELT:
       if IS_MINI:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING("M17 Z")
+      elif "SynDaver_AXI_2" in PRINTER:
+        MARLIN["STARTUP_COMMANDS"]                       = C_STRING("G29 L1\nM280 P0 S60")
       elif "SynDaver_AXI" in PRINTER:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING("G29 L1\n" + AXIS_LEVELING_COMMANDS + "M280 P0 S60")
       else:
@@ -1899,8 +1916,8 @@ def make_config(PRINTER, TOOLHEAD):
     if ENABLED("FILAMENT_RUNOUT_SENSOR"):
         MARLIN["NUM_RUNOUT_SENSORS"]                     = MARLIN["EXTRUDERS"]
         MARLIN["FILAMENT_RUNOUT_SCRIPT"]                 = C_STRING("M25 P2\n")
-        MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 0 if PRINTER in ["SynDaver_AXI"] else 14
-        if not PRINTER in ["Quiver_TAZPro", "SynDaver_AXI"]:
+        MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 0 if "SynDaver_AXI" in PRINTER else 14
+        if not PRINTER in ["Quiver_TAZPro", "SynDaver_AXI", "SynDaver_AXI_2"]:
           MARLIN["FILAMENT_RUNOUT_ENABLE_DEFAULT"]       = "false"
         MARLIN["ACTION_ON_FILAMENT_RUNOUT"]              = C_STRING("pause: filament_runout")
         MARLIN["TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS"]   = USE_TOUCH_UI
@@ -2425,7 +2442,9 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["DEFAULT_TRAVEL_ACCELERATION"]        = 500
 
         if not "NOZZLE_TO_PROBE_OFFSET" in MARLIN:
-            if "SynDaver_AXI" in PRINTER:
+            if "SynDaver_AXI_2" in PRINTER:
+                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [37.5, 38.25, -2.35]
+            elif "SynDaver_AXI" in PRINTER:
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [43.5, 23.75, -2.35]
             elif MARLIN["BLTOUCH"] and "Guava_TAZ4" in PRINTER:
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [-54, 0, -4.0]
@@ -2462,6 +2481,12 @@ def make_config(PRINTER, TOOLHEAD):
         else:
             MARLIN["DEFAULT_MAX_FEEDRATE"]               = [300, 300, 3, 25] # (mm/sec)
             MARLIN["DEFAULT_MAX_ACCELERATION"]           = [9000,9000,100,9000]
+
+    elif "SynDaver_AXI_2" in PRINTER:
+        Z_STEPS                                          = 100
+        Z_MICROSTEPS                                     = 16
+        MARLIN["DEFAULT_MAX_FEEDRATE"]                   = [300, 300, 30, 25] # (mm/sec)
+        MARLIN["DEFAULT_MAX_ACCELERATION"]               = [9000,9000,200,9000]
 
     elif IS_TAZ and USE_Z_BELT:
         Z_STEPS                                          = 500
@@ -2663,6 +2688,10 @@ def invalid_toolhead(str):
     parser.error(str + "\n\nToolhead must be one of:\n\n   " + "\n   ".join(TOOLHEAD_CHOICES) + "\n")
 
 def match_selection(str, list):
+    # Try an exact match
+    if str in list:
+        return str;
+    # Do a fuzzy match
     matches = [x for x in list if re.search(str, x, re.IGNORECASE)]
     if len(matches) > 1:
       # Try narrowing down the choices
