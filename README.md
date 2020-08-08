@@ -2,23 +2,21 @@
 
 # *Drunken Octopus* Marlin: An Alternative (Unofficial) Firmware for LulzBot Printers
 
-Hello. My name is Marcio. I was the Firmware Engineer at LulzBot prior to the massive [layoff of 2019] that decimated the staff and left nearly one hundred people out of a job.
+Hello. My name is Marcio. I was the Software Engineer at LulzBot prior to the massive [layoff of 2019] that decimated the staff and left nearly one hundred people out of a job.
 
-At the time I was let go, I was a [major contributor] to the upcoming version of Marlin, Marlin 2.0.
-
-When Marlin 2.0 comes out, it will bring a host of new features and benefits. But ensuring Marlin 2.0 remains compatible with LulzBot printers requires someone to work with the Marlin developers so that they know our needs. During my nearly three years at LulzBot, I developed a close working relationship with several Marlin developers and helped make sure LulzBot printers were always well supported.
+At the time I was let go, I was a [major contributor] to Marlin. Ensuring Marlin remains compatible with LulzBot printers requires someone to work with the Marlin developers so that they know our needs. During my nearly three years at LulzBot, I developed a close working relationship with several Marlin developers and helped make sure LulzBot printers were always well supported.
 
 I've set up *Drunken Octopus* Marlin to continue that work of making sure users of LulzBot printers will not be left behind.
 
 ## Who can benefit from *Drunken Octopus* Marlin?
 
-This firmware is for users who want the very latest firmware and features for their LulzBot printers and **are willing to take the risks associated with running development firmware**. It is also for people who want to modify or upgrade their LulzBot printers.
+This firmware is for users who want the very latest firmware and features for their LulzBot printers and **are willing to take the risks associated with running development firmware**. It is also for people who want to modify or upgrade their LulzBot printers with new features or electronics.
 
 LulzBot made a conservative decision of keeping most customers on older but internally tested firmware. They turned off certain features for the comfort of new users. On the contrary, *Drunken Octopus* will charge right ahead, taking it all in, because that is how he likes to roll! :sunglasses:
 
 ## *Drunken Octopus* comes in up to 196 different flavors!
 
-If you are savvy with electrical and mechanical things, *Drunken Octopus* will give you the software to match any hardware upgrades you make to your printer. See the [FAQ] for a complete list of supported printers and upgrades!
+If you are savvy with electrical and mechanical things, *Drunken Octopus* will give you the software to match any hardware upgrades you make to your printer. See the [Wiki] for a complete list of supported printers and upgrades!
 
 # How can you help make *Drunken Octopus* a success?
 
@@ -27,11 +25,11 @@ If you are savvy with electrical and mechanical things, *Drunken Octopus* will g
 Working on Marlin used to be a paid, full-time job for me, but without LulzBot to support me, I will have
 to work on my own time using my own resources. In exchange for your help, I hope to create content, such as printer upgrade guides and other tutorials. I learned a *ton* at the R&D department at LulzBot and I have much I want to teach you!
 
-Even if you are unable to contribute, I can still use your help. See the [FAQ] for a list of non-monetary ways to chip in!
+Even if you are unable to contribute, I can still use your help. See the [contributing] page for a list of non-monetary ways to chip in!
 
 ## Got more questions?
 
-See the [FAQ] for information on the following topics:
+See the [Wiki] for information on the following topics:
 
 - What printers can I use with *Drunken Octopus*?
 - How can you contribute to *Drunken Octopus*?
@@ -59,4 +57,5 @@ While we can't prevent the use of this code in products (3D printers, CNC, etc.)
 [Patreon page]: https://www.patreon.com/marciot "Marcio's Patreon Page"
 [LulzBot]: https://www.lulzbot.com "www.lulzbot.com"
 [major contributor]: https://github.com/marcio-ao
-[FAQ]: /docs/FAQ.md
+[Wiki]: https://github.com/marciot/drunken-octopus-marlin/wiki
+[contributing]: https://github.com/marciot/drunken-octopus-marlin/wiki/Contributing
