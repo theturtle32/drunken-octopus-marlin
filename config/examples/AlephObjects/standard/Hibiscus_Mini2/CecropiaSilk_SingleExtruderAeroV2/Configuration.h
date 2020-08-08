@@ -110,7 +110,7 @@
  * Select a secondary serial port on the board to use for communication with the host.
  * :[-1, 0, 1, 2, 3, 4, 5, 6, 7]
  */
-//#define SERIAL_PORT_2 -1
+#define SERIAL_PORT_2 2 // <-- changed
 
 /**
  * This setting determines the communication speed of the printer.
@@ -1090,7 +1090,7 @@
 
 // @section homing
 
-#define NO_MOTION_BEFORE_HOMING // <-- changed:  Inhibit movement until all axes have been homed
+//#define NO_MOTION_BEFORE_HOMING // Inhibit movement until all axes have been homed
 
 //#define UNKNOWN_Z_NO_RAISE      // Don't raise Z (lower the bed) if Z is "unknown." For beds that fall when Z is powered off.
 

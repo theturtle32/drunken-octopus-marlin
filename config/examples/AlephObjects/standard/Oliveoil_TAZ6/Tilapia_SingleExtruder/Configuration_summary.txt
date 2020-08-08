@@ -140,6 +140,7 @@
 #define SCROLL_LONG_FILENAMES
 #define SDSUPPORT
 #define SERIAL_PORT 0
+#define SERIAL_PORT_2 1
 #define SHOW_CUSTOM_BOOTSCREEN
 #define SOFT_PWM_SCALE 4
 #define SOURCE_CODE_URL "https://github.com/marciot/drunken-octopus-marlin"

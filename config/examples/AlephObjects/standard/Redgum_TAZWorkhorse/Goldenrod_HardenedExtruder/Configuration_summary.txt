@@ -135,7 +135,6 @@
 #define NOZZLE_PARK_POINT {100, 307, 20}
 #define NOZZLE_TO_PROBE_OFFSET {0, 0, -1.2}
 #define NO_FAN_SLOWING_IN_PID_TUNING
-#define NO_MOTION_BEFORE_HOMING
 #define NO_VOLUMETRICS
 #define NO_WORKSPACE_OFFSETS
 #define NUM_RUNOUT_SENSORS 1
@@ -162,6 +161,7 @@
 #define SD_FINISHED_RELEASECOMMAND "M84 X Y E"
 #define SD_FINISHED_STEPPERRELEASE false
 #define SERIAL_PORT 0
+#define SERIAL_PORT_2 1
 #define SHOW_CUSTOM_BOOTSCREEN
 #define SOFT_PWM_SCALE 4
 #define SOURCE_CODE_URL "https://github.com/marciot/drunken-octopus-marlin"
