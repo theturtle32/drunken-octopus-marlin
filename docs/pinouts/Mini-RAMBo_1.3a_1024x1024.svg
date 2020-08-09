@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="stylesheet.css" ?>
+<!--
+drunken-octopus-pin-reference
+Copyright (C) 2020  Marcio Teixeira
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<svg width="1024" height="1024"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <image href="Mini-RAMBo_1.3a_1024x1024.jpg" height="1024" width="1024"/>
+  <circle cx="600" cy="246" r="7" class="pin esp3d_tx"><title>To ESP3D RX</title></circle>
+  <circle cx="600" cy="267" r="7" class="pin esp3d_rx"><title>To ESP3D TX</title></circle>
+
+  <circle cx="600" cy="288" r="7" class="pwr ground_pin"><title>Ground</title></circle>
+  <circle cx="620" cy="246" r="7" class="pwr ground_pin"><title>Ground</title></circle>
+  <circle cx="600" cy="225" r="7" class="pwr vcc_5_0"><title>Power 5v</title></circle>
+  <circle cx="620" cy="225" r="7" class="pwr vcc_5_0"><title>Power 5v</title></circle>
+  
+  <circle cx="620" cy="288" r="7" class="pin servo0_pin"><title>BLTouch Servo</title></circle>
+  <circle cx="620" cy="309" r="7" class="pin fil_runout_pin"><title>Filament Runout Sensor</title></circle>
+
+  <circle cx="398" cy="240" r="7" class="pin z_min_pin"><title>Z-Min/Probe</title></circle>
+  <circle cx="375" cy="240" r="7" class="pwr ground_pin"><title>Ground</title></circle>
+  <circle cx="353" cy="240" r="7" class="pwr vcc_5_0"><title>Power 5v</title></circle>
+  
+  <circle cx="308" cy="240" r="7" class="pin y_min_pin"><title>Y-Min</title></circle>
+  <circle cx="285" cy="240" r="7" class="pwr ground_pin"><title>Ground</title></circle>
+  <circle cx="263" cy="240" r="7" class="pwr vcc_5_0"><title>Power 5v</title></circle>
+  
+  <circle cx="218" cy="240" r="7" class="pin x_min_pin"><title>X-Min</title></circle>
+  <circle cx="195" cy="240" r="7" class="pwr ground_pin"><title>Ground</title></circle>
+  <circle cx="172" cy="240" r="7" class="pwr vcc_5_0"><title>Power 5v</title></circle>
+  
+  <circle cx="353" cy="295" r="7" class="pin z_max_pin"><title>Z-Max</title></circle>
+  <circle cx="375" cy="295" r="7" class="pwr ground_pin"><title>Ground</title></circle>
+  <circle cx="398" cy="295" r="7" class="pwr vcc_5_0"><title>Power 5v</title></circle>
+  
+  <circle cx="263" cy="295" r="7" class="pin y_max_pin"><title>Y-Max</title></circle>
+  <circle cx="285" cy="295" r="7" class="pwr ground_pin"><title>Ground</title></circle>
+  <circle cx="308" cy="295" r="7" class="pwr vcc_5_0"><title>Power 5v</title></circle>
+  
+  <circle cx="172" cy="295" r="7" class="pin x_max_pin"><title>X-Max</title></circle>
+  <circle cx="195" cy="295" r="7" class="pwr ground_pin"><title>Ground</title></circle>
+  <circle cx="218" cy="295" r="7" class="pwr vcc_5_0"><title>Power 5v</title></circle>
+  
+  <rect x="580" y="390" width="24" height="45" class="connector therm_e0_pin"><title>Hot End Thermistor</title></rect>
+  <rect x="580" y="520" width="24" height="45" class="connector therm_bed_pin"><title>Bed Thermistor</title></rect>
+  
+  <rect x="660" y="400" width="45" height="24" class="connector case_fan_pin"><title>Case Fan</title></rect>
+  <rect x="660" y="440" width="45" height="24" class="connector hotend_fan_pin"><title>Hot End Blower</title></rect>
+  
+  <rect x="915" y="280" width="40" height="75" class="connector heat_e0_pin"><title>Hot End Heater</title></rect>
+  <rect x="915" y="370" width="40" height="75" class="connector heat_bed_pin"><title>Bed Heater</title></rect>
+
+  <rect x="150" y="760" width="91" height="22" class="connector x_stepper_pin"><title>X Stepper</title></rect>
+  <rect x="275" y="760" width="91" height="22" class="connector y_stepper_pin"><title>Y Stepper</title></rect>
+  <rect x="390" y="760" width="91" height="22" class="connector z_stepper_pin"><title>Z Stepper</title></rect>
+  <rect x="390" y="702" width="91" height="22" class="connector z_stepper_pin"><title>Z Stepper</title></rect>
+  <rect x="505" y="760" width="91" height="22" class="connector e0_stepper_pin"><title>Hot End Stepper</title></rect>
+
+  <circle cx="715" cy="690" r="20" class="pwr ground_pin"><title>Ground (Bed Power In)</title></circle>
+  <circle cx="760" cy="690" r="20" class="pwr vcc_24"><title>24v (Bed Power In)</title></circle>
+
+  <circle cx="805" cy="690" r="20" class="pwr ground_pin"><title>Ground (Power In)</title></circle>
+  <circle cx="850" cy="690" r="20" class="pwr vcc_24"><title>24v (Power In)</title></circle>
+
+  <rect x="450" y="230" width="112" height="42" class="connector lcd_swspi"><title>GLCD EXP1</title></rect>
+  <rect x="450" y="310" width="112" height="42" class="connector lcd_hwspi"><title>GLCD EXP2</title></rect>
+</svg>

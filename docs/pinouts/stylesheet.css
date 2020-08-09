@@ -1,0 +1,77 @@
+.pin {
+    stroke: white;
+    stroke-width: 2;
+    animation: pulse 1s infinite;
+    animation-direction: alternate;
+}
+
+.pwr {
+    stroke: red;
+    stroke-width: 5;
+    opacity: 75%;
+    animation: pulse 1s infinite;
+    animation-direction: alternate;
+}
+
+.connector {
+    stroke: white;
+    stroke-width: 3;
+    opacity: 75%;
+    animation: pulse 1s infinite;
+    animation-direction: alternate;
+    rx: 5px;
+    ry: 5px;
+}
+
+.vcc_3_3         {fill: orange;}
+.vcc_5_0         {fill: red;}
+.vcc_24          {fill: white;}
+.fil_runout_pin  {fill: magenta;}
+.fil_runout2_pin {fill: orange;}
+.esp3d_tx        {fill: yellow; display: block;}
+.esp3d_rx        {fill: white; display: block;}
+.servo0_pin      {fill: blue;}
+.servo1_pin      {fill: violet;}
+.neopixel_pin    {fill: gray;}
+.ground_pin      {fill: black; stroke: darkGray;}
+.erase_pin       {fill: white;}
+.x_min_pin       {fill: darkGreen;}
+.y_min_pin       {fill: darkGreen;}
+.z_min_pin       {fill: lightGreen;}
+.x_max_pin       {fill: darkGreen;}
+.y_max_pin       {fill: darkGreen;}
+.z_max_pin       {fill: darkGreen;}
+.lcd_display     {fill: hsla(  0, 100%, 30%, 0.3);}
+.lcd_swspi       {fill: hsla(  0, 100%, 30%, 0.3);}
+.lcd_hwspi       {fill: hsla(180, 100%, 30%, 0.3);}
+.therm_e0_pin    {fill: hsla(60, 100%, 50%, 0.3);}
+.therm_e1_pin    {fill: hsla(60, 100%, 50%, 0.3);}
+.therm_bed_pin   {fill: hsla(30, 100%, 50%, 0.3);}
+.heat_e0_pin     {fill: hsla(60, 100%, 50%, 0.5);}
+.heat_e1_pin     {fill: hsla(60, 100%, 50%, 0.5);}
+.heat_bed_pin    {fill: hsla(30, 100%, 50%, 0.5);}
+.fan_e0_pin      {fill: hsla(240, 100%, 70%, 0.5);}
+.fan_e1_pin      {fill: hsla(240, 100%, 70%, 0.5);}
+.case_fan_pin    {fill: hsla(240, 100%, 70%, 0.5);}
+.x_stepper_pin   {fill: hsla(0,   100%, 50%, 0.5);}
+.y_stepper_pin   {fill: hsla(120, 100%, 50%, 0.5);}
+.z_stepper_pin   {fill: hsla(240, 100%, 50%, 0.5);}
+.e0_stepper_pin  {fill: hsla(60, 100%, 50%, 0.5);}
+.e1_stepper_pin  {fill: hsla(60, 100%, 50%, 0.5);}
+.5v_heatsink_fan {fill: hsla(240, 100%, 70%, 0.5);}
+.5v_header       {fill: hsla(240, 100%, 70%, 0.5);}
+
+.spi_sclk_pin    {fill: orange;}
+.spi_miso_pin    {fill: orange;}
+.spi_mosi_pin    {fill: orange;}
+.spi_sdcs_pin    {fill: orange;}
+.lcd_gpio        {fill: orange;}
+
+@keyframes pulse {
+    from {
+        opacity: 0%;
+    }
+    to {
+        opacity: 75%;
+    }
+}
