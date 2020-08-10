@@ -2308,6 +2308,7 @@
 #define CURA_LE_RUNOUT_HANDLING_WORKAROUND // <-- changed
 //#define FILAMENT_RUNOUT_ENABLE_DEFAULT
 //#define FIL_RUNOUT_PIN
+//#define SERVO0_PIN
 #define ACTION_ON_FILAMENT_RUNOUT "pause: filament_runout" // <-- changed
 //#define SWAP_E0_AND_E1
 //#define E_MIN_PIN

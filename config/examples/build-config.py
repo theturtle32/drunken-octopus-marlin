@@ -197,8 +197,8 @@ def make_config(PRINTER, TOOLHEAD):
     MARLIN["SDSUPPORT"]                                  = False
     MARLIN["BLTOUCH"]                                    = "BLTouch" in PRINTER
     MARLIN["SHOW_CUSTOM_BOOTSCREEN"]                     = True
+    MARLIN["FILAMENT_RUNOUT_SENSOR"]                     = True
     if "HallEffect" in PRINTER:
-      MARLIN["FILAMENT_RUNOUT_SENSOR"]                   = True
       MARLIN["FILAMENT_MOTION_SENSOR"]                   = True
 
     # Use CLASSIC_JERK as the default since it seems JUNC_DEVIATION has issues
@@ -312,7 +312,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MACHINE_UUID"]                           = C_STRING("a952577d-8722-483a-999d-acdc9e772b7b")
         MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = True
         MARLIN["SDSUPPORT"]                              = True
-        MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
         MARLIN["FILAMENT_MOTION_SENSOR"]                 = True
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
@@ -342,7 +341,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("5ee798fb-4062-4d35-8224-5e846ffb45a5")
         MARLIN["SDSUPPORT"]                              = True
-        MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
 
     if "Guava_TAZ4Archim" in PRINTER:
         IS_TAZ                                           = True
@@ -359,7 +357,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["MACHINE_UUID"]                           = C_STRING("c3255c96-4097-4884-8ed0-ded2ff9bae61")
-        MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
         MARLIN["SDSUPPORT"]                              = True
 
     if "Juniper_TAZ5Archim" in PRINTER:
@@ -377,7 +374,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["MACHINE_UUID"]                           = C_STRING("c3255c96-4097-4884-8ed0-ded2ff9bae61")
-        MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
         MARLIN["SDSUPPORT"]                              = True
 
     if "Redgum_TAZWorkhorseArchim" in PRINTER:
@@ -400,7 +396,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("fd546ced-5941-44e4-8d17-5d494bfc2ca3")
         MARLIN["SDSUPPORT"]                              = True
-        MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
 
     if "Redgum_TAZWorkhorseArchimTouchUSB" in PRINTER:
         IS_TAZ                                           = True
@@ -423,7 +418,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MACHINE_UUID"]                           = C_STRING("fd546ced-5941-44e4-8d17-5d494bfc2ca3")
         MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = True
         MARLIN["SDSUPPORT"]                              = True
-        MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
         # Touch LCD configuration
@@ -648,7 +642,6 @@ def make_config(PRINTER, TOOLHEAD):
         # bed washers will use Z_MIN pin (i.e. bed washers
         # and homing button wired together)
         BED_WASHERS_PIN                                  = 'SERVO0_PIN'
-        MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ 6")
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["ENDSTOPS_ALWAYS_ON_DEFAULT"]             = True
@@ -687,7 +680,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MACHINE_UUID"]                           = C_STRING("a952577d-8722-483a-999d-acdc9e772b7b")
         MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = True
         MARLIN["SDSUPPORT"]                              = True
-        MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
         if "SynDaver_AXI_2" in PRINTER:
             MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("SynDaver AXI 2")
             MARLIN["SHORT_BUILD_VERSION"]                    = C_STRING("2.x.x (1e32df)")
@@ -767,7 +759,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MACHINE_UUID"]                           = C_STRING("b68ff322-3328-4543-bd93-bb8d8eb0c891")
         MARLIN["LIGHTWEIGHT_UI"]                         = True
         # Put filament sensor on Y_MIN
-        MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
         MARLIN["USE_YMIN_PLUG"]                          = False
         MARLIN["FIL_RUNOUT_PIN"]                         = 11 # Einsy Rambo Y-Min
 
@@ -826,6 +817,8 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MOTHERBOARD"]                            = 'BOARD_EINSY_RETRO'
         MARLIN["CONTROLLER_FAN_PIN"]                     = 'FAN1_PIN' # Digital pin 6
         MARLIN["SERIAL_PORT"]                            = 0
+        MARLIN["SERVO0_PIN"]                             = 76
+        MARLIN["FIL_RUNOUT_PIN"]                         = 62
         if USE_REPRAP_LCD_DISPLAY:
             MARLIN["SERIAL_PORT_2"]                      = 2
         if USE_TOUCH_UI:
@@ -855,6 +848,8 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MOTHERBOARD"]                            = 'BOARD_MINIRAMBO'
         MARLIN["CONTROLLER_FAN_PIN"]                     = 'FAN1_PIN' # Digital pin 6
         MARLIN["SERIAL_PORT"]                            = 0
+        MARLIN["SERVO0_PIN"]                             = 20
+        MARLIN["FIL_RUNOUT_PIN"]                         = 84
         if USE_REPRAP_LCD_DISPLAY:
             MARLIN["SERIAL_PORT_2"]                      = 2
         MARLIN["SPI_SPEED"]                              = 'SPI_FULL_SPEED'
