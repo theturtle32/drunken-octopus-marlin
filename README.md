@@ -2,9 +2,9 @@
 
 # *Drunken Octopus* Marlin: An Alternative (Unofficial) Firmware for LulzBot Printers
 
-Hello. My name is Marcio. I was the Software Engineer at LulzBot prior to the massive [layoff of 2019] that decimated the staff and left nearly one hundred people out of a job.
+Hello. My name is Marcio. I was the Software Engineer at LulzBot prior to the [layoff of 2019] that left nearly one hundred people out of a job.
 
-At the time I was let go, I was a [major contributor] to Marlin. Ensuring Marlin remains compatible with LulzBot printers requires someone to work with the Marlin developers so that they know our needs. During my nearly three years at LulzBot, I developed a close working relationship with several Marlin developers and helped make sure LulzBot printers were always well supported.
+At the time I was let go, I was a [major contributor] to Marlin. Ensuring Marlin remains compatible with LulzBot printers requires someone to work with the Marlin developers so that they know our needs. During my nearly three years at LulzBot, I helped make sure LulzBot printers were always well supported.
 
 I've set up *Drunken Octopus* Marlin to continue that work of making sure users of LulzBot printers will not be left behind.
 
@@ -12,7 +12,7 @@ I've set up *Drunken Octopus* Marlin to continue that work of making sure users 
 
 This firmware is for users who want the very latest firmware and features for their LulzBot printers and **are willing to take the risks associated with running development firmware**. It is also for people who want to modify or upgrade their LulzBot printers with new features or electronics.
 
-LulzBot made a conservative decision of keeping most customers on older but internally tested firmware. They turned off certain features for the comfort of new users. On the contrary, *Drunken Octopus* will charge right ahead, taking it all in, because that is how he likes to roll! :sunglasses:
+Factory LulzBot firmware may not be current or may have certain features turned off for the comfort of new users. On the contrary, *Drunken Octopus* will charge right ahead, taking it all in, because that is how he likes to roll! :sunglasses:
 
 ## *Drunken Octopus* comes in up to 196 different flavors!
 
@@ -20,10 +20,9 @@ If you are savvy with electrical and mechanical things, *Drunken Octopus* will g
 
 # How can you help make *Drunken Octopus* a success?
 
-:heart: :heart: :heart: **To help me the most, please consider contributions via my [Patreon page]**. :heart: :heart: :heart:
+:heart: **To help me the most, please consider contributions via my [Patreon page]**. :heart:
 
-Working on Marlin used to be a paid, full-time job for me, but without LulzBot to support me, I will have
-to work on my own time using my own resources. In exchange for your help, I hope to create content, such as printer upgrade guides and other tutorials. I learned a *ton* at the R&D department at LulzBot and I have much I want to teach you!
+In exchange for your help, I hope to create content, such as printer upgrade guides and other tutorials. I learned a *ton* at the R&D department at LulzBot and I have much I want to teach you!
 
 Even if you are unable to contribute, I can still use your help. See the [contributing] page for a list of non-monetary ways to chip in!
 
