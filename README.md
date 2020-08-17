@@ -14,7 +14,7 @@ Default firmware may not be current or may have certain features turned off for 
 
 ## *Drunken Octopus* comes in up to 196 different flavors!
 
-If you are savvy with electrical and mechanical things, *Drunken Octopus* will give you the software to match any hardware upgrades you make to your printer. See the [Wiki] for a complete list of supported printers and upgrades!
+If you are savvy with electrical and mechanical things, *Drunken Octopus* will give you the software to match any hardware upgrades you make to your printer. See the [FAQ] for a complete list of supported printers!
 
 # How can you help make *Drunken Octopus* a success?
 
