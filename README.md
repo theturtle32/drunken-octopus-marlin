@@ -1,42 +1,34 @@
 ﻿![alt text][logo]
 
-# *Drunken Octopus* Marlin: An Alternative (Unofficial) Firmware for AlephObjects Printers
+# *Drunken Octopus* Marlin: An Alternative (Unofficial) Firmware for Aleph Objects Printers and Drivatives
 
-Hello. I was the Software Engineer at AlephObjects prior to the [layoff of 2019] that left nearly one hundred people out of a job.
+*Drunken Octopus* is a fork of the firmware that was used on Aleph Objects printers (a.k.a. LulzBot) prior to the [layoff of 2019] and the subsequent take over and [relocation of the company].
 
-At the time I was let go, I was a [major contributor] to Marlin. Today, I still own a number of these printers. I've set up *Drunken Octopus* Marlin as a fork of the then current firmware to continue to build firmware for these machines with latest changes from Marlin upstream.
+By forking the firmware as it existed at that point in time, I hope provide to provide a resource to people who, like myself, still use Aleph Objects printers in some capacity. This fork also supports newer printers [that are derived from those original designs] as well as users who want to take their printers beyond the original configuration.
 
 ## Who can benefit from *Drunken Octopus* Marlin?
 
-This firmware is for users who want the very latest firmware and features for their AlephObjects printers and **are willing to take the risks associated with running development firmware**. It is also for people who want to modify their AlephObjects printers into custom configurations.
+This firmware is for users who want the very latest firmware and features for their existing printers and **are willing to take the risks associated with running development firmware**. It is also for people who are tech savvy and want to experiment with custom and unusual configurations.
 
-Default firmware may not be current or may have certain features turned off for the comfort of new users. On the contrary, *Drunken Octopus* will charge right ahead, taking it all in, because that is how he likes to roll! :sunglasses:
+## Where can I find information about upgrading my printer?
 
-## *Drunken Octopus* comes in up to 196 different flavors!
+If you have a pretty good idea of what you want to do, a good place to start is the [wiring guide] for *Drunken Octopus Marlin*.
 
-If you are savvy with electrical and mechanical things, *Drunken Octopus* will give you the software to match any hardware upgrades you make to your printer. See the [Wiki] for a complete list of supported printers and upgrades!
+If you want more help and specifics, a community of enthusiasts has begun to form around *Drunken Octopus*. These enthusiasts are putting together guides, documentation and resources at [drunkenoctop.us].
 
-# How can you help make *Drunken Octopus* a success?
+# How can you support my work?
 
-:heart: **To help me the most, please consider contributions via my [Patreon page]**. :heart:
+:heart: **If you would to support my work on open-source projects such as this one, please consider contributions via my [Patreon page]**. :heart:
 
-In exchange for your help, I hope to create content, such as printer upgrade guides and other tutorials. I learned a *ton* at the R&D department at AlephObjects and I have much I want to teach you!
+While at AlephObjects, I was a [major contributor] to Marlin and today I continue to do work on the following areas:
 
-Even if you are unable to contribute, I can still use your help. See the [contributing] page for a list of non-monetary ways to chip in!
+* Maintaining the *Drunken Octopus Marlin*, including the build and configuration scripts
+* Keeping *Drunken Octopus Marlin*s up-to-date with upstream changes and fixing bugs as they occur
+* Maintaining the touch interface that is now used in [many] [different] [printers]
+* Contributing code and bug fixes to other open-source projects
 
-## Got more questions?
-
-See the [FAQ] for information on the following topics:
-
-- What printers can I use with *Drunken Octopus*?
-- How can you contribute to *Drunken Octopus*?
-- How does *Drunken Octopus* differ from factory Marlin?
-- How does *Drunken Octopus* differ from Marlin upstream?
-- Will *Drunken Octopus* damage my printer?
-- What if I want my printer to remain sober?
-- Will *Drunken Octopus* binaries and pre-build configuration files be provided?
-- How do I compile *Drunken Octopus* from source?
-- Where can I find parts to upgrade my printer?
+All Patreon supporters will receive pre-compiled firmware for hundreds of different *Drunken Octopus Marlin* configurations.
+Patrons may also receive additional member-only perks.
 
 # License
 
@@ -46,10 +38,14 @@ While we can't prevent the use of this code in products (3D printers, CNC, etc.)
 
 **Photo Credits:** Coat hanger photograph by Ari Sytner. Used with permission.
 
-
 [logo]: https://github.com/marciot/drunken-octopus-marlin/raw/master/images/drunken-octopus-small.jpg "Drunken Octopus Logo"
 [layoff of 2019]: https://www.fabbaloo.com/blog/2019/10/12/the-end-of-lulzbot "The End of LulzBot (?)"
+[relocation of the company]: https://3dprintingindustry.com/news/lulzbot-to-move-to-north-dakota-following-fame-3d-acquisition-166592/
+[that are derived from those original designs]: https://syndaver.com/product/axi-desktop-3d-printer/
+[drunkenoctop.us]: http://www.drunkenoctop.us
+[wiring guide]: https://www.drunkenoctop.us/drunken-octopus-marlin/pinouts/
 [Patreon page]: https://www.patreon.com/marciot "Marcio's Patreon Page"
 [major contributor]: https://github.com/marcio-ao
-[FAQ]: https://github.com/marciot/drunken-octopus-marlin/wiki/FAQ
-[contributing]: https://github.com/marciot/drunken-octopus-marlin/wiki/Contributing
+[many]: https://syndaver.com/product/axi-desktop-3d-printer/
+[different]: https://www.cocoapress.com
+[printers]: https://www.youtube.com/watch?v=qiHzmXcFxJ0
