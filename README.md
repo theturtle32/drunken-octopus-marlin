@@ -4,7 +4,7 @@
 
 *Drunken Octopus* is a fork of the firmware that was used on Aleph Objects printers (a.k.a. LulzBot) prior to the [layoff of 2019] and the subsequent take over and [relocation of the company].
 
-By forking the firmware as it existed at that point in time, I hope provide to provide a resource to people who, like myself, still use Aleph Objects printers in some capacity. This fork also supports newer printers [that are derived from those original designs] as well as users who want to take their printers beyond the original configuration.
+By forking the firmware as it existed at that point in time, I hope provide to provide a resource to people who, like myself, still use Aleph Objects printers in some capacity. This fork also supports newer printers [that are derived from those original designs] as well as users who want to take their printers beyond their original configuration.
 
 ## Who can benefit from *Drunken Octopus* Marlin?
 
@@ -12,7 +12,7 @@ This firmware is for users who want the very latest firmware and features for th
 
 ## Where can I find information about upgrading my printer?
 
-If you have a pretty good idea of what you want to do, a good place to start is the [wiring guide] for *Drunken Octopus Marlin*.
+If you have a pretty good idea of what you want to do, a good place to start is the [wiring guide] for *Drunken Octopus* Marlin.
 
 If you want more help and specifics, a community of enthusiasts has begun to form around *Drunken Octopus*. These enthusiasts are putting together guides, documentation and resources at [drunkenoctop.us].
 
@@ -20,15 +20,15 @@ If you want more help and specifics, a community of enthusiasts has begun to for
 
 :heart: **If you would to support my work on open-source projects such as this one, please consider contributions via my [Patreon page]**. :heart:
 
-While at AlephObjects, I was a [major contributor] to Marlin and today I continue to do work on the following areas:
+While at AlephObjects, I was a [major contributor] to Marlin. Today, I [continue to contribute] in the following ways:
 
-* Maintaining the *Drunken Octopus Marlin*, including the build and configuration scripts
-* Keeping *Drunken Octopus Marlin*s up-to-date with upstream changes and fixing bugs as they occur
+* Maintaining the *Drunken Octopus* Marlin* build and configuration scripts
+* Keeping *Drunken Octopus* Marlin up-to-date with upstream code and fixing bugs as they occur
 * Maintaining the touch interface that is now used in [many] [different] [printers]
-* Contributing code and bug fixes to other open-source projects
+* Contributing to other open-source projects
 
 All Patreon supporters will receive pre-compiled firmware for hundreds of different *Drunken Octopus Marlin* configurations.
-Patrons may also receive additional member-only perks.
+Supporters may also receive additional member-only perks.
 
 # License
 
@@ -46,6 +46,7 @@ While we can't prevent the use of this code in products (3D printers, CNC, etc.)
 [wiring guide]: https://www.drunkenoctop.us/drunken-octopus-marlin/pinouts/
 [Patreon page]: https://www.patreon.com/marciot "Marcio's Patreon Page"
 [major contributor]: https://github.com/marcio-ao
+[continue to contribute]: https://github.com/marciot]
 [many]: https://syndaver.com/product/axi-desktop-3d-printer/
 [different]: https://www.cocoapress.com
 [printers]: https://www.youtube.com/watch?v=qiHzmXcFxJ0
