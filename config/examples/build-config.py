@@ -1565,7 +1565,7 @@ def make_config(PRINTER, TOOLHEAD):
     elif "SynDaver_AXI_2" in PRINTER:
         STANDARD_X_MAX_POS                               = 288
         STANDARD_X_MIN_POS                               = -49
-        STANDARD_Y_MAX_POS                               = 303
+        STANDARD_Y_MAX_POS                               = 284
         STANDARD_Y_MIN_POS                               = -55
 
         STANDARD_X_BED_SIZE                              = 280
@@ -1770,7 +1770,7 @@ def make_config(PRINTER, TOOLHEAD):
             "G28 Z0\n"                                   # Home Axis
         )
 
-    elif USE_Z_BELT and IS_TAZ and MARLIN["BLTOUCH"] and USE_ARCHIM2:
+    elif USE_Z_BELT and IS_TAZ and MARLIN["BLTOUCH"] and USE_ARCHIM2 and PRINTER not in ["SynDaver_AXI_2"]:
         # Since the printer homes to the bottom, we cannot use a home Z to auto-level
         AXIS_LEVELING_COMMANDS = (
             "G91\n"                                      # Set relative motion mode
@@ -1812,7 +1812,7 @@ def make_config(PRINTER, TOOLHEAD):
       if IS_MINI:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING("M17 Z")
       elif "SynDaver_AXI_2" in PRINTER:
-        MARLIN["STARTUP_COMMANDS"]                       = C_STRING("G29 L1\nM280 P0 S60")
+        MARLIN["STARTUP_COMMANDS"]                       = C_STRING("M17 Z\nG29 L1\nM280 P0 S60")
       elif "SynDaver_AXI" in PRINTER:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING("G29 L1\n" + AXIS_LEVELING_COMMANDS + "M280 P0 S60")
       else:
