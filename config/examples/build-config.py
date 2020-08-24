@@ -718,6 +718,7 @@ def make_config(PRINTER, TOOLHEAD):
         USE_EXPERIMENTAL_FEATURES                        = True
         CALIBRATE_ON_WASHER                              = "Back Right"
         MARLIN["BACKLASH_COMPENSATION"]                  = True
+        MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = False
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("23421dc0-df9f-430b-8f91-0e3bcb55b4e4")
