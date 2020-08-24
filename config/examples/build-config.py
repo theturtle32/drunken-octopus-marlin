@@ -223,6 +223,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["ENDSTOPS_ALWAYS_ON_DEFAULT"]             = True
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["MACHINE_UUID"]                           = C_STRING("351487b6-ca9a-4c1a-8765-d668b1da6585")
+        MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = False # Requires LCD
 
     if "Guava_TAZ4" in PRINTER:
         IS_TAZ                                           = True

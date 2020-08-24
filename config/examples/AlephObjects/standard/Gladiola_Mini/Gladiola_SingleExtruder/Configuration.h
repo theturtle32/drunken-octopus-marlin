@@ -1176,9 +1176,9 @@
  * RAMPS-based boards use SERVO3_PIN for the first runout sensor.
  * For other boards you may need to define FIL_RUNOUT_PIN, FIL_RUNOUT2_PIN, etc.
  */
-#define FILAMENT_RUNOUT_SENSOR // <-- changed
+//#define FILAMENT_RUNOUT_SENSOR  // <-- changed
 #if ENABLED(FILAMENT_RUNOUT_SENSOR)
-  #define FIL_RUNOUT_ENABLED_DEFAULT false // <-- changed:  Enable the sensor on startup. Override with M412 followed by M500.
+  #define FIL_RUNOUT_ENABLED_DEFAULT true // Enable the sensor on startup. Override with M412 followed by M500.
   #define NUM_RUNOUT_SENSORS   1          // Number of sensors, up to one per extruder. Define a FIL_RUNOUT#_PIN for each.
   #define FIL_RUNOUT_STATE     LOW        // Pin state indicating that filament is NOT present.
   #define FIL_RUNOUT_PULLUP               // Use internal pullup for filament runout pins.
@@ -1186,12 +1186,12 @@
 
   // Set one or more commands to execute on filament runout.
   // (After 'M412 H' Marlin will ask the host to handle the process.)
-  #define FILAMENT_RUNOUT_SCRIPT "M25 P2" // <-- changed
+  #define FILAMENT_RUNOUT_SCRIPT "M600"
 
   // After a runout is detected, continue printing this length of filament
   // before executing the runout script. Useful for a sensor at the end of
   // a feed tube. Requires 4 bytes SRAM per sensor, plus 4 bytes overhead.
-  #define FILAMENT_RUNOUT_DISTANCE_MM 14 // <-- changed
+  //#define FILAMENT_RUNOUT_DISTANCE_MM 25
 
   #ifdef FILAMENT_RUNOUT_DISTANCE_MM
     // Enable this option to use an encoder disc that toggles the runout pin
@@ -2436,11 +2436,11 @@
 //#define TOUCH_UI_FROZEN_THEME
 //#define TOUCH_UI_ROYAL_THEME
 //#define TOUCH_UI_VERSION
-//#define TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS  // <-- changed
-#define CURA_LE_RUNOUT_HANDLING_WORKAROUND // <-- changed
+//#define TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS
+//#define CURA_LE_RUNOUT_HANDLING_WORKAROUND
 #define FIL_RUNOUT_PIN 84 // <-- changed
 #define SERVO0_PIN 20 // <-- changed
-#define ACTION_ON_FILAMENT_RUNOUT "pause: filament_runout" // <-- changed
+//#define ACTION_ON_FILAMENT_RUNOUT
 //#define SWAP_E0_AND_E1
 //#define E_MIN_PIN
 //#define E_MIN_PIN_INVERTING
