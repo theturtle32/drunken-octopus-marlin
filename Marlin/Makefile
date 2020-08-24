@@ -100,14 +100,14 @@ NEOPIXEL           ?= 0
 # on GCC versions:
 #   https://www.avrfreaks.net/comment/1789106#comment-1789106
 
-CC_MAJ:=$(shell $(CC) -dM -E - < /dev/null | grep __GNUC__ | cut -f3 -d\ )
-CC_MIN:=$(shell $(CC) -dM -E - < /dev/null | grep __GNUC_MINOR__ | cut -f3 -d\ )
-CC_PATCHLEVEL:=$(shell $(CC) -dM -E - < /dev/null | grep __GNUC_PATCHLEVEL__ | cut -f3 -d\ )
-CC_VER:=$(shell echo $$(( $(CC_MAJ) * 10000 + $(CC_MIN) * 100 + $(CC_PATCHLEVEL) )))
-ifeq ($(shell test $(CC_VER) -lt 40901 && echo 1),1)
-  @echo This version of GCC is likely broken. Enabling relocation workaround.
-  RELOC_WORKAROUND = 1
-endif
+#CC_MAJ:=$(shell $(CC) -dM -E - < /dev/null | grep __GNUC__ | cut -f3 -d\ )
+#CC_MIN:=$(shell $(CC) -dM -E - < /dev/null | grep __GNUC_MINOR__ | cut -f3 -d\ )
+#CC_PATCHLEVEL:=$(shell $(CC) -dM -E - < /dev/null | grep __GNUC_PATCHLEVEL__ | cut -f3 -d\ )
+#CC_VER:=$(shell echo $$(( $(CC_MAJ) * 10000 + $(CC_MIN) * 100 + $(CC_PATCHLEVEL) )))
+#ifeq ($(shell test $(CC_VER) -lt 40901 && echo 1),1)
+#  @echo This version of GCC is likely broken. Enabling relocation workaround.
+#  RELOC_WORKAROUND = 1
+#endif
 
 ############################################################################
 # Below here nothing should be changed...
