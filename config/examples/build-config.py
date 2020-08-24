@@ -1659,7 +1659,7 @@ def make_config(PRINTER, TOOLHEAD):
                 MARLIN["AUTO_BED_LEVELING_BILINEAR"]     = True
             MARLIN["GRID_MAX_POINTS_X"]                  = 5
             MARLIN["GRID_MAX_POINTS_Y"]                  = 5
-            MARLIN["MIN_PROBE_EDGE"]                     = 0
+            MARLIN["PROBING_MARGIN"]                     = 0
             MARLIN["PROBING_FANS_OFF"]                   = True
             MARLIN["PROBING_STEPPERS_OFF"]               = True
             GOTO_1ST_PROBE_POINT                         = ""
@@ -1703,7 +1703,7 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["Z_PROBE_OFFSET_RANGE_MIN"]           = -2
             MARLIN["Z_PROBE_OFFSET_RANGE_MAX"]           = 5
             MARLIN["Z_CLEARANCE_DEPLOY_PROBE"]           = 5
-            MARLIN["MIN_PROBE_EDGE"]                     = False
+            MARLIN["PROBING_MARGIN"]                     = False
             MARLIN["XY_PROBE_SPEED"]                     = 6000
             MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 5
 
@@ -1718,10 +1718,10 @@ def make_config(PRINTER, TOOLHEAD):
 
             # Make sure Marlin allows probe points outside of the bed area
 
-            MARLIN["MIN_PROBE_EDGE_LEFT"]                = LEFT_PROBE_BED_POSITION
-            MARLIN["MIN_PROBE_EDGE_RIGHT"]               = STANDARD_X_BED_SIZE - RIGHT_PROBE_BED_POSITION
-            MARLIN["MIN_PROBE_EDGE_BACK"]                = STANDARD_Y_BED_SIZE - BACK_PROBE_BED_POSITION
-            MARLIN["MIN_PROBE_EDGE_FRONT"]               = FRONT_PROBE_BED_POSITION
+            MARLIN["PROBING_MARGIN_LEFT"]                = LEFT_PROBE_BED_POSITION
+            MARLIN["PROBING_MARGIN_RIGHT"]               = STANDARD_X_BED_SIZE - RIGHT_PROBE_BED_POSITION
+            MARLIN["PROBING_MARGIN_BACK"]                = STANDARD_Y_BED_SIZE - BACK_PROBE_BED_POSITION
+            MARLIN["PROBING_MARGIN_FRONT"]               = FRONT_PROBE_BED_POSITION
 
             # Traditionally LulzBot printers have employed a four-point
             # leveling using a 2x2 grid.
@@ -1836,7 +1836,7 @@ def make_config(PRINTER, TOOLHEAD):
         else:
             RESTORE_NOZZLE_OFFSET = ""
 
-        CALIBRATION_COMMANDS = (
+        CALIBRATION_SCRIPT_PRE = (
             "M117 Starting Auto-Calibration\n"           # Status message
             "T0\n"                                       # Switch to first nozzle
             + RESTORE_NOZZLE_OFFSET +                    # Restore default nozzle offset
@@ -1844,12 +1844,15 @@ def make_config(PRINTER, TOOLHEAD):
             "G28\n"                                      # Auto-Home
             "G12\n"                                      # Wipe the nozzles
             "M117 Calibrating...\n"                      # Status message
-            "G425\n"                                     # Calibrate nozzles
+        )
+
+        CALIBRATION_SCRIPT_POST = (
             "M500\n"                                     # Save settings
             "M117 Calibration data saved"                # Status message
         )
 
-        MARLIN["CALIBRATION_COMMANDS"]                   = C_STRING(CALIBRATION_COMMANDS)
+        MARLIN["CALIBRATION_SCRIPT_PRE"]                 = C_STRING(CALIBRATION_SCRIPT_PRE)
+        MARLIN["CALIBRATION_SCRIPT_POST"]                = C_STRING(CALIBRATION_SCRIPT_POST)
 
         if IS_MINI:
             if CALIBRATE_ON_WASHER == "Front Left":
@@ -1913,7 +1916,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["FILAMENT_RUNOUT_SCRIPT"]                 = C_STRING("M25 P2\n")
         MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 0 if "SynDaver_AXI" in PRINTER else 14
         if not PRINTER in ["Quiver_TAZPro", "SynDaver_AXI", "SynDaver_AXI_2"]:
-          MARLIN["FILAMENT_RUNOUT_ENABLE_DEFAULT"]       = "false"
+          MARLIN["FIL_RUNOUT_ENABLED_DEFAULT"]           = "false"
         MARLIN["ACTION_ON_FILAMENT_RUNOUT"]              = C_STRING("pause: filament_runout")
         MARLIN["TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS"]   = USE_TOUCH_UI
         MARLIN["CURA_LE_RUNOUT_HANDLING_WORKAROUND"]     = True
@@ -2098,18 +2101,18 @@ def make_config(PRINTER, TOOLHEAD):
 
     if MARLIN["SDSUPPORT"]:
         if PRINTER in ["KangarooPaw_Bio"]:
-            EVENT_GCODE_SD_STOP = "G28 Z\nM117 Print aborted."
+            EVENT_GCODE_SD_ABORT = "G28 Z\nM117 Print aborted."
 
         elif IS_MINI:
-            EVENT_GCODE_SD_STOP = "G28 Z\nG0 X80 Y190 F3000\nM117 Print aborted."
+            EVENT_GCODE_SD_ABORT = "G28 Z\nG0 X80 Y190 F3000\nM117 Print aborted."
 
         elif "Juniper_TAZ5" in PRINTER or "Guava_TAZ4" in PRINTER:
-            EVENT_GCODE_SD_STOP = "G0 X170 Y290 F3000\nM117 Print aborted."
+            EVENT_GCODE_SD_ABORT = "G0 X170 Y290 F3000\nM117 Print aborted."
 
         elif IS_TAZ:
-            EVENT_GCODE_SD_STOP = "G91\nG0 Z15 F600\nG90\nG0 X170 Y290 F3000\nM117 Print aborted."
+            EVENT_GCODE_SD_ABORT = "G91\nG0 Z15 F600\nG90\nG0 X170 Y290 F3000\nM117 Print aborted."
 
-        MARLIN["EVENT_GCODE_SD_STOP"]                    = C_STRING(EVENT_GCODE_SD_STOP)
+        MARLIN["EVENT_GCODE_SD_ABORT"]                   = C_STRING(EVENT_GCODE_SD_ABORT)
 
 ################################## WIPER PAD ##################################
 

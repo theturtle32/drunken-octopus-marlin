@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 #include "../inc/MarlinConfigPre.h"
@@ -61,7 +61,7 @@ namespace DirectStepping {
 
   template<typename Cfg>
   uint8_t SerialPageManager<Cfg>::pages[Cfg::NUM_PAGES][Cfg::PAGE_SIZE];
-          
+
   template<typename Cfg>
   uint8_t SerialPageManager<Cfg>::checksum;
 

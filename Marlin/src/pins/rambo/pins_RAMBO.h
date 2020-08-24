@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 #pragma once
@@ -34,7 +34,7 @@
  *
  * Instructions for installing the Arduino RAMBo board type for the
  * Arduino IDE are available at:
- * http://reprap.org/wiki/Rambo_firmware
+ * https://reprap.org/wiki/Rambo_firmware
  */
 
 /**
@@ -114,29 +114,29 @@
 #endif
 
 // Microstepping pins - Mapping not from fastio.h (?)
-#define X_MS1_PIN          40
-#define X_MS2_PIN          41
-#define Y_MS1_PIN          69
-#define Y_MS2_PIN          39
-#define Z_MS1_PIN          68
-#define Z_MS2_PIN          67
+#define X_MS1_PIN                             40
+#define X_MS2_PIN                             41
+#define Y_MS1_PIN                             69
+#define Y_MS2_PIN                             39
+#define Z_MS1_PIN                             68
+#define Z_MS2_PIN                             67
 #if defined(SWAP_E0_AND_E1)
-#define E0_MS1_PIN         63
-#define E0_MS2_PIN         64
-#define E1_MS1_PIN         65
-#define E1_MS2_PIN         66
+#define E0_MS1_PIN                            63
+#define E0_MS2_PIN                            64
+#define E1_MS1_PIN                            65
+#define E1_MS2_PIN                            66
 #else
-#define E0_MS1_PIN         65
-#define E0_MS2_PIN         66
-#define E1_MS1_PIN         63
-#define E1_MS2_PIN         64
+#define E0_MS1_PIN                            65
+#define E0_MS2_PIN                            66
+#define E1_MS1_PIN                            63
+#define E1_MS2_PIN                            64
 #endif
 
-#define DIGIPOTSS_PIN      38
+#define DIGIPOTSS_PIN                         38
 #if defined(SWAP_E0_AND_E1)
-#define DIGIPOT_CHANNELS {4,5,3,1,0} // X Y Z E0 E1 digipot channels to stepper driver mapping
+#define DIGIPOT_CHANNELS  { 4,5,3,1,0 }           // X Y Z E0 E1 digipot channels to stepper driver mapping
 #else
-#define DIGIPOT_CHANNELS {4,5,3,0,1} // X Y Z E0 E1 digipot channels to stepper driver mapping
+#define DIGIPOT_CHANNELS  { 4,5,3,0,1 }           // X Y Z E0 E1 digipot channels to stepper driver mapping
 #endif
 #ifndef DIGIPOT_MOTOR_CURRENT
   #define DIGIPOT_MOTOR_CURRENT { 135,135,135,135,135 }   // Values 0-255 (RAMBO 135 = ~0.75A, 185 = ~1A)
