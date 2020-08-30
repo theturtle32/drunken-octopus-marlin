@@ -44,11 +44,6 @@
  *  P2 Sn R<radius>  : Circle cleaning with S repeats and R radius
  */
 void GcodeSuite::G12() {
-  #if defined(WIPE_SEQUENCE_COMMANDS)
-     GcodeSuite::process_subcommands_now_P(PSTR(WIPE_SEQUENCE_COMMANDS));
-     return;
-  #endif
-  
   // Don't allow nozzle cleaning without homing first
   if (axis_unhomed_error()) return;
 
