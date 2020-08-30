@@ -838,12 +838,12 @@ def make_config(PRINTER, TOOLHEAD):
 
     elif USE_BTT_002:
         MARLIN["MOTHERBOARD"]                            = 'BOARD_BTT_BTT002_V1_0'
-        #MARLIN["CONTROLLER_FAN_PIN"]                    = 'FAN1_PIN' # Digital pin 6
+        MARLIN["CONTROLLER_FAN_PIN"]                     = 'FAN1_PIN'
         MARLIN["SERIAL_PORT"]                            = 1
-        if USE_TOUCH_UI:
-            MARLIN["SPI_SPEED"]                          = 'SPI_SIXTEENTH_SPEED'
-        else:
-            MARLIN["SPI_SPEED"]                          = 'SPI_FULL_SPEED'
+        MARLIN["SERIAL_PORT_2"]                          = 4
+        MARLIN["SERVO0_PIN"]                             = 'PC12'
+        MARLIN["Z_MAX_PIN"]                              = 'PD4' # Use AC-FAULT connector
+        MARLIN["SPI_SPEED"]                              = 'SPI_FULL_SPEED'
 
     elif IS_MINI:
         MARLIN["MOTHERBOARD"]                            = 'BOARD_MINIRAMBO'
