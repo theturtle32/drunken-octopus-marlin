@@ -28,6 +28,8 @@
 //#define SERVO0_PIN
 //#define ACTION_ON_FILAMENT_RUNOUT
 //#define SWAP_E0_AND_E1
+//#define Z_STOP_PIN
+//#define Z_MAX_PIN
 //#define E_MIN_PIN
 //#define E_MIN_PIN_INVERTING
 //#define E_MAX_POS
