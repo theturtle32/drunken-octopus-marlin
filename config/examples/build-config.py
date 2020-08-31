@@ -209,7 +209,8 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["STEALTHCHOP_Z"]                      = False
             MARLIN["STEALTHCHOP_E"]                      = True
             MARLIN["HYBRID_THRESHOLD"]                   = False
-            MARLIN["PRINTCOUNTER"]                       = True
+            if not USE_BTT_002:
+                MARLIN["PRINTCOUNTER"]                   = True
         else:
             MARLIN["ENDSTOPS_ALWAYS_ON_DEFAULT"]         = True
         if not USE_TOUCH_UI:
@@ -610,9 +611,10 @@ def make_config(PRINTER, TOOLHEAD):
     elif USE_BTT_002:
         MARLIN["MOTHERBOARD"]                            = 'BOARD_BTT_BTT002_V1_0'
         MARLIN["CONTROLLER_FAN_PIN"]                     = 'FAN1_PIN'
-        MARLIN["SERIAL_PORT"]                            = 1
-        MARLIN["SERIAL_PORT_2"]                          = 4
+        MARLIN["SERIAL_PORT"]                            = -1
+        MARLIN["SERIAL_PORT_2"]                          =  3
         MARLIN["SERVO0_PIN"]                             = 'PC12'
+        MARLIN["ENDSTOP_INTERRUPTS_FEATURE"]             = True
         if MARLIN["BLTOUCH"]:
             MARLIN["Z_MAX_PIN"]                          = 'PD4' # Use AC-FAULT connector
         else:
