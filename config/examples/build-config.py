@@ -182,6 +182,7 @@ def make_config(PRINTER, TOOLHEAD):
     MARLIN["FILAMENT_RUNOUT_SENSOR"]                     = True
     if "HallEffect" in PRINTER:
         MARLIN["FILAMENT_MOTION_SENSOR"]                 = "HallEffect" in PRINTER
+    MARLIN["G26_MESH_VALIDATION"]                        = True
 
     # Use CLASSIC_JERK as the default since it seems JUNC_DEVIATION has issues
     #    https://github.com/MarlinFirmware/Marlin/issues/17342
