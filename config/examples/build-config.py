@@ -630,7 +630,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["FILAMENT_RUNOUT_SENSOR"]                 = True
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("SynDaver AXI")
         MARLIN["SHORT_BUILD_VERSION"]                    = C_STRING("2.x.x (1e32df)")
-        MARLIN["TOUCH_UI_VERSION"]                       = '\"Release: 3 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+        MARLIN["TOUCH_UI_VERSION"]                       = '\"Release: 4beta (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
         MARLIN["EMI_MITIGATION"]                         = True
