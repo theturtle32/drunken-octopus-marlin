@@ -421,6 +421,8 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = True
         MARLIN["SDSUPPORT"]                              = True
         if "SynDaver_AXI_2" in PRINTER:
+            MARLIN["CASE_LIGHT_ENABLE"]                  = True
+            MARLIN["CASE_LIGHT_PIN"]                     = "HEATER_1_PIN"
             MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("SynDaver AXI 2")
             MARLIN["SHORT_BUILD_VERSION"]                    = C_STRING("2.x.x (1e32df)")
             MARLIN["TOUCH_UI_VERSION"]                       = '\"Release: beta (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
