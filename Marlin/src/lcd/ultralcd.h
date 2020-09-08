@@ -324,11 +324,6 @@ public:
     static bool detected();
     static void init_lcd();
   #else
-    #if ENABLED(DWIN_CREALITY_LCD)
-      static void refresh();
-    #else
-      static inline void refresh()  {}
-    #endif
     static inline bool detected() { return true; }
     static inline void init_lcd() {}
   #endif
