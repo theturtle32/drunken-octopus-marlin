@@ -1437,6 +1437,8 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["GRID_MAX_POINTS_X"]                  = 5
             MARLIN["GRID_MAX_POINTS_Y"]                  = 5
             MARLIN["PROBING_MARGIN"]                     = 0
+            MARLIN["MESH_INSET"]                         = 0
+            MARLIN["UBL_Z_RAISE_WHEN_OFF_MESH"]          = 5
             MARLIN["PROBING_FANS_OFF"]                   = True
             MARLIN["PROBING_STEPPERS_OFF"]               = True
             GOTO_1ST_PROBE_POINT                         = ""
