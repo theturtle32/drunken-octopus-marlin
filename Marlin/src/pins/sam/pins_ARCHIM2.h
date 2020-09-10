@@ -138,18 +138,19 @@
 #endif
 
 #if !defined(NUM_Z_STEPPER_DRIVERS) || NUM_Z_STEPPER_DRIVERS == 1
-  #define E1_STEP_PIN                           22  // PB26 E2_STEP *
-  #define E1_DIR_PIN                            97  // PB24 E2_DIR -AddOns *
-  #define E1_ENABLE_PIN                         18  // PA11 E2-EN
+  #define E1_STEP_PIN                         22  // PB26 E2_STEP *
+  #define E1_DIR_PIN                          97  // PB24 E2_DIR -AddOns *
+  #define E1_ENABLE_PIN                       18  // PA11 E2-EN
   #ifndef E1_CS_PIN
-  #define E1_CS_PIN                             19  // PA10 E2_nCS
+    #define E1_CS_PIN                         19  // PA10 E2_nCS
+  #endif
 #else
   // Repurpose E2 plug for Z2 instead  
-  #define Z2_STEP_PIN                           22  // PB26 E2_STEP *
-  #define Z2_DIR_PIN                            97  // PB24 E2_DIR -AddOns *
-  #define Z2_ENABLE_PIN                         18  // PA11 E2-EN
+  #define Z2_STEP_PIN                         22  // PB26 E2_STEP *
+  #define Z2_DIR_PIN                          97  // PB24 E2_DIR -AddOns *
+  #define Z2_ENABLE_PIN                       18  // PA11 E2-EN
   #ifndef Z2_CS_PIN
-    #define Z2_CS_PIN                           19  // PA10 E2_nCS
+    #define Z2_CS_PIN                         19  // PA10 E2_nCS
   #endif
 #endif
 
@@ -264,4 +265,3 @@
     #define BTN_ENC                           16  // D16 PA13_TXD1 // the click
   #endif
 #endif
-if
