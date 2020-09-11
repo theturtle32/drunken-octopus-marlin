@@ -334,4 +334,3 @@ void BedMeshScreen::startMeshProbe() {
 }
 
 #endif // TOUCH_UI_FTDI_EVE && HAS_MESH
- HAS_MESH
