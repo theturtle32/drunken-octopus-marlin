@@ -99,6 +99,10 @@
 
 #if ENABLED(G26_MESH_VALIDATION)
 
+#ifdef G26_IN_START_GCODE_WORKAROUND
+  #include "../../module/printcounter.h"
+#endif
+
 #define G26_OK false
 #define G26_ERR true
 
@@ -486,6 +490,13 @@ inline bool prime_nozzle() {
  *  Y  Y position
  */
 void GcodeSuite::G26() {
+  #ifdef G26_IN_START_GCODE_WORKAROUND
+    if(print_job_timer.isRunning()) {
+      SERIAL_ECHOLNPGM("WARNING: G26 in the start GCODE is deprecated. Please remove it.");
+      return;
+    }
+  #endif
+
   SERIAL_ECHOLNPGM("G26 starting...");
 
   // Don't allow Mesh Validation without homing first,
@@ -865,3 +876,4 @@ void GcodeSuite::G26() {
 }
 
 #endif // G26_MESH_VALIDATION
+N

@@ -2439,6 +2439,7 @@
 //#define EXTRUDER_FAN_ON_PIN_6
 #define ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE 1000 // <-- changed
 #define END_G29_ON_BACK_LEFT_CORNER // <-- changed
+#define G26_IN_START_GCODE_WORKAROUND // <-- changed
 #define USB_DEVICE_VENDOR_ID 0x27b1 // <-- changed
 #define USB_DEVICE_PRODUCT_ID 0x0001 // <-- changed
 //#define TOUCH_UI_NO_BOOTSCREEN

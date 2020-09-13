@@ -185,6 +185,11 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["FILAMENT_MOTION_SENSOR"]                 = "HallEffect" in PRINTER
     MARLIN["G26_MESH_VALIDATION"]                        = True
 
+    # LulzBot uses a "G26" in start GCODE. As a workaround, do not allow
+    # this GCODE to execute if the print timer is started.
+    if "Mini" in PRINTER or "TAZ" in PRINTER:
+        MARLIN["G26_IN_START_GCODE_WORKAROUND"]          = True
+
     # Use CLASSIC_JERK as the default since it seems JUNC_DEVIATION has issues
     #    https://github.com/MarlinFirmware/Marlin/issues/17342
     #    https://github.com/MarlinFirmware/Marlin/issues/17920
