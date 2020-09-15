@@ -377,7 +377,7 @@ def make_config(PRINTER, TOOLHEAD):
         USE_MIN_ENDSTOPS                                 = True
         USE_DUAL_Z_ENDSTOPS                              = True
         USE_EXPERIMENTAL_FEATURES                        = True
-        MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ Workhorse")
+        MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ Workhorse Edition")
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["PRINTCOUNTER"]                           = True
