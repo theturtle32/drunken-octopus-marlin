@@ -430,13 +430,13 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["CASE_LIGHT_ENABLE"]                  = True
             MARLIN["CASE_LIGHT_PIN"]                     = "HEATER_1_PIN"
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI 2")
-            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (1e32df)")
+            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (d93471f)")
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: beta (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             USE_DUAL_Z_STEPPERS                          = True
         else:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI")
-            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (1e32df)")
-            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 3 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (d93471f)")
+            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 4 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
         MARLIN["EMI_MITIGATION"]                         = True
