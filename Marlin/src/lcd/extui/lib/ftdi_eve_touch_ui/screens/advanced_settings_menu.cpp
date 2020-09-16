@@ -38,7 +38,7 @@ void AdvancedSettingsMenu::onRedraw(draw_mode_t what) {
   }
 
     #ifdef TOUCH_UI_PORTRAIT
-      #if EITHER(CASE_LIGHT_ENABLE, SENSORLESS_HOMING)
+      #if EITHER(HAS_MULTI_HOTEND, SENSORLESS_HOMING)
         #define GRID_ROWS 9
       #else
         #define GRID_ROWS 8
@@ -91,8 +91,10 @@ void AdvancedSettingsMenu::onRedraw(draw_mode_t what) {
        .font(Theme::font_medium)
       .enabled(ENABLED(HAS_BED_PROBE))
       .tag(2) .button( ZPROBE_ZOFFSET_POS,     GET_TEXT_F(MSG_ZPROBE_ZOFFSET))
+      #if ENABLED(CASE_LIGHT_ENABLE)
       .enabled(ENABLED(CASE_LIGHT_ENABLE))
       .tag(16).button( CASE_LIGHT_POS,         GET_TEXT_F(MSG_CASE_LIGHT))
+      #endif
       .tag(3) .button( STEPS_PER_MM_POS,       GET_TEXT_F(MSG_STEPS_PER_MM))
       .enabled(ENABLED(HAS_TRINAMIC_CONFIG))
       .tag(13).button( TMC_CURRENT_POS,        GET_TEXT_F(MSG_TMC_CURRENT))
