@@ -14,7 +14,7 @@
 # Detailed instructions for using the makefile:
 #
 #  1. Modify the line containing "ARDUINO_INSTALL_DIR" to point to the directory that
-#     contains the Arduino installation (for example, under Mac OS X, this
+#     contains the Arduino installation (for example, under macOS, this
 #     might be /Applications/Arduino.app/Contents/Resources/Java).
 #
 #  2. Modify the line containing "UPLOAD_PORT" to refer to the filename
@@ -95,6 +95,20 @@ TMC                ?= 1
 # this defines whether to include the AdaFruit NeoPixel library
 NEOPIXEL           ?= 0
 
+############
+# Try to automatically determine whether RELOC_WORKAROUND is needed based
+# on GCC versions:
+#   https://www.avrfreaks.net/comment/1789106#comment-1789106
+
+#CC_MAJ:=$(shell $(CC) -dM -E - < /dev/null | grep __GNUC__ | cut -f3 -d\ )
+#CC_MIN:=$(shell $(CC) -dM -E - < /dev/null | grep __GNUC_MINOR__ | cut -f3 -d\ )
+#CC_PATCHLEVEL:=$(shell $(CC) -dM -E - < /dev/null | grep __GNUC_PATCHLEVEL__ | cut -f3 -d\ )
+#CC_VER:=$(shell echo $$(( $(CC_MAJ) * 10000 + $(CC_MIN) * 100 + $(CC_PATCHLEVEL) )))
+#ifeq ($(shell test $(CC_VER) -lt 40901 && echo 1),1)
+#  @echo This version of GCC is likely broken. Enabling relocation workaround.
+#  RELOC_WORKAROUND = 1
+#endif
+
 ############################################################################
 # Below here nothing should be changed...
 
@@ -156,105 +170,114 @@ else ifeq ($(HARDWARE_MOTHERBOARD),1100)
 else ifeq ($(HARDWARE_MOTHERBOARD),1101)
 # Velleman K8400 Controller (derived from 3Drag Controller)
 else ifeq ($(HARDWARE_MOTHERBOARD),1102)
-# 2PrintBeta BAM&DICE with STK drivers
+# Velleman K8600 Controller (Vertex Nano)
 else ifeq ($(HARDWARE_MOTHERBOARD),1103)
-# 2PrintBeta BAM&DICE Due with STK drivers
+# Velleman K8800 Controller (Vertex Delta)
 else ifeq ($(HARDWARE_MOTHERBOARD),1104)
-# MKS BASE v1.0
+# 2PrintBeta BAM&DICE with STK drivers
 else ifeq ($(HARDWARE_MOTHERBOARD),1105)
-# MKS v1.4 with A4982 stepper drivers
+# 2PrintBeta BAM&DICE Due with STK drivers
 else ifeq ($(HARDWARE_MOTHERBOARD),1106)
-# MKS v1.5 with Allegro A4982 stepper drivers
+# MKS BASE v1.0
 else ifeq ($(HARDWARE_MOTHERBOARD),1107)
-# MKS v1.6 with Allegro A4982 stepper drivers
+# MKS v1.4 with A4982 stepper drivers
 else ifeq ($(HARDWARE_MOTHERBOARD),1108)
-
-# MKS BASE 1.0 with Heroic HR4982 stepper drivers
+# MKS v1.5 with Allegro A4982 stepper drivers
 else ifeq ($(HARDWARE_MOTHERBOARD),1109)
-# MKS GEN v1.3 or 1.4
+# MKS v1.6 with Allegro A4982 stepper drivers
 else ifeq ($(HARDWARE_MOTHERBOARD),1110)
-# MKS GEN L
+# MKS BASE 1.0 with Heroic HR4982 stepper drivers
 else ifeq ($(HARDWARE_MOTHERBOARD),1111)
-# zrib V2.0 control board (Chinese knock off RAMPS replica)
+# MKS GEN v1.3 or 1.4
 else ifeq ($(HARDWARE_MOTHERBOARD),1112)
-# BigTreeTech or BIQU KFB2.0
+# MKS GEN L
 else ifeq ($(HARDWARE_MOTHERBOARD),1113)
-# Felix 2.0+ Electronics Board (RAMPS like)
+# zrib V2.0 control board (Chinese knock off RAMPS replica)
 else ifeq ($(HARDWARE_MOTHERBOARD),1114)
-# Invent-A-Part RigidBoard
+# BigTreeTech or BIQU KFB2.0
 else ifeq ($(HARDWARE_MOTHERBOARD),1115)
-# Invent-A-Part RigidBoard V2
+# Felix 2.0+ Electronics Board (RAMPS like)
 else ifeq ($(HARDWARE_MOTHERBOARD),1116)
-# Sainsmart 2-in-1 board
+# Invent-A-Part RigidBoard
 else ifeq ($(HARDWARE_MOTHERBOARD),1117)
-# Ultimaker
+# Invent-A-Part RigidBoard V2
 else ifeq ($(HARDWARE_MOTHERBOARD),1118)
-# Ultimaker (Older electronics. Pre 1.5.4. This is rare)
+# Sainsmart 2-in-1 board
 else ifeq ($(HARDWARE_MOTHERBOARD),1119)
+# Ultimaker
+else ifeq ($(HARDWARE_MOTHERBOARD),1120)
+# Ultimaker (Older electronics. Pre 1.5.4. This is rare)
+else ifeq ($(HARDWARE_MOTHERBOARD),1121)
   MCU ?= atmega1280
 
 # Azteeg X3
-else ifeq ($(HARDWARE_MOTHERBOARD),1120)
-# Azteeg X3 Pro
-else ifeq ($(HARDWARE_MOTHERBOARD),1121)
-# Ultimainboard 2.x (Uses TEMP_SENSOR 20)
 else ifeq ($(HARDWARE_MOTHERBOARD),1122)
-# Rumba
+# Azteeg X3 Pro
 else ifeq ($(HARDWARE_MOTHERBOARD),1123)
-# Raise3D Rumba
+# Ultimainboard 2.x (Uses TEMP_SENSOR 20)
 else ifeq ($(HARDWARE_MOTHERBOARD),1124)
-# Rapide Lite RL200 Rumba
+# Rumba
 else ifeq ($(HARDWARE_MOTHERBOARD),1125)
-# Formbot T-Rex 2 Plus
+# Raise3D Rumba
 else ifeq ($(HARDWARE_MOTHERBOARD),1126)
-# Formbot T-Rex 3
+# Rapide Lite RL200 Rumba
 else ifeq ($(HARDWARE_MOTHERBOARD),1127)
-# Formbot Raptor
+# Formbot T-Rex 2 Plus
 else ifeq ($(HARDWARE_MOTHERBOARD),1128)
-# Formbot Raptor 2
+# Formbot T-Rex 3
 else ifeq ($(HARDWARE_MOTHERBOARD),1129)
-# bq ZUM Mega 3D
+# Formbot Raptor
 else ifeq ($(HARDWARE_MOTHERBOARD),1130)
-# MakeBoard Mini v2.1.2 is a control board sold by MicroMake
+# Formbot Raptor 2
 else ifeq ($(HARDWARE_MOTHERBOARD),1131)
-# TriGorilla Anycubic version 1.3 based on RAMPS EFB
+# bq ZUM Mega 3D
 else ifeq ($(HARDWARE_MOTHERBOARD),1132)
-# TriGorilla Anycubic version 1.4 based on RAMPS EFB
+# MakeBoard Mini v2.1.2 is a control board sold by MicroMake
 else ifeq ($(HARDWARE_MOTHERBOARD),1133)
-# TriGorilla Anycubic version 1.4 Rev 1.1
+# TriGorilla Anycubic version 1.3 based on RAMPS EFB
 else ifeq ($(HARDWARE_MOTHERBOARD),1134)
-# Creality: Ender-4, CR-8
+# TriGorilla Anycubic version 1.4 based on RAMPS EFB
 else ifeq ($(HARDWARE_MOTHERBOARD),1135)
-# Creality: CR10S, CR20, CR-X
+# TriGorilla Anycubic version 1.4 Rev 1.1
 else ifeq ($(HARDWARE_MOTHERBOARD),1136)
-# Dagoma F5
+# Creality: Ender-4, CR-8
 else ifeq ($(HARDWARE_MOTHERBOARD),1137)
-# FYSETC F6 1.3
+# Creality: CR10S, CR20, CR-X
 else ifeq ($(HARDWARE_MOTHERBOARD),1138)
-# FYSETC F6 1.5
+# Dagoma F5
 else ifeq ($(HARDWARE_MOTHERBOARD),1139)
-# Duplicator i3 Plus
+# FYSETC F6 1.3
 else ifeq ($(HARDWARE_MOTHERBOARD),1140)
-# VORON
+# FYSETC F6 1.5
 else ifeq ($(HARDWARE_MOTHERBOARD),1141)
-# TRONXY V3 1.0
+# Duplicator i3 Plus
 else ifeq ($(HARDWARE_MOTHERBOARD),1142)
-# Z-Bolt X Series
+# VORON
 else ifeq ($(HARDWARE_MOTHERBOARD),1143)
-# TT OSCAR
+# TRONXY V3 1.0
 else ifeq ($(HARDWARE_MOTHERBOARD),1144)
-# Overlord/Overlord Pro
+# Z-Bolt X Series
 else ifeq ($(HARDWARE_MOTHERBOARD),1145)
-# ADIMLab Gantry v1
+# TT OSCAR
 else ifeq ($(HARDWARE_MOTHERBOARD),1146)
-# ADIMLab Gantry v2
+# Overlord/Overlord Pro
 else ifeq ($(HARDWARE_MOTHERBOARD),1147)
-# BIQU Tango V1
+# ADIMLab Gantry v1
 else ifeq ($(HARDWARE_MOTHERBOARD),1148)
-# MKS GEN L V2
+# ADIMLab Gantry v2
 else ifeq ($(HARDWARE_MOTHERBOARD),1149)
-# Copymaster 3D
+# BIQU Tango V1
 else ifeq ($(HARDWARE_MOTHERBOARD),1150)
+# MKS GEN L V2
+else ifeq ($(HARDWARE_MOTHERBOARD),1151)
+# MKS GEN L V2.1
+else ifeq ($(HARDWARE_MOTHERBOARD),1152)
+# Copymaster 3D
+else ifeq ($(HARDWARE_MOTHERBOARD),1153)
+# Ortur 4
+else ifeq ($(HARDWARE_MOTHERBOARD),1154)
+# Tenlog D3 Hero
+else ifeq ($(HARDWARE_MOTHERBOARD),1155)
 
 #
 # RAMBo and derivatives
@@ -347,32 +370,36 @@ else ifeq ($(HARDWARE_MOTHERBOARD),1501)
 else ifeq ($(HARDWARE_MOTHERBOARD),1502)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega644p
-# Melzi with ATmega1284 (MaKr3d version)
+# Melzi V2.0
 else ifeq ($(HARDWARE_MOTHERBOARD),1503)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
-# Melzi Creality3D board (for CR-10 etc)
+# Melzi with ATmega1284 (MaKr3d version)
 else ifeq ($(HARDWARE_MOTHERBOARD),1504)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
-# Melzi Malyan M150 board
+# Melzi Creality3D board (for CR-10 etc)
 else ifeq ($(HARDWARE_MOTHERBOARD),1505)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
-# Tronxy X5S
+# Melzi Malyan M150 board
 else ifeq ($(HARDWARE_MOTHERBOARD),1506)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
-# STB V1.1
+# Tronxy X5S
 else ifeq ($(HARDWARE_MOTHERBOARD),1507)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
-# Azteeg X1
+# STB V1.1
 else ifeq ($(HARDWARE_MOTHERBOARD),1508)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
-# Anet 1.0 (Melzi clone)
+# Azteeg X1
 else ifeq ($(HARDWARE_MOTHERBOARD),1509)
+  HARDWARE_VARIANT ?= Sanguino
+  MCU              ?= atmega1284p
+# Anet 1.0 (Melzi clone)
+else ifeq ($(HARDWARE_MOTHERBOARD),1510)
   HARDWARE_VARIANT ?= Sanguino
   MCU              ?= atmega1284p
 
@@ -671,7 +698,7 @@ ifeq ($(HARDWARE_VARIANT), Teensy)
   LIB_CXXSRC += usb_api.cpp
 
 else ifeq ($(HARDWARE_VARIANT), archim)
-  CDEFS      += -DARDUINO_SAM_ARCHIM -DARDUINO_ARCH_SAM -D__SAM3X8E__ -DUSB_VID=0x27b1 -DUSB_PID=0x0001 -DUSBCON '-DUSB_MANUFACTURER="UltiMachine"' '-DUSB_PRODUCT="Archim"'
+  CDEFS      += -DARDUINO_SAM_ARCHIM -DARDUINO_ARCH_SAM -D__SAM3X8E__ -DUSB_VID=0x27b1 -DUSB_PID=0x0001 -DUSBCON '-DUSB_MANUFACTURER="UltiMachine"' '-DUSB_PRODUCT_STRING="Archim"'
   LIB_CXXSRC += variant.cpp IPAddress.cpp Reset.cpp RingBuffer.cpp Stream.cpp UARTClass.cpp  USARTClass.cpp abi.cpp new.cpp watchdog.cpp CDC.cpp PluggableUSB.cpp USBCore.cpp
   LIB_SRC    += cortex_handlers.c iar_calls_sam3.c syscalls_sam3.c dtostrf.c itoa.c
 

@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 
@@ -576,10 +576,15 @@ inline void calibrate_all() {
  *   no args     - Perform entire calibration sequence (backlash + position on all toolheads)
  */
 void GcodeSuite::G425() {
+
+  #ifdef CALIBRATION_SCRIPT_PRE
+    GcodeSuite::process_subcommands_now_P(PSTR(CALIBRATION_SCRIPT_PRE));
+  #endif
+
   TEMPORARY_SOFT_ENDSTOP_STATE(false);
   TEMPORARY_BED_LEVELING_STATE(false);
 
-  if (axis_unhomed_error()) return;
+  if (homing_needed_error()) return;
 
   #if ENABLED(EMI_MITIGATION) && ENABLED(NOZZLE_AS_PROBE)
    enable_emi_pins(true);
@@ -613,6 +618,9 @@ void GcodeSuite::G425() {
 
   #if ENABLED(EMI_MITIGATION) && ENABLED(NOZZLE_AS_PROBE)
    enable_emi_pins(false);
+  #endif
+  #ifdef CALIBRATION_SCRIPT_POST
+    GcodeSuite::process_subcommands_now_P(PSTR(CALIBRATION_SCRIPT_POST));
   #endif
 }
 

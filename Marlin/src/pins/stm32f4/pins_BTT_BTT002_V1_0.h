@@ -16,18 +16,18 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 #pragma once
 
-#ifndef TARGET_STM32F4
+#ifndef STM32F4
   #error "Oops! Select an STM32F4 board in 'Tools > Board.'"
 #elif HOTENDS > 1 || E_STEPPERS > 1
   #error "BIGTREE BTT002 V1.0 supports up to 1 hotends / E-steppers."
 #endif
 
-#define BOARD_INFO_NAME "BIGTREE Btt002 1.0"
+#define BOARD_INFO_NAME "BTT BTT002 V1.0"
 
 // Use one of these or SDCard-based Emulation will be used
 #if NO_EEPROM_SELECTED
@@ -42,14 +42,20 @@
 #endif
 
 // Ignore temp readings during development.
-//#define BOGUS_TEMPERATURE_GRACE_PERIOD 2000
+//#define BOGUS_TEMPERATURE_GRACE_PERIOD    2000
 
 //
 // Limit Switches
 //
-#define X_STOP_PIN                          PD3
-#define Y_STOP_PIN                          PD2
-#define Z_STOP_PIN                          PD1   // Shares J4 connector with PC3
+#ifndef X_STOP_PIN
+  #define X_STOP_PIN                        PD3
+#endif
+#ifndef Y_STOP_PIN
+  #define Y_STOP_PIN                        PD2
+#endif
+#ifndef Z_STOP_PIN
+  #define Z_STOP_PIN                        PD1   // Shares J4 connector with PC3
+#endif
 
 //
 // Z Probe must be this pin
@@ -153,7 +159,7 @@
   #define E0_SERIAL_RX_PIN                  PD7
 
   // Reduce baud rate to improve software serial reliability
-  #define TMC_BAUD_RATE 19200
+  #define TMC_BAUD_RATE                    19200
 #endif
 
 //
@@ -237,9 +243,15 @@
 
   // Alter timing for graphical display
   #if HAS_GRAPHICAL_LCD
-    #define BOARD_ST7920_DELAY_1 DELAY_NS(96)
-    #define BOARD_ST7920_DELAY_2 DELAY_NS(48)
-    #define BOARD_ST7920_DELAY_3 DELAY_NS(600)
+    #ifndef BOARD_ST7920_DELAY_1
+      #define BOARD_ST7920_DELAY_1 DELAY_NS(96)
+    #endif
+    #ifndef BOARD_ST7920_DELAY_2
+      #define BOARD_ST7920_DELAY_2 DELAY_NS(48)
+    #endif
+    #ifndef BOARD_ST7920_DELAY_3
+      #define BOARD_ST7920_DELAY_3 DELAY_NS(600)
+    #endif
   #endif
 
 #endif // HAS_SPI_LCD

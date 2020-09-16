@@ -1,0 +1,116 @@
+<!--
+drunken-octopus-pin-reference
+Copyright (C) 2020  Marcio Teixeira
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<html>
+    <head>
+        <meta property="og:url"                    content="https://www.drunkenoctop.us/drunken-octopus-marlin/pinouts/" />
+        <meta property="og:type"                   content="article" />
+        <meta property="og:title"                  content="Drunken Octopus Wiring Guide" />
+        <meta property="og:description"            content="A wiring guide for boards supported by Drunken Octopus firmware" />
+        <meta property="og:image:secure_url"       content="https://github.com/drunken-octopus/drunken-octopus-marlin/raw/master/images/drunk-octopus-social-media.jpg" />
+        <meta property="og:image"                  content="https://github.com/drunken-octopus/drunken-octopus-marlin/raw/master/images/drunk-octopus-social-media.jpg" />
+        <meta property="og:image:type"             content="image/jpg" />
+        <meta property="og:image:width"            content="1280" />
+        <meta property="og:image:height"           content="640" />
+        <title>Drunken Octopus Wiring Guide</title>
+        <link rel="stylesheet" type="text/css" href="tabs.css">
+        <style>
+            body {
+                font-family: Tahoma, Verdana, Segoe, sans-serif;
+            }
+
+            .thankyou {
+                font-weight: bold;
+            }
+
+            .thankyou span {
+                color: red;
+                font-size: 150%;
+            }
+
+            .about {
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+            }
+
+            img {
+                height: 10em;
+                width: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="tabs">
+            <input name="tabs" type="radio" id="tab-0" checked="checked" class="input"/>
+            <label for="tab-0" class="label">About</label>
+            <div class="panel">
+                <div class="about">
+                    <div>
+                        <h1>Drunken Octopus Wiring Guide</h1>
+                        <p>
+                            This page serves as a wiring guide for all boards supported by <a href="https://github.com/marciot/drunken-octopus-marlin">Drunken Octopus</a> firmware.
+                        </p>
+                        <p>
+                            Choose a board above and hover your mouse over a flashing indicator to show the purpose of that pin.
+                        </p>
+                        <p class="thankyou">
+                            <span>&hearts;</span>&nbsp;This guide was made possible by the generosity of my <a href="http://patreon.com/marciot">Patreon</a> supporters. Thank you!&nbsp;<span>&hearts;</span>
+                        </p>
+                    </div>
+                    <img src="https://github.com/marciot/drunken-octopus-marlin/raw/master/images/drunken-octopus-small.jpg" width="473" width="395">
+                </div>
+            </div>
+
+            <input name="tabs" type="radio" id="tab-1" class="input"/>
+            <label for="tab-1" class="label">Rambo v1.3L</label>
+            <div class="panel">
+                <object data="RAMBoV13L_1024x1024.svg" type="image/svg+xml" width="1024" height="1024"></object>
+            </div>
+
+            <input name="tabs" type="radio" id="tab-2" class="input"/>
+            <label for="tab-2" class="label">Rambo v1.4a</label>
+            <div class="panel">
+                <object data="Rambo14a_1024x1024.svg" type="image/svg+xml" width="1024" height="1024"></object>
+            </div>
+
+            <input name="tabs" type="radio" id="tab-3" class="input"/>
+            <label for="tab-3" class="label">Archim 2.1a</label>
+            <div class="panel">
+                <object data="Archim2_v2.1a_1024x1024.svg" type="image/svg+xml" width="1024" height="1024"></object>
+            </div>
+
+            <input name="tabs" type="radio" id="tab-4" class="input"/>
+            <label for="tab-4" class="label">Mini RAMBo 1.3a</label>
+            <div class="panel">
+                <object data="Mini-RAMBo_1.3a_1024x1024.svg" type="image/svg+xml" width="1024" height="1024"></object>
+            </div>
+
+            <input name="tabs" type="radio" id="tab-5" class="input"/>
+            <label for="tab-5" class="label">Einsy Retro 1.0a</label>
+            <div class="panel">
+                <object data="EinsyRetro_1.0a_1024x1024.svg" type="image/svg+xml" width="1024" height="1024"></object>
+            </div>
+
+            <input name="tabs" type="radio" id="tab-6" class="input"/>
+            <label for="tab-6" class="label">BTT002 V1.0</label>
+            <div class="panel">
+                <object data="BTT002_V1.0.svg" type="image/svg+xml" width="1024" height="1024"></object>
+            </div>
+        </div>
+    </body>
+</html>

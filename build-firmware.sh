@@ -46,7 +46,7 @@ usage() {
 # Compiles dependencies for the specific board
 #
 compile_deps_for_board() {
-  if [ $USE_PIO ] ; then return; fi
+  if [ $USE_PIO -ne 0 ] ; then return; fi
   board=$1 ; shift 1
 
   # Only compile dependency once
@@ -79,17 +79,19 @@ compile_deps_for_board() {
 # Locates compilation tools for the specific board
 #
 locate_gcc_for_board() {
-  if [ $USE_PIO ] ; then return; fi
   board=$1 ; shift 1
-
+  NEEDS_PIO=0
   case $board in
+    BOARD_BTT_BTT002_V1_0)
+      NEEDS_PIO=1
+      ;;
     BOARD_ARCHIM2)
       locate_tools TOOLS_PATH arm-none-eabi
-      check_tools $TOOLS_PATH arm-none-eabi
+      check_tools "$TOOLS_PATH" arm-none-eabi
       ;;
     *)
       locate_tools TOOLS_PATH avr
-      check_tools $TOOLS_PATH avr
+      check_tools "$TOOLS_PATH" avr
       ;;
   esac
 }
@@ -124,6 +126,8 @@ get_config_info() {
   fi
   if [ $motherboard_name = "BOARD_ARCHIM2" ]; then
     fw_type=bin
+  elif [ $motherboard_name = "BOARD_BTT_BTT002_V1_0" ]; then
+    fw_type=bin
   else
     fw_type=hex
   fi
@@ -136,13 +140,13 @@ get_config_info() {
 # Compiles firmware for the specified printer and toolhead
 #
 compile_firmware() {
-  if [ $USE_PIO ]; then
+  if [ $USE_PIO -ne 0 -o $NEEDS_PIO -ne 0 ]; then
     echo Compiling using platformio for $motherboard_pio
     platformio run -e $motherboard_pio || exit
   else
     (cd Marlin; make clean; make \
       $MAKE_FLAGS \
-      AVR_TOOLS_PATH=$TOOLS_PATH/ \
+      AVR_TOOLS_PATH=$TOOLS_PATH \
       ARDUINO_INSTALL_DIR=../ArduinoAddons/arduino-1.8.5 \
       ARDUINO_VERSION=10805 \
       HARDWARE_MOTHERBOARD=$motherboard_number \
@@ -222,7 +226,7 @@ build_firmware() {
   # Copy builds to build directory
 
   mkdir -p build/$vendor/$group/$printer/$toolhead
-  if [ $USE_PIO ]; then
+  if [ $USE_PIO -ne 0 -o $NEEDS_PIO -ne 0 ]; then
     mv .pio/build/$motherboard_pio/firmware.$fw_type $fw_path
   else
     mv Marlin/applet/marlin.$fw_type $fw_path
@@ -240,8 +244,8 @@ build_firmware() {
 # Checks whether a tool exists in path
 #
 check_tool() {
-  if [ ! -x "$1/$2" ]; then
-    echo Cannot locate $2 in $1.
+  if ! command -v "${1}$2" ; then
+    echo Cannot locate $2 in "$1".
     exit 1
   fi
 }
@@ -254,24 +258,26 @@ check_tool() {
 # stored in <path_var>
 #
 locate_tools() {
-  if [ $USE_PIO ] ; then return; fi
+  if [ $USE_PIO -ne 0 ] ; then return; fi
   DEST_VAR=$1
-  TOOL_BINARY=`which $2-objcopy`
+  TOOL_BINARY=`which $2-gcc`
   if [ $? -eq 0 ]; then
-    TOOLS_PATH=`dirname $TOOL_BINARY`
+    FOUND_PATH=`dirname $TOOL_BINARY`
   fi
-  while [ ! -x $TOOLS_PATH/$2-objcopy ]
+  while [ ! -x $FOUND_PATH/$2-gcc ]
   do
     echo
-    echo $2-objcopy not found!
+    echo $2-gcc not found!
     echo
-    read -p "Type path to $2 tools: " TOOLS_PATH
-    if [ -z $TOOLS_PATH ]; then
+    read -p "Type path to $2 tools: " FOUND_PATH
+    if [ -z $FOUND_PATH ]; then
       echo Aborting.
       exit
     fi
   done
-  eval "$DEST_VAR=$TOOLS_PATH"
+  if [ "$FOUND_PATH" != "/usr/lib/ccache" ]; then
+     eval "$DEST_VAR=$FOUND_PATH/"
+  fi
 }
 
 ####
@@ -281,17 +287,17 @@ locate_tools() {
 # directory.
 #
 check_tools() {
-  if [ $USE_PIO ] ; then return; fi
+  if [ $USE_PIO -ne 0 ] ; then return; fi
   echo
   echo Using $1 for $2 tools.
   echo
 
-  check_tool $1 $2-gcc
-  check_tool $1 $2-objcopy
-  check_tool $1 $2-g++
-  check_tool $1 $2-objdump
-  check_tool $1 $2-ar
-  check_tool $1 $2-size
+  check_tool "$1" $2-gcc
+  check_tool "$1" $2-objcopy
+  check_tool "$1" $2-g++
+  check_tool "$1" $2-objdump
+  check_tool "$1" $2-ar
+  check_tool "$1" $2-size
 }
 
 ####
@@ -314,6 +320,9 @@ build_summary() {
 ############################################
 
 # Parse command line options
+
+USE_PIO=0
+NEEDS_PIO=0
 
 while true
 do

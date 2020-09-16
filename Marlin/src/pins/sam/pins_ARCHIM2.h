@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 #pragma once
@@ -137,11 +137,21 @@
   #define E0_CS_PIN                          104  // PC20 E1_nCS -AddOns *
 #endif
 
-#define E1_STEP_PIN                           22  // PB26 E2_STEP *
-#define E1_DIR_PIN                            97  // PB24 E2_DIR -AddOns *
-#define E1_ENABLE_PIN                         18  // PA11 E2-EN
-#ifndef E1_CS_PIN
-  #define E1_CS_PIN                           19  // PA10 E2_nCS
+#if !defined(NUM_Z_STEPPER_DRIVERS) || NUM_Z_STEPPER_DRIVERS == 1
+  #define E1_STEP_PIN                         22  // PB26 E2_STEP *
+  #define E1_DIR_PIN                          97  // PB24 E2_DIR -AddOns *
+  #define E1_ENABLE_PIN                       18  // PA11 E2-EN
+  #ifndef E1_CS_PIN
+    #define E1_CS_PIN                         19  // PA10 E2_nCS
+  #endif
+#else
+  // Repurpose E2 plug for Z2 instead  
+  #define Z2_STEP_PIN                         22  // PB26 E2_STEP *
+  #define Z2_DIR_PIN                          97  // PB24 E2_DIR -AddOns *
+  #define Z2_ENABLE_PIN                       18  // PA11 E2-EN
+  #ifndef Z2_CS_PIN
+    #define Z2_CS_PIN                         19  // PA10 E2_nCS
+  #endif
 #endif
 
 //
@@ -237,7 +247,7 @@
 //
 // LCD / Controller
 //
-#if HAS_SPI_LCD || TOUCH_UI_ULTIPANEL || ENABLED(TOUCH_UI_FTDI_EVE)
+#if ANY(HAS_SPI_LCD, TOUCH_UI_ULTIPANEL, TOUCH_UI_FTDI_EVE)
   #define BEEPER_PIN                          23  // D24 PA15_CTS1
   #define LCD_PINS_RS                         17  // D17 PA12_RXD1
   #define LCD_PINS_ENABLE                     24  // D23 PA14_RTS1
@@ -248,10 +258,10 @@
 
   #define SD_DETECT_PIN                        2  // D2  PB25_TIOA0
 
-  #if ENABLED(ULTIPANEL) || TOUCH_UI_ULTIPANEL || ENABLED(TOUCH_UI_FTDI_EVE)
+  #if ANY(ULTIPANEL, TOUCH_UI_ULTIPANEL, TOUCH_UI_FTDI_EVE)
     // Buttons on AUX-2
     #define BTN_EN1                           60  // D60 PA3_TIOB1
     #define BTN_EN2                           13  // D13 PB27_TIOB0
     #define BTN_ENC                           16  // D16 PA13_TXD1 // the click
-  #endif // ULTIPANEL || TOUCH_UI_ULTIPANEL
-#endif // HAS_SPI_LCD
+  #endif
+#endif

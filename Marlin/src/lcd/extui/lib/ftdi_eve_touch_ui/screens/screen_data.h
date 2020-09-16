@@ -17,7 +17,7 @@
  *   GNU General Public License for more details.                           *
  *                                                                          *
  *   To view a copy of the GNU General Public License, go to the following  *
- *   location: <http://www.gnu.org/licenses/>.                              *
+ *   location: <https://www.gnu.org/licenses/>.                              *
  ****************************************************************************/
 
 #pragma once
@@ -62,6 +62,11 @@ union screen_data_t {
   } MoveAxisScreen;
 #if HAS_MESH
   struct {
+    enum : uint8_t {
+        MSG_NONE,
+        MSG_MESH_COMPLETE,
+        MSG_MESH_INCOMPLETE
+    } message;
     uint8_t count;
     uint8_t highlightedTag;
   } BedMeshScreen;

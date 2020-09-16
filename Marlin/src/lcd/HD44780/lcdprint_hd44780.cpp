@@ -23,10 +23,6 @@
 
 #include <string.h>
 
-#ifndef LCD_CLASS
-  #include <LiquidCrystal.h>
-  #define LCD_CLASS LiquidCrystal
-#endif
 extern LCD_CLASS lcd;
 
 int lcd_glyph_height() { return 1; }
@@ -927,6 +923,7 @@ static const hd44780_charmap_t g_hd44780_charmap_common[] PROGMEM = {
     {IV('ю'), '|', 'o'},
     {IV('я'), 'g', 0}, // 044F
     {IV('ё'), 'e', 0}, // 0451
+
   #endif
 
   {IV('•'), '.', 0}, // 2022 ·
@@ -985,7 +982,7 @@ int lcd_put_wchar_max(wchar_t c, pixel_len_t max_length) {
 
   if (max_length < 1) return 0;
 
-  // TODO: fix the '\\' that doesnt exist in the HD44870
+  // TODO: fix the '\\' that doesn't exist in the HD44870
   if (c < 128) {
     lcd.write((uint8_t)c);
     return 1;

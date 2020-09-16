@@ -17,7 +17,7 @@
  *   GNU General Public License for more details.                           *
  *                                                                          *
  *   To view a copy of the GNU General Public License, go to the following  *
- *   location: <http://www.gnu.org/licenses/>.                              *
+ *   location: <https://www.gnu.org/licenses/>.                              *
  ****************************************************************************/
 
 #include "../config.h"
@@ -108,11 +108,9 @@ bool TuneMenu::onTouchEnd(uint8_t tag) {
       current_screen.forget();
       PUSH_SCREEN(StatusScreen);
       break;
-    case 9:
-      #if EITHER(LIN_ADVANCE, FILAMENT_RUNOUT_SENSOR)
-        GOTO_SCREEN(FilamentMenu);
-      #endif
-      break;
+    #if EITHER(LIN_ADVANCE, FILAMENT_RUNOUT_SENSOR)
+    case 9:  GOTO_SCREEN(FilamentMenu); break;
+    #endif
     default:
       return false;
   }
