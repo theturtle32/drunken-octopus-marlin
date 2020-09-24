@@ -583,7 +583,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MOTHERBOARD"]                            = 'BOARD_ARCHIM2'
         MARLIN["CONTROLLER_FAN_PIN"]                     = 'FAN1_PIN'
         MARLIN["SERIAL_PORT"]                            = -1
-        if USE_REPRAP_LCD_DISPLAY:
+        if USE_REPRAP_LCD_DISPLAY or "SynDaver_AXI_2" in PRINTER:
             MARLIN["SERIAL_PORT_2"]                      = 0
         MARLIN["SPI_SPEED"]                              = 'SPI_SIXTEENTH_SPEED'
 
