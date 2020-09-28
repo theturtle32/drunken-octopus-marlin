@@ -95,8 +95,6 @@
         WRITE(GPIO_PB0_J20_6, LOW);
         SET_INPUT(GPIO_PB2_J20_8);
         WRITE(GPIO_PB2_J20_8, HIGH);
-        const bool state = !READ(GPIO_PB2_J20_8);
-        SERIAL_ECHOPAIR("Dual Z Enabled:", state);
-        return state;
+        return !READ(GPIO_PB2_J20_8);
     }
 #endif
