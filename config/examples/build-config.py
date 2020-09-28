@@ -426,17 +426,18 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MACHINE_UUID"]                           = C_STRING("a952577d-8722-483a-999d-acdc9e772b7b")
         MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = True
         MARLIN["SDSUPPORT"]                              = True
+        USE_DUAL_Z_STEPPERS                              = True
         if "SynDaver_AXI_2" in PRINTER:
             MARLIN["CASE_LIGHT_ENABLE"]                  = True
             MARLIN["CASE_LIGHT_PIN"]                     = "HEATER_1_PIN"
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI 2")
             MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (d93471f)")
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: beta (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
-            USE_DUAL_Z_STEPPERS                          = True
         else:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI")
             MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (d93471f)")
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 4 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+            MARLIN["Z2_PRESENCE_CHECK"]                  = True
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
         MARLIN["EMI_MITIGATION"]                         = True
@@ -583,7 +584,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MOTHERBOARD"]                            = 'BOARD_ARCHIM2'
         MARLIN["CONTROLLER_FAN_PIN"]                     = 'FAN1_PIN'
         MARLIN["SERIAL_PORT"]                            = -1
-        if USE_REPRAP_LCD_DISPLAY:
+        if USE_REPRAP_LCD_DISPLAY or "SynDaver_AXI_2" in PRINTER:
             MARLIN["SERIAL_PORT_2"]                      = 0
         MARLIN["SPI_SPEED"]                              = 'SPI_SIXTEENTH_SPEED'
 

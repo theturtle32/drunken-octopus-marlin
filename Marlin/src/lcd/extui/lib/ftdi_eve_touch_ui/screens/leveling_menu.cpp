@@ -72,12 +72,9 @@ void LevelingMenu::onRedraw(draw_mode_t what) {
        .text(TITLE_POS, GET_TEXT_F(MSG_LEVELING))
        .font(font_medium).colors(normal_btn)
        .tag(2).button(LEVEL_BED_POS, GET_TEXT_F(MSG_LEVEL_BED))
-       .enabled(
-         #ifdef AXIS_LEVELING_COMMANDS
-           1
-         #endif
-        )
+    #if ENABLED(Z_STEPPER_AUTO_ALIGN) || defined(AXIS_LEVELING_COMMANDS)
        .tag(3).button(LEVEL_AXIS_POS, GET_TEXT_F(MSG_AUTOLEVEL_X_AXIS))
+    #endif
        .enabled(ENABLED(HAS_MESH))
        .tag(4).button(SHOW_MESH_POS, GET_TEXT_F(MSG_SHOW_MESH));
     #if ENABLED(BLTOUCH)
@@ -103,9 +100,17 @@ bool LevelingMenu::onTouchEnd(uint8_t tag) {
       SpinnerDialogBox::enqueueAndWait_P(F(BED_LEVELING_COMMANDS));
     #endif
     break;
-    #ifdef AXIS_LEVELING_COMMANDS
-    case 3: SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS)); break;
-    #endif
+    case 3:
+      SpinnerDialogBox::enqueueAndWait_P(
+        #if ENABLED(Z2_PRESENCE_CHECK)
+          has_z2_jumper() ? F("G34") : F(AXIS_LEVELING_COMMANDS)
+        #elif defined(AXIS_LEVELING_COMMANDS)
+          F(AXIS_LEVELING_COMMANDS)
+        #elif ENABLED(Z_STEPPER_AUTO_ALIGN)
+          F("G34")
+        #endif
+      );
+      break;
     #if HAS_MESH
     case 4: GOTO_SCREEN(BedMeshScreen); break;
     #endif
