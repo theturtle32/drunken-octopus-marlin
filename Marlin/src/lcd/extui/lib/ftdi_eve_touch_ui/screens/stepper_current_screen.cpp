@@ -51,7 +51,10 @@ void StepperCurrentScreen::onRedraw(draw_mode_t what) {
     w.color(z_axis)  .adjuster(10, GET_TEXT_F(MSG_AXIS_Z),  getAxisCurrent_mA(Z) );
   #endif
   #if AXIS_IS_TMC(Z2)
-    w.color(z_axis)  .adjuster(12, GET_TEXT_F(MSG_AXIS_Z2), getAxisCurrent_mA(Z2), TERN(Z2_PRESENCE_CHECK, has_z2_jumper(), true));
+    #if ENABLED(Z2_PRESENCE_CHECK)
+    if(has_z2_jumper())
+    #endif
+    w.color(z_axis)  .adjuster(12, GET_TEXT_F(MSG_AXIS_Z2), getAxisCurrent_mA(Z2) );
   #endif
   #if AXIS_IS_TMC(E0)
     w.color(e_axis)  .adjuster(14, GET_TEXT_F(

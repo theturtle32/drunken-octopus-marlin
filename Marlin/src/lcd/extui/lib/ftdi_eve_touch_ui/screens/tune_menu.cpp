@@ -81,8 +81,10 @@ void TuneMenu::onRedraw(draw_mode_t what) {
        .button( PAUSE_POS, isPrintingFromMediaPaused() ? GET_TEXT_F(MSG_RESUME_PRINT) : GET_TEXT_F(MSG_PAUSE_PRINT))
        .enabled(TERN0(SDSUPPORT, isPrintingFromMedia()))
        .tag(8).button( STOP_POS, GET_TEXT_F(MSG_STOP_PRINT))
+       #if ENABLED(CASE_LIGHT_ENABLE)
        .enabled(ENABLED(CASE_LIGHT_ENABLE))
        .tag(10).button( CASE_LIGHT_POS, GET_TEXT_F(MSG_CASE_LIGHT))
+       #endif
        .tag(1).colors(action_btn)
              .button( BACK_POS, GET_TEXT_F(MSG_BACK));
   }
