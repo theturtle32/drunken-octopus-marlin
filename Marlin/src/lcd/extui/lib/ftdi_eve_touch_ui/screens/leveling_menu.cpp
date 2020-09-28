@@ -74,20 +74,15 @@ void LevelingMenu::onRedraw(draw_mode_t what) {
        .text(TITLE_POS, GET_TEXT_F(MSG_LEVELING))
        .font(font_medium).colors(normal_btn)
        .tag(2).button(LEVEL_BED_POS, GET_TEXT_F(MSG_LEVEL_BED))
-       .enabled(
-         #ifdef AXIS_LEVELING_COMMANDS
-           1
-         #endif
-        )
+    #if ENABLED(Z_STEPPER_AUTO_ALIGN) || defined(AXIS_LEVELING_COMMANDS)
        .tag(3).button(LEVEL_AXIS_POS, GET_TEXT_F(MSG_AUTOLEVEL_X_AXIS))
-       .enabled(ENABLED(Z_STEPPER_AUTO_ALIGN))
-       .tag(4).button(Z_AUTO_ALIGN_POS, GET_TEXT_F(MSG_AUTO_Z_ALIGN))
+    #endif
        .enabled(ENABLED(HAS_MESH))
-       .tag(5).button(SHOW_MESH_POS, GET_TEXT_F(MSG_SHOW_MESH));
+       .tag(4).button(SHOW_MESH_POS, GET_TEXT_F(MSG_SHOW_MESH));
     #if ENABLED(BLTOUCH)
       cmd.text(BLTOUCH_TITLE_POS, GET_TEXT_F(MSG_BLTOUCH))
-         .tag(6).button(BLTOUCH_RESET_POS, GET_TEXT_F(MSG_BLTOUCH_RESET))
-         .tag(7).button(BLTOUCH_TEST_POS,  GET_TEXT_F(MSG_BLTOUCH_SELFTEST));
+         .tag(5).button(BLTOUCH_RESET_POS, GET_TEXT_F(MSG_BLTOUCH_RESET))
+         .tag(6).button(BLTOUCH_TEST_POS,  GET_TEXT_F(MSG_BLTOUCH_SELFTEST));
     #endif
     cmd.colors(action_btn)
        .tag(1).button(BACK_POS, GET_TEXT_F(MSG_BACK));
@@ -107,18 +102,23 @@ bool LevelingMenu::onTouchEnd(uint8_t tag) {
       SpinnerDialogBox::enqueueAndWait_P(F(BED_LEVELING_COMMANDS));
     #endif
     break;
-    #ifdef AXIS_LEVELING_COMMANDS
-    case 3: SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS)); break;
-    #endif
-    #if ENABLED(Z_STEPPER_AUTO_ALIGN)
-    case 4: SpinnerDialogBox::enqueueAndWait_P(F("G34")); break;
-    #endif
+    case 3:
+      SpinnerDialogBox::enqueueAndWait_P(
+        #if ENABLED(Z2_PRESENCE_CHECK)
+          has_z2_jumper() ? F("G34") : F(AXIS_LEVELING_COMMANDS)
+        #elif defined(AXIS_LEVELING_COMMANDS)
+          F(AXIS_LEVELING_COMMANDS)
+        #elif ENABLED(Z_STEPPER_AUTO_ALIGN)
+          F("G34")
+        #endif
+      );
+      break;
     #if HAS_MESH
-    case 5: GOTO_SCREEN(BedMeshScreen); break;
+    case 4: GOTO_SCREEN(BedMeshScreen); break;
     #endif
     #if ENABLED(BLTOUCH)
-    case 6: injectCommands_P(PSTR("M280 P0 S60")); break;
-    case 7: SpinnerDialogBox::enqueueAndWait_P(F("M280 P0 S90\nG4 P100\nM280 P0 S120")); break;
+    case 5: injectCommands_P(PSTR("M280 P0 S60")); break;
+    case 6: SpinnerDialogBox::enqueueAndWait_P(F("M280 P0 S90\nG4 P100\nM280 P0 S120")); break;
     #endif
     default: return false;
   }
