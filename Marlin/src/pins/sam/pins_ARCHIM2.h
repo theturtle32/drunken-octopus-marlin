@@ -137,21 +137,35 @@
   #define E0_CS_PIN                          104  // PC20 E1_nCS -AddOns *
 #endif
 
-#if !defined(NUM_Z_STEPPER_DRIVERS) || NUM_Z_STEPPER_DRIVERS == 1
-  #define E1_STEP_PIN                         22  // PB26 E2_STEP *
-  #define E1_DIR_PIN                          97  // PB24 E2_DIR -AddOns *
-  #define E1_ENABLE_PIN                       18  // PA11 E2-EN
-  #ifndef E1_CS_PIN
-    #define E1_CS_PIN                         19  // PA10 E2_nCS
-  #endif
-#else
-  // Repurpose E2 plug for Z2 instead  
-  #define Z2_STEP_PIN                         22  // PB26 E2_STEP *
-  #define Z2_DIR_PIN                          97  // PB24 E2_DIR -AddOns *
-  #define Z2_ENABLE_PIN                       18  // PA11 E2-EN
-  #ifndef Z2_CS_PIN
-    #define Z2_CS_PIN                         19  // PA10 E2_nCS
-  #endif
+#define E1_STEP_PIN                           22  // PB26 E2_STEP *
+#define E1_DIR_PIN                            97  // PB24 E2_DIR -AddOns *
+#define E1_ENABLE_PIN                         18  // PA11 E2-EN
+#ifndef E1_CS_PIN
+#define E1_CS_PIN                             19  // PA10 E2_nCS
+#endif
+
+#if NUM_Z_STEPPER_DRIVERS == 2
+  // SynDaver AXI w/ dual Z steppers: Plug Z-left into E2, plug Z-right into Z.
+
+  #undef Z_STEP_PIN
+  #undef Z_DIR_PIN
+  #undef Z_ENABLE_PIN
+  #undef Z_CS_PIN
+  
+  #undef E1_STEP_PIN
+  #undef E1_DIR_PIN
+  #undef E1_ENABLE_PIN
+  #undef E1_CS_PIN
+
+  #define Z_STEP_PIN                           22  // PB26 E2_STEP *
+  #define Z_DIR_PIN                            97  // PB24 E2_DIR -AddOns *
+  #define Z_ENABLE_PIN                         18  // PA11 E2-EN
+  #define Z_CS_PIN                             19  // PA10 E2_nCS
+  
+  #define Z2_STEP_PIN                          46  // PC17 Z-STEP *
+  #define Z2_DIR_PIN                           47  // PC16 Z-DIR *
+  #define Z2_ENABLE_PIN                        44  // PC19 Z-END *
+  #define Z2_CS_PIN                            45  // PC18 Z_nCS
 #endif
 
 //

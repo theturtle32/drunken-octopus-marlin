@@ -103,11 +103,11 @@ bool LevelingMenu::onTouchEnd(uint8_t tag) {
     case 3:
       SpinnerDialogBox::enqueueAndWait_P(
         #if ENABLED(Z2_PRESENCE_CHECK)
-          has_z2_jumper() ? F("G34") : F(AXIS_LEVELING_COMMANDS)
+          has_z2_jumper() ? F("G34 A2 I20 T0.01") : F(AXIS_LEVELING_COMMANDS)
         #elif defined(AXIS_LEVELING_COMMANDS)
           F(AXIS_LEVELING_COMMANDS)
         #elif ENABLED(Z_STEPPER_AUTO_ALIGN)
-          F("G34")
+          F("G34 A2 I20 T0.01")
         #endif
       );
       break;
