@@ -101,15 +101,18 @@ bool LevelingMenu::onTouchEnd(uint8_t tag) {
     #endif
     break;
     case 3:
-      SpinnerDialogBox::enqueueAndWait_P(
         #if ENABLED(Z2_PRESENCE_CHECK)
-          has_z2_jumper() ? F("G34 A2 I20 T0.01") : F(AXIS_LEVELING_COMMANDS)
+          if(has_z2_jumper()) {
+            GOTO_SCREEN(StatusScreen);
+            ExtUI::injectCommands_P(PSTR("G34 A2 I20 T0.01"));
+          } else {
+            SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS));
+          }
         #elif defined(AXIS_LEVELING_COMMANDS)
-          F(AXIS_LEVELING_COMMANDS)
+          SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS));
         #elif ENABLED(Z_STEPPER_AUTO_ALIGN)
-          F("G34 A2 I20 T0.01")
+          SpinnerDialogBox::enqueueAndWait_P(F("G34 A2 I20 T0.01"));
         #endif
-      );
       break;
     #if HAS_MESH
     case 4: GOTO_SCREEN(BedMeshScreen); break;
