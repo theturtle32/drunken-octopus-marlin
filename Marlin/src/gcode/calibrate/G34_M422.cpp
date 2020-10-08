@@ -215,7 +215,7 @@ void GcodeSuite::G34() {
 
       #if HAS_DISPLAY
         char str[60];
-        sprintf_P(str, PSTR("Iteration: %d Accuracy: %f"), int(iteration + 1), z_maxdiff);
+        sprintf_P(str, PSTR("Iteration: %d Accuracy: %.3f"), int(iteration + 1), z_maxdiff);
         ui.set_status(str);
       #endif
       
