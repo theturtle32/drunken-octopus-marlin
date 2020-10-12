@@ -479,7 +479,9 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
 
   show_continue_prompt(is_reload);
 
+  #if DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
   first_impatient_beep(max_beep_count);
+  #endif
 
   // Start the heater idle timers
   const millis_t nozzle_timeout = SEC_TO_MS(PAUSE_PARK_NOZZLE_TIMEOUT);
@@ -496,10 +498,16 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
   // Wait for filament insert by user and press button
   KEEPALIVE_STATE(PAUSED_FOR_USER);
   TERN_(HOST_PROMPT_SUPPORT, host_prompt_do(PROMPT_USER_CONTINUE, GET_TEXT(MSG_NOZZLE_PARKED), CONTINUE_STR));
+  #if ENABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
+  TERN_(EXTENSIBLE_UI, ExtUI::onUserConfirmRequired_P(GET_TEXT(MSG_PRINT_PAUSED)));
+  #else
   TERN_(EXTENSIBLE_UI, ExtUI::onUserConfirmRequired_P(GET_TEXT(MSG_NOZZLE_PARKED)));
+  #endif
   wait_for_user = true;    // LCD click or M108 will clear this
   while (wait_for_user) {
+    #if DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
     impatient_beep(max_beep_count);
+    #endif
 
     // If the nozzle has timed out...
     if (!nozzle_timed_out)
@@ -535,8 +543,10 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
 
       HOTEND_LOOP() thermalManager.hotend_idle[e].start(nozzle_timeout);
       TERN_(HOST_PROMPT_SUPPORT, host_prompt_do(PROMPT_USER_CONTINUE, PSTR("Reheat Done"), CONTINUE_STR));
+      #if DISABLED(NO_PAUSE_FOR_REHEAT)
       TERN_(EXTENSIBLE_UI, ExtUI::onUserConfirmRequired_P(PSTR("Reheat finished.")));
       wait_for_user = true;
+      #endif // NO_PAUSE_FOR_REHEAT
       nozzle_timed_out = false;
 
       first_impatient_beep(max_beep_count);
@@ -596,8 +606,16 @@ void resume_print(const float &slow_load_length/*=0*/, const float &fast_load_le
     thermalManager.setTargetHotend(targetTemp, active_extruder);
   }
 
-  // Load the new filament
-  load_filament(slow_load_length, fast_load_length, purge_length, max_beep_count, true, nozzle_timed_out, PAUSE_MODE_SAME DXC_PASS);
+  #if ENABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
+    ExtUI::onStatusChanged(GET_TEXT(MSG_FILAMENT_CHANGE_RESUME));
+    UNUSED(slow_load_length);
+    UNUSED(fast_load_length);
+    UNUSED(purge_length);
+    UNUSED(max_beep_count);
+  #else
+  if (nozzle_timed_out || thermalManager.hotEnoughToExtrude(active_extruder)) // Load the new filament
+    load_filament(slow_load_length, fast_load_length, purge_length, max_beep_count, true, nozzle_timed_out, PAUSE_MODE_SAME DXC_PASS);
+  #endif
 
   if (targetTemp > 0) {
     thermalManager.setTargetHotend(targetTemp, active_extruder);
