@@ -1401,7 +1401,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     elif "SynDaver_AXI" in PRINTER:
         STANDARD_Z_MIN_POS                               = 0
-        STANDARD_Z_MAX_POS                               = 296
+        STANDARD_Z_MAX_POS                               = 294
 
     elif IS_TAZ and USE_Z_BELT:
         STANDARD_Z_MIN_POS                               = -2
