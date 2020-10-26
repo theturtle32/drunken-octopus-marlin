@@ -629,8 +629,8 @@
 #define USE_XMIN_PLUG
 #define USE_YMIN_PLUG
 #define USE_ZMIN_PLUG
-//#define USE_XMAX_PLUG  // <-- changed
-//#define USE_YMAX_PLUG  // <-- changed
+//#define USE_XMAX_PLUG
+//#define USE_YMAX_PLUG
 #define USE_ZMAX_PLUG // <-- changed
 
 // Enable pullup for all endstops to prevent a floating state
@@ -906,7 +906,7 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-//#define BLTOUCH  // <-- changed
+//#define BLTOUCH
 
 /**
  * Pressure sensor with a BLTouch-like interface
@@ -1273,7 +1273,7 @@
   /**
    * Enable the G26 Mesh Validation Pattern tool.
    */
-  //#define G26_MESH_VALIDATION
+  #define G26_MESH_VALIDATION // <-- changed
   #if ENABLED(G26_MESH_VALIDATION)
     #define MESH_TEST_NOZZLE_SIZE    0.4  // (mm) Diameter of primary nozzle.
     #define MESH_TEST_LAYER_HEIGHT   0.2  // (mm) Default layer height for the G26 Mesh Validation Tool.
@@ -2436,12 +2436,14 @@
 //#define TOUCH_UI_FROZEN_THEME
 //#define TOUCH_UI_ROYAL_THEME
 //#define TOUCH_UI_VERSION
-//#define TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS  // <-- changed
+//#define TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS
 #define CURA_LE_RUNOUT_HANDLING_WORKAROUND // <-- changed
 //#define FIL_RUNOUT_PIN
 //#define SERVO0_PIN
 #define ACTION_ON_FILAMENT_RUNOUT "pause: filament_runout" // <-- changed
 //#define SWAP_E0_AND_E1
+//#define Z_STOP_PIN
+//#define Z_MAX_PIN
 //#define E_MIN_PIN
 //#define E_MIN_PIN_INVERTING
 //#define E_MAX_POS

@@ -906,7 +906,7 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-//#define BLTOUCH  // <-- changed
+//#define BLTOUCH
 
 /**
  * Pressure sensor with a BLTouch-like interface
@@ -1273,7 +1273,7 @@
   /**
    * Enable the G26 Mesh Validation Pattern tool.
    */
-  //#define G26_MESH_VALIDATION
+  #define G26_MESH_VALIDATION // <-- changed
   #if ENABLED(G26_MESH_VALIDATION)
     #define MESH_TEST_NOZZLE_SIZE    0.4  // (mm) Diameter of primary nozzle.
     #define MESH_TEST_LAYER_HEIGHT   0.2  // (mm) Default layer height for the G26 Mesh Validation Tool.
@@ -1530,7 +1530,7 @@
  *    P1  Raise the nozzle always to Z-park height.
  *    P2  Raise the nozzle by Z-park amount, limited to Z_MAX_POS.
  */
-//#define NOZZLE_PARK_FEATURE  // <-- changed
+//#define NOZZLE_PARK_FEATURE
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
@@ -2442,6 +2442,8 @@
 #define SERVO0_PIN 76 // <-- changed
 #define ACTION_ON_FILAMENT_RUNOUT "pause: filament_runout" // <-- changed
 //#define SWAP_E0_AND_E1
+//#define Z_STOP_PIN
+//#define Z_MAX_PIN
 #define E_MIN_PIN X_MAX_PIN // <-- changed
 #define E_MIN_PIN_INVERTING 0 // <-- changed
 #define E_MAX_POS 60 // <-- changed
