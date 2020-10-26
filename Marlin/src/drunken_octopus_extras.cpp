@@ -77,3 +77,24 @@
     if(enable) delay(5);
   }
 #endif
+
+/******************************** INDEPENDENT Z AUTO-DETECT *******************************/
+
+#if ENABLED(Z2_PRESENCE_CHECK)
+    #if NUM_Z_STEPPER_DRIVERS != 2
+      #error Z2_PRESENCE_CHECK requires two Z stepper drivers
+    #endif
+    #ifndef AXIS_LEVELING_COMMANDS
+      #error Z2_PRESENCE_CHECK requires AXIS_LEVELING_COMMANDS
+    #endif
+
+    // Allow the presence of a second Z motor to be controlled
+    // using a jumper on the GPIO pin of the Archim.
+    bool has_z2_jumper() {
+        SET_OUTPUT(GPIO_PB0_J20_6);
+        WRITE(GPIO_PB0_J20_6, LOW);
+        SET_INPUT(GPIO_PB2_J20_8);
+        WRITE(GPIO_PB2_J20_8, HIGH);
+        return !READ(GPIO_PB2_J20_8);
+    }
+#endif

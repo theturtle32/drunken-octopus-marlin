@@ -584,7 +584,7 @@ void GcodeSuite::G425() {
   TEMPORARY_SOFT_ENDSTOP_STATE(false);
   TEMPORARY_BED_LEVELING_STATE(false);
 
-  if (axis_unhomed_error()) return;
+  if (homing_needed_error()) return;
 
   #if ENABLED(EMI_MITIGATION) && ENABLED(NOZZLE_AS_PROBE)
    enable_emi_pins(true);

@@ -28,3 +28,9 @@
   void emi_init(void);
   void enable_emi_pins(const bool);
 #endif
+
+/******************************** INDEPENDENT Z AUTO-DETECT *******************************/
+
+#if ENABLED(Z2_PRESENCE_CHECK)
+  bool has_z2_jumper();
+#endif

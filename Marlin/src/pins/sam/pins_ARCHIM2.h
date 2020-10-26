@@ -141,7 +141,31 @@
 #define E1_DIR_PIN                            97  // PB24 E2_DIR -AddOns *
 #define E1_ENABLE_PIN                         18  // PA11 E2-EN
 #ifndef E1_CS_PIN
-  #define E1_CS_PIN                           19  // PA10 E2_nCS
+#define E1_CS_PIN                             19  // PA10 E2_nCS
+#endif
+
+#if NUM_Z_STEPPER_DRIVERS == 2
+  // SynDaver AXI w/ dual Z steppers: Plug Z-left into E2, plug Z-right into Z.
+
+  #undef Z_STEP_PIN
+  #undef Z_DIR_PIN
+  #undef Z_ENABLE_PIN
+  #undef Z_CS_PIN
+  
+  #undef E1_STEP_PIN
+  #undef E1_DIR_PIN
+  #undef E1_ENABLE_PIN
+  #undef E1_CS_PIN
+
+  #define Z_STEP_PIN                           22  // PB26 E2_STEP *
+  #define Z_DIR_PIN                            97  // PB24 E2_DIR -AddOns *
+  #define Z_ENABLE_PIN                         18  // PA11 E2-EN
+  #define Z_CS_PIN                             19  // PA10 E2_nCS
+  
+  #define Z2_STEP_PIN                          46  // PC17 Z-STEP *
+  #define Z2_DIR_PIN                           47  // PC16 Z-DIR *
+  #define Z2_ENABLE_PIN                        44  // PC19 Z-END *
+  #define Z2_CS_PIN                            45  // PC18 Z_nCS
 #endif
 
 //
@@ -237,7 +261,7 @@
 //
 // LCD / Controller
 //
-#if HAS_SPI_LCD || TOUCH_UI_ULTIPANEL || ENABLED(TOUCH_UI_FTDI_EVE)
+#if ANY(HAS_SPI_LCD, TOUCH_UI_ULTIPANEL, TOUCH_UI_FTDI_EVE)
   #define BEEPER_PIN                          23  // D24 PA15_CTS1
   #define LCD_PINS_RS                         17  // D17 PA12_RXD1
   #define LCD_PINS_ENABLE                     24  // D23 PA14_RTS1
@@ -248,10 +272,10 @@
 
   #define SD_DETECT_PIN                        2  // D2  PB25_TIOA0
 
-  #if ENABLED(ULTIPANEL) || TOUCH_UI_ULTIPANEL || ENABLED(TOUCH_UI_FTDI_EVE)
+  #if ANY(ULTIPANEL, TOUCH_UI_ULTIPANEL, TOUCH_UI_FTDI_EVE)
     // Buttons on AUX-2
     #define BTN_EN1                           60  // D60 PA3_TIOB1
     #define BTN_EN2                           13  // D13 PB27_TIOB0
     #define BTN_ENC                           16  // D16 PA13_TXD1 // the click
-  #endif // ULTIPANEL || TOUCH_UI_ULTIPANEL
-#endif // HAS_SPI_LCD
+  #endif
+#endif
