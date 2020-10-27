@@ -30,7 +30,7 @@
   #include "../../feature/backlash.h"
 #endif
 
-#include "../../lcd/ultralcd.h"
+#include "../../lcd/marlinui.h"
 #include "../../module/motion.h"
 #include "../../module/planner.h"
 #include "../../module/tool_change.h"
@@ -581,17 +581,16 @@ void GcodeSuite::G425() {
     GcodeSuite::process_subcommands_now_P(PSTR(CALIBRATION_SCRIPT_PRE));
   #endif
 
-  TEMPORARY_SOFT_ENDSTOP_STATE(false);
-  TEMPORARY_BED_LEVELING_STATE(false);
-
   if (homing_needed_error()) return;
 
   #if ENABLED(EMI_MITIGATION) && ENABLED(NOZZLE_AS_PROBE)
    enable_emi_pins(true);
   #endif
 
-  measurements_t m;
+  TEMPORARY_BED_LEVELING_STATE(false);
+  SET_SOFT_ENDSTOP_LOOSE(true);
 
+  measurements_t m;
   float uncertainty = parser.seenval('U') ? parser.value_float() : CALIBRATION_MEASUREMENT_UNCERTAIN;
 
   if (parser.seen('B'))
@@ -619,6 +618,9 @@ void GcodeSuite::G425() {
   #if ENABLED(EMI_MITIGATION) && ENABLED(NOZZLE_AS_PROBE)
    enable_emi_pins(false);
   #endif
+
+  SET_SOFT_ENDSTOP_LOOSE(false);
+
   #ifdef CALIBRATION_SCRIPT_POST
     GcodeSuite::process_subcommands_now_P(PSTR(CALIBRATION_SCRIPT_POST));
   #endif

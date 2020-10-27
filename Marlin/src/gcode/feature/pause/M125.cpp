@@ -32,7 +32,7 @@
 #include "../../../module/printcounter.h"
 
 #if HAS_LCD_MENU
-  #include "../../../lcd/ultralcd.h"
+  #include "../../../lcd/marlinui.h"
 #endif
 
 #if ENABLED(POWER_LOSS_RECOVERY)
@@ -49,10 +49,13 @@
  *       position and waits, resuming with a button click or M108.
  *       Without PARK_HEAD_ON_PAUSE the M125 command does nothing.
  *
- *    L = override retract length
- *    X = override X
- *    Y = override Y
- *    Z = override Z raise
+ *    L<linear> = Override retract Length
+ *    X<pos>    = Override park position X
+ *    Y<pos>    = Override park position Y
+ *    Z<linear> = Override Z raise
+ *
+ *  With an LCD menu:
+ *    P<bool>   = Always show a prompt and await a response
  */
 void GcodeSuite::M125() {
   // Initial retract before move to filament change position
@@ -76,7 +79,7 @@ void GcodeSuite::M125() {
   TERN_(HAS_LCD_MENU, lcd_pause_show_message(PAUSE_MESSAGE_PARKING, PAUSE_MODE_PAUSE_PRINT));
 
   #if DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
-  const bool show_lcd = TERN0(HAS_LCD_MENU, parser.seenval('P'));
+  const bool show_lcd = TERN0(HAS_LCD_MENU, parser.boolval('P'));
   #else
   const bool show_lcd    = parser.seen('P');
   const bool auto_resume = parser.seenval('P') && parser.value_byte() != 2;

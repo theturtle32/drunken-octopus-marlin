@@ -25,7 +25,7 @@
  * MKS SGen pin assignments
  */
 
-#ifndef MCU_LPC1769
+#if NOT_TARGET(MCU_LPC1769)
   #error "Oops! Make sure you have the LPC1769 environment selected in your IDE."
 #endif
 
@@ -39,7 +39,7 @@
   //#define SDCARD_EEPROM_EMULATION
   //#define I2C_EEPROM                            // AT24C32
   #define FLASH_EEPROM_EMULATION
-  #define MARLIN_EEPROM_SIZE 0x1000               // 4KB
+  #define MARLIN_EEPROM_SIZE              0x1000  // 4KB
 #endif
 
 //
@@ -163,7 +163,7 @@
    * Hardware serial communication ports.
    * If undefined software serial is used according to the pins below
    */
-  //#define X_HARDWARE_SERIAL  Serial
+  //#define X_HARDWARE_SERIAL  Serial1
   //#define X2_HARDWARE_SERIAL Serial1
   //#define Y_HARDWARE_SERIAL  Serial1
   //#define Y2_HARDWARE_SERIAL Serial1
@@ -190,7 +190,7 @@
   #define E1_SERIAL_RX_PIN                 P1_17
 
   // Reduce baud rate to improve software serial reliability
-  #define TMC_BAUD_RATE 19200
+  #define TMC_BAUD_RATE                    19200
 #endif // HAS_TMC_UART
 
 //
@@ -207,29 +207,45 @@
 //
 #define HEATER_BED_PIN                     P2_05
 #define HEATER_0_PIN                       P2_07
-#if HOTENDS == 1
-  #ifndef FAN1_PIN
-    #define FAN1_PIN                       P2_06
-  #endif
-#else
+#if HAS_MULTI_HOTEND
   #ifndef HEATER_1_PIN
     #define HEATER_1_PIN                   P2_06
   #endif
+#else
+  #ifndef FAN2_PIN
+    #define FAN2_PIN                       P2_06  // HE1 for FAN3
+  #endif
 #endif
 #ifndef FAN_PIN
-  #define FAN_PIN                          P2_04
+  #define FAN_PIN                          P2_04  // FAN1
 #endif
-#ifndef FAN2_PIN
-  #define FAN2_PIN                         P1_04
+#ifndef FAN1_PIN
+  #define FAN1_PIN                         P1_04  // FAN2
 #endif
 
 //
 // Misc. Functions
 //
 #define LED_PIN                            P1_18  // Used as a status indicator
-#define LED2_PIN                           P1_19
-#define LED3_PIN                           P1_20
-#define LED4_PIN                           P1_21
+
+//
+// RGB LED
+//
+#if ENABLED(RGB_LED)
+  #ifndef RGB_LED_R_PIN
+    #define RGB_LED_R_PIN                  P1_19
+  #endif
+  #ifndef RGB_LED_G_PIN
+    #define RGB_LED_G_PIN                  P1_20
+  #endif
+  #ifndef RGB_LED_B_PIN
+    #define RGB_LED_B_PIN                  P1_21
+  #endif
+#else
+  #define LED2_PIN                         P1_19  // Initialized by HAL/LPC1768/main.cpp
+  #define LED3_PIN                         P1_20
+  #define LED4_PIN                         P1_21
+#endif
 
 /**
  *                _____                                            _____
@@ -241,11 +257,21 @@
  *                -----                                            -----
  *                EXP1                                             EXP2
  */
-#if HAS_SPI_LCD
+#if IS_TFTGLCD_PANEL
+
+  #if ENABLED(TFTGLCD_PANEL_SPI)
+    #define TFTGLCD_CS                     P3_25
+  #endif
+
+  #define SD_DETECT_PIN                    P0_27
+
+#elif HAS_WIRED_LCD
+
   #define BEEPER_PIN                       P1_31
   #define BTN_ENC                          P1_30
 
   #if ENABLED(CR10_STOCKDISPLAY)
+
     #define LCD_PINS_RS                    P1_00
 
     #define BTN_EN1                        P0_18
@@ -315,7 +341,7 @@
           #define DOGLCD_A0                P1_00
         #endif
 
-        #if ENABLED(ULTIPANEL)
+        #if IS_ULTIPANEL
           #define LCD_PINS_D5              P0_17
           #define LCD_PINS_D6              P1_00
           #define LCD_PINS_D7              P1_22
@@ -327,7 +353,7 @@
 
   #endif // !CR10_STOCKDISPLAY
 
-#endif // HAS_SPI_LCD
+#endif // HAS_WIRED_LCD
 
 #ifndef SDCARD_CONNECTION
   #define SDCARD_CONNECTION              ONBOARD

@@ -45,7 +45,7 @@
 
 #if ENABLED(EXTENSIBLE_UI)
 
-#include "../ultralcd.h"
+#include "../marlinui.h"
 #include "../../gcode/queue.h"
 #include "../../module/motion.h"
 #include "../../module/planner.h"
@@ -61,7 +61,7 @@
   #include "../../libs/numtostr.h"
 #endif
 
-#if EXTRUDERS > 1
+#if HAS_MULTI_EXTRUDER
   #include "../../module/tool_change.h"
 #endif
 
@@ -223,7 +223,7 @@ namespace ExtUI {
 
   bool isHeaterIdle(const extruder_t extruder) {
     #if HAS_HOTEND && HEATER_IDLE_HANDLER
-      return thermalManager.hotend_idle[extruder - E0].timed_out;
+      return thermalManager.heater_idle[extruder - E0].timed_out;
     #else
       UNUSED(extruder);
       return false;
@@ -233,10 +233,10 @@ namespace ExtUI {
   bool isHeaterIdle(const heater_t heater) {
     #if HEATER_IDLE_HANDLER
       switch (heater) {
-        TERN_(HAS_HEATED_BED, case BED: return thermalManager.bed_idle.timed_out);
+        TERN_(HAS_HEATED_BED, case BED: return thermalManager.heater_idle[thermalManager.IDLE_INDEX_BED].timed_out);
         TERN_(HAS_HEATED_CHAMBER, case CHAMBER: return false); // Chamber has no idle timer
         default:
-          return TERN0(HAS_HOTEND, thermalManager.hotend_idle[heater - H0].timed_out);
+          return TERN0(HAS_HOTEND, thermalManager.heater_idle[heater - H0].timed_out);
       }
     #else
       UNUSED(heater);
@@ -305,27 +305,9 @@ namespace ExtUI {
   }
 
   void setAxisPosition_mm(const float position, const axis_t axis, const feedRate_t feedrate/*=0*/) {
-    // Start with no limits to movement
-    float min = current_position[axis] - 1000,
-          max = current_position[axis] + 1000;
-
-    // Limit to software endstops, if enabled
-    #if HAS_SOFTWARE_ENDSTOPS
-      if (soft_endstops_enabled) switch (axis) {
-        case X_AXIS:
-          TERN_(MIN_SOFTWARE_ENDSTOP_X, min = soft_endstop.min.x);
-          TERN_(MAX_SOFTWARE_ENDSTOP_X, max = soft_endstop.max.x);
-          break;
-        case Y_AXIS:
-          TERN_(MIN_SOFTWARE_ENDSTOP_Y, min = soft_endstop.min.y);
-          TERN_(MAX_SOFTWARE_ENDSTOP_Y, max = soft_endstop.max.y);
-          break;
-        case Z_AXIS:
-          TERN_(MIN_SOFTWARE_ENDSTOP_Z, min = soft_endstop.min.z);
-          TERN_(MAX_SOFTWARE_ENDSTOP_Z, max = soft_endstop.max.z);
-        default: break;
-      }
-    #endif // HAS_SOFTWARE_ENDSTOPS
+    // Get motion limit from software endstops, if any
+    float min, max;
+    soft_endstop.get_manual_axis_limits((AxisEnum)axis, min, max);
 
     // Delta limits XY based on the current offset from center
     // This assumes the center is 0,0
@@ -348,7 +330,7 @@ namespace ExtUI {
   }
 
   void setActiveTool(const extruder_t extruder, bool no_move) {
-    #if EXTRUDERS > 1
+    #if HAS_MULTI_EXTRUDER
       const uint8_t e = extruder - E0;
       if (e != active_extruder) tool_change(e, no_move);
       active_extruder = e;
@@ -389,8 +371,8 @@ namespace ExtUI {
   }
 
   #if HAS_SOFTWARE_ENDSTOPS
-    bool getSoftEndstopState() { return soft_endstops_enabled; }
-    void setSoftEndstopState(const bool value) { soft_endstops_enabled = value; }
+    bool getSoftEndstopState() { return soft_endstop._enabled; }
+    void setSoftEndstopState(const bool value) { soft_endstop._enabled = value; }
   #endif
 
   #if HAS_TRINAMIC_CONFIG
@@ -628,7 +610,7 @@ namespace ExtUI {
       caselight.update_enabled();
     }
 
-    #if DISABLED(CASE_LIGHT_NO_BRIGHTNESS)
+    #if CASELIGHT_USES_BRIGHTNESS
       float getCaseLightBrightness_percent()                 { return ui8_to_percent(caselight.brightness); }
       void setCaseLightBrightness_percent(const float value) {
          caselight.brightness = map(constrain(value, 0, 100), 0, 100, 0, 255);
@@ -717,21 +699,17 @@ namespace ExtUI {
      */
     void smartAdjustAxis_steps(const int16_t steps, const axis_t axis, bool linked_nozzles) {
       const float mm = steps * planner.steps_to_mm[axis];
+      UNUSED(mm);
 
       if (!babystepAxis_steps(steps, axis)) return;
 
       #if ENABLED(BABYSTEP_ZPROBE_OFFSET)
         // Make it so babystepping in Z adjusts the Z probe offset.
-        if (axis == Z
-          #if EXTRUDERS > 1
-            && (linked_nozzles || active_extruder == 0)
-          #endif
-        ) probe.offset.z += mm;
-      #else
-        UNUSED(mm);
+        if (axis == Z && TERN1(HAS_MULTI_EXTRUDER, (linked_nozzles || active_extruder == 0)))
+          probe.offset.z += mm;
       #endif
 
-      #if EXTRUDERS > 1 && HAS_HOTEND_OFFSET
+      #if HAS_MULTI_EXTRUDER && HAS_HOTEND_OFFSET
         /**
          * When linked_nozzles is false, as an axis is babystepped
          * adjust the hotend offsets so that the other nozzles are
@@ -748,7 +726,6 @@ namespace ExtUI {
         }
       #else
         UNUSED(linked_nozzles);
-        UNUSED(mm);
       #endif
     }
 
@@ -777,7 +754,7 @@ namespace ExtUI {
       if (WITHIN(value, Z_PROBE_OFFSET_RANGE_MIN, Z_PROBE_OFFSET_RANGE_MAX))
         probe.offset.z = value;
     #elif ENABLED(BABYSTEP_DISPLAY_TOTAL)
-      babystep.add_mm(Z_AXIS, (value - getZOffset_mm()));
+      babystep.add_mm(Z_AXIS, value - getZOffset_mm());
     #else
       UNUSED(value);
     #endif
@@ -886,7 +863,7 @@ namespace ExtUI {
     }
 
     void startPIDTune(const float temp, extruder_t tool) {
-      thermalManager.PID_autotune(temp, (heater_ind_t)tool, 8, true);
+      thermalManager.PID_autotune(temp, (heater_id_t)tool, 8, true);
     }
   #endif
 
@@ -1076,11 +1053,9 @@ namespace ExtUI {
 
 } // namespace ExtUI
 
-// At the moment, we piggy-back off the ultralcd calls, but this could be cleaned up in the future
+// At the moment we hook into MarlinUI methods, but this could be cleaned up in the future
 
-void MarlinUI::init() {
-  ExtUI::onStartup();
-}
+void MarlinUI::init() { ExtUI::onStartup(); }
 
 void MarlinUI::update() { ExtUI::onIdle(); }
 
