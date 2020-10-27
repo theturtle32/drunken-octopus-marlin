@@ -52,9 +52,10 @@
   // Include all core headers
   #include "../core/language.h"
   #include "../core/utility.h"
-  #include "../core/serial.h"
-
+  #include "../core/serial.h"  
+#endif
 
 #if ENABLED(EMI_MITIGATION)
   #include "../drunken_octopus_extras.h"
 #endif
+
