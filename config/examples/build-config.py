@@ -669,13 +669,22 @@ def make_config(PRINTER, TOOLHEAD):
         # The Mini and TAZ Pro lack a home button and probe using the Z_MIN pin.
         MARLIN["Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN"]     = True
 
-    MARLIN["USE_XMIN_PLUG"]                              = USE_MIN_ENDSTOPS
-    MARLIN["USE_YMIN_PLUG"]                              = USE_MIN_ENDSTOPS
-    MARLIN["USE_ZMIN_PLUG"]                              = USE_MIN_ENDSTOPS or MARLIN["Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN"]
+    if USE_BTT_002 and IS_MINI:
+        MARLIN["USE_XMIN_PLUG"]                              = True
+        MARLIN["USE_YMIN_PLUG"]                              = False
+        MARLIN["USE_ZMIN_PLUG"]                              = False
 
-    MARLIN["USE_XMAX_PLUG"]                              = USE_MAX_ENDSTOPS
-    MARLIN["USE_YMAX_PLUG"]                              = USE_MAX_ENDSTOPS or IS_MINI
-    MARLIN["USE_ZMAX_PLUG"]                              = USE_MAX_ENDSTOPS or IS_MINI or (IS_TAZ and not USE_HOME_BUTTON)
+        MARLIN["USE_YMAX_PLUG"]                              = False
+        MARLIN["USE_YMAX_PLUG"]                              = True
+        MARLIN["USE_ZMAX_PLUG"]                              = True
+    else:
+        MARLIN["USE_XMIN_PLUG"]                              = USE_MIN_ENDSTOPS
+        MARLIN["USE_YMIN_PLUG"]                              = USE_MIN_ENDSTOPS
+        MARLIN["USE_ZMIN_PLUG"]                              = USE_MIN_ENDSTOPS or MARLIN["Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN"]
+
+        MARLIN["USE_XMAX_PLUG"]                              = USE_MAX_ENDSTOPS
+        MARLIN["USE_YMAX_PLUG"]                              = USE_MAX_ENDSTOPS or IS_MINI
+        MARLIN["USE_ZMAX_PLUG"]                              = USE_MAX_ENDSTOPS or IS_MINI or (IS_TAZ and not USE_HOME_BUTTON)
 
     if PRINTER in ["KangarooPaw_Bio"]:
         MARLIN["USE_XMAX_PLUG"]                          = True
@@ -1758,7 +1767,7 @@ def make_config(PRINTER, TOOLHEAD):
         if USE_ARCHIM2:
             MARLIN["TMC_USE_SW_SPI"]                     = True
             SHAFT_DIR                                    = 0
-        elif USE_EINSY_RETRO or USE_EINSY_RAMBO:
+        elif USE_EINSY_RETRO or USE_EINSY_RAMBO or USE_BTT_002:
             SHAFT_DIR                                    = 1 # Match direction to the Mini-Rambo
 
         if ENABLED("HYBRID_THRESHOLD"):
@@ -1771,15 +1780,12 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["CHOPPER_TIMING"]                     = [ 3, -2, 6 ]
 
         def TMC_INIT(st):
-            if not USE_BTT_002:
-                return (
-                    "st.shaft({});".format(SHAFT_DIR) +
-                    # Enable coolstep
-                    "st.semin(1);"
-                    "st.semax(3);"
-                ).replace("st.", st + ".")
-            else:
-                return ""
+            return (
+                "st.shaft({});".format(SHAFT_DIR) +
+                # Enable coolstep
+                "st.semin(1);"
+                "st.semax(3);"
+            ).replace("st.", st + ".")
 
         # Low-noise stepper settings for Mini 2
 
