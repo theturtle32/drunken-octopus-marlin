@@ -228,7 +228,7 @@ void GcodeSuite::G34() {
         sprintf_P(str, PSTR("Iteration: %d Accuracy: %.3f"), int(iteration + 1), z_maxdiff);
         ui.set_status(str);
       #endif
-      
+
       #if ENABLED(Z_STEPPER_ALIGN_KNOWN_STEPPER_POSITIONS)
         // Replace the initial values in z_measured with calculated heights at
         // each stepper position. This allows the adjustment algorithm to be
@@ -386,8 +386,6 @@ void GcodeSuite::G34() {
     else {
       SERIAL_ECHOLNPAIR("Did ", int(iteration + (iteration != z_auto_align_iterations)), " of ", int(z_auto_align_iterations));
       SERIAL_ECHOLNPAIR_F("Accuracy: ", z_maxdiff);
-
-      //LCD_MESSAGEPGM(MSG_USERWAIT);
     }
 
     // Stow the probe, as the last call to probe.probe_at_point(...) left
