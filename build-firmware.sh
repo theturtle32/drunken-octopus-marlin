@@ -152,6 +152,7 @@ compile_firmware() {
       HARDWARE_MOTHERBOARD=$motherboard_number \
       LULZBOT_EXTRAS="$EXTRA_OPTS" \
       DEFINES="$EXTRA_DEFS" \
+      TMC="1" U8GLIB="1" \
       $*) || exit
   fi
 }
