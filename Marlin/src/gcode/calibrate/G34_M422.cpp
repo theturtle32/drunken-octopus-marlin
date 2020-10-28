@@ -223,12 +223,6 @@ void GcodeSuite::G34() {
       z_maxdiff = z_measured_max - z_measured_min;
       z_probe = Z_BASIC_CLEARANCE + z_measured_max + z_maxdiff;
 
-      #if HAS_DISPLAY
-        char str[60];
-        sprintf_P(str, PSTR("Iteration: %d Accuracy: %.3f"), int(iteration + 1), z_maxdiff);
-        ui.set_status(str);
-      #endif
-
       #if ENABLED(Z_STEPPER_ALIGN_KNOWN_STEPPER_POSITIONS)
         // Replace the initial values in z_measured with calculated heights at
         // each stepper position. This allows the adjustment algorithm to be
@@ -265,7 +259,12 @@ void GcodeSuite::G34() {
           , " Z3-Z1=", ABS(z_measured[2] - z_measured[0])
         #endif
       );
-      #if HAS_DISPLAY
+      
+      #if ENABLED(TOUCH_UI_FTDI_EVE)
+        char msg[60];
+        sprintf_P(msg, PSTR("Iteration: %d Accuracy: %.3f"), int(iteration + 1), z_maxdiff);
+        ui.set_status(msg);
+      #elif HAS_DISPLAY
         char fstr1[10];
         #if NUM_Z_STEPPER_DRIVERS == 2
           char msg[6 + (6 + 5) * 1 + 1];
