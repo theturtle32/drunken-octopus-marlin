@@ -28,7 +28,6 @@
 #include "screen_data.h"
 
 #include "../archim2-flash/flash_storage.h"
-#include "../../../../../module/printcounter.h"
 
 using namespace FTDI;
 using namespace Theme;
@@ -369,14 +368,12 @@ void StatusScreen::onIdle() {
 bool StatusScreen::onTouchEnd(uint8_t tag) {
   using namespace ExtUI;
 
-  const bool hostOrSdPrinting = isPrinting() || print_job_timer.isRunning() || print_job_timer.isPaused();
-
   switch (tag) {
     #if ENABLED(SDSUPPORT)
       case 3: GOTO_SCREEN(FilesScreen); break;
     #endif
     case 4:
-      if (hostOrSdPrinting) {
+      if (isPrinting()) {
         GOTO_SCREEN(TuneMenu);
       }
       else {
@@ -385,7 +382,7 @@ bool StatusScreen::onTouchEnd(uint8_t tag) {
       break;
     case 5:  GOTO_SCREEN(TemperatureScreen); break;
     case 6:
-      if (hostOrSdPrinting) {
+      if (isPrinting()) {
         #if ENABLED(BABYSTEPPING)
           GOTO_SCREEN(NudgeNozzleScreen);
         #elif HAS_BED_PROBE

@@ -259,7 +259,7 @@ void GcodeSuite::G34() {
           , " Z3-Z1=", ABS(z_measured[2] - z_measured[0])
         #endif
       );
-      
+
       #if ENABLED(TOUCH_UI_FTDI_EVE)
         char msg[60];
         sprintf_P(msg, PSTR("Iteration: %d Accuracy: %.3f"), int(iteration + 1), z_maxdiff);

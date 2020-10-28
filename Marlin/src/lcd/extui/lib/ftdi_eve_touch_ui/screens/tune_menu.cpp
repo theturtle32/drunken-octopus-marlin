@@ -27,7 +27,6 @@
 #include "screens.h"
 
 #include "../../../../../feature/host_actions.h"
-#include "../../../../../module/printcounter.h"
 
 using namespace FTDI;
 using namespace Theme;
@@ -66,25 +65,14 @@ void TuneMenu::onRedraw(draw_mode_t what) {
   #endif
 
   if (what & FOREGROUND) {
-    using namespace ExtUI;
-
-    const bool sdOrHostPrinting =  
-    #ifdef ACTION_ON_PAUSE
-      print_job_timer.isRunning() || print_job_timer.isPaused() ||
-    #endif
-    TERN0(SDSUPPORT,isPrintingFromMedia());
-
-    const bool sdOrHostPaused =
-    #ifdef ACTION_ON_RESUME
-      print_job_timer.isPaused() ||
-    #endif
-    TERN0(SDSUPPORT,isPrintingFromMediaPaused());
+    const bool sdOrHostPrinting = ExtUI::isPrinting();
+    const bool sdOrHostPaused   = ExtUI::isPrintingPaused();
 
     CommandProcessor cmd;
     cmd.colors(normal_btn)
        .font(font_medium)
        .tag(2).button( TEMPERATURE_POS, GET_TEXT_F(MSG_TEMPERATURE))
-       .enabled(!isPrinting() || sdOrHostPaused)
+       .enabled(!sdOrHostPrinting || sdOrHostPaused)
        .tag(3).button( FIL_CHANGE_POS,  GET_TEXT_F(MSG_FILAMENTCHANGE))
        .enabled(EITHER(LIN_ADVANCE, FILAMENT_RUNOUT_SENSOR))
        .tag(9).button( FILAMENT_POS, GET_TEXT_F(MSG_FILAMENT))
@@ -162,3 +150,4 @@ void TuneMenu::resumePrint() {
 }
 
 #endif // TOUCH_UI_FTDI_EVE
+
