@@ -433,6 +433,7 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI 2")
             MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (d93471f)")
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: beta (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+            MARLIN["ELECTROMAGNETIC_BRAKE_PIN"]          = "HEATER_2_PIN"
         else:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI")
             MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (d93471f)")
