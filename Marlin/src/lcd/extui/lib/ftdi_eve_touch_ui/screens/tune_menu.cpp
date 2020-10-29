@@ -97,26 +97,26 @@ bool TuneMenu::onTouchEnd(uint8_t tag) {
   using namespace Theme;
   using namespace ExtUI;
   switch (tag) {
-    case 1:  GOTO_PREVIOUS();                    break;
-    case 2:  GOTO_SCREEN(TemperatureScreen);     break;
-    case 3:  GOTO_SCREEN(ChangeFilamentScreen);  break;
-    case 4:
+    case  1: GOTO_PREVIOUS();                    break;
+    case  2: GOTO_SCREEN(TemperatureScreen);     break;
+    case  3: GOTO_SCREEN(ChangeFilamentScreen);  break;
+    case  4:
       #if ENABLED(BABYSTEPPING)
         GOTO_SCREEN(NudgeNozzleScreen);
       #elif HAS_BED_PROBE
         GOTO_SCREEN(ZOffsetScreen);
       #endif
       break;
-    case 5:  GOTO_SCREEN(FeedratePercentScreen);     break;
-    case 6:  pausePrint(); break;
-    case 7:  resumePrint(); break;
-    case 8:
+    case  5: GOTO_SCREEN(FeedratePercentScreen); break;
+    case  6: pausePrint(); break;
+    case  7: resumePrint(); break;
+    case  8:
       GOTO_SCREEN(ConfirmAbortPrintDialogBox);
       current_screen.forget();
       PUSH_SCREEN(StatusScreen);
       break;
     #if EITHER(LIN_ADVANCE, FILAMENT_RUNOUT_SENSOR)
-    case 9:  GOTO_SCREEN(FilamentMenu); break;
+    case  9: GOTO_SCREEN(FilamentMenu); break;
     #endif
     #if ENABLED(CASE_LIGHT_ENABLE)
     case 10: GOTO_SCREEN(CaseLightScreen); break;
@@ -129,6 +129,7 @@ bool TuneMenu::onTouchEnd(uint8_t tag) {
 
 void TuneMenu::pausePrint() {
   sound.play(twinkle, PLAY_ASYNCHRONOUS);
+<<<<<<< HEAD
   if(ExtUI::isPrintingFromMedia())
     ExtUI::pausePrint();
 #if defined(ACTION_ON_PAUSE)
@@ -136,10 +137,19 @@ void TuneMenu::pausePrint() {
     host_action_pause();
 #endif
     GOTO_SCREEN(StatusScreen); 
+=======
+  if (ExtUI::isPrintingFromMedia())
+    ExtUI::pausePrint();
+  #ifdef ACTION_ON_PAUSE
+    else host_action_pause();
+  #endif
+  GOTO_SCREEN(StatusScreen);
+>>>>>>> upstream/bugfix-2.0.x
 }
 
 void TuneMenu::resumePrint() {
   sound.play(twinkle, PLAY_ASYNCHRONOUS);
+<<<<<<< HEAD
   if(ExtUI::isPrintingFromMedia())
     ExtUI::resumePrint();
 #if defined(ACTION_ON_RESUME)
@@ -151,3 +161,14 @@ void TuneMenu::resumePrint() {
 
 #endif // TOUCH_UI_FTDI_EVE
 
+=======
+  if (ExtUI::isPrintingFromMedia())
+    ExtUI::resumePrint();
+  #ifdef ACTION_ON_RESUME
+    else host_action_resume();
+  #endif
+  GOTO_SCREEN(StatusScreen);
+}
+
+#endif // TOUCH_UI_FTDI_EVE && !TOUCH_UI_LULZBOT_BIO
+>>>>>>> upstream/bugfix-2.0.x

@@ -90,20 +90,20 @@ void LevelingMenu::onRedraw(draw_mode_t what) {
 bool LevelingMenu::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 1: GOTO_PREVIOUS();                   break;
+    #if ENABLED(Z2_PRESENCE_CHECK)
     case 2:
-        #if ENABLED(Z2_PRESENCE_CHECK)
-          if(has_z2_jumper()) {
-            GOTO_SCREEN(StatusScreen);
-            ExtUI::injectCommands_P(PSTR("G34 A2 I20 T0.01"));
-          } else {
-            SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS));
-          }
-        #elif defined(AXIS_LEVELING_COMMANDS)
-          SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS));
-        #elif EITHER(Z_STEPPER_AUTO_ALIGN,MECHANICAL_GANTRY_CALIBRATION)
-          SpinnerDialogBox::enqueueAndWait_P(F("G34 A2 I20 T0.01"));
-        #endif
+      if(has_z2_jumper()) {
+        GOTO_SCREEN(StatusScreen);
+        ExtUI::injectCommands_P(PSTR("G34 A2 I20 T0.01"));
+      } else {
+        SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS));
+      }
       break;
+    #elif defined(AXIS_LEVELING_COMMANDS)
+    case 2: SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS)); break;
+    #elif EITHER(Z_STEPPER_AUTO_ALIGN,MECHANICAL_GANTRY_CALIBRATION)
+    case 2: SpinnerDialogBox::enqueueAndWait_P(F("G34 A2 I20 T0.01")); break;
+    #endif
     case 3:
     #ifndef BED_LEVELING_COMMANDS
       #define BED_LEVELING_COMMANDS "G29"

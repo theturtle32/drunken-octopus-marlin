@@ -39,12 +39,11 @@ bool ConfirmAbortPrintDialogBox::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 1:
       GOTO_PREVIOUS();
-      if(ExtUI::isPrintingFromMedia())
+      if (ExtUI::isPrintingFromMedia())
          ExtUI::stopPrint();
-    #if defined(ACTION_ON_CANCEL)
-      else
-        host_action_cancel();
-    #endif
+      #ifdef ACTION_ON_CANCEL
+        else host_action_cancel();
+      #endif
       return true;
     default:
       return DialogBoxBaseClass::onTouchEnd(tag);
