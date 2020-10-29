@@ -129,39 +129,16 @@ bool TuneMenu::onTouchEnd(uint8_t tag) {
 
 void TuneMenu::pausePrint() {
   sound.play(twinkle, PLAY_ASYNCHRONOUS);
-<<<<<<< HEAD
-  if(ExtUI::isPrintingFromMedia())
-    ExtUI::pausePrint();
-#if defined(ACTION_ON_PAUSE)
-  else
-    host_action_pause();
-#endif
-    GOTO_SCREEN(StatusScreen); 
-=======
   if (ExtUI::isPrintingFromMedia())
     ExtUI::pausePrint();
   #ifdef ACTION_ON_PAUSE
     else host_action_pause();
   #endif
   GOTO_SCREEN(StatusScreen);
->>>>>>> upstream/bugfix-2.0.x
 }
 
 void TuneMenu::resumePrint() {
   sound.play(twinkle, PLAY_ASYNCHRONOUS);
-<<<<<<< HEAD
-  if(ExtUI::isPrintingFromMedia())
-    ExtUI::resumePrint();
-#if defined(ACTION_ON_RESUME)
-  else
-    host_action_resume();
-#endif
-    GOTO_SCREEN(StatusScreen); 
-}
-
-#endif // TOUCH_UI_FTDI_EVE
-
-=======
   if (ExtUI::isPrintingFromMedia())
     ExtUI::resumePrint();
   #ifdef ACTION_ON_RESUME
@@ -171,4 +148,3 @@ void TuneMenu::resumePrint() {
 }
 
 #endif // TOUCH_UI_FTDI_EVE && !TOUCH_UI_LULZBOT_BIO
->>>>>>> upstream/bugfix-2.0.x
