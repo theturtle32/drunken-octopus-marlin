@@ -117,6 +117,7 @@ build_config custom    Oliveoil_TAZ6Archim                       Opah_Moarstrude
 build_config custom    Oliveoil_TAZ6Archim                       Longfin_FlexyDually
 build_config custom    Oliveoil_TAZ6Archim                       Tilapia_SingleExtruder
 build_config custom    Oliveoil_TAZ6Archim                       AchemonSphinx_SmallLayer
+build_config custom    Oliveoil_TAZ6Archim                       Yellowfin_DualExtruderV3
 build_config custom    Oliveoil_TAZ6BLTouch                      Tilapia_SingleExtruder
 build_config custom    Oliveoil_TAZ6BLTouch                      Yellowfin_DualExtruderV3
 build_config custom    Oliveoil_TAZ6BLTouchHallEffect            Yellowfin_DualExtruderV3
