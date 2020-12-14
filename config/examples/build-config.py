@@ -1715,7 +1715,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     if ENABLED("FILAMENT_RUNOUT_SENSOR"):
         MARLIN["NUM_RUNOUT_SENSORS"]                     = MARLIN["EXTRUDERS"]
-        MARLIN["FILAMENT_RUNOUT_SCRIPT"]                 = C_STRING("M25 P2\n")
+        MARLIN["FILAMENT_RUNOUT_SCRIPT"]                 = C_STRING("M25\n")
         MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 0 if "SynDaver_AXI" in PRINTER else 14
         if not PRINTER in ["Quiver_TAZPro", "SynDaver_AXI", "SynDaver_AXI_2"]:
             MARLIN["FIL_RUNOUT_ENABLED_DEFAULT"]         = "false"
@@ -2362,7 +2362,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOUCH_UI_DEVELOPER_MENU"]                = True
         MARLIN["LCD_SET_PROGRESS_MANUALLY"]              = True
         MARLIN["SCROLL_LONG_FILENAMES"]                  = False if USE_LESS_MEMORY else True
-        MARLIN["NO_PAUSE_FOR_REHEAT"]                    = True
         MARLIN["NO_TIME_AFTER_SD_PRINT"]                 = True
         MARLIN["LCD_TIMEOUT_TO_STATUS"]                  = 0
 

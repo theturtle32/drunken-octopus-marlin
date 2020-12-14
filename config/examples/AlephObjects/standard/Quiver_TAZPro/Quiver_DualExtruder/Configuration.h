@@ -1230,7 +1230,7 @@
 
   // Set one or more commands to execute on filament runout.
   // (After 'M412 H' Marlin will ask the host to handle the process.)
-  #define FILAMENT_RUNOUT_SCRIPT "M25 P2" // <-- changed
+  #define FILAMENT_RUNOUT_SCRIPT "M25" // <-- changed
 
   // After a runout is detected, continue printing this length of filament
   // before executing the runout script. Useful for a sensor at the end of
@@ -2594,7 +2594,6 @@
 //#define E_MIN_PIN
 //#define E_MIN_PIN_INVERTING
 //#define E_MAX_POS
-#define NO_PAUSE_FOR_REHEAT // <-- changed
 //#define NO_MOTION_BEFORE_HOMING_WORKAROUND
 #define NO_TIME_AFTER_SD_PRINT // <-- changed
 //#define NO_TOOLHEAD_HEATER_GCODE

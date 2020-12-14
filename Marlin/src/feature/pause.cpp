@@ -555,10 +555,8 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
 
       HOTEND_LOOP() thermalManager.heater_idle[e].start(nozzle_timeout);
       TERN_(HOST_PROMPT_SUPPORT, host_prompt_do(PROMPT_USER_CONTINUE, PSTR("Reheat Done"), CONTINUE_STR));
-      #if DISABLED(NO_PAUSE_FOR_REHEAT)
       TERN_(EXTENSIBLE_UI, ExtUI::onUserConfirmRequired_P(PSTR("Reheat finished.")));
       wait_for_user = true;
-      #endif // NO_PAUSE_FOR_REHEAT
       nozzle_timed_out = false;
 
       first_impatient_beep(max_beep_count);
