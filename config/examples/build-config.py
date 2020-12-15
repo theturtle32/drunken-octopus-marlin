@@ -58,6 +58,7 @@ TOOLHEAD_CHOICES = [
     "Angelfish_Aerostruder",
     "Quiver_DualExtruder",
     "KangarooPaw_SingleExtruder",
+    "Lutefisk_M175",
     "E3D_Hermera"
 ]
 
@@ -146,7 +147,6 @@ def make_config(PRINTER, TOOLHEAD):
     USE_DUAL_Z_STEPPERS                                  = False
     USE_TWO_PIECE_BED                                    = False
     USE_EXPERIMENTAL_FEATURES                            = False
-    USE_LESS_MEMORY                                      = False
     USE_MIN_ENDSTOPS                                     = False
     USE_MAX_ENDSTOPS                                     = False
     USE_PRE_GLADIOLA_G29_WORKAROUND                      = False
@@ -175,6 +175,8 @@ def make_config(PRINTER, TOOLHEAD):
     T1_OFFSET_X                                          = 0
     T1_OFFSET_Y                                          = 0
     T1_OFFSET_Z                                          = 0
+
+    USE_LESS_MEMORY                                      = 0
 
     MARLIN["EXTRUDERS"]                                  = 1
     MARLIN["SDSUPPORT"]                                  = False
@@ -228,7 +230,7 @@ def make_config(PRINTER, TOOLHEAD):
 
         else:
             # Enable the touchscreen and USB on EXP2
-            USE_LESS_MEMORY                              = True
+            USE_LESS_MEMORY                              = 1
             USE_REPRAP_LCD_DISPLAY                       = False
             MARLIN["TOUCH_UI_PORTRAIT"]                  = True
             MARLIN["TOUCH_UI_480x272"]                   = True
@@ -254,6 +256,8 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["STEALTHCHOP_XY"]                     = False
             MARLIN["STEALTHCHOP_Z"]                      = True
             MARLIN["STEALTHCHOP_E"]                      = True
+        elif ENABLED("BLTOUCH"):
+            USE_LESS_MEMORY                              = 2
 
     if "Juniper_TAZ5" in PRINTER:
         IS_TAZ                                           = True
@@ -271,6 +275,8 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["STEALTHCHOP_XY"]                     = False
             MARLIN["STEALTHCHOP_Z"]                      = False
             MARLIN["STEALTHCHOP_E"]                      = True
+        elif ENABLED("BLTOUCH"):
+            USE_LESS_MEMORY                              = 2
 
     if "Oliveoil_TAZ6" in PRINTER:
         IS_TAZ                                           = True
@@ -298,6 +304,8 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["STEALTHCHOP_Z"]                      = False
             MARLIN["STEALTHCHOP_E"]                      = True
             MARLIN["HYBRID_THRESHOLD"]                   = False
+        elif ENABLED("BLTOUCH"):
+            USE_LESS_MEMORY                              = 2
 
     if "Hibiscus_Mini2" in PRINTER:
         IS_MINI                                          = True
@@ -323,7 +331,7 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["LIGHTWEIGHT_UI"]                     = True
         else:
             USE_REPRAP_LCD_DISPLAY                       = False
-            USE_LESS_MEMORY                              = True
+            USE_LESS_MEMORY                              = 1
             MARLIN["TOUCH_UI_PORTRAIT"]                  = True
             MARLIN["TOUCH_UI_480x272"]                   = True
             MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]           = True
@@ -399,6 +407,8 @@ def make_config(PRINTER, TOOLHEAD):
                 MARLIN["LIGHTWEIGHT_UI"]                 = False
             else:
                 MARLIN["LIGHTWEIGHT_UI"]                 = True
+                if ENABLED("BLTOUCH"):
+                    USE_LESS_MEMORY                      = 2
 
     if "SynDaver_AXI" in PRINTER:
         IS_TAZ                                           = True
@@ -557,7 +567,7 @@ def make_config(PRINTER, TOOLHEAD):
     MARLIN["PAUSE_PARK_NOZZLE_TIMEOUT"]                  = 300
     MARLIN["ADVANCED_OK"]                                = True
     MARLIN["TX_BUFFER_SIZE"]                             = 32
-    MARLIN["BUFSIZE"]                                    = 2 if USE_LESS_MEMORY else 5
+    MARLIN["BUFSIZE"]                                    = 5
     MARLIN["PRINTJOB_TIMER_AUTOSTART"]                   = False
     MARLIN["HOST_ACTION_COMMANDS"]                       = True
 
@@ -569,7 +579,7 @@ def make_config(PRINTER, TOOLHEAD):
 
 ############################ EXPERIMENTAL FEATURES ############################
 
-    if USE_EXPERIMENTAL_FEATURES and not USE_LESS_MEMORY:
+    if USE_EXPERIMENTAL_FEATURES:
         MARLIN["GCODE_MACROS"]                           = True
         #MARLIN["S_CURVE_ACCELERATION"]                   = True
 
@@ -833,6 +843,9 @@ def make_config(PRINTER, TOOLHEAD):
     MANUAL_FEEDRATE_E                                    = 1.0 # mm/sec
     MARLIN["DEFAULT_EJERK"]                              = 10.0
     MARLIN["NUM_SERVOS"]                                 = 1 if MARLIN["BLTOUCH"] else 0
+    MARLIN["FILAMENT_CHANGE_FAST_LOAD_LENGTH"]           = 40
+    MARLIN["FILAMENT_CHANGE_UNLOAD_LENGTH"]              = 80
+    MARLIN["FILAMENT_CHANGE_UNLOAD_FEEDRATE"]            = 5 # mm/s
 
 ################################ MINI TOOLHEADS ###############################
 
@@ -849,6 +862,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Single Extruder")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["Albatross_Flexystruder"]:
         TOOLHEAD_TYPE                                    = "Flexystruder"
@@ -857,6 +871,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Flexystruder")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["Finch_Aerostruder"]:
         TOOLHEAD_TYPE                                    = "Aerostruder"
@@ -865,6 +880,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Aerostruder")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
 ############################# TAZ 4/5/6 TOOLHEADS #############################
 
@@ -876,6 +892,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Single Extruder")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["Tilapia_SingleExtruder"]:
         TOOLHEAD_TYPE                                    = "SingleExtruder"
@@ -885,6 +902,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Single Extruder")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["Angelfish_Aerostruder"]:
         TOOLHEAD_TYPE                                    = "Aerostruder"
@@ -894,6 +912,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Aerostruder")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["Kanyu_Flexystruder"]:
         TOOLHEAD_TYPE                                    = "Flexystruder"
@@ -907,6 +926,7 @@ def make_config(PRINTER, TOOLHEAD):
         #         16 chars max                                      ^^^^^^^^^^^^^^^
         MARLIN["EXTRUDERS"]                              = 1
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["Opah_Moarstruder"]:
         TOOLHEAD_TYPE                                    = "MOARstruder"
@@ -920,6 +940,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["DEFAULT_TRAVEL_ACCELERATION"]            = 250
         MARLIN["EXTRUDERS"]                              = 1
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["Javelin_DualExtruderV2", "Longfin_FlexyDually"]:
         MOTOR_CURRENT_E0                                 = 875 # mA
@@ -931,6 +952,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TEMP_SENSOR_1"]                          = 5
         MARLIN["DISTINCT_E_FACTORS"]                     = True
         MARLIN["EXTRUDER_FAN_ON_PIN_6"]                  = True # For backwards compatibility with TAZ 4
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["Javelin_DualExtruderV2"]:
         TOOLHEAD_TYPE                                    = "DualExtruder v2"
@@ -940,6 +962,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Dual Extruder 2")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["Longfin_FlexyDually"]:
         TOOLHEAD_TYPE                                    = "FlexyDually v2"
@@ -949,6 +972,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("FlexyDually v2")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["Yellowfin_DualExtruderV3"]:
         TOOLHEAD_TYPE                                    = "DualExtruder v3"
@@ -975,6 +999,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["DISTINCT_E_FACTORS"]                     = True
         MARLIN["TOOLCHANGE_ZRAISE"]                      = 2
         MARLIN["INVERT_E1_DIR"]                          = 'false'
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
         if USE_HOME_BUTTON:
             # Legacy configuration for TAZ 6 with homing button riser
             MARLIN["MANUAL_Z_HOME_POS"]                  = 5.5
@@ -994,7 +1019,8 @@ def make_config(PRINTER, TOOLHEAD):
                     "AchemonSphinx_SmallLayer",
                     "BandedTiger_HardenedSteel",
                     "DingyCutworm_HardenedSteelPlus",
-                    "Goldenrod_HardenedExtruder"]:
+                    "Goldenrod_HardenedExtruder",
+                    "Lutefisk_M175"]:
         MOTOR_CURRENT_E                                  = 960 # mA
 
     if TOOLHEAD in ["CecropiaSilk_SingleExtruderAeroV2"]:
@@ -1004,6 +1030,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("SE 0.5mm AeroV2")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["Goldenrod_HardenedExtruder"]:
         TOOLHEAD_TYPE                                    = "HardenedExtruder"
@@ -1012,6 +1039,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("HE 0.5mm")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["AchemonSphinx_SmallLayer"]:
         TOOLHEAD_TYPE                                    = "SmallLayer"
@@ -1023,6 +1051,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
         if not MARLIN["BLTOUCH"]:
           MARLIN["NOZZLE_TO_PROBE_OFFSET"]               = [0, 0, -1.24]
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["BandedTiger_HardenedSteel"]:
         TOOLHEAD_TYPE                                    = "HardenedSteel"
@@ -1031,6 +1060,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("HS 0.8mm")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["DingyCutworm_HardenedSteelPlus"]:
         TOOLHEAD_TYPE                                    = "HardenedSteelPlus"
@@ -1039,6 +1069,18 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("HS+ 1.2mm")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
+
+    if TOOLHEAD in ["Lutefisk_M175"]:
+        TOOLHEAD_TYPE                                    = "HardenedSteelPlus"
+        TOOLHEAD_BLOCK                                   = "SliceEngineering_Mosquito"
+        E_STEPS                                          = 415
+        MARLIN["TOOLHEAD_NAME"]                          = C_STRING("M175")
+        #         16 chars max                                       ^^^^^^^^^^^^^^^
+        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 1.75
+        MARLIN["FILAMENT_CHANGE_FAST_LOAD_LENGTH"]       = 65
+        MARLIN["INVERT_E0_DIR"]                          = 'true'
 
     TOOLHEAD_IS_UNIVERSAL = TOOLHEAD in [
         "CecropiaSilk_SingleExtruderAeroV2",
@@ -1048,6 +1090,7 @@ def make_config(PRINTER, TOOLHEAD):
         "DingyCutworm_HardenedSteelPlus",
         "Quiver_DualExtruder",
         "KangarooPaw_SingleExtruder",
+        "Lutefisk_M175",
         "E3D_Hermera"
     ]
 
@@ -1096,6 +1139,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SWITCHING_NOZZLE_SERVO_ANGLES"]          = [55, 120]
         MARLIN["USE_XMAX_PLUG"]                          = False
         MARLIN["TEMP_SENSOR_1"]                          = 5
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
 ############################### OTHER TOOLHEADS ###############################
 
@@ -1120,6 +1164,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("E3D Hermera")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 1.75
 
 ############################# TEMPERATURE SETTINGS ############################
 
@@ -1233,6 +1278,12 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["DEFAULT_Kp"]                             = 37.55
         MARLIN["DEFAULT_Ki"]                             = 5.39
         MARLIN["DEFAULT_Kd"]                             = 65.36
+
+    elif TOOLHEAD_BLOCK == "SliceEngineering_Mosquito":
+        # Slice Engineering Mosquito
+        MARLIN["DEFAULT_Kp"]                             = 37.76
+        MARLIN["DEFAULT_Ki"]                             = 3.49
+        MARLIN["DEFAULT_Kd"]                             = 102.08
 
     # Heated bed variants
 
@@ -1870,12 +1921,9 @@ def make_config(PRINTER, TOOLHEAD):
 
     if USE_REPRAP_LCD_DISPLAY or USE_TOUCH_UI:
         MARLIN["FILAMENT_CHANGE_FAST_LOAD_FEEDRATE"]     = MANUAL_FEEDRATE_E
-        MARLIN["FILAMENT_CHANGE_FAST_LOAD_LENGTH"]       = 40
         #MARLIN["ADVANCED_PAUSE_PURGE_LENGTH"]            = 0 # Manual purge
         MARLIN["ADVANCED_PAUSE_PURGE_FEEDRATE"]          = MANUAL_FEEDRATE_E
         MARLIN["PAUSE_PARK_RETRACT_FEEDRATE"]            = 10 # mm/s
-        MARLIN["FILAMENT_CHANGE_UNLOAD_LENGTH"]          = 80
-        MARLIN["FILAMENT_CHANGE_UNLOAD_FEEDRATE"]        = 5 # mm/s
         MARLIN["HOME_BEFORE_FILAMENT_CHANGE"]            = True
         MARLIN["PARK_HEAD_ON_PAUSE"]                     = True
 
@@ -2361,7 +2409,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOUCH_UI_UTF8_SUPERSCRIPTS"]             = True
         MARLIN["TOUCH_UI_DEVELOPER_MENU"]                = True
         MARLIN["LCD_SET_PROGRESS_MANUALLY"]              = True
-        MARLIN["SCROLL_LONG_FILENAMES"]                  = False if USE_LESS_MEMORY else True
+        MARLIN["SCROLL_LONG_FILENAMES"]                  = True
         MARLIN["NO_TIME_AFTER_SD_PRINT"]                 = True
         MARLIN["LCD_TIMEOUT_TO_STATUS"]                  = 0
 
@@ -2390,6 +2438,30 @@ def make_config(PRINTER, TOOLHEAD):
                 MARLIN["BABYSTEP_HOTEND_Z_OFFSET"]       = True
     else:
         MARLIN["SHOW_CUSTOM_BOOTSCREEN"]                 = False
+
+########################### MEMORY FOOTPRINT REDUCTION ##########################
+
+    if USE_LESS_MEMORY >= 1:
+        MARLIN["GAMES_EASTER_EGG"]                       = False
+    if USE_LESS_MEMORY >= 2:
+        MARLIN["G26_MESH_VALIDATION"]                    = False
+        MARLIN["PID_EDIT_MENU"]                          = False
+    if USE_LESS_MEMORY >= 3:
+        MARLIN["INDIVIDUAL_AXIS_HOMING_MENU"]            = False
+        MARLIN["BABYSTEP_ZPROBE_GFX_OVERLAY"]            = False
+        MARLIN["GCODE_MACROS"]                           = False
+    if USE_LESS_MEMORY >= 4:
+        MARLIN["PID_AUTOTUNE_MENU"]                      = False
+        MARLIN["SERIAL_PORT_2"]                          = False
+    if USE_LESS_MEMORY >= 5:
+        MARLIN["SCROLL_LONG_FILENAMES"]                  = False
+        MARLIN["STATUS_MESSAGE_SCROLLING"]               = False
+        MARLIN["BABYSTEPPING"]                           = False
+    if USE_LESS_MEMORY >= 6:
+        MARLIN["S_CURVE_ACCELERATION"]                   = False
+        MARLIN["LIN_ADVANCE"]                            = False
+    if USE_LESS_MEMORY >= 7:
+        MARLIN["BUFSIZE"]                                = 3
 
 #################################### CLEAN UP ###################################
 
