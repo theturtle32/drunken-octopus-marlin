@@ -78,6 +78,7 @@ void GcodeSuite::M125() {
 
   TERN_(HAS_LCD_MENU, lcd_pause_show_message(PAUSE_MESSAGE_PARKING, PAUSE_MODE_PAUSE_PRINT));
 
+  // If possible, show an LCD prompt with the 'P' flag
   const bool show_lcd = TERN0(HAS_LCD_MENU, parser.boolval('P'));
 
   if (pause_print(retract, park_point, 0, show_lcd)) {
