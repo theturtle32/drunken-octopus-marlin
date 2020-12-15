@@ -800,7 +800,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["Z_SAFE_HOMING_Y_POINT"]                  = 10
 
     # Raise prior to homing to clear bed harware
-    if ("Guava_TAZ4" in PRINTER or "Juniper_TAZ5" in PRINTER) and ENABLED("BLTOUCH"):
+    if ENABLED("BLTOUCH"):
         MARLIN["Z_HOMING_HEIGHT"]                        = 10
     elif IS_MINI:
         MARLIN["Z_HOMING_HEIGHT"]                        = 4
