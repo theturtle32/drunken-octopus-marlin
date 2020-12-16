@@ -288,7 +288,7 @@ void GcodeSuite::G34() {
             , " Z3-Z1=", ABS(z_measured[2] - z_measured[0])
           #endif
         );
-        #if HAS_DISPLAY
+        #if HAS_DISPLAY && 0
           char fstr1[10];
           #if NUM_Z_STEPPER_DRIVERS == 2
             char msg[6 + (6 + 5) * 1 + 1];
