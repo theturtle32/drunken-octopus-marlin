@@ -272,7 +272,10 @@ bool ChangeFilamentScreen::onTouchStart(uint8_t tag) {
 bool ChangeFilamentScreen::onTouchEnd(uint8_t tag) {
   using namespace ExtUI;
   switch (tag) {
-    case 1: GOTO_PREVIOUS(); break;
+    case 1:
+      ExtUI::setUserConfirmed();
+      GOTO_PREVIOUS();
+      break;
     case 2:
     case 3:
     case 4:
