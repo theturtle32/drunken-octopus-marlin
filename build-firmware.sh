@@ -145,7 +145,7 @@ get_config_info() {
 compile_firmware() {
   if [ $USE_PIO -ne 0 -o $NEEDS_PIO -ne 0 ]; then
     echo Compiling using platformio for $motherboard_pio
-    platformio run -e $motherboard_pio || exit
+    platformio run -e $motherboard_pio || echo Skipping build because platformio not found.
   else
     (cd Marlin; make clean; make \
       $MAKE_FLAGS \
