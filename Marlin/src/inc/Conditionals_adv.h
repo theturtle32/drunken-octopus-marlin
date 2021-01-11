@@ -33,7 +33,7 @@
 // Determine NUM_SERVOS if none was supplied
 #ifndef NUM_SERVOS
   #define NUM_SERVOS 0
-  #if ANY(CHAMBER_VENT, HAS_Z_SERVO_PROBE, SWITCHING_EXTRUDER, SWITCHING_NOZZLE)
+  #if ANY(HAS_Z_SERVO_PROBE, CHAMBER_VENT, SWITCHING_TOOLHEAD, SWITCHING_EXTRUDER, SWITCHING_NOZZLE, SPINDLE_SERVO)
     #if NUM_SERVOS <= Z_PROBE_SERVO_NR
       #undef NUM_SERVOS
       #define NUM_SERVOS (Z_PROBE_SERVO_NR + 1)
@@ -61,6 +61,10 @@
     #if NUM_SERVOS <= SWITCHING_EXTRUDER_E23_SERVO_NR
       #undef NUM_SERVOS
       #define NUM_SERVOS (SWITCHING_EXTRUDER_E23_SERVO_NR + 1)
+    #endif
+    #if NUM_SERVOS <= SPINDLE_SERVO_NR
+      #undef NUM_SERVOS
+      #define NUM_SERVOS (SPINDLE_SERVO_NR + 1)
     #endif
   #endif
 #endif
@@ -138,8 +142,16 @@
   #undef SD_FINISHED_RELEASECOMMAND
 #endif
 
+#if ENABLED(NO_SD_AUTOSTART)
+  #undef MENU_ADDAUTOSTART
+#endif
+
 #if EITHER(SDSUPPORT, LCD_SET_PROGRESS_MANUALLY)
   #define HAS_PRINT_PROGRESS 1
+#endif
+
+#if ENABLED(SDSUPPORT) && SD_PROCEDURE_DEPTH
+  #define HAS_MEDIA_SUBCALLS 1
 #endif
 
 #if HAS_PRINT_PROGRESS && EITHER(PRINT_PROGRESS_SHOW_DECIMALS, SHOW_REMAINING_TIME)
@@ -199,14 +211,18 @@
 #if DISABLED(Y_DUAL_STEPPER_DRIVERS)
   #undef Y2_DRIVER_TYPE
 #endif
-#if NUM_Z_STEPPER_DRIVERS < 2
-  #undef Z2_DRIVER_TYPE
-#endif
-#if NUM_Z_STEPPER_DRIVERS < 3
-  #undef Z3_DRIVER_TYPE
-#endif
+
 #if NUM_Z_STEPPER_DRIVERS < 4
   #undef Z4_DRIVER_TYPE
+  #undef INVERT_Z4_VS_Z_DIR
+  #if NUM_Z_STEPPER_DRIVERS < 3
+    #undef Z3_DRIVER_TYPE
+    #undef INVERT_Z3_VS_Z_DIR
+    #if NUM_Z_STEPPER_DRIVERS < 2
+      #undef Z2_DRIVER_TYPE
+      #undef INVERT_Z2_VS_Z_DIR
+    #endif
+  #endif
 #endif
 
 //
@@ -356,7 +372,7 @@
 
 // Touch Screen or "Touch Buttons" need XPT2046 pins
 // but they use different components
-#if EITHER(HAS_TFT_XPT2046, HAS_TOUCH_XPT2046)
+#if EITHER(HAS_TFT_XPT2046, HAS_TOUCH_BUTTONS)
   #define NEED_TOUCH_PINS 1
 #endif
 
@@ -368,6 +384,14 @@
 // Poll-based jogging for joystick and other devices
 #if ENABLED(JOYSTICK)
   #define POLL_JOG
+#endif
+
+#ifndef HOMING_BUMP_MM
+  #define HOMING_BUMP_MM { 0, 0, 0 }
+#endif
+
+#if ENABLED(USB_FLASH_DRIVE_SUPPORT) && NONE(USE_OTG_USB_HOST, USE_UHS3_USB)
+  #define USE_UHS2_USB
 #endif
 
 /**
