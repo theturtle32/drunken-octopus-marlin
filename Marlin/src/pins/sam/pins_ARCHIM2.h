@@ -144,7 +144,7 @@
 #ifndef E0_CS_PIN
 #define E0_CS_PIN                             19  // PA10 E2_nCS
 #endif
-#else
+#else // SWAP_E0_AND_E1
 #define E0_STEP_PIN                          107  // PB10 E1-STEP -AddOns *
 #define E0_DIR_PIN                            96  // PC10 E1-DIR -AddOns *
 #define E0_ENABLE_PIN                        105  // PB22 E1-EN -AddOns *
@@ -206,7 +206,7 @@
 #if defined(SWAP_E0_AND_E1)
 #define TEMP_1_PIN                            10  // D10 PB19 THERM AN1 *
 #define TEMP_0_PIN                             9  // D9 PB18 THERM AN2 *
-#else
+#else // SWAP_E0_AND_E1
 #define TEMP_0_PIN                            10  // D10 PB19 THERM AN1 *
 #define TEMP_1_PIN                             9  // D9 PB18 THERM AN2 *
 #endif
@@ -219,7 +219,7 @@
 #if defined(SWAP_E0_AND_E1)
 #define HEATER_1_PIN                           6  // D6 PC24 FET_PWM3
 #define HEATER_0_PIN                           7  // D7 PC23 FET_PWM4
-#else
+#else // SWAP_E0_AND_E1
 #define HEATER_0_PIN                           6  // D6 PC24 FET_PWM3
 #define HEATER_1_PIN                           7  // D7 PC23 FET_PWM4
 #endif
