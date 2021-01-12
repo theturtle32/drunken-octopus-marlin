@@ -203,16 +203,26 @@
 //
 // Temperature Sensors
 //
+#if defined(SWAP_E0_AND_E1)
+#define TEMP_1_PIN                            10  // D10 PB19 THERM AN1 *
+#define TEMP_0_PIN                             9  // D9 PB18 THERM AN2 *
+#else
 #define TEMP_0_PIN                            10  // D10 PB19 THERM AN1 *
 #define TEMP_1_PIN                             9  // D9 PB18 THERM AN2 *
+#endif
 #define TEMP_2_PIN                             8  // D8 PB17 THERM AN4 *
 #define TEMP_BED_PIN                          11  // D11 PB20 THERM AN3 *
 
 //
 // Heaters / Fans
 //
+#if defined(SWAP_E0_AND_E1)
+#define HEATER_1_PIN                           6  // D6 PC24 FET_PWM3
+#define HEATER_0_PIN                           7  // D7 PC23 FET_PWM4
+#else
 #define HEATER_0_PIN                           6  // D6 PC24 FET_PWM3
 #define HEATER_1_PIN                           7  // D7 PC23 FET_PWM4
+#endif
 #define HEATER_2_PIN                           8  // D8 PC22 FET_PWM5
 #define HEATER_BED_PIN                         9  // D9 PC21 BED_PWM
 
