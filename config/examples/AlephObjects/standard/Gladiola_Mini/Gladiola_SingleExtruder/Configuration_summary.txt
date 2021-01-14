@@ -73,8 +73,7 @@
 #define GRID_MAX_POINTS_Y 2
 #define HEATER_0_MAXTEMP 305
 #define HOMING_BACKOFF_POST_MM {5, 5, 2}
-#define HOMING_FEEDRATE_XY 1800
-#define HOMING_FEEDRATE_Z 480
+#define HOMING_FEEDRATE_MM_M {1800, 1800, 480}
 #define HOST_ACTION_COMMANDS
 #define HOTEND_OFFSET_X {0.0, 0}
 #define HOTEND_OFFSET_Y {0.0, 0}
@@ -123,12 +122,12 @@
 #define QUICK_HOME
 #define RESTORE_LEVELING_AFTER_G28
 //#define SDSUPPORT
+#define SD_SPI_SPEED SPI_FULL_SPEED
 #define SERIAL_PORT 0
 #define SERVO0_PIN 20
 //#define SHOW_CUSTOM_BOOTSCREEN
 #define SOFT_PWM_SCALE 4
 #define SOURCE_CODE_URL "https://github.com/marciot/drunken-octopus-marlin"
-#define SPI_SPEED SPI_FULL_SPEED
 #define STRING_CONFIG_H_AUTHOR "(Drunken Octopus Marlin)"
 #define TEMP_BED_HYSTERESIS 5
 #define TEMP_BED_RESIDENCY_TIME 1

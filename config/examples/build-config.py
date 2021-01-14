@@ -597,7 +597,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SERIAL_PORT"]                            = -1
         if USE_REPRAP_LCD_DISPLAY or "SynDaver_AXI" in PRINTER:
             MARLIN["SERIAL_PORT_2"]                      = 0
-        MARLIN["SPI_SPEED"]                              = 'SPI_SIXTEENTH_SPEED'
+        MARLIN["SD_SPI_SPEED"]                           = 'SPI_SIXTEENTH_SPEED'
 
         # Force Archim to use same USB ID as Mini-Rambo and Rambo when flashed
         # NOTE: While in "erase" (bootloader) mode, the ID will be 03eb:6124
@@ -617,18 +617,18 @@ def make_config(PRINTER, TOOLHEAD):
         if USE_REPRAP_LCD_DISPLAY:
             MARLIN["SERIAL_PORT_2"]                      = 2
         if USE_TOUCH_UI:
-            MARLIN["SPI_SPEED"]                          = 'SPI_SIXTEENTH_SPEED'
+            MARLIN["SD_SPI_SPEED"]                       = 'SPI_SIXTEENTH_SPEED'
         else:
-            MARLIN["SPI_SPEED"]                          = 'SPI_FULL_SPEED'
+            MARLIN["SD_SPI_SPEED"]                       = 'SPI_FULL_SPEED'
 
     elif USE_EINSY_RAMBO:
         MARLIN["MOTHERBOARD"]                            = 'BOARD_EINSY_RAMBO'
         MARLIN["CONTROLLER_FAN_PIN"]                     = 'FAN1_PIN' # Digital pin 6
         MARLIN["SERIAL_PORT"]                            = 0
         if USE_TOUCH_UI:
-            MARLIN["SPI_SPEED"]                          = 'SPI_SIXTEENTH_SPEED'
+            MARLIN["SD_SPI_SPEED"]                       = 'SPI_SIXTEENTH_SPEED'
         else:
-            MARLIN["SPI_SPEED"]                          = 'SPI_FULL_SPEED'
+            MARLIN["SD_SPI_SPEED"]                       = 'SPI_FULL_SPEED'
 
     elif USE_BTT_002:
         MARLIN["MOTHERBOARD"]                            = 'BOARD_BTT_BTT002_V1_0'
@@ -641,7 +641,7 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["Z_MAX_PIN"]                          = 'PD4' # Use AC-FAULT connector
         else:
             MARLIN["Z_STOP_PIN"]                         = 'PD4' # Use AC-FAULT connector
-        MARLIN["SPI_SPEED"]                              = 'SPI_FULL_SPEED'
+        MARLIN["SD_SPI_SPEED"]                           = 'SPI_FULL_SPEED'
 
     elif IS_MINI:
         MARLIN["MOTHERBOARD"]                            = 'BOARD_MINIRAMBO'
@@ -651,7 +651,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["FIL_RUNOUT_PIN"]                         = 84
         if USE_REPRAP_LCD_DISPLAY:
             MARLIN["SERIAL_PORT_2"]                      = 2
-        MARLIN["SPI_SPEED"]                              = 'SPI_FULL_SPEED'
+        MARLIN["SD_SPI_SPEED"]                           = 'SPI_FULL_SPEED'
 
     elif IS_TAZ:
         MARLIN["MOTHERBOARD"]                            = 'BOARD_RAMBO'
@@ -659,7 +659,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SERIAL_PORT"]                            = 0
         if USE_REPRAP_LCD_DISPLAY:
             MARLIN["SERIAL_PORT_2"]                      = 1
-        MARLIN["SPI_SPEED"]                              = 'SPI_FULL_SPEED'
+        MARLIN["SD_SPI_SPEED"]                           = 'SPI_FULL_SPEED'
 
     if ENABLED("USB_FLASH_DRIVE_SUPPORT"):
         MARLIN["USB_INTR_PIN"]                           = 'SD_DETECT_PIN'
@@ -771,20 +771,16 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["Z_HOME_DIR"]                             = 1 # Home to top
 
     if MINI_BED and USE_Z_BELT:
-        MARLIN["HOMING_FEEDRATE_XY"]                     = 50*60 # mm/m
-        MARLIN["HOMING_FEEDRATE_Z"]                      = 40*60 # mm/m
+        MARLIN["HOMING_FEEDRATE_MM_M"]                   = [50*60,50*60,40*60] # mm/m
 
     elif MINI_BED and USE_Z_SCREW:
-        MARLIN["HOMING_FEEDRATE_XY"]                     = 30*60 # mm/m
-        MARLIN["HOMING_FEEDRATE_Z"]                      = 8*60  # mm/m
+        MARLIN["HOMING_FEEDRATE_MM_M"]                   = [30*60,30*60,8*60]  # mm/m
 
     elif TAZ_BED and USE_Z_BELT:
-        MARLIN["HOMING_FEEDRATE_XY"]                     = 50*60 # mm/m
-        MARLIN["HOMING_FEEDRATE_Z"]                      = 30*60 # mm/m
+        MARLIN["HOMING_FEEDRATE_MM_M"]                   = [50*60,50*60,30*60] # mm/m
 
     elif TAZ_BED and USE_Z_SCREW:
-        MARLIN["HOMING_FEEDRATE_XY"]                     = 50*60 # mm/m
-        MARLIN["HOMING_FEEDRATE_Z"]                      = 3*60  # mm/m
+        MARLIN["HOMING_FEEDRATE_MM_M"]                   = [50*60,50*60,3*60] # mm/m
 
     if MARLIN["BLTOUCH"]:
         MARLIN["Z_SAFE_HOMING"]                          = True
