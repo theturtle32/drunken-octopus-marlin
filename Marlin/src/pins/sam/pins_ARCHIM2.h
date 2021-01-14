@@ -234,7 +234,9 @@
   #define FAN1_PIN                             8  // D8 PC22 FET_PWM5 ("HTR3" header)
 #endif
 
-#define CONTROLLER_FAN_PIN                     5  // D5 PC25 FET_PWM2 ("FAN2" header)
+#ifndef CONTROLLER_FAN_PIN
+  #define CONTROLLER_FAN_PIN                   5  // D5 PC25 FET_PWM2 ("FAN2" header)
+#endif
 
 #if ENABLED(CASE_LIGHT_ENABLE)
   #undef  HEATER_1_PIN
@@ -319,6 +321,4 @@
   #define BTN_EN1                             60  // D60 PA3_TIOB1
   #define BTN_EN2                             13  // D13 PB27_TIOB0
   #define BTN_ENC                             16  // D16 PA13_TXD1 // the click
-#endif
-
 #endif

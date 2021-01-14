@@ -592,7 +592,6 @@ def make_config(PRINTER, TOOLHEAD):
 
     if USE_ARCHIM2:
         MARLIN["MOTHERBOARD"]                            = 'BOARD_ARCHIM2'
-        MARLIN["CONTROLLER_FAN_PIN"]                     = 'FAN1_PIN'
         MARLIN["SERIAL_PORT"]                            = -1
         if USE_REPRAP_LCD_DISPLAY or "SynDaver_AXI" in PRINTER:
             MARLIN["SERIAL_PORT_2"]                      = 0
