@@ -2607,7 +2607,6 @@
 //#define BED_LEVELING_COMMANDS
 //#define AO_EXP1_DEPRECATED_PINMAP
 #define DISABLE_DUE_SD_MMC // <-- changed
-//#define EXTRUDER_FAN_ON_PIN_6
 #define ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE 1000 // <-- changed
 #define END_G29_ON_BACK_LEFT_CORNER // <-- changed
 #define G26_IN_START_GCODE_WORKAROUND // <-- changed
@@ -2623,6 +2622,7 @@
 //#define FIL_RUNOUT_PIN
 //#define SERVO0_PIN
 #define ACTION_ON_FILAMENT_RUNOUT "pause: filament_runout" // <-- changed
+//#define SWAP_EXTRUDER_FANS
 //#define SWAP_E0_AND_E1
 //#define Z_STOP_PIN
 //#define Z_MAX_PIN
@@ -2635,4 +2635,5 @@
 //#define EMI_MITIGATION
 #define Z_MIN_PROBE_REPEATABILITY_TEST // <-- changed
 //#define Z2_PRESENCE_CHECK
+//#define USE_ELECTROMAGNETIC_BRAKE
 //#define ELECTROMAGNETIC_BRAKE_PIN

@@ -167,7 +167,7 @@
 #define HEATER_2_PIN        6
 #define HEATER_BED_PIN      3
 
-#if defined(EXTRUDER_FAN_ON_PIN_6)
+#if defined(SWAP_EXTRUDER_FANS)
   #define FAN_PIN           6
   #define FAN1_PIN          8
 #else

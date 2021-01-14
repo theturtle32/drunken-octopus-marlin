@@ -438,12 +438,11 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SDSUPPORT"]                              = True
         USE_DUAL_Z_STEPPERS                              = True
         if "SynDaver_AXI_2" in PRINTER:
-            MARLIN["CASE_LIGHT_ENABLE"]                  = True
-            MARLIN["CASE_LIGHT_PIN"]                     = "HEATER_1_PIN"
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI 2")
             MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (d93471f)")
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: beta (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
-            MARLIN["ELECTROMAGNETIC_BRAKE_PIN"]          = "HEATER_2_PIN"
+            MARLIN["USE_ELECTROMAGNETIC_BRAKE"]          = True
+            MARLIN["CASE_LIGHT_ENABLE"]                  = True
         else:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI")
             MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (d93471f)")
@@ -947,7 +946,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOOLCHANGE_ZRAISE"]                      = 2
         MARLIN["TEMP_SENSOR_1"]                          = 5
         MARLIN["DISTINCT_E_FACTORS"]                     = True
-        MARLIN["EXTRUDER_FAN_ON_PIN_6"]                  = True # For backwards compatibility with TAZ 4
+        MARLIN["SWAP_EXTRUDER_FANS"]                     = True # For backwards compatibility with TAZ 4
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
     if TOOLHEAD in ["Javelin_DualExtruderV2"]:
@@ -1006,7 +1005,7 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 10
         if "Oliveoil_TAZ6" in PRINTER or "Juniper_TAZ5" in PRINTER or "Guava_TAZ4" in PRINTER:
             MARLIN["SWAP_E0_AND_E1"]                     = True
-            MARLIN["EXTRUDER_FAN_ON_PIN_6"]              = True # For backwards compatibility with TAZ 4
+            MARLIN["SWAP_EXTRUDER_FANS"]                 = True # For backwards compatibility with TAZ 4
             MARLIN["X_MAX_ENDSTOP_INVERTING"]            = NORMALLY_CLOSED_ENDSTOP
 
 ############################# UNIVERSAL TOOLHEADS #############################

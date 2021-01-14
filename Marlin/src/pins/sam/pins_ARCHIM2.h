@@ -167,7 +167,7 @@
   #undef Z_DIR_PIN
   #undef Z_ENABLE_PIN
   #undef Z_CS_PIN
-  
+
   #undef E1_STEP_PIN
   #undef E1_DIR_PIN
   #undef E1_ENABLE_PIN
@@ -177,7 +177,7 @@
   #define Z_DIR_PIN                            97  // PB24 E2_DIR -AddOns *
   #define Z_ENABLE_PIN                         18  // PA11 E2-EN
   #define Z_CS_PIN                             19  // PA10 E2_nCS
-  
+
   #define Z2_STEP_PIN                          46  // PC17 Z-STEP *
   #define Z2_DIR_PIN                           47  // PC16 Z-DIR *
   #define Z2_ENABLE_PIN                        44  // PC19 Z-END *
@@ -217,25 +217,33 @@
 // Heaters / Fans
 //
 #if defined(SWAP_E0_AND_E1)
-#define HEATER_1_PIN                           6  // D6 PC24 FET_PWM3
-#define HEATER_0_PIN                           7  // D7 PC23 FET_PWM4
+  #define HEATER_0_PIN                         7  // D7 PC23 FET_PWM4 ("HTR2" header)
+  #define HEATER_1_PIN                         6  // D6 PC24 FET_PWM3 ("HTR1" header)
 #else // SWAP_E0_AND_E1
-#define HEATER_0_PIN                           6  // D6 PC24 FET_PWM3
-#define HEATER_1_PIN                           7  // D7 PC23 FET_PWM4
+  #define HEATER_0_PIN                         6  // D6 PC24 FET_PWM3 ("HTR1" header)
+  #define HEATER_1_PIN                         7  // D7 PC23 FET_PWM4 ("HTR2" header)
 #endif
-#define HEATER_2_PIN                           8  // D8 PC22 FET_PWM5
-#define HEATER_BED_PIN                         9  // D9 PC21 BED_PWM
+//#define HEATER_2_PIN                         8  // D8 PC22 FET_PWM5 ("HTR3" header)
+#define HEATER_BED_PIN                         9  // D9 PC21 BED_PWM  ("HTBD" header)
 
-#if defined(EXTRUDER_FAN_ON_PIN_6)
-#ifndef FAN_PIN
-  #define FAN_PIN                              5  // D5 PC25 FET_PWM2
-#endif
-#define FAN1_PIN                               4  // D4 PC26 FET_PWM1
+#if defined(SWAP_EXTRUDER_FANS)
+  #define FAN_PIN                              8  // D8 PC22 FET_PWM5 ("HTR3" header)
+  #define FAN1_PIN                             4  // D4 PC26 FET_PWM1 ("FAN1" header)
 #else
-#ifndef FAN_PIN
-  #define FAN_PIN                              4  // D4 PC26 FET_PWM1
+  #define FAN_PIN                              4  // D4 PC26 FET_PWM1 ("FAN1" header)
+  #define FAN1_PIN                             8  // D8 PC22 FET_PWM5 ("HTR3" header)
 #endif
-#define FAN1_PIN                               5  // D5 PC25 FET_PWM2
+
+#define CONTROLLER_FAN_PIN                     5  // D5 PC25 FET_PWM2 ("FAN2" header)
+
+#if ENABLED(CASE_LIGHT_ENABLE)
+  #undef  HEATER_1_PIN
+  #define CASE_LIGHT_PIN                       7  // D7 PC23 FET_PWM4 ("HTR2" header)
+#endif
+
+#if ENABLED(USE_ELECTROMAGNETIC_BRAKE)
+  #undef  FAN1_PIN
+  #define ELECTROMAGNETIC_BRAKE_PIN            8  // D8 PC22 FET_PWM5 ("HTR3" header)
 #endif
 
 //
@@ -311,4 +319,6 @@
   #define BTN_EN1                             60  // D60 PA3_TIOB1
   #define BTN_EN2                             13  // D13 PB27_TIOB0
   #define BTN_ENC                             16  // D16 PA13_TXD1 // the click
+#endif
+
 #endif
