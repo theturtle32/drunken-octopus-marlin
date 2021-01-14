@@ -157,13 +157,6 @@ build_config custom    Redgum_TAZWorkhorseBLTouch                E3D_Hermera
 build_config custom    Redgum_TAZWorkhorseArchimBLTouch          E3D_Hermera
 build_config custom    Redgum_TAZWorkhorseArchimTouchUSBBLTouch  E3D_Hermera
 
-build_config standard  KangarooPaw_Bio                           KangarooPaw_SingleExtruder
-
-vendor=Experimental
-
-build_config custom    Experimental_TouchDemo                    Gladiola_SingleExtruder
-build_config custom    Experimental_MiniEinsyLCD                 BandedTiger_HardenedSteel
-
 vendor=SynDaver
 
 build_config standard  SynDaver_AXI                              E3D_Hermera

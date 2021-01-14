@@ -774,13 +774,13 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["HOMING_FEEDRATE_MM_M"]                   = [50*60,50*60,40*60] # mm/m
 
     elif MINI_BED and USE_Z_SCREW:
-        MARLIN["HOMING_FEEDRATE_MM_M"]                   = [30*60,30*60,8*60]  # mm/m
+        MARLIN["HOMING_FEEDRATE_MM_M"]                   = [30*60,30*60,8*60] # mm/m
 
     elif TAZ_BED and USE_Z_BELT:
         MARLIN["HOMING_FEEDRATE_MM_M"]                   = [50*60,50*60,30*60] # mm/m
 
     elif TAZ_BED and USE_Z_SCREW:
-        MARLIN["HOMING_FEEDRATE_MM_M"]                   = [50*60,50*60,3*60] # mm/m
+        MARLIN["HOMING_FEEDRATE_MM_M"]                   = [50*60,50*60,3*60]  # mm/m
 
     if MARLIN["BLTOUCH"]:
         MARLIN["Z_SAFE_HOMING"]                          = True
