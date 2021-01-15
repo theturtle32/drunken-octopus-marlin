@@ -1626,7 +1626,7 @@
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
-  #define NOZZLE_PARK_POINT {100, 276.4, 20} // <-- changed
+  #define NOZZLE_PARK_POINT {100, 267.4, 20} // <-- changed
   //#define NOZZLE_PARK_X_ONLY          // X move only is required to park
   //#define NOZZLE_PARK_Y_ONLY          // Y move only is required to park
   #define NOZZLE_PARK_Z_RAISE_MIN   2   // (mm) Always raise Z by at least this distance
@@ -2603,7 +2603,6 @@
 #define TOOLHEAD_TYPE "SingleExtruder" // <-- changed
 //#define WIPE_SEQUENCE_COMMANDS
 //#define AXIS_LEVELING_COMMANDS
-//#define PARK_AND_RELEASE_COMMANDS
 //#define BED_LEVELING_COMMANDS
 //#define AO_EXP1_DEPRECATED_PINMAP
 //#define DISABLE_DUE_SD_MMC
@@ -2613,8 +2612,6 @@
 //#define USB_DEVICE_VENDOR_ID
 //#define USB_DEVICE_PRODUCT_ID
 //#define TOUCH_UI_NO_BOOTSCREEN
-//#define TOUCH_UI_LULZBOT_BIO
-//#define TOUCH_UI_FROZEN_THEME
 //#define TOUCH_UI_ROYAL_THEME
 //#define TOUCH_UI_VERSION
 //#define TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS
@@ -2626,12 +2623,8 @@
 //#define SWAP_E0_AND_E1
 //#define Z_STOP_PIN
 //#define Z_MAX_PIN
-//#define E_MIN_PIN
-//#define E_MIN_PIN_INVERTING
-//#define E_MAX_POS
 //#define NO_MOTION_BEFORE_HOMING_WORKAROUND
 //#define NO_TIME_AFTER_SD_PRINT
-//#define NO_TOOLHEAD_HEATER_GCODE
 //#define EMI_MITIGATION
 //#define Z_MIN_PROBE_REPEATABILITY_TEST
 //#define Z2_PRESENCE_CHECK
