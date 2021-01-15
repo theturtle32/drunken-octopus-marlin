@@ -1939,11 +1939,8 @@ def make_config(PRINTER, TOOLHEAD):
     else:
         MARLIN["NOZZLE_PARK_FEATURE"]                    = True
         MARLIN["ADVANCED_PAUSE_FEATURE"]                 = True
-        if IS_MINI:
-            MARLIN["NOZZLE_PARK_POINT"]                  = [  10, MARLIN["Y_MAX_POS"] - 10, 20 ]
-        else:
-            # Match the purge location of the v3 dual so a single tray can be used.
-            MARLIN["NOZZLE_PARK_POINT"]                  = [ 100, MARLIN["Y_MAX_POS"] -  1, 20 ]
+        # For TAZ, match the purge location of the v3 dual so a single tray can be used.
+        MARLIN["NOZZLE_PARK_POINT"]                      = [ 10 if IS_MINI else 100, MARLIN["Y_MAX_POS"] - 10, 20 ]
 
     if MARLIN["SDSUPPORT"]:
         if PRINTER in ["KangarooPaw_Bio"]:
