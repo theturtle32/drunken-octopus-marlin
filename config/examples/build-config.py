@@ -484,13 +484,11 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MACHINE_UUID"]                           = C_STRING("23421dc0-df9f-430b-8f91-0e3bcb55b4e4")
         # Since we are using EinsyRetro 1.1a, use EXP1 for touch panel
         MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]               = True
-        #MARLIN["TOUCH_UI_LULZBOT_BIO"]                   = True
         MARLIN["AO_EXP2_PINMAP"]                         = True
         MARLIN["TOUCH_UI_PORTRAIT"]                      = True
         MARLIN["TOUCH_UI_INVERTED"]                      = True
         MARLIN["TOUCH_UI_800x480"]                       = True
         MARLIN["TOUCH_UI_DEBUG"]                         = True
-        MARLIN["TOUCH_UI_ROYAL_THEME"]                   = True
         MARLIN["TOUCH_UI_NO_BOOTSCREEN"]                 = True
         # SD or USB will only work on EXP2, but a 5
         # pigtail to an endstop connector is needed
