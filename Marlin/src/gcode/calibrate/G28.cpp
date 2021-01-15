@@ -162,28 +162,6 @@
 
 #endif // Z_SAFE_HOMING
 
-#ifdef E_MIN_PIN
-  // E_MIN_PIN for syringe extruders for bio printers
-  static inline bool read_e_min_pin() {
-    return (READ(E_MIN_PIN) != E_MIN_PIN_INVERTING);
-  }
-
-  static void home_e() {
-    // Back off the extruder until the pin is triggered
-    destination = current_position;
-    while(!read_e_min_pin()) {
-      current_position[E_AXIS] = 0.5;
-      sync_plan_position();
-      destination[E_AXIS] = 0;
-      do_blocking_move_to(destination, feedrate_mm_s);
-      planner.synchronize();
-    };
-
-    SBI(axis_known_position, E_AXIS);
-    SBI(axis_homed, E_AXIS);
-  }
-#endif
-
 #if ENABLED(IMPROVE_HOMING_RELIABILITY)
 
   slow_homing_t begin_slow_homing() {
@@ -226,19 +204,10 @@
  *  X   Home to the X endstop
  *  Y   Home to the Y endstop
  *  Z   Home to the Z endstop
- *
- * Syringe extruder parameters
- *
- *  E   Home to the E endstop
- *
  */
 void GcodeSuite::G28() {
   DEBUG_SECTION(log_G28, "G28", DEBUGGING(LEVELING));
   if (DEBUGGING(LEVELING)) log_machine_info();
-
-  #ifdef E_MIN_PIN
-    if(parser.seen('E')) home_e();
-  #endif
 
   TERN_(LASER_MOVE_G28_OFF, cutter.set_inline_enabled(false));  // turn off laser
 
