@@ -37,8 +37,8 @@ bool ConfirmUserRequestAlertBox::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 1:
       if(ExtUI::isPrintingPaused()) {
-          // The filament change screen will call ExtUI::setUserConfirmed()
-          GOTO_SCREEN(ChangeFilamentScreen);
+          // The TuneMenu will call ExtUI::setUserConfirmed()
+          GOTO_SCREEN(TuneMenu);
           current_screen.forget();
       } else {
           ExtUI::setUserConfirmed();
