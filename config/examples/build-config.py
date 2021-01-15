@@ -28,7 +28,6 @@ PRINTER_CHOICES = [
     "Oliveoil_TAZ6",
     "Quiver_TAZPro",
     "Redgum_TAZWorkhorse",
-    "KangarooPaw_Bio",
 
     # SynDaver Printers
     "SynDaver_AXI",
@@ -464,37 +463,6 @@ def make_config(PRINTER, TOOLHEAD):
 
     # Unsupported or unreleased experimental configurations. Use at your own risk.
 
-    if "KangarooPaw_Bio" in PRINTER:
-        # Kangaroo Paw uses a 480x272 display and SD card
-        IS_MINI                                          = True
-        MINI_BED                                         = True
-        USE_Z_BELT                                       = True
-        USE_AUTOLEVELING                                 = False
-        USE_NORMALLY_CLOSED_ENDSTOPS                     = True
-        USE_TOUCH_UI                                     = True
-        USE_REPRAP_LCD_DISPLAY                           = False
-        USE_EINSY_RETRO                                  = True
-        USE_EXPERIMENTAL_FEATURES                        = True
-        MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("Bio")
-        MARLIN["NO_TOOLHEAD_HEATER_GCODE"]               = True
-        MARLIN["E_MAX_POS"]                              = 60
-        MARLIN["TOUCH_UI_LULZBOT_BIO"]                   = True
-        MARLIN["TOUCH_UI_FROZEN_THEME"]                  = True
-        MARLIN["SENSORLESS_HOMING"]                      = True
-        MARLIN["BACKLASH_COMPENSATION"]                  = True
-        MARLIN["STEALTHCHOP_XY"]                         = False
-        MARLIN["STEALTHCHOP_Z"]                          = True
-        MARLIN["STEALTHCHOP_E"]                          = True
-        MARLIN["HYBRID_THRESHOLD"]                       = True
-        MARLIN["BAUDRATE"]                               = 250000
-        MARLIN["PRINTCOUNTER"]                           = True
-        MARLIN["MACHINE_UUID"]                           = C_STRING("9a1d8eee-7118-40a7-942d-9541f35667dd")
-        MARLIN["TOUCH_UI_PORTRAIT"]                      = True
-        MARLIN["TOUCH_UI_480x272"]                       = True
-        MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]               = True
-        MARLIN["AO_EXP1_PINMAP"]                         = True
-        MARLIN["SDSUPPORT"]                              = True
-
     if "Experimental_TouchDemo" in PRINTER:
         # Test stand with Einsy Rambo and LulzBot Touch LCD
         IS_MINI                                          = True
@@ -695,13 +663,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["USE_YMAX_PLUG"]                              = USE_MAX_ENDSTOPS or IS_MINI
         MARLIN["USE_ZMAX_PLUG"]                              = USE_MAX_ENDSTOPS or IS_MINI or (IS_TAZ and not USE_HOME_BUTTON)
 
-    if PRINTER in ["KangarooPaw_Bio"]:
-        MARLIN["USE_XMAX_PLUG"]                          = True
-        MARLIN["E_MIN_PIN"]                              = 'X_MAX_PIN'
-        MARLIN["E_MIN_PIN_INVERTING"]                    = NORMALLY_CLOSED_ENDSTOP
-        MARLIN["MIN_SOFTWARE_ENDSTOPS"]                  = False
-        MARLIN["MAX_SOFTWARE_ENDSTOPS"]                  = False
-
     if ENABLED("SDSUPPORT"):
         MARLIN["SD_ABORT_ON_ENDSTOP_HIT"]                = True
 
@@ -807,7 +768,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     # Enable NO_MOTION_BEFORE_HOMING on newer printers that have no MAX endstops,
     # but leave TAZ4/5 as is so we don't introduce a change for those users.
-    if not USE_MAX_ENDSTOPS and not "Juniper_TAZ5" in PRINTER and not "Guava_TAZ4" and not "KangarooPaw_Bio" in PRINTER:
+    if not USE_MAX_ENDSTOPS and not "Juniper_TAZ5" in PRINTER and not "Guava_TAZ4":
         MARLIN["NO_MOTION_BEFORE_HOMING"]                = True
 
     # If the printer uses dual Z endstops for X axis leveling,
@@ -1567,8 +1528,8 @@ def make_config(PRINTER, TOOLHEAD):
 
             # Traditionally LulzBot printers have employed a four-point
             # leveling using a 2x2 grid.
-            MARLIN["GRID_MAX_POINTS_X"]              = 2
-            MARLIN["GRID_MAX_POINTS_Y"]              = 2
+            MARLIN["GRID_MAX_POINTS_X"]                  = 2
+            MARLIN["GRID_MAX_POINTS_Y"]                  = 2
             if IS_MINI:
                 # We can't control the order of probe points exactly, but
                 # this makes the probe start closer to the wiper pad.
@@ -1577,15 +1538,12 @@ def make_config(PRINTER, TOOLHEAD):
             else:
                 # Restore the old probe sequence on the TAZ that starts
                 # probing on the washer underneath the wiper pad.
-                MARLIN["END_G29_ON_BACK_LEFT_CORNER"] = True
+                MARLIN["END_G29_ON_BACK_LEFT_CORNER"]    = True
                 GOTO_1ST_PROBE_POINT = "G0 X{} Y{}".format(LEFT_PROBE_BED_POSITION, FRONT_PROBE_BED_POSITION)
 
 ############################# X AXIS LEVELING #############################
 
-    if PRINTER == "KangarooPaw_Bio":
-        XLEVEL_POS                                       = "G0 X170 Y75 F9999\n"
-    else:
-        XLEVEL_POS                                       = "G0 X150 F9999\n"
+    XLEVEL_POS                                           = "G0 X150 F9999\n"
 
     if USE_Z_BELT and IS_MINI:
         AXIS_LEVELING_COMMANDS = (
@@ -1664,13 +1622,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING("G29 L1\n" + AXIS_LEVELING_COMMANDS + "M280 P0 S60")
       else:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING(AXIS_LEVELING_COMMANDS)
-
-    if PRINTER in ['KangarooPaw_Bio']:
-        MARLIN["PARK_AND_RELEASE_COMMANDS"]              = C_STRING(
-            "G0 X115 Z50 F6000\n"                        # Goto loading position
-            "M400\n"                                     # Wait for moves to finish
-            "M18 X Y"                                    # Unlock motors
-        )
 
 ################ AUTO-CALIBRATION (BACKLASH AND NOZZLE OFFSET) ################
 
@@ -1932,21 +1883,13 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["FILAMENT_UNLOAD_PURGE_DELAY"]        = 0
             MARLIN["FILAMENT_UNLOAD_PURGE_LENGTH"]       = 0
 
-    if PRINTER in ["KangarooPaw_Bio"]:
-        MARLIN["ADVANCED_PAUSE_FEATURE"]                 = False
-        MARLIN["NOZZLE_PARK_FEATURE"]                    = False
-
-    else:
-        MARLIN["NOZZLE_PARK_FEATURE"]                    = True
-        MARLIN["ADVANCED_PAUSE_FEATURE"]                 = True
-        # For TAZ, match the purge location of the v3 dual so a single tray can be used.
-        MARLIN["NOZZLE_PARK_POINT"]                      = [ 10 if IS_MINI else 100, MARLIN["Y_MAX_POS"] - 10, 20 ]
+    MARLIN["NOZZLE_PARK_FEATURE"]                        = True
+    MARLIN["ADVANCED_PAUSE_FEATURE"]                     = True
+    # For TAZ, match the purge location of the v3 dual so a single tray can be used.
+    MARLIN["NOZZLE_PARK_POINT"]                          = [ 10 if IS_MINI else 100, MARLIN["Y_MAX_POS"] - 10, 20 ]
 
     if MARLIN["SDSUPPORT"]:
-        if PRINTER in ["KangarooPaw_Bio"]:
-            EVENT_GCODE_SD_ABORT = "G28 Z\nM117 Print aborted."
-
-        elif IS_MINI:
+        if IS_MINI:
             EVENT_GCODE_SD_ABORT = "G28 Z\nG0 X80 Y190 F3000\nM117 Print aborted."
 
         elif "Juniper_TAZ5" in PRINTER or "Guava_TAZ4" in PRINTER:
