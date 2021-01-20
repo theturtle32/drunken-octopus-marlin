@@ -944,7 +944,7 @@ namespace ExtUI {
   }
 
   bool awaitingUserConfirm() {
-      return wait_for_user;
+    return wait_for_user;
   }
 
   void setUserConfirmed() {
