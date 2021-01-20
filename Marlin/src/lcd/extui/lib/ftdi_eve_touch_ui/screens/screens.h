@@ -248,6 +248,7 @@ class ConfirmUserRequestAlertBox : public AlertDialogBox {
     static bool onTouchEnd(uint8_t);
     static void hide();
     static void show(const char*);
+    static void onIdle();
 };
 
 #if ENABLED(CUSTOM_USER_MENUS)
