@@ -439,7 +439,7 @@ def make_config(PRINTER, TOOLHEAD):
         if "SynDaver_AXI_2" in PRINTER:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI 2")
             MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (d93471f)")
-            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: beta (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 1 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["USE_ELECTROMAGNETIC_BRAKE"]          = True
             MARLIN["CASE_LIGHT_ENABLE"]                  = True
         else:
@@ -1416,6 +1416,10 @@ def make_config(PRINTER, TOOLHEAD):
     elif "SynDaver_AXI" in PRINTER:
         STANDARD_Z_MIN_POS                               = 0
         STANDARD_Z_MAX_POS                               = 294
+
+    elif "SynDaver_AXI_2" in PRINTER:
+        STANDARD_Z_MIN_POS                               = 0
+        STANDARD_Z_MAX_POS                               = 283
 
     elif IS_TAZ and USE_Z_BELT:
         STANDARD_Z_MIN_POS                               = -2
