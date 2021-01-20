@@ -438,14 +438,14 @@ def make_config(PRINTER, TOOLHEAD):
         USE_DUAL_Z_STEPPERS                              = True
         if "SynDaver_AXI_2" in PRINTER:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI 2")
-            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (d93471f)")
+            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (03aca0b)")
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 1 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["USE_ELECTROMAGNETIC_BRAKE"]          = True
             MARLIN["CASE_LIGHT_ENABLE"]                  = True
         else:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI")
-            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (d93471f)")
-            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 4 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (03aca0b)")
+            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 5 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["Z2_PRESENCE_CHECK"]                  = True
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
