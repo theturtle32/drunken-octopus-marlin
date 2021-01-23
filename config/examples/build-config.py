@@ -2027,6 +2027,7 @@ def make_config(PRINTER, TOOLHEAD):
               WIPE_DONE_TEMP +                           # Drop to probe temp
             "M107\n"                                     # Turn off fan
         )
+        MARLIN["WIPE_SEQUENCE_COMMANDS"]                 = C_STRING(WIPE_SEQUENCE_COMMANDS)
 
 ################################# PROBE REWIPE ################################
 
@@ -2090,7 +2091,6 @@ def make_config(PRINTER, TOOLHEAD):
                 "M117 Probe successful\n"                # Status message
             )
 
-        MARLIN["WIPE_SEQUENCE_COMMANDS"]                 = C_STRING(WIPE_SEQUENCE_COMMANDS)
         MARLIN["G29_FAILURE_COMMANDS"]                   = C_STRING(G29_FAILURE_COMMANDS)
         MARLIN["G29_RECOVER_COMMANDS"]                   = C_STRING(G29_RECOVER_COMMANDS)
         MARLIN["G29_SUCCESS_COMMANDS"]                   = C_STRING(G29_SUCCESS_COMMANDS)
