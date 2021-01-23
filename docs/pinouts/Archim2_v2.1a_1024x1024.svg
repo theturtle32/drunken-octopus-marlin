@@ -82,8 +82,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   <rect x="791" y="546" width="45" height="24" class="connector therm_bed_pin"><title>Bed Thermistor</title></rect>
   
   <rect x="140" y="74" width="80" height="32" class="connector heat_e0_pin"><title>Hot End 1 Heater</title></rect>
-  <rect x="235" y="74" width="80" height="32" class="connector heat_e1_pin"><title>Hot End 2 Heater</title></rect>
-  <rect x="420" y="74" width="80" height="32" class="connector hotend_fan_pin"><title>Hot End Blower</title></rect>
+  <rect x="235" y="74" width="80" height="32" class="connector heat_e1_pin"><title>Hot End 2 Heater (or Case Light)</title></rect>
+  <rect x="330" y="74" width="80" height="32" class="connector fan_e1_pin"><title>Hot End 2 Blower (or Z Brake)</title></rect>
+  <rect x="420" y="74" width="80" height="32" class="connector fan_e0_pin"><title>Hot End 1 Blower</title></rect>
   <rect x="515" y="74" width="80" height="32" class="connector heat_bed_pin"><title>Bed Heater</title></rect>
   
   <rect x="70"  y="161" width="45" height="24" class="connector case_fan_pin"><title>Case Fan</title></rect>
