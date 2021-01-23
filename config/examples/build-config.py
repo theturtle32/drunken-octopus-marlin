@@ -438,14 +438,14 @@ def make_config(PRINTER, TOOLHEAD):
         USE_DUAL_Z_STEPPERS                              = True
         if "SynDaver_AXI_2" in PRINTER:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI 2")
-            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (d93471f)")
-            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: beta (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (03aca0b)")
+            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 1 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["USE_ELECTROMAGNETIC_BRAKE"]          = True
             MARLIN["CASE_LIGHT_ENABLE"]                  = True
         else:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI")
-            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (d93471f)")
-            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 4 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (03aca0b)")
+            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 5 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["Z2_PRESENCE_CHECK"]                  = True
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
@@ -1417,6 +1417,10 @@ def make_config(PRINTER, TOOLHEAD):
         STANDARD_Z_MIN_POS                               = 0
         STANDARD_Z_MAX_POS                               = 294
 
+    elif "SynDaver_AXI_2" in PRINTER:
+        STANDARD_Z_MIN_POS                               = 0
+        STANDARD_Z_MAX_POS                               = 283
+
     elif IS_TAZ and USE_Z_BELT:
         STANDARD_Z_MIN_POS                               = -2
         STANDARD_Z_MAX_POS                               = 299
@@ -1460,7 +1464,6 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["GRID_MAX_POINTS_Y"]                  = 5
             MARLIN["PROBING_MARGIN"]                     = 0
             MARLIN["MESH_INSET"]                         = 0
-            MARLIN["UBL_Z_RAISE_WHEN_OFF_MESH"]          = 5
             MARLIN["PROBING_FANS_OFF"]                   = True
             MARLIN["PROBING_STEPPERS_OFF"]               = True
             GOTO_1ST_PROBE_POINT                         = ""
@@ -2024,6 +2027,7 @@ def make_config(PRINTER, TOOLHEAD):
               WIPE_DONE_TEMP +                           # Drop to probe temp
             "M107\n"                                     # Turn off fan
         )
+        MARLIN["WIPE_SEQUENCE_COMMANDS"]                 = C_STRING(WIPE_SEQUENCE_COMMANDS)
 
 ################################# PROBE REWIPE ################################
 
@@ -2087,7 +2091,6 @@ def make_config(PRINTER, TOOLHEAD):
                 "M117 Probe successful\n"                # Status message
             )
 
-        MARLIN["WIPE_SEQUENCE_COMMANDS"]                 = C_STRING(WIPE_SEQUENCE_COMMANDS)
         MARLIN["G29_FAILURE_COMMANDS"]                   = C_STRING(G29_FAILURE_COMMANDS)
         MARLIN["G29_RECOVER_COMMANDS"]                   = C_STRING(G29_RECOVER_COMMANDS)
         MARLIN["G29_SUCCESS_COMMANDS"]                   = C_STRING(G29_SUCCESS_COMMANDS)

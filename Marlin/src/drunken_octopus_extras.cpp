@@ -78,7 +78,7 @@
   }
 #endif
 
-/******************************** INDEPENDENT Z AUTO-DETECT *******************************/
+/************************** INDEPENDENT Z AUTO-DETECT **************************/
 
 #if ENABLED(Z2_PRESENCE_CHECK)
     #if NUM_Z_STEPPER_DRIVERS != 2
@@ -96,5 +96,20 @@
         SET_INPUT(GPIO_PB2_J20_8);
         WRITE(GPIO_PB2_J20_8, HIGH);
         return !READ(GPIO_PB2_J20_8);
+    }
+#endif
+
+/*************************** ELECTROMAGNETIC Z BRAKE ***************************/
+
+#if ELECTROMAGNETIC_BRAKE_PIN
+    #include "module/stepper/indirection.h"
+
+    void em_brake_init() {
+        ENABLE_AXIS_Z();
+        safe_delay(500);
+        SET_OUTPUT(ELECTROMAGNETIC_BRAKE_PIN);
+        analogWrite(pin_t(ELECTROMAGNETIC_BRAKE_PIN), 255 * 1.0f);
+        safe_delay(500);
+        analogWrite(pin_t(ELECTROMAGNETIC_BRAKE_PIN), 255 * 0.75f);
     }
 #endif

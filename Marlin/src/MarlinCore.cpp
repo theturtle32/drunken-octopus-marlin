@@ -1274,21 +1274,16 @@ void setup() {
     SETUP_RUN(est_init());
   #endif
 
+  #if ELECTROMAGNETIC_BRAKE_PIN
+    SETUP_RUN(em_brake_init());
+  #endif
+
   #if ENABLED(USE_WATCHDOG)
     SETUP_RUN(watchdog_init());       // Reinit watchdog after HAL_get_reset_source call
   #endif
 
   #if ENABLED(EXTERNAL_CLOSED_LOOP_CONTROLLER)
     SETUP_RUN(closedloop.init());
-  #endif
-
-  #if ELECTROMAGNETIC_BRAKE_PIN
-    ENABLE_AXIS_Z();
-    safe_delay(500);
-    SET_OUTPUT(ELECTROMAGNETIC_BRAKE_PIN);
-    analogWrite(pin_t(ELECTROMAGNETIC_BRAKE_PIN), 255 * 1.0f);
-    safe_delay(500);
-    analogWrite(pin_t(ELECTROMAGNETIC_BRAKE_PIN), 255 * 0.75f);
   #endif
 
   #ifdef STARTUP_COMMANDS
