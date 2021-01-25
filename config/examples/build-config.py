@@ -2128,6 +2128,11 @@ def make_config(PRINTER, TOOLHEAD):
             MOTOR_CURRENT_Z                              = 1630 # mA
 
     elif IS_TAZ:
+        if "SynDaver_AXI_2" in PRINTER:
+            # Make the Sanyo motors run quieter
+            MOTOR_CURRENT_X                              = 600 # mA
+            MOTOR_CURRENT_Y                              = 600 # mA
+            MOTOR_CURRENT_Z                              = 975 # mA
         if USE_ARCHIM2:
             # These values specify the maximum current, but actual
             # currents may be lower when used with COOLCONF
