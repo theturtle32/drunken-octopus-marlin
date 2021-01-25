@@ -674,7 +674,7 @@ namespace Language_en {
   PROGMEM Language_Str MSG_LEVEL_X_AXIS                    = _UxGT("Level X Axis");
   PROGMEM Language_Str MSG_AUTO_CALIBRATE                  = _UxGT("Auto Calibrate");
   #if ENABLED(TOUCH_UI_FTDI_EVE)
-    PROGMEM Language_Str MSG_HEATER_TIMEOUT                = _UxGT("Idle timeout, temperature decreased. Press Okay to reheat and again to resume.");
+    PROGMEM Language_Str MSG_HEATER_TIMEOUT                = _UxGT("Idle timeout, temperature decreased. Press Okay and then resume to reheat. Please then wait in order to resume the print once the reheat is complete.");
   #else
     PROGMEM Language_Str MSG_HEATER_TIMEOUT                = _UxGT("Heater Timeout");
   #endif
