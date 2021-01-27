@@ -180,6 +180,7 @@
 //#define STEALTHCHOP_E
 //#define STEALTHCHOP_XY
 #define STEALTHCHOP_Z
+//#define STOP_ON_ERROR
 #define STRING_CONFIG_H_AUTHOR "(Drunken Octopus Marlin)"
 #define SWITCHING_NOZZLE
 #define SWITCHING_NOZZLE_E1_SERVO_NR 1

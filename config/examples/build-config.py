@@ -1373,7 +1373,7 @@ def make_config(PRINTER, TOOLHEAD):
     elif "SynDaver_AXI" in PRINTER:
         STANDARD_X_MAX_POS                               = 288
         STANDARD_X_MIN_POS                               = -49
-        STANDARD_Y_MAX_POS                               = 303
+        STANDARD_Y_MAX_POS                               = 300
         STANDARD_Y_MIN_POS                               = -35
 
         STANDARD_X_BED_SIZE                              = 280
@@ -1745,6 +1745,7 @@ def make_config(PRINTER, TOOLHEAD):
     if USE_BTT_002 or USE_EINSY_RETRO or USE_EINSY_RAMBO or USE_ARCHIM2:
         MARLIN["TMC_DEBUG"]                              = True
         MARLIN["MONITOR_DRIVER_STATUS"]                  = True
+        MARLIN["STOP_ON_ERROR"]                          = False
 
         if USE_BTT_002:
             RSENSE                                       = 0.11
@@ -1772,6 +1773,7 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["Y_HYBRID_THRESHOLD"]                 = 72
             MARLIN["X_HYBRID_THRESHOLD"]                 = 72
 
+        # { <off_time[1..15]>, <hysteresis_end[-3..12]>, hysteresis_start[1..8] }
         if USE_BTT_002 or "Guava_TAZ4" in PRINTER:
             MARLIN["CHOPPER_TIMING"]                     = "CHOPPER_DEFAULT_24V"
         else:
