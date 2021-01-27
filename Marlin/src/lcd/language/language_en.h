@@ -73,7 +73,7 @@ namespace Language_en {
   PROGMEM Language_Str MSG_AUTO_HOME_Y                     = _UxGT("Home Y");
   PROGMEM Language_Str MSG_AUTO_HOME_Z                     = _UxGT("Home Z");
   PROGMEM Language_Str MSG_AUTO_Z_ALIGN                    = _UxGT("Auto Z-Align");
-  PROGMEM Language_Str MSG_ITERATION                       = _UxGT("G34 Iteration: %i");
+  PROGMEM Language_Str MSG_ITERATION                       = _UxGT("Iteration: %i");
   PROGMEM Language_Str MSG_DECREASING_ACCURACY             = _UxGT("Accuracy Decreasing!");
   PROGMEM Language_Str MSG_ACCURACY_ACHIEVED               = _UxGT("Accuracy Achieved");
   PROGMEM Language_Str MSG_LEVEL_BED_HOMING                = _UxGT("Homing XYZ");
@@ -403,7 +403,7 @@ namespace Language_en {
   PROGMEM Language_Str MSG_USERWAIT                        = _UxGT("Click to Resume...");
   PROGMEM Language_Str MSG_PRINT_PAUSED                    = _UxGT("Print Paused");
   PROGMEM Language_Str MSG_PRINTING                        = _UxGT("Printing...");
-  PROGMEM Language_Str MSG_PRINT_ABORTED                   = _UxGT("Print Aborted");
+  PROGMEM Language_Str MSG_PRINT_ABORTED                   = _UxGT("Print Canceled");
   PROGMEM Language_Str MSG_PRINT_DONE                      = _UxGT("Print Done");
   PROGMEM Language_Str MSG_NO_MOVE                         = _UxGT("No Move.");
   PROGMEM Language_Str MSG_KILLED                          = _UxGT("KILLED. ");
