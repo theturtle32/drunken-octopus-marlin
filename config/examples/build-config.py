@@ -1893,13 +1893,13 @@ def make_config(PRINTER, TOOLHEAD):
 
     if MARLIN["SDSUPPORT"]:
         if IS_MINI:
-            EVENT_GCODE_SD_ABORT = "G28 Z\nG0 X80 Y190 F3000\nM117 Print aborted."
+            EVENT_GCODE_SD_ABORT = "G28 Z\nG0 X80 Y190 F3000"
 
         elif "Juniper_TAZ5" in PRINTER or "Guava_TAZ4" in PRINTER:
-            EVENT_GCODE_SD_ABORT = "G0 X170 Y290 F3000\nM117 Print aborted."
+            EVENT_GCODE_SD_ABORT = "G0 X170 Y290 F3000"
 
         elif IS_TAZ:
-            EVENT_GCODE_SD_ABORT = "G91\nG0 Z15 F600\nG90\nG0 X170 Y290 F3000\nM117 Print aborted."
+            EVENT_GCODE_SD_ABORT = "G91\nG0 Z15 F600\nG90\nG0 X170 Y290 F3000"
 
         MARLIN["EVENT_GCODE_SD_ABORT"]                   = C_STRING(EVENT_GCODE_SD_ABORT)
 
