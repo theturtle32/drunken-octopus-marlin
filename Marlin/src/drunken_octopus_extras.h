@@ -34,3 +34,9 @@
 #if ENABLED(Z2_PRESENCE_CHECK)
   bool has_z2_jumper();
 #endif
+
+/*************************** ELECTROMAGNETIC Z BRAKE ***************************/
+
+#if ELECTROMAGNETIC_BRAKE_PIN
+  void em_brake_init();
+#endif

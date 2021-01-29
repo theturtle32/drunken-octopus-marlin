@@ -84,14 +84,17 @@ locate_gcc_for_board() {
   case $board in
     BOARD_BTT_BTT002_V1_0)
       NEEDS_PIO=1
+      TONE=1
       ;;
     BOARD_ARCHIM2)
       locate_tools TOOLS_PATH arm-none-eabi
       check_tools "$TOOLS_PATH" arm-none-eabi
+      TONE=0
       ;;
     *)
       locate_tools TOOLS_PATH avr
       check_tools "$TOOLS_PATH" avr
+      TONE=1
       ;;
   esac
 }
@@ -142,7 +145,7 @@ get_config_info() {
 compile_firmware() {
   if [ $USE_PIO -ne 0 -o $NEEDS_PIO -ne 0 ]; then
     echo Compiling using platformio for $motherboard_pio
-    platformio run -e $motherboard_pio || exit
+    platformio run -e $motherboard_pio || echo Skipping build because platformio not found.
   else
     (cd Marlin; make clean; make \
       $MAKE_FLAGS \
@@ -152,6 +155,7 @@ compile_firmware() {
       HARDWARE_MOTHERBOARD=$motherboard_number \
       LULZBOT_EXTRAS="$EXTRA_OPTS" \
       DEFINES="$EXTRA_DEFS" \
+      TMC="1" U8GLIB="1" TONE="$TONE" \
       $*) || exit
   fi
 }

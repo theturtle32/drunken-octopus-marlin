@@ -112,10 +112,12 @@ build_config accessory Oliveoil_TAZ6                             AchemonSphinx_S
 build_config accessory Oliveoil_TAZ6                             BandedTiger_HardenedSteel
 build_config accessory Oliveoil_TAZ6                             DingyCutworm_HardenedSteelPlus
 build_config accessory Oliveoil_TAZ6                             Goldenrod_HardenedExtruder
-build_config custom    Oliveoil_TAZ6Archim                       CecropiaSilk_SingleExtruderAeroV2
+build_config accessory Oliveoil_TAZ6                             Goldenrod_HardenedExtruder
 build_config custom    Oliveoil_TAZ6Archim                       Opah_Moarstruder
+build_config custom    Oliveoil_TAZ6Archim                       Longfin_FlexyDually
 build_config custom    Oliveoil_TAZ6Archim                       Tilapia_SingleExtruder
 build_config custom    Oliveoil_TAZ6Archim                       AchemonSphinx_SmallLayer
+build_config custom    Oliveoil_TAZ6Archim                       Yellowfin_DualExtruderV3
 build_config custom    Oliveoil_TAZ6BLTouch                      Tilapia_SingleExtruder
 build_config custom    Oliveoil_TAZ6BLTouch                      Yellowfin_DualExtruderV3
 build_config custom    Oliveoil_TAZ6BLTouchHallEffect            Yellowfin_DualExtruderV3
@@ -126,6 +128,8 @@ build_config custom    Oliveoil_TAZ6BLTouch                      Angelfish_Aeros
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                CecropiaSilk_SingleExtruderAeroV2
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                Angelfish_Aerostruder
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                AchemonSphinx_SmallLayer
+build_config custom    Oliveoil_TAZ6ArchimBLTouch                Lutefisk_M175
+build_config custom    Oliveoil_TAZ6                             E3D_Hermera
 build_config custom    Oliveoil_TAZ6Archim                       E3D_Hermera
 build_config custom    Oliveoil_TAZ6BLTouch                      E3D_Hermera
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                E3D_Hermera
@@ -152,13 +156,6 @@ build_config custom    Redgum_TAZWorkhorseArchim                 E3D_Hermera
 build_config custom    Redgum_TAZWorkhorseBLTouch                E3D_Hermera
 build_config custom    Redgum_TAZWorkhorseArchimBLTouch          E3D_Hermera
 build_config custom    Redgum_TAZWorkhorseArchimTouchUSBBLTouch  E3D_Hermera
-
-build_config standard  KangarooPaw_Bio                           KangarooPaw_SingleExtruder
-
-vendor=Experimental
-
-build_config custom    Experimental_TouchDemo                    Gladiola_SingleExtruder
-build_config custom    Experimental_MiniEinsyLCD                 BandedTiger_HardenedSteel
 
 vendor=SynDaver
 

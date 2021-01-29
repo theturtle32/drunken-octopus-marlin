@@ -41,7 +41,7 @@
  * Rambo pin assignments
  */
 
-#ifndef __AVR_ATmega2560__
+#if NOT_TARGET(__AVR_ATmega2560__)
   #error "Oops! Select 'Arduino/Genuino Mega or Mega 2560' in 'Tools > Board.'"
 #endif
 
@@ -134,9 +134,9 @@
 
 #define DIGIPOTSS_PIN                         38
 #if defined(SWAP_E0_AND_E1)
-#define DIGIPOT_CHANNELS  { 4,5,3,1,0 }           // X Y Z E0 E1 digipot channels to stepper driver mapping
+#define DIGIPOT_CHANNELS { 4, 5, 3, 1, 0 }        // X Y Z E0 E1 digipot channels to stepper driver mapping
 #else
-#define DIGIPOT_CHANNELS  { 4,5,3,0,1 }           // X Y Z E0 E1 digipot channels to stepper driver mapping
+#define DIGIPOT_CHANNELS { 4, 5, 3, 0, 1 }        // X Y Z E0 E1 digipot channels to stepper driver mapping
 #endif
 #ifndef DIGIPOT_MOTOR_CURRENT
   #define DIGIPOT_MOTOR_CURRENT { 135,135,135,135,135 }   // Values 0-255 (RAMBO 135 = ~0.75A, 185 = ~1A)
@@ -167,7 +167,7 @@
 #define HEATER_2_PIN        6
 #define HEATER_BED_PIN      3
 
-#if defined(EXTRUDER_FAN_ON_PIN_6)
+#if defined(SWAP_EXTRUDER_FANS)
   #define FAN_PIN           6
   #define FAN1_PIN          8
 #else
@@ -221,11 +221,11 @@
 //
 // LCD / Controller
 //
-#if HAS_SPI_LCD || TOUCH_UI_ULTIPANEL
+#if HAS_WIRED_LCD || TOUCH_UI_ULTIPANEL
 
   #define KILL_PIN         -1
 
-  #if ENABLED(ULTIPANEL) || TOUCH_UI_ULTIPANEL
+  #if IS_ULTIPANEL || TOUCH_UI_ULTIPANEL
 
     #define LCD_PINS_RS                       70
     #define LCD_PINS_ENABLE                   71
@@ -266,17 +266,21 @@
 
     #endif // !VIKI2 && !miniVIKI
 
-  #else                                           // !NEWPANEL - old style panel with shift register
+    #if ENABLED(REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER)
+      #define BTN_ENC_EN             LCD_PINS_D7  // Detect the presence of the encoder
+    #endif
+
+  #else                                           // !IS_NEWPANEL - old style panel with shift register
 
     // No Beeper added
     #define BEEPER_PIN                        33
 
     // Buttons attached to a shift register
     // Not wired yet
-    //#define SHIFT_CLK                       38
-    //#define SHIFT_LD                        42
-    //#define SHIFT_OUT                       40
-    //#define SHIFT_EN                        17
+    //#define SHIFT_CLK_PIN                   38
+    //#define SHIFT_LD_PIN                    42
+    //#define SHIFT_OUT_PIN                   40
+    //#define SHIFT_EN_PIN                    17
 
     #define LCD_PINS_RS                       75
     #define LCD_PINS_ENABLE                   17
@@ -285,6 +289,6 @@
     #define LCD_PINS_D6                       27
     #define LCD_PINS_D7                       29
 
-  #endif // !NEWPANEL
+  #endif // !IS_NEWPANEL
 
-#endif // HAS_SPI_LCD
+#endif // HAS_WIRED_LCD
