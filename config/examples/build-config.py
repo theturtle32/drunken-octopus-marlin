@@ -1413,13 +1413,13 @@ def make_config(PRINTER, TOOLHEAD):
         STANDARD_Z_MIN_POS                               = 0
         STANDARD_Z_MAX_POS                               = 270
 
-    elif "SynDaver_AXI" in PRINTER:
-        STANDARD_Z_MIN_POS                               = 0
-        STANDARD_Z_MAX_POS                               = 294
-
     elif "SynDaver_AXI_2" in PRINTER:
         STANDARD_Z_MIN_POS                               = 0
         STANDARD_Z_MAX_POS                               = 283
+
+    elif "SynDaver_AXI" in PRINTER:
+        STANDARD_Z_MIN_POS                               = 0
+        STANDARD_Z_MAX_POS                               = 294
 
     elif IS_TAZ and USE_Z_BELT:
         STANDARD_Z_MIN_POS                               = -2
@@ -2135,7 +2135,7 @@ def make_config(PRINTER, TOOLHEAD):
             MOTOR_CURRENT_X                              = 600 # mA
             MOTOR_CURRENT_Y                              = 600 # mA
             MOTOR_CURRENT_Z                              = 975 # mA
-        if USE_ARCHIM2:
+        elif USE_ARCHIM2:
             # These values specify the maximum current, but actual
             # currents may be lower when used with COOLCONF
             MOTOR_CURRENT_X                              = 975 # mA
