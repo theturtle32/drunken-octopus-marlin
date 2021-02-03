@@ -58,3 +58,5 @@
 #if ENABLED(EMI_MITIGATION)
   #include "../drunken_octopus_extras.h"
 #endif
+
+#include "../core/multi_language.h"
