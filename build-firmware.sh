@@ -279,7 +279,7 @@ locate_tools() {
       exit
     fi
   done
-  if ! ( [ "$FOUND_PATH" == "/usr/lib/ccache" ] || [ "$FOUND_PATH" == "/usr/lib64/ccache" ] ); then
+  if [ "$FOUND_PATH" != "/usr/lib/ccache" -a "$FOUND_PATH" != "/usr/lib64/ccache" ]; then
      eval "$DEST_VAR=$FOUND_PATH/"
   fi
 }
