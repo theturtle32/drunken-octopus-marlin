@@ -1712,7 +1712,8 @@ def make_config(PRINTER, TOOLHEAD):
 
     if ENABLED("FILAMENT_RUNOUT_SENSOR"):
         MARLIN["NUM_RUNOUT_SENSORS"]                     = MARLIN["EXTRUDERS"]
-        MARLIN["FILAMENT_RUNOUT_SCRIPT"]                 = C_STRING("M25\n")
+        if USE_TOUCH_UI:
+            MARLIN["FILAMENT_RUNOUT_SCRIPT"]             = C_STRING("M25\n")
         MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 0 if "SynDaver_AXI" in PRINTER else 14
         if not PRINTER in ["Quiver_TAZPro", "SynDaver_AXI", "SynDaver_AXI_2"]:
             MARLIN["FIL_RUNOUT_ENABLED_DEFAULT"]         = "false"
