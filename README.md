@@ -10,6 +10,10 @@ By forking the firmware as it existed at that point in time, I hope provide to p
 
 This firmware is for users who want the very latest firmware and features for their existing printers and **are willing to take the risks associated with running development firmware**. It is also for people who are tech savvy and want to experiment with custom and unusual configurations.
 
+## How can I flash Drunken Octopus to my printer?
+
+Use the [Drunken Octopus Firmware Tool], a quick, easy-to-use tool for finding and flashing firmware to your printer!
+
 ## Where can I find information about upgrading my printer?
 
 If you have a pretty good idea of what you want to do, a good place to start is the [wiring guide] for *Drunken Octopus* Marlin.
@@ -44,6 +48,7 @@ While we can't prevent the use of this code in products (3D printers, CNC, etc.)
 [that are derived from those original designs]: https://syndaver.com/product/axi-desktop-3d-printer/
 [drunkenoctop.us]: http://www.drunkenoctop.us
 [wiring guide]: https://www.drunkenoctop.us/drunken-octopus-marlin/pinouts/
+[Drunken Octopus Flashing Tool]: http://www.drunkenoctop.us/drunken-octopus-downloader/
 [Patreon page]: https://www.patreon.com/marciot "Marcio's Patreon Page"
 [major contributor]: https://github.com/marcio-ao
 [continue to contribute]: https://github.com/marciot
