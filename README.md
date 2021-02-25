@@ -26,7 +26,7 @@ If you want more help and specifics, a community of enthusiasts has begun to for
 
 While at AlephObjects, I was a [major contributor] to Marlin. Today, I [continue to contribute] in the following ways:
 
-* Maintaining *Drunken Octopus* Marlin* build and configuration scripts
+* Maintaining *Drunken Octopus* Marlin build and configuration scripts
 * Keeping *Drunken Octopus* Marlin up-to-date with upstream changes and fixing bugs as they occur
 * Maintaining the touch screen interface that is used in [many] [different] [printers]
 * Contributing to other open-source projects, related and unrelated to 3D printing
@@ -48,7 +48,7 @@ While we can't prevent the use of this code in products (3D printers, CNC, etc.)
 [that are derived from those original designs]: https://syndaver.com/product/axi-desktop-3d-printer/
 [drunkenoctop.us]: http://www.drunkenoctop.us
 [wiring guide]: https://www.drunkenoctop.us/drunken-octopus-marlin/pinouts/
-[Drunken Octopus Flashing Tool]: http://www.drunkenoctop.us/drunken-octopus-downloader/
+[Drunken Octopus Firmware Tool]: http://www.drunkenoctop.us/drunken-octopus-downloader/
 [Patreon page]: https://www.patreon.com/marciot "Marcio's Patreon Page"
 [major contributor]: https://github.com/marcio-ao
 [continue to contribute]: https://github.com/marciot
