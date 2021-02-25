@@ -1873,7 +1873,6 @@ def make_config(PRINTER, TOOLHEAD):
         #MARLIN["ADVANCED_PAUSE_PURGE_LENGTH"]            = 0 # Manual purge
         MARLIN["ADVANCED_PAUSE_PURGE_FEEDRATE"]          = MANUAL_FEEDRATE_E
         MARLIN["PAUSE_PARK_RETRACT_FEEDRATE"]            = 10 # mm/s
-        MARLIN["HOME_BEFORE_FILAMENT_CHANGE"]            = True
         MARLIN["PARK_HEAD_ON_PAUSE"]                     = True
 
         # In order to prevent jams on the Aero toolheads,
