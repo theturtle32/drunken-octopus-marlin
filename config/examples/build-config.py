@@ -1448,11 +1448,11 @@ def make_config(PRINTER, TOOLHEAD):
 
         if MARLIN["BLTOUCH"]:
             # BLTouch Auto-Leveling
-            MARLIN["Z_PROBE_SPEED_SLOW"]                 = 5*60
+            MARLIN["Z_PROBE_FEEDRATE_SLOW"]              = 5*60
             if "Guava_TAZ4" in PRINTER:
-                MARLIN["XY_PROBE_SPEED"]                 = 66*60
+                MARLIN["XY_PROBE_FEEDRATE"]              = 66*60
             else:
-                MARLIN["XY_PROBE_SPEED"]                 = 300*60
+                MARLIN["XY_PROBE_FEEDRATE"]              = 300*60
             MARLIN["Z_CLEARANCE_DEPLOY_PROBE"]           = 10 if "Guava_TAZ4" in PRINTER else 15
             MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 5
             MARLIN["Z_SERVO_ANGLES"]                     = [10,90]
@@ -1502,13 +1502,13 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["NOZZLE_AS_PROBE"]                    = True
 
             MARLIN["MULTIPLE_PROBING"]                   = 2
-            MARLIN["Z_PROBE_SPEED_SLOW"]                 = 1*60
-            MARLIN["Z_PROBE_SPEED_FAST"]                 = 20*60 if USE_Z_BELT else 8*60
+            MARLIN["Z_PROBE_FEEDRATE_SLOW"]              = 1*60
+            MARLIN["Z_PROBE_FEEDRATE_FAST"]              = 20*60 if USE_Z_BELT else 8*60
             MARLIN["Z_PROBE_OFFSET_RANGE_MIN"]           = -2
             MARLIN["Z_PROBE_OFFSET_RANGE_MAX"]           = 5
             MARLIN["Z_CLEARANCE_DEPLOY_PROBE"]           = 5
             MARLIN["PROBING_MARGIN"]                     = False
-            MARLIN["XY_PROBE_SPEED"]                     = 6000
+            MARLIN["XY_PROBE_FEEDRATE"]                  = 6000
             MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 5
 
             # Avoid electrical interference when probing (this is a problem on some Minis)
