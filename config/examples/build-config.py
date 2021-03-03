@@ -436,7 +436,7 @@ def make_config(PRINTER, TOOLHEAD):
         USE_DUAL_Z_STEPPERS                              = True
         if "SynDaver_AXI_2" in PRINTER:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI 2")
-            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (6791b418)")
+            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (7eb013b1)")
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 1 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["USE_ELECTROMAGNETIC_BRAKE"]          = True
             MARLIN["CASE_LIGHT_ENABLE"]                  = True
