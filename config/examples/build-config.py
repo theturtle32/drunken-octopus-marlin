@@ -427,9 +427,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["BLTOUCH"]                                = True
         MARLIN["SENSORLESS_HOMING"]                      = False
         MARLIN["STEALTHCHOP_XY"]                         = False
-        MARLIN["STEALTHCHOP_Z"]                          = True
         MARLIN["STEALTHCHOP_E"]                          = True
-        MARLIN["HYBRID_THRESHOLD"]                       = True
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("a952577d-8722-483a-999d-acdc9e772b7b")
@@ -442,11 +440,15 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 1 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["USE_ELECTROMAGNETIC_BRAKE"]          = True
             MARLIN["CASE_LIGHT_ENABLE"]                  = True
+            MARLIN["STEALTHCHOP_Z"]                      = False
+            MARLIN["HYBRID_THRESHOLD"]                   = False
         else:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI")
             MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (389f82d1)")
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 5 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["Z2_PRESENCE_CHECK"]                  = True
+            MARLIN["STEALTHCHOP_Z"]                      = True
+            MARLIN["HYBRID_THRESHOLD"]                   = True
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
         MARLIN["EMI_MITIGATION"]                         = True

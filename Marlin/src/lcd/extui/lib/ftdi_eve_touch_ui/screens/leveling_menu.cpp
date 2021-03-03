@@ -106,7 +106,7 @@ bool LevelingMenu::onTouchEnd(uint8_t tag) {
     #elif EITHER(Z_STEPPER_AUTO_ALIGN,MECHANICAL_GANTRY_CALIBRATION)
     case 2:
         GOTO_SCREEN(StatusScreen);
-        ExtUI::injectCommands_P(PSTR("G34 A2 I20 T0.01"));
+        ExtUI::injectCommands_P(PSTR("G28 Z\nG34 A2 I20 T0.01"));
         break;
     #endif
     case 3:
