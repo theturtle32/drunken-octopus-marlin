@@ -13,7 +13,7 @@
 #define SW_MISO          44 // Software Master In Slave Out (MISO)
 #define SW_SCK           64 // Software Slave Clock (SCK)
 
-#define R_SENSE 0.11 // Match to your driver
+#define R_SENSE 0.11f // Match to your driver
                      // SilentStepStick series use 0.11
                      // UltiMachine Einsy and Archim2 boards use 0.2
                      // Panucatt BSD2660 uses 0.1
@@ -35,9 +35,11 @@ void setup() {
 	Serial.println("Start...");
 	driver.begin(); 			// Initiate pins and registeries
 	driver.rms_current(600); 	// Set stepper current to 600mA. The command is the same as command TMC2130.setCurrent(600, 0.11, 0.5);
-	driver.en_pwm_mode(1); 	// Enable extremely quiet stepping
+	driver.en_pwm_mode(1);  	// Enable extremely quiet stepping
 
-	digitalWrite(EN_PIN, LOW);
+	pinMode(EN_PIN, OUTPUT);
+	pinMode(STEP_PIN, OUTPUT);
+	digitalWrite(EN_PIN, LOW); 	// Enable driver in hardware
 
 	Serial.print("DRV_STATUS=0b");
 	Serial.println(driver.DRV_STATUS(), BIN);
