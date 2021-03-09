@@ -2239,7 +2239,7 @@ def make_config(PRINTER, TOOLHEAD):
 
         if not "NOZZLE_TO_PROBE_OFFSET" in MARLIN:
             if "SynDaver_AXI_2" in PRINTER:
-                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [37.5, 38.25, -4.6]
+                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [37.83, 37.93, -4.6]
             elif "SynDaver_AXI" in PRINTER:
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [43.5, 23.75, -2.35]
             elif MARLIN["BLTOUCH"] and "Guava_TAZ4" in PRINTER:
