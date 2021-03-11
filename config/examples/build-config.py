@@ -1462,6 +1462,7 @@ def make_config(PRINTER, TOOLHEAD):
                 MARLIN["AUTO_BED_LEVELING_BILINEAR"]     = True
             MARLIN["GRID_MAX_POINTS_X"]                  = 5
             MARLIN["GRID_MAX_POINTS_Y"]                  = 5
+            MARLIN["UBL_HILBERT_CURVE"]                  = True
             MARLIN["PROBING_MARGIN"]                     = 0
             MARLIN["MESH_INSET"]                         = 0
             MARLIN["PROBING_FANS_OFF"]                   = True
