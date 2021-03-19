@@ -339,7 +339,7 @@ bool BedMeshScreen::onTouchEnd(uint8_t tag) {
   return true;
 }
 
-void BedMeshScreen::onMeshUpdate(const int8_t, const int8_t, const float) {
+void BedMeshScreen::onMeshUpdate(const int8_t, const int8_t, const float&) {
   if (AT_SCREEN(BedMeshScreen)) {
     onRefresh();
     ExtUI::yield();
