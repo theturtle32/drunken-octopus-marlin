@@ -87,7 +87,7 @@ void GcodeSuite::M1001() {
 
   // Announce SD file completion
   {
-    PORT_REDIRECT(SERIAL_ALL);
+    PORT_REDIRECT(SerialMask::All);
     SERIAL_ECHOLNPGM(STR_FILE_PRINTED);
   }
 
