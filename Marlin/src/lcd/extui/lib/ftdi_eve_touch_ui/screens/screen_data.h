@@ -69,6 +69,7 @@ union screen_data_t {
       } message;
       uint8_t count;
       uint8_t highlightedTag;
+      float zAdjustment;
     } BedMesh;
   #endif
   #if ENABLED(TOUCH_UI_DEVELOPER_MENU)
