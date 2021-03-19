@@ -427,9 +427,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["BLTOUCH"]                                = True
         MARLIN["SENSORLESS_HOMING"]                      = False
         MARLIN["STEALTHCHOP_XY"]                         = False
-        MARLIN["STEALTHCHOP_Z"]                          = True
         MARLIN["STEALTHCHOP_E"]                          = True
-        MARLIN["HYBRID_THRESHOLD"]                       = True
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("a952577d-8722-483a-999d-acdc9e772b7b")
@@ -442,11 +440,15 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 1 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["USE_ELECTROMAGNETIC_BRAKE"]          = True
             MARLIN["CASE_LIGHT_ENABLE"]                  = True
+            MARLIN["STEALTHCHOP_Z"]                      = False
+            MARLIN["HYBRID_THRESHOLD"]                   = False
         else:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI")
             MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (389f82d1)")
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 5 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["Z2_PRESENCE_CHECK"]                  = True
+            MARLIN["STEALTHCHOP_Z"]                      = True
+            MARLIN["HYBRID_THRESHOLD"]                   = True
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
         MARLIN["EMI_MITIGATION"]                         = True
@@ -1448,11 +1450,11 @@ def make_config(PRINTER, TOOLHEAD):
 
         if MARLIN["BLTOUCH"]:
             # BLTouch Auto-Leveling
-            MARLIN["Z_PROBE_SPEED_SLOW"]                 = 5*60
+            MARLIN["Z_PROBE_FEEDRATE_SLOW"]              = 5*60
             if "Guava_TAZ4" in PRINTER:
-                MARLIN["XY_PROBE_SPEED"]                 = 66*60
+                MARLIN["XY_PROBE_FEEDRATE"]              = 66*60
             else:
-                MARLIN["XY_PROBE_SPEED"]                 = 300*60
+                MARLIN["XY_PROBE_FEEDRATE"]              = 300*60
             MARLIN["Z_CLEARANCE_DEPLOY_PROBE"]           = 10 if "Guava_TAZ4" in PRINTER else 15
             MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 5
             MARLIN["Z_SERVO_ANGLES"]                     = [10,90]
@@ -1502,13 +1504,13 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["NOZZLE_AS_PROBE"]                    = True
 
             MARLIN["MULTIPLE_PROBING"]                   = 2
-            MARLIN["Z_PROBE_SPEED_SLOW"]                 = 1*60
-            MARLIN["Z_PROBE_SPEED_FAST"]                 = 20*60 if USE_Z_BELT else 8*60
+            MARLIN["Z_PROBE_FEEDRATE_SLOW"]              = 1*60
+            MARLIN["Z_PROBE_FEEDRATE_FAST"]              = 20*60 if USE_Z_BELT else 8*60
             MARLIN["Z_PROBE_OFFSET_RANGE_MIN"]           = -2
             MARLIN["Z_PROBE_OFFSET_RANGE_MAX"]           = 5
             MARLIN["Z_CLEARANCE_DEPLOY_PROBE"]           = 5
             MARLIN["PROBING_MARGIN"]                     = False
-            MARLIN["XY_PROBE_SPEED"]                     = 6000
+            MARLIN["XY_PROBE_FEEDRATE"]                  = 6000
             MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 5
 
             # Avoid electrical interference when probing (this is a problem on some Minis)
@@ -2237,7 +2239,7 @@ def make_config(PRINTER, TOOLHEAD):
 
         if not "NOZZLE_TO_PROBE_OFFSET" in MARLIN:
             if "SynDaver_AXI_2" in PRINTER:
-                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [37.5, 38.25, -4.6]
+                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [37.83, 37.93, -4.6]
             elif "SynDaver_AXI" in PRINTER:
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [43.5, 23.75, -2.35]
             elif MARLIN["BLTOUCH"] and "Guava_TAZ4" in PRINTER:

@@ -359,7 +359,7 @@ G29_TYPE GcodeSuite::G29() {
 
     #if ABL_GRID
 
-      xy_probe_feedrate_mm_s = MMM_TO_MMS(parser.linearval('S', XY_PROBE_SPEED));
+      xy_probe_feedrate_mm_s = MMM_TO_MMS(parser.linearval('S', XY_PROBE_FEEDRATE));
 
       const float x_min = probe.min_x(), x_max = probe.max_x(),
                   y_min = probe.min_y(), y_max = probe.max_y();
@@ -598,7 +598,11 @@ G29_TYPE GcodeSuite::G29() {
 
     #if ABL_GRID
 
+      #if ENABLED(END_G29_ON_BACK_LEFT_CORNER)
+      bool zig = !(PR_OUTER_END & 1);  // Always end at LEFT and BACK_PROBE_BED_POSITION
+      #else
       bool zig = PR_OUTER_END & 1;  // Always end at RIGHT and BACK_PROBE_BED_POSITION
+      #endif
 
       measured_z = 0;
 
@@ -786,7 +790,7 @@ G29_TYPE GcodeSuite::G29() {
         float min_diff = 999;
 
         auto print_topo_map = [&](PGM_P const title, const bool get_min) {
-          serialprintPGM(title);
+          SERIAL_ECHOPGM_P(title);
           for (int8_t yy = abl_grid_points.y - 1; yy >= 0; yy--) {
             LOOP_L_N(xx, abl_grid_points.x) {
               const int ind = indexIntoAB[xx][yy];
