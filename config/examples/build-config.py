@@ -1471,7 +1471,7 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["PROBING_STEPPERS_OFF"]               = True
             GOTO_1ST_PROBE_POINT                         = ""
 
-            MARLIN["BED_LEVELING_COMMANDS"]              = C_STRING("G28\nG29 P1\nG29 S1")
+            MARLIN["BED_LEVELING_COMMANDS"]              = C_STRING("G28 O\nG29 P1 X0 Y0\nG29 S1")
 
         else:
             # Conductive Probing
@@ -2240,7 +2240,7 @@ def make_config(PRINTER, TOOLHEAD):
 
         if not "NOZZLE_TO_PROBE_OFFSET" in MARLIN:
             if "SynDaver_AXI_2" in PRINTER:
-                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [37.83, 37.93, -4.6]
+                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [37.89, 38.25, -4.6]
             elif "SynDaver_AXI" in PRINTER:
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [43.5, 23.75, -2.35]
             elif MARLIN["BLTOUCH"] and "Guava_TAZ4" in PRINTER:
