@@ -36,16 +36,7 @@ constexpr uint8_t dim = _BV(ord);
 static inline bool eval_candidate(int8_t x, int8_t y, hilbert_curve::callback_ptr func, void *data) {
   // The print bed likely has fewer points than the full Hilbert
   // curve, so cull unecessary points
-  if(x < GRID_MAX_POINTS_X && y < GRID_MAX_POINTS_Y) {
-      const bool res = func(x, y, data);
-      if(res) {
-        SERIAL_ECHOPAIR("X", x);
-        SERIAL_ECHOLNPAIR("Y", y);
-      }
-      return res;
-  } else {
-      return false;
-  }
+  return x < GRID_MAX_POINTS_X && y < GRID_MAX_POINTS_Y ? func(x, y, data) : false;
 }
 
 bool hilbert_curve::hilbert(int8_t x, int8_t y, int8_t xi, int8_t xj, int8_t yi, int8_t yj, uint8_t n, hilbert_curve::callback_ptr func, void *data) {
