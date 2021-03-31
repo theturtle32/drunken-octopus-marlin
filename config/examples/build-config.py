@@ -1930,6 +1930,11 @@ def make_config(PRINTER, TOOLHEAD):
             LEFT_WIPE_Y1                                 =  95
             LEFT_WIPE_Y2                                 =  25
             LEFT_WIPE_Z                                  =  1
+            RIGHT_WIPE_X1                                = LEFT_WIPE_X1
+            RIGHT_WIPE_X2                                = LEFT_WIPE_X2
+            RIGHT_WIPE_Y1                                = LEFT_WIPE_Y1
+            RIGHT_WIPE_Y2                                = LEFT_WIPE_Y2
+            RIGHT_WIPE_Z                                 = LEFT_WIPE_Z
 
         elif TAZ_BED:
             # TAZ has a vertical wiping pad on the left side of the bed
@@ -1950,6 +1955,12 @@ def make_config(PRINTER, TOOLHEAD):
                 RIGHT_WIPE_Y1                            =  95
                 RIGHT_WIPE_Y2                            =  25
                 RIGHT_WIPE_Z                             =   1
+            else:
+                RIGHT_WIPE_X1                            = LEFT_WIPE_X1
+                RIGHT_WIPE_X2                            = LEFT_WIPE_X2
+                RIGHT_WIPE_Y1                            = LEFT_WIPE_Y1
+                RIGHT_WIPE_Y2                            = LEFT_WIPE_Y2
+                RIGHT_WIPE_Z                             = LEFT_WIPE_Z
 
             LEFT_WIPE_Y2 -= TOOLHEAD_WIPE_Y2_ADJ # Adjustments for legacy dual
 
@@ -1982,11 +1993,14 @@ def make_config(PRINTER, TOOLHEAD):
             return WIPE_GCODE(RIGHT_WIPE_X1, RIGHT_WIPE_Y1, RIGHT_WIPE_X2, RIGHT_WIPE_Y2, RIGHT_WIPE_Z, temp_command)
 
         if PRINTER in "Quiver_TAZPro" and MARLIN["EXTRUDERS"] == 1:
-            MARLIN["NOZZLE_CLEAN_START_POINT"]           = [RIGHT_WIPE_X1, RIGHT_WIPE_Y1, RIGHT_WIPE_Z]
-            MARLIN["NOZZLE_CLEAN_END_POINT"]             = [RIGHT_WIPE_X2, RIGHT_WIPE_Y2, RIGHT_WIPE_Z]
+            MARLIN["NOZZLE_CLEAN_START_POINT"]           = [[RIGHT_WIPE_X1, RIGHT_WIPE_Y1, RIGHT_WIPE_Z]]
+            MARLIN["NOZZLE_CLEAN_END_POINT"]             = [[RIGHT_WIPE_X2, RIGHT_WIPE_Y2, RIGHT_WIPE_Z]]
+        if MARLIN["EXTRUDERS"] == 2:
+            MARLIN["NOZZLE_CLEAN_START_POINT"]           = [[LEFT_WIPE_X1, LEFT_WIPE_Y1, LEFT_WIPE_Z],[RIGHT_WIPE_X1, RIGHT_WIPE_Y1, RIGHT_WIPE_Z]]
+            MARLIN["NOZZLE_CLEAN_END_POINT"]             = [[LEFT_WIPE_X2, LEFT_WIPE_Y2, LEFT_WIPE_Z],[RIGHT_WIPE_X2, RIGHT_WIPE_Y2, RIGHT_WIPE_Z]]
         else:
-            MARLIN["NOZZLE_CLEAN_START_POINT"]           = [LEFT_WIPE_X1, LEFT_WIPE_Y1, LEFT_WIPE_Z]
-            MARLIN["NOZZLE_CLEAN_END_POINT"]             = [LEFT_WIPE_X2, LEFT_WIPE_Y2, LEFT_WIPE_Z]
+            MARLIN["NOZZLE_CLEAN_START_POINT"]           = [[LEFT_WIPE_X1, LEFT_WIPE_Y1, LEFT_WIPE_Z]]
+            MARLIN["NOZZLE_CLEAN_END_POINT"]             = [[LEFT_WIPE_X2, LEFT_WIPE_Y2, LEFT_WIPE_Z]]
 
 ################################# CLEAN NOZZLE ################################
 
@@ -2415,9 +2429,12 @@ def make_config(PRINTER, TOOLHEAD):
     return MARLIN
 ############################## END OF CONFIGURATION #############################
 
-def format_list(list):
+def format_list(val):
     """Formats a list in C style, i.e. {0, 1, 2}"""
-    return "{" + ", ".join(['{}'.format(x) for x in list]) + "}"
+    if type(val) == list:
+        return "{" + ", ".join([format_list(x) for x in val]) + "}"
+    else:
+        return '{}'.format(val);
 
 def do_substitions(config, counts, line):
     """Perform substitutions on a #define line from the config"""
