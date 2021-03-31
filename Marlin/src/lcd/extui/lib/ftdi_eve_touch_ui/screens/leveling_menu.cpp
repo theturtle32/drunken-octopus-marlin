@@ -137,7 +137,7 @@ bool LevelingMenu::onTouchEnd(uint8_t tag) {
     #if ENABLED(G26_MESH_VALIDATION)
     case 6:
       GOTO_SCREEN(StatusScreen);
-      injectCommands_P(PSTR("M117 Printing Test Pattern\nG28 O\nG26 R"));
+      injectCommands_P(PSTR("M117 Printing Test Pattern\nG28 O\nG26 R X0 Y0"));
       break;
     #endif
     #if ENABLED(BLTOUCH)

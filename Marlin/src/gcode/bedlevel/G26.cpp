@@ -288,7 +288,7 @@ typedef struct {
 
       if (TERN0(HAS_LCD_MENU, user_canceled())) return true;
 
-      if (i < (GRID_MAX_POINTS_X)) {  // Can't connect to anything farther to the right than GRID_MAX_POINTS_X.
+      if (i < (GRID_MAX_POINTS_X - 1)) {  // Can't connect to anything farther to the right than GRID_MAX_POINTS_X.
                                       // Already a half circle at the edge of the bed.
 
         if (circle_flags.marked(i, j) && circle_flags.marked(i + 1, j)) {   // Test whether a leftward line can be done
@@ -312,7 +312,7 @@ typedef struct {
           }
         }
 
-        if (j < (GRID_MAX_POINTS_Y)) {  // Can't connect to anything further back than GRID_MAX_POINTS_Y.
+        if (j < (GRID_MAX_POINTS_Y - 1)) {  // Can't connect to anything further back than GRID_MAX_POINTS_Y.
                                         // Already a half circle at the edge of the bed.
 
           if (circle_flags.marked(i, j) && circle_flags.marked(i, j + 1)) {   // Test whether a downward line can be done
@@ -467,7 +467,7 @@ typedef struct {
 
     #if ENABLED(UBL_HILBERT_CURVE)
 
-      auto test_func = [](uint8_t i, uint8_t j, void *data) {
+      auto test_func = [](uint8_t i, uint8_t j, void *data) -> bool {
         if (!circle_flags.marked(i, j)) {
           mesh_index_pair *out_point = (mesh_index_pair*)data;
           out_point->pos.set(i, j);  // Save its data
