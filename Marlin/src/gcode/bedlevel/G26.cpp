@@ -171,7 +171,7 @@ float g26_random_deviation = 0.0;
 
 #endif
 
-void move_to(float rx, float ry, float z, float e_delta) {
+void move_to(const_float_t rx, const_float_t ry, const_float_t z, const_float_t e_delta) {
   static float last_z = -999.99;
 
   const xy_pos_t dest = { rx, ry };
@@ -179,10 +179,9 @@ void move_to(float rx, float ry, float z, float e_delta) {
   const bool has_xy_component = dest != current_position, // Check if X or Y is involved in the movement.
              has_e_component = e_delta != 0.0;
 
-  destination = current_position;
-
   if (z != last_z) {
-    last_z = destination.z = z;
+    last_z = z;
+    destination.set(current_position.x, current_position.y, z, current_position.e);
     const feedRate_t fr_mm_s = planner.settings.max_feedrate_mm_s[Z_AXIS] * 0.5f; // Use half of the Z_AXIS max feed rate
     prepare_internal_move_to_destination(fr_mm_s);
   }
@@ -198,7 +197,7 @@ void move_to(float rx, float ry, float z, float e_delta) {
   prepare_internal_move_to_destination(fr_mm_s);
 }
 
-FORCE_INLINE void move_to(const xyz_pos_t &where, const float &de) { move_to(where.x, where.y, where.z, de); }
+void move_to(const xyz_pos_t &where, const_float_t de) { move_to(where.x, where.y, where.z, de); }
 
 typedef struct {
   float extrusion_multiplier  = EXTRUSION_MULTIPLIER,
@@ -289,8 +288,8 @@ typedef struct {
     p2.x = p1.x + dx;
     p2.y = p1.y + dy;
 
-    if (p2.x < 0 || p2.x >= GRID_MAX_POINTS_X) return;
-    if (p2.y < 0 || p2.y >= GRID_MAX_POINTS_Y) return;
+    if (p2.x < 0 || p2.x >= (GRID_MAX_POINTS_X)) return;
+    if (p2.y < 0 || p2.y >= (GRID_MAX_POINTS_Y)) return;
 
     if(circle_flags.marked(p1.x, p1.y) && circle_flags.marked(p2.x, p2.y)) {
       xyz_pos_t s, e;
