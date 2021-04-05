@@ -141,7 +141,7 @@ namespace ExtUI {
     void onMeshLevelingStart() {}
 
     void onMeshUpdate(const int8_t x, const int8_t y, const_float_t val) {
-      BedMeshScreen::onMeshUpdate(x, y, val);
+      BedMeshViewScreen::onMeshUpdate(x, y, val);
     }
 
     void onMeshUpdate(const int8_t x, const int8_t y, const ExtUI::probe_state_t state) {

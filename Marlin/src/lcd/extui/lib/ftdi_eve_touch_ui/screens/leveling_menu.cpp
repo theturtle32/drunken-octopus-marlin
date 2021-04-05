@@ -135,11 +135,7 @@ bool LevelingMenu::onTouchEnd(uint8_t tag) {
     case 5: BedMeshEditScreen::show(); break;
     #endif
     #if ENABLED(G26_MESH_VALIDATION)
-    case 6:
-      GOTO_SCREEN(StatusScreen);
-      injectCommands_P(PSTR("M117 Printing Test Pattern\nG28 O\nG26 R X0 Y0"));
-      BedMeshViewScreen::doMeshValidation();
-      break;
+    case 6: BedMeshViewScreen::doMeshValidation(); break;
     #endif
     #if ENABLED(BLTOUCH)
     case 7: injectCommands_P(PSTR("M280 P0 S60")); break;
