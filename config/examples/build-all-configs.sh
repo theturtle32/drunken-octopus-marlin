@@ -95,6 +95,7 @@ build_config accessory Juniper_TAZ5                              DingyCutworm_Ha
 build_config accessory Juniper_TAZ5                              Goldenrod_HardenedExtruder
 build_config custom    Juniper_TAZ5Archim                        Tilapia_SingleExtruder
 build_config custom    Juniper_TAZ5Archim                        Angelfish_Aerostruder
+build_config custom    Juniper_TAZ5Archim                        E3D_Hermera
 build_config custom    Juniper_TAZ5BLTouch                       Tilapia_SingleExtruder
 build_config custom    Juniper_TAZ5BLTouch                       Angelfish_Aerostruder
 build_config custom    Juniper_TAZ5ArchimBLTouch                 Tilapia_SingleExtruder
