@@ -189,7 +189,7 @@ namespace Language_en {
   PROGMEM Language_Str MSG_G26_FIXED_LENGTH                = _UxGT("Fixed Length Prime");
   PROGMEM Language_Str MSG_G26_PRIME_DONE                  = _UxGT("Done Priming");
   PROGMEM Language_Str MSG_G26_CANCELED                    = _UxGT("G26 Canceled");
-  PROGMEM Language_Str MSG_G26_LEAVING                     = _UxGT("Leaving G26");
+  PROGMEM Language_Str MSG_G26_LEAVING                     = _UxGT("Print finished");
   PROGMEM Language_Str MSG_UBL_CONTINUE_MESH               = _UxGT("Continue Bed Mesh");
   PROGMEM Language_Str MSG_UBL_MESH_LEVELING               = _UxGT("Mesh Leveling");
   PROGMEM Language_Str MSG_UBL_3POINT_MESH_LEVELING        = _UxGT("3-Point Leveling");
