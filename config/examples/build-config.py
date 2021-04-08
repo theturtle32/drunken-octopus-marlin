@@ -427,9 +427,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["BLTOUCH"]                                = True
         MARLIN["SENSORLESS_HOMING"]                      = False
         MARLIN["STEALTHCHOP_XY"]                         = False
-        MARLIN["STEALTHCHOP_Z"]                          = True
         MARLIN["STEALTHCHOP_E"]                          = True
-        MARLIN["HYBRID_THRESHOLD"]                       = True
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("a952577d-8722-483a-999d-acdc9e772b7b")
@@ -437,16 +435,20 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SDSUPPORT"]                              = True
         USE_DUAL_Z_STEPPERS                              = True
         if "SynDaver_AXI_2" in PRINTER:
-            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI 2")
-            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (c5d106ca)")
+            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Axi 2")
+            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (6791b418)")
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 2 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["USE_ELECTROMAGNETIC_BRAKE"]          = True
             MARLIN["CASE_LIGHT_ENABLE"]                  = True
+            MARLIN["STEALTHCHOP_Z"]                      = False
+            MARLIN["HYBRID_THRESHOLD"]                   = False
         else:
-            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI")
-            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (44c1f964)")
+            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Axi")
+            MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (389f82d1)")
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 6 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["Z2_PRESENCE_CHECK"]                  = True
+            MARLIN["STEALTHCHOP_Z"]                      = True
+            MARLIN["HYBRID_THRESHOLD"]                   = True
         MARLIN["USE_UHS3_USB"]                           = False
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
         MARLIN["EMI_MITIGATION"]                         = True
@@ -1448,11 +1450,11 @@ def make_config(PRINTER, TOOLHEAD):
 
         if MARLIN["BLTOUCH"]:
             # BLTouch Auto-Leveling
-            MARLIN["Z_PROBE_SPEED_SLOW"]                 = 5*60
+            MARLIN["Z_PROBE_FEEDRATE_SLOW"]              = 5*60
             if "Guava_TAZ4" in PRINTER:
-                MARLIN["XY_PROBE_SPEED"]                 = 66*60
+                MARLIN["XY_PROBE_FEEDRATE"]              = 66*60
             else:
-                MARLIN["XY_PROBE_SPEED"]                 = 300*60
+                MARLIN["XY_PROBE_FEEDRATE"]              = 300*60
             MARLIN["Z_CLEARANCE_DEPLOY_PROBE"]           = 10 if "Guava_TAZ4" in PRINTER else 15
             MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 5
             MARLIN["Z_SERVO_ANGLES"]                     = [10,90]
@@ -1462,14 +1464,18 @@ def make_config(PRINTER, TOOLHEAD):
                 MARLIN["AUTO_BED_LEVELING_BILINEAR"]     = True
             MARLIN["GRID_MAX_POINTS_X"]                  = 5
             MARLIN["GRID_MAX_POINTS_Y"]                  = 5
-            MARLIN["UBL_HILBERT_CURVE"]                  = True
-            MARLIN["PROBING_MARGIN"]                     = 0
-            MARLIN["MESH_INSET"]                         = 0
+            MARLIN["UBL_HILBERT_CURVE"]                  = USE_ARCHIM2
+            if "SynDaver_AXI" in PRINTER:
+                MARLIN["PROBING_MARGIN"]                 = 0
+                MARLIN["MESH_INSET"]                     = 0
+            else:
+                MARLIN["PROBING_MARGIN"]                 = 10
+                MARLIN["MESH_INSET"]                     = 10
             MARLIN["PROBING_FANS_OFF"]                   = True
             MARLIN["PROBING_STEPPERS_OFF"]               = True
             GOTO_1ST_PROBE_POINT                         = ""
 
-            MARLIN["BED_LEVELING_COMMANDS"]              = C_STRING("G28\nG29 P1\nG29 S1")
+            MARLIN["BED_LEVELING_COMMANDS"]              = C_STRING("G28 O\nG29 P1 X0 Y0\nG29 S1")
 
         else:
             # Conductive Probing
@@ -1503,13 +1509,13 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["NOZZLE_AS_PROBE"]                    = True
 
             MARLIN["MULTIPLE_PROBING"]                   = 2
-            MARLIN["Z_PROBE_SPEED_SLOW"]                 = 1*60
-            MARLIN["Z_PROBE_SPEED_FAST"]                 = 20*60 if USE_Z_BELT else 8*60
+            MARLIN["Z_PROBE_FEEDRATE_SLOW"]              = 1*60
+            MARLIN["Z_PROBE_FEEDRATE_FAST"]              = 20*60 if USE_Z_BELT else 8*60
             MARLIN["Z_PROBE_OFFSET_RANGE_MIN"]           = -2
             MARLIN["Z_PROBE_OFFSET_RANGE_MAX"]           = 5
             MARLIN["Z_CLEARANCE_DEPLOY_PROBE"]           = 5
             MARLIN["PROBING_MARGIN"]                     = False
-            MARLIN["XY_PROBE_SPEED"]                     = 6000
+            MARLIN["XY_PROBE_FEEDRATE"]                  = 6000
             MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 5
 
             # Avoid electrical interference when probing (this is a problem on some Minis)
@@ -1621,7 +1627,7 @@ def make_config(PRINTER, TOOLHEAD):
       elif "SynDaver_AXI_2" in PRINTER:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING("M17 Z\nG29 L1\nM280 P0 S60")
       elif "SynDaver_AXI" in PRINTER:
-        MARLIN["STARTUP_COMMANDS"]                       = C_STRING("G29 L1\n" + AXIS_LEVELING_COMMANDS + "M280 P0 S60")
+        MARLIN["STARTUP_COMMANDS"]                       = C_STRING("G29 L1\n" + AXIS_LEVELING_COMMANDS + "M280 P0 S60\nM117 SynDaver Axi Ready")
       else:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING(AXIS_LEVELING_COMMANDS)
 
@@ -1713,7 +1719,8 @@ def make_config(PRINTER, TOOLHEAD):
 
     if ENABLED("FILAMENT_RUNOUT_SENSOR"):
         MARLIN["NUM_RUNOUT_SENSORS"]                     = MARLIN["EXTRUDERS"]
-        MARLIN["FILAMENT_RUNOUT_SCRIPT"]                 = C_STRING("M25\n")
+        if USE_TOUCH_UI:
+            MARLIN["FILAMENT_RUNOUT_SCRIPT"]             = C_STRING("M25\n")
         MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 0 if "SynDaver_AXI" in PRINTER else 14
         if not PRINTER in ["Quiver_TAZPro", "SynDaver_AXI", "SynDaver_AXI_2"]:
             MARLIN["FIL_RUNOUT_ENABLED_DEFAULT"]         = "false"
@@ -1873,7 +1880,6 @@ def make_config(PRINTER, TOOLHEAD):
         #MARLIN["ADVANCED_PAUSE_PURGE_LENGTH"]            = 0 # Manual purge
         MARLIN["ADVANCED_PAUSE_PURGE_FEEDRATE"]          = MANUAL_FEEDRATE_E
         MARLIN["PAUSE_PARK_RETRACT_FEEDRATE"]            = 10 # mm/s
-        MARLIN["HOME_BEFORE_FILAMENT_CHANGE"]            = True
         MARLIN["PARK_HEAD_ON_PAUSE"]                     = True
 
         # In order to prevent jams on the Aero toolheads,
@@ -1928,6 +1934,11 @@ def make_config(PRINTER, TOOLHEAD):
             LEFT_WIPE_Y1                                 =  95
             LEFT_WIPE_Y2                                 =  25
             LEFT_WIPE_Z                                  =  1
+            RIGHT_WIPE_X1                                = LEFT_WIPE_X1
+            RIGHT_WIPE_X2                                = LEFT_WIPE_X2
+            RIGHT_WIPE_Y1                                = LEFT_WIPE_Y1
+            RIGHT_WIPE_Y2                                = LEFT_WIPE_Y2
+            RIGHT_WIPE_Z                                 = LEFT_WIPE_Z
 
         elif TAZ_BED:
             # TAZ has a vertical wiping pad on the left side of the bed
@@ -1948,6 +1959,12 @@ def make_config(PRINTER, TOOLHEAD):
                 RIGHT_WIPE_Y1                            =  95
                 RIGHT_WIPE_Y2                            =  25
                 RIGHT_WIPE_Z                             =   1
+            else:
+                RIGHT_WIPE_X1                            = LEFT_WIPE_X1
+                RIGHT_WIPE_X2                            = LEFT_WIPE_X2
+                RIGHT_WIPE_Y1                            = LEFT_WIPE_Y1
+                RIGHT_WIPE_Y2                            = LEFT_WIPE_Y2
+                RIGHT_WIPE_Z                             = LEFT_WIPE_Z
 
             LEFT_WIPE_Y2 -= TOOLHEAD_WIPE_Y2_ADJ # Adjustments for legacy dual
 
@@ -1980,11 +1997,14 @@ def make_config(PRINTER, TOOLHEAD):
             return WIPE_GCODE(RIGHT_WIPE_X1, RIGHT_WIPE_Y1, RIGHT_WIPE_X2, RIGHT_WIPE_Y2, RIGHT_WIPE_Z, temp_command)
 
         if PRINTER in "Quiver_TAZPro" and MARLIN["EXTRUDERS"] == 1:
-            MARLIN["NOZZLE_CLEAN_START_POINT"]           = [RIGHT_WIPE_X1, RIGHT_WIPE_Y1, RIGHT_WIPE_Z]
-            MARLIN["NOZZLE_CLEAN_END_POINT"]             = [RIGHT_WIPE_X2, RIGHT_WIPE_Y2, RIGHT_WIPE_Z]
+            MARLIN["NOZZLE_CLEAN_START_POINT"]           = [[RIGHT_WIPE_X1, RIGHT_WIPE_Y1, RIGHT_WIPE_Z]]
+            MARLIN["NOZZLE_CLEAN_END_POINT"]             = [[RIGHT_WIPE_X2, RIGHT_WIPE_Y2, RIGHT_WIPE_Z]]
+        if MARLIN["EXTRUDERS"] == 2:
+            MARLIN["NOZZLE_CLEAN_START_POINT"]           = [[LEFT_WIPE_X1, LEFT_WIPE_Y1, LEFT_WIPE_Z],[RIGHT_WIPE_X1, RIGHT_WIPE_Y1, RIGHT_WIPE_Z]]
+            MARLIN["NOZZLE_CLEAN_END_POINT"]             = [[LEFT_WIPE_X2, LEFT_WIPE_Y2, LEFT_WIPE_Z],[RIGHT_WIPE_X2, RIGHT_WIPE_Y2, RIGHT_WIPE_Z]]
         else:
-            MARLIN["NOZZLE_CLEAN_START_POINT"]           = [LEFT_WIPE_X1, LEFT_WIPE_Y1, LEFT_WIPE_Z]
-            MARLIN["NOZZLE_CLEAN_END_POINT"]             = [LEFT_WIPE_X2, LEFT_WIPE_Y2, LEFT_WIPE_Z]
+            MARLIN["NOZZLE_CLEAN_START_POINT"]           = [[LEFT_WIPE_X1, LEFT_WIPE_Y1, LEFT_WIPE_Z]]
+            MARLIN["NOZZLE_CLEAN_END_POINT"]             = [[LEFT_WIPE_X2, LEFT_WIPE_Y2, LEFT_WIPE_Z]]
 
 ################################# CLEAN NOZZLE ################################
 
@@ -2135,7 +2155,7 @@ def make_config(PRINTER, TOOLHEAD):
             # Make the Sanyo motors run quieter
             MOTOR_CURRENT_X                              = 600 # mA
             MOTOR_CURRENT_Y                              = 600 # mA
-            MOTOR_CURRENT_Z                              = 975 # mA
+            MOTOR_CURRENT_Z                              = 1175 # mA
         elif USE_ARCHIM2:
             # These values specify the maximum current, but actual
             # currents may be lower when used with COOLCONF
@@ -2238,7 +2258,7 @@ def make_config(PRINTER, TOOLHEAD):
 
         if not "NOZZLE_TO_PROBE_OFFSET" in MARLIN:
             if "SynDaver_AXI_2" in PRINTER:
-                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [37.5, 38.25, -2.35]
+                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [37.89, 38.25, -4.6]
             elif "SynDaver_AXI" in PRINTER:
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [43.5, 23.75, -2.35]
             elif MARLIN["BLTOUCH"] and "Guava_TAZ4" in PRINTER:
@@ -2413,9 +2433,12 @@ def make_config(PRINTER, TOOLHEAD):
     return MARLIN
 ############################## END OF CONFIGURATION #############################
 
-def format_list(list):
+def format_list(val):
     """Formats a list in C style, i.e. {0, 1, 2}"""
-    return "{" + ", ".join(['{}'.format(x) for x in list]) + "}"
+    if type(val) == list:
+        return "{" + ", ".join([format_list(x) for x in val]) + "}"
+    else:
+        return '{}'.format(val);
 
 def do_substitions(config, counts, line):
     """Perform substitutions on a #define line from the config"""
