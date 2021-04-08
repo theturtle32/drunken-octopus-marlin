@@ -30,7 +30,7 @@ using namespace Theme;
 using namespace ExtUI;
 
 constexpr static BedMeshEditScreenData &mydata = screen_data.BedMeshEditScreen;
-constexpr static float gaugeThickness = 0.25;
+constexpr static float gaugeThickness = 0.1;
 
 #if ENABLED(TOUCH_UI_PORTRAIT)
   #define GRID_COLS 3
@@ -80,6 +80,7 @@ void BedMeshEditScreen::setHighlightedValue(float value) {
 void BedMeshEditScreen::moveToHighlightedValue() {
   if (ExtUI::getMeshValid()) {
     ExtUI::setLevelingActive(true);
+    ExtUI::setSoftEndstopState(false);
     ExtUI::moveToMeshPoint(mydata.highlight, gaugeThickness + mydata.zAdjustment);
   }
 }
