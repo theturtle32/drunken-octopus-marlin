@@ -435,7 +435,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SDSUPPORT"]                              = True
         USE_DUAL_Z_STEPPERS                              = True
         if "SynDaver_AXI_2" in PRINTER:
-            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI 2")
+            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Axi 2")
             MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (6791b418)")
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 1 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["USE_ELECTROMAGNETIC_BRAKE"]          = True
@@ -443,7 +443,7 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["STEALTHCHOP_Z"]                      = False
             MARLIN["HYBRID_THRESHOLD"]                   = False
         else:
-            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver AXI")
+            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Axi")
             MARLIN["SHORT_BUILD_VERSION"]                = C_STRING("2.x.x (389f82d1)")
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 5 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["Z2_PRESENCE_CHECK"]                  = True
@@ -1465,8 +1465,12 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["GRID_MAX_POINTS_X"]                  = 5
             MARLIN["GRID_MAX_POINTS_Y"]                  = 5
             MARLIN["UBL_HILBERT_CURVE"]                  = USE_ARCHIM2
-            MARLIN["PROBING_MARGIN"]                     = 0
-            MARLIN["MESH_INSET"]                         = 0
+            if "SynDaver_AXI" in PRINTER:
+                MARLIN["PROBING_MARGIN"]                 = 0
+                MARLIN["MESH_INSET"]                     = 0
+            else:
+                MARLIN["PROBING_MARGIN"]                 = 10
+                MARLIN["MESH_INSET"]                     = 10
             MARLIN["PROBING_FANS_OFF"]                   = True
             MARLIN["PROBING_STEPPERS_OFF"]               = True
             GOTO_1ST_PROBE_POINT                         = ""
@@ -1623,7 +1627,7 @@ def make_config(PRINTER, TOOLHEAD):
       elif "SynDaver_AXI_2" in PRINTER:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING("M17 Z\nG29 L1\nM280 P0 S60")
       elif "SynDaver_AXI" in PRINTER:
-        MARLIN["STARTUP_COMMANDS"]                       = C_STRING("G29 L1\n" + AXIS_LEVELING_COMMANDS + "M280 P0 S60")
+        MARLIN["STARTUP_COMMANDS"]                       = C_STRING("G29 L1\n" + AXIS_LEVELING_COMMANDS + "M280 P0 S60\nM117 SynDaver Axi Ready")
       else:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING(AXIS_LEVELING_COMMANDS)
 
