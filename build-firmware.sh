@@ -66,7 +66,7 @@ compile_deps_for_board() {
   case $board in
     BOARD_ARCHIM2)
       SRC="ArduinoAddons/arduino-1.8.5/packages/ultimachine/hardware/sam/1.6.9-b"
-      (cd "$SRC/system/libsam/build_gcc"; ARM_GCC_TOOLCHAIN="$TOOLS_PATH" make)
+      (cd "$SRC/system/libsam/build_gcc"; ARM_GCC_TOOLCHAIN="/usr/bin" make)
       cp -u $SRC/variants/arduino_due_x/libsam_sam3x8e_gcc_rel.a     $SRC/variants/archim/libsam_sam3x8e_gcc_rel.a
       cp -u $SRC/variants/arduino_due_x/libsam_sam3x8e_gcc_rel.a.txt $SRC/variants/archim/libsam_sam3x8e_gcc_rel.a.txt
       ;;
@@ -207,7 +207,7 @@ build_firmware() {
     echo
     EXTRA_OPTS='-Wfatal-errors -Wno-builtin-macro-redefined'
     # Hide timestamps and versions so binaries can be diffed
-    EXTRA_DEFS='__DATE__=\"?\" __TIME__=\"?\"'
+    EXTRA_DEFS='__DATE__=\"?\" __TIME__=\"?\" GIT_HASH=\"$fw_hash\"'
     compile_firmware
     record_checksum build/md5sums-bare
   fi
@@ -217,7 +217,7 @@ build_firmware() {
   echo "Building for $printer and $toolhead with board $motherboard_name ($motherboard_number)"
   echo
   EXTRA_OPTS='-Wfatal-errors'
-  EXTRA_DEFS=''
+  EXTRA_DEFS='GIT_HASH=\"$fw_hash\"'
   compile_firmware
   if [ $MAKE_HASHES ]; then
     record_checksum build/md5sums-full
