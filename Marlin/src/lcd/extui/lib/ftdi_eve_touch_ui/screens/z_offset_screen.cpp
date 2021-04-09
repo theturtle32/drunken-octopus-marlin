@@ -36,7 +36,7 @@ constexpr static ZOffsetScreenData &mydata = screen_data.ZOffsetScreen;
 
 void ZOffsetScreen::onEntry() {
   mydata.z = SHEET_THICKNESS;
-  BaseScreen::onEntry();
+  BaseNumericAdjustmentScreen::onEntry();
 }
 
 void ZOffsetScreen::onRedraw(draw_mode_t what) {
