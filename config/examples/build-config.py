@@ -1950,7 +1950,10 @@ def make_config(PRINTER, TOOLHEAD):
                 LEFT_WIPE_Y2                             =  73
             else:
                 LEFT_WIPE_Y2                             =  25
-            LEFT_WIPE_Z                                  =   1
+            if "SynDaver_AXI" in PRINTER:
+                LEFT_WIPE_Z                              =   0
+            else:
+                LEFT_WIPE_Z                              =   1
 
             if PRINTER in ["Quiver_TAZPro"]:
                 # The Quiver has an wipe pad on the right side of the bed.
@@ -1972,7 +1975,7 @@ def make_config(PRINTER, TOOLHEAD):
             return (
                 "G1 X{} Y{} Z10 F4000\n".format(x2,y2)   # Move to pad while heating
                 + temp_command +
-                "G1 Z1\n"                                # Push nozzle into wiper
+                "G1 Z{}\n".format(z) +                   # Push nozzle into wiper
                 "M114\n"                                 # This seems to be required for the last command to run. Bug in Marlin?
                 "G1 X{} Y{}\n".format(x2,y2) +           # Slow wipe
                 "G1 X{} Y{}\n".format(x1,y1) +           # Slow wipe

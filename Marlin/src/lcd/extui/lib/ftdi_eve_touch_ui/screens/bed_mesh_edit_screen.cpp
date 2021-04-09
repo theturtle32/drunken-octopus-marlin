@@ -65,7 +65,14 @@ void BedMeshEditScreen::onEntry() {
   mydata.needSave = false;
   mydata.highlight.x = -1;
   mydata.zAdjustment = 0;
+  mydata.savedMeshLevelingState = ExtUI::getLevelingActive();
+  mydata.savedEndstopState = ExtUI::getSoftEndstopState();
   BaseScreen::onEntry();
+}
+
+void BedMeshEditScreen::onExit() {
+  ExtUI::setLevelingActive(mydata.savedMeshLevelingState);
+  ExtUI::setSoftEndstopState(mydata.savedEndstopState);
 }
 
 float BedMeshEditScreen::getHighlightedValue() {

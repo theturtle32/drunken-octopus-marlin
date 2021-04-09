@@ -207,7 +207,7 @@ build_firmware() {
     echo
     EXTRA_OPTS='-Wfatal-errors -Wno-builtin-macro-redefined'
     # Hide timestamps and versions so binaries can be diffed
-    EXTRA_DEFS='__DATE__=\"?\" __TIME__=\"?\" GIT_HASH=\"$fw_hash\"'
+    EXTRA_DEFS="__DATE__=\\\"?\\\" __TIME__=\\\"?\\\" GIT_HASH=\\\"$fw_hash\\\""
     compile_firmware
     record_checksum build/md5sums-bare
   fi
@@ -217,7 +217,7 @@ build_firmware() {
   echo "Building for $printer and $toolhead with board $motherboard_name ($motherboard_number)"
   echo
   EXTRA_OPTS='-Wfatal-errors'
-  EXTRA_DEFS='GIT_HASH=\"$fw_hash\"'
+  EXTRA_DEFS="GIT_HASH=\\\"$fw_hash\\\""
   compile_firmware
   if [ $MAKE_HASHES ]; then
     record_checksum build/md5sums-full
