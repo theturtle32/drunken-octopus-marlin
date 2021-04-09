@@ -67,7 +67,7 @@ void MoveAxisScreen::onRedraw(draw_mode_t what) {
     #endif
   #endif
   #if Z_HOME_DIR < 0
-    w.button(24, GET_TEXT_F(MSG_MOVE_Z_TO_TOP), axis_should_home(Z_AXIS));
+    w.button(24, GET_TEXT_F(MSG_MOVE_Z_TO_TOP), !axis_should_home(Z_AXIS));
   #endif
   w.increments();
 }
