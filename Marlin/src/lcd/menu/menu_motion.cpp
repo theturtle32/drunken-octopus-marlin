@@ -336,6 +336,13 @@ void menu_motion() {
     SUBMENU(MSG_MOVE_AXIS, menu_move);
 
   //
+  // Level X Axis
+  //
+  #if defined(AXIS_LEVELING_COMMANDS)
+    GCODES_ITEM(MSG_LEVEL_X_AXIS, PSTR(AXIS_LEVELING_COMMANDS));
+  #endif
+
+  //
   // Auto Home
   //
   GCODES_ITEM(MSG_AUTO_HOME, G28_STR);
