@@ -114,6 +114,7 @@ build_config accessory Oliveoil_TAZ6                             BandedTiger_Har
 build_config accessory Oliveoil_TAZ6                             DingyCutworm_HardenedSteelPlus
 build_config accessory Oliveoil_TAZ6                             Goldenrod_HardenedExtruder
 build_config custom    Oliveoil_TAZ6                             E3D_Hermera
+build_config custom    Oliveoil_TAZ6                             Lutefisk_M175
 build_config custom    Oliveoil_TAZ6Archim                       Opah_Moarstruder
 build_config custom    Oliveoil_TAZ6Archim                       Longfin_FlexyDually
 build_config custom    Oliveoil_TAZ6Archim                       Tilapia_SingleExtruder
@@ -122,10 +123,12 @@ build_config custom    Oliveoil_TAZ6Archim                       CecropiaSilk_Si
 build_config custom    Oliveoil_TAZ6Archim                       Yellowfin_DualExtruderV3
 build_config custom    Oliveoil_TAZ6Archim                       Angelfish_Aerostruder
 build_config custom    Oliveoil_TAZ6Archim                       E3D_Hermera
+build_config custom    Oliveoil_TAZ6Archim                       Lutefisk_M175
 build_config custom    Oliveoil_TAZ6BLTouch                      CecropiaSilk_SingleExtruderAeroV2
 build_config custom    Oliveoil_TAZ6BLTouch                      Angelfish_Aerostruder
 build_config custom    Oliveoil_TAZ6BLTouch                      Tilapia_SingleExtruder
 build_config custom    Oliveoil_TAZ6BLTouch                      E3D_Hermera
+build_config custom    Oliveoil_TAZ6BLTouch                      Lutefisk_M175
 build_config custom    Oliveoil_TAZ6BLTouch                      Yellowfin_DualExtruderV3
 build_config custom    Oliveoil_TAZ6BLTouchHallEffect            Yellowfin_DualExtruderV3
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                Tilapia_SingleExtruder
