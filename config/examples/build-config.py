@@ -1469,8 +1469,8 @@ def make_config(PRINTER, TOOLHEAD):
                 MARLIN["PROBING_MARGIN"]                 = 0
                 MARLIN["MESH_INSET"]                     = 0
             else:
-                MARLIN["PROBING_MARGIN"]                 = 10
-                MARLIN["MESH_INSET"]                     = 10
+                MARLIN["PROBING_MARGIN"]                 = 15
+                MARLIN["MESH_INSET"]                     = 15
             MARLIN["PROBING_FANS_OFF"]                   = True
             MARLIN["PROBING_STEPPERS_OFF"]               = True
             GOTO_1ST_PROBE_POINT                         = ""
