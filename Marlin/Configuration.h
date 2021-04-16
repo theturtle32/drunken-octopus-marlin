@@ -131,7 +131,7 @@
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "SynDaver AXI" // <-- changed
+#define CUSTOM_MACHINE_NAME "SynDaver Axi" // <-- changed
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
@@ -1055,11 +1055,11 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { 57, 22, -2.35 }
+#define NOZZLE_TO_PROBE_OFFSET {43.5, 23.75, -2.35} // <-- changed
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 15
+#define PROBING_MARGIN 0 // <-- changed
 
 // X and Y axis travel speed (mm/min) between probes
 #define XY_PROBE_FEEDRATE 18000 // <-- changed
@@ -1481,9 +1481,9 @@
 
   //#define MESH_EDIT_GFX_OVERLAY   // Display a graphics overlay while editing the mesh
 
-  #define MESH_INSET 30             // Set Mesh bounds as an inset region of the bed
-  #define GRID_MAX_POINTS_X 10      // Don't use more than 15 points per axis, implementation limited.
-  #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
+  #define MESH_INSET 0 // <-- changed:  Set Mesh bounds as an inset region of the bed
+  #define GRID_MAX_POINTS_X 5 // <-- changed:  Don't use more than 15 points per axis, implementation limited.
+  #define GRID_MAX_POINTS_Y 5 // <-- changed
 
   #define UBL_HILBERT_CURVE // <-- changed:  Use Hilbert distribution for less travel when probing multiple points
 
@@ -1781,8 +1781,8 @@
 
   // Specify positions for each tool as { { X, Y, Z }, { X, Y, Z } }
   // Dual hotend system may use { {  -20, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) },  {  420, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) }}
-  #define NOZZLE_CLEAN_START_POINT {{-17, 95, 1}} // <-- changed
-  #define NOZZLE_CLEAN_END_POINT   {{-17, 25, 1}} // <-- changed
+  #define NOZZLE_CLEAN_START_POINT {{-17, 95, 0}} // <-- changed
+  #define NOZZLE_CLEAN_END_POINT   {{-17, 25, 0}} // <-- changed
 
   // Circular pattern radius
   #define NOZZLE_CLEAN_CIRCLE_RADIUS 6.5
@@ -1805,7 +1805,7 @@
   //#define NOZZLE_CLEAN_HEATUP       // Heat up the nozzle instead of skipping wipe
 
   // Explicit wipe G-code script applies to a G12 with no arguments.
-  #define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nM109 R160\nM107" // <-- changed
+  #define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z0\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nM109 R160\nM107" // <-- changed
 
 #endif
 
@@ -2740,10 +2740,10 @@
  * Extra parameters used by Drunken Octopus
  */
 #define SOURCE_CODE_URL "https://github.com/marciot/drunken-octopus-marlin" // <-- changed
-#define SHORT_BUILD_VERSION "2.x.x (389f82d1)" // <-- changed
+#define SHORT_BUILD_VERSION "2.x.x (" GIT_HASH ")" // <-- changed
 #define TOOLHEAD_NAME "E3D Hermera" // <-- changed
 #define TOOLHEAD_TYPE "Hermera" // <-- changed
-#define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nM109 R160\nM107" // <-- changed
+#define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z0\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nM109 R160\nM107" // <-- changed
 #define AXIS_LEVELING_COMMANDS "M117 Leveling X Axis\nG91\nM211 S0\nM120\nM400\nG0 Z400 F6000 U\nG92 Z294\nG0 Z-5 F500 U\nM400\nG90\nM121\nM211 S1\nM18 Z\nM17 Z\nM117 Leveling done." // <-- changed
 #define BED_LEVELING_COMMANDS "G28 O\nG29 P1 X0 Y0\nG29 S1" // <-- changed
 //#define AO_EXP1_DEPRECATED_PINMAP
@@ -2755,7 +2755,7 @@
 #define USB_DEVICE_PRODUCT_ID 0x0001 // <-- changed
 #define TOUCH_UI_NO_BOOTSCREEN // <-- changed
 #define TOUCH_UI_ROYAL_THEME // <-- changed
-#define TOUCH_UI_VERSION "Release: 5 (" __DATE__  ")\nMarlin " SHORT_BUILD_VERSION // <-- changed
+#define TOUCH_UI_VERSION "Release: 6 (" __DATE__  ")\nMarlin " SHORT_BUILD_VERSION // <-- changed
 #define TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS // <-- changed
 #define CURA_LE_RUNOUT_HANDLING_WORKAROUND // <-- changed
 #define FIL_RUNOUT_PIN 15 // <-- changed

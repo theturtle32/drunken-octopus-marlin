@@ -15,7 +15,7 @@
 #
 # To view a copy of the GNU General Public License, go to the following
 # location: <http://www.gnu.org/licenses/>.
-
+exit
 from __future__ import print_function
 import argparse, re, sys, os
 

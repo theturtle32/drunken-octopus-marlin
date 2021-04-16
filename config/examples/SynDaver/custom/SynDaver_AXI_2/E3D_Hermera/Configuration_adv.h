@@ -570,7 +570,7 @@
 /**
  * M355 Case Light on-off / brightness
  */
-#define CASE_LIGHT_ENABLE // <-- changed
+//#define CASE_LIGHT_ENABLE
 #if ENABLED(CASE_LIGHT_ENABLE)
   //#define CASE_LIGHT_PIN 4                  // Override the default pin if needed
   #define INVERT_CASE_LIGHT false             // Set true if Case Light is ON when pin is LOW
@@ -2426,7 +2426,7 @@
   #define INTERPOLATE      true
 
   #if AXIS_IS_TMC(X)
-    #define X_CURRENT       600 // <-- changed:  (mA) RMS current. Multiply by 1.414 for peak current.
+    #define X_CURRENT       975 // <-- changed:  (mA) RMS current. Multiply by 1.414 for peak current.
     #define X_CURRENT_HOME  X_CURRENT  // (mA) RMS current for sensorless homing
     #define X_MICROSTEPS     16        // 0..256
     #define X_RSENSE          0.12 // <-- changed
@@ -2444,7 +2444,7 @@
   #endif
 
   #if AXIS_IS_TMC(Y)
-    #define Y_CURRENT       600 // <-- changed
+    #define Y_CURRENT       975 // <-- changed
     #define Y_CURRENT_HOME  Y_CURRENT
     #define Y_MICROSTEPS     16
     #define Y_RSENSE          0.12 // <-- changed
@@ -2462,7 +2462,7 @@
   #endif
 
   #if AXIS_IS_TMC(Z)
-    #define Z_CURRENT       1175 // <-- changed
+    #define Z_CURRENT       975 // <-- changed
     #define Z_CURRENT_HOME  Z_CURRENT
     #define Z_MICROSTEPS     16
     #define Z_RSENSE          0.12 // <-- changed
@@ -2471,7 +2471,7 @@
   #endif
 
   #if AXIS_IS_TMC(Z2)
-    #define Z2_CURRENT      1175 // <-- changed
+    #define Z2_CURRENT      975 // <-- changed
     #define Z2_CURRENT_HOME Z2_CURRENT
     #define Z2_MICROSTEPS    16 // <-- changed
     #define Z2_RSENSE         0.12 // <-- changed
@@ -2634,7 +2634,7 @@
    * When disabled, Marlin will use spreadCycle stepping mode.
    */
   //#define STEALTHCHOP_XY  // <-- changed
-  //#define STEALTHCHOP_Z  // <-- changed
+  #define STEALTHCHOP_Z
   //#define STEALTHCHOP_E  // <-- changed
 
   /**
@@ -2696,11 +2696,11 @@
    * STEALTHCHOP_(XY|Z|E) must be enabled to use HYBRID_THRESHOLD.
    * M913 X/Y/Z/E to live tune the setting
    */
-  //#define HYBRID_THRESHOLD
+  #define HYBRID_THRESHOLD // <-- changed
 
-  #define X_HYBRID_THRESHOLD     100  // [mm/s]
+  #define X_HYBRID_THRESHOLD     72 // <-- changed:  [mm/s]
   #define X2_HYBRID_THRESHOLD    100
-  #define Y_HYBRID_THRESHOLD     100
+  #define Y_HYBRID_THRESHOLD     72 // <-- changed
   #define Y2_HYBRID_THRESHOLD    100
   #define Z_HYBRID_THRESHOLD       3
   #define Z2_HYBRID_THRESHOLD      3
@@ -3428,7 +3428,7 @@
  *
  * Execute certain G-code commands immediately after power-on.
  */
-#define STARTUP_COMMANDS "M17 Z\nG29 L1\nM280 P0 S60" // <-- changed
+#define STARTUP_COMMANDS "G29 L1\nG91\nM211 S0\nM120\nM400\nG0 Z400 F6000 U\nG92 Z294\nG0 Z-5 F500 U\nM400\nG90\nM121\nM211 S1\nM18 Z\nM17 Z\nM280 P0 S60\nM117 SynDaver Axi Ready" // <-- changed
 
 /**
  * G-code Macros
