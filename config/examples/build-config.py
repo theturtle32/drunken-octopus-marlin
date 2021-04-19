@@ -15,7 +15,6 @@
 #
 # To view a copy of the GNU General Public License, go to the following
 # location: <http://www.gnu.org/licenses/>.
-exit
 from __future__ import print_function
 import argparse, re, sys, os
 
@@ -435,7 +434,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SDSUPPORT"]                              = True
         USE_DUAL_Z_STEPPERS                              = True
         if "SynDaver_AXI_2" in PRINTER:
-            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Axi 2")
+            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Axi")
             MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 2 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["USE_ELECTROMAGNETIC_BRAKE"]          = True
