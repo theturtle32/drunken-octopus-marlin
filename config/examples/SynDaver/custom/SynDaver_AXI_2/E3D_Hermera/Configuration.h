@@ -755,7 +755,7 @@
 
 // Enable this feature if all enabled endstop pins are interrupt-capable.
 // This will remove the need to poll the interrupt pins, saving many CPU cycles.
-#define ENDSTOP_INTERRUPTS_FEATURE // <-- changed
+//#define ENDSTOP_INTERRUPTS_FEATURE
 
 /**
  * Endstop Noise Threshold
@@ -2744,7 +2744,7 @@
 #define TOOLHEAD_NAME "E3D Hermera" // <-- changed
 #define TOOLHEAD_TYPE "Hermera" // <-- changed
 #define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z0\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nM109 R160\nM107" // <-- changed
-#define AXIS_LEVELING_COMMANDS "M117 Leveling X Axis\nG91\nM211 S0\nM120\nM400\nG0 Z400 F6000 U\nG92 Z294\nG0 Z-5 F500 U\nM400\nG90\nM121\nM211 S1\nM18 Z\nM17 Z\nM117 Leveling done." // <-- changed
+//#define AXIS_LEVELING_COMMANDS
 #define BED_LEVELING_COMMANDS "G28 O\nG29 P1 X0 Y0\nG29 S1" // <-- changed
 //#define AO_EXP1_DEPRECATED_PINMAP
 #define DISABLE_DUE_SD_MMC // <-- changed
@@ -2765,11 +2765,11 @@
 //#define SWAP_E0_AND_E1
 //#define Z_STOP_PIN
 //#define Z_MAX_PIN
-#define NO_MOTION_BEFORE_HOMING_WORKAROUND // <-- changed
+//#define NO_MOTION_BEFORE_HOMING_WORKAROUND
 #define NO_TIME_AFTER_SD_PRINT // <-- changed
 #define EMI_MITIGATION // <-- changed
 #define Z_MIN_PROBE_REPEATABILITY_TEST // <-- changed
-#define Z2_PRESENCE_CHECK // <-- changed
-//#define USE_ELECTROMAGNETIC_BRAKE
+//#define Z2_PRESENCE_CHECK
+#define USE_ELECTROMAGNETIC_BRAKE // <-- changed
 //#define ELECTROMAGNETIC_BRAKE_PIN
 #define UBL_HILBERT_CURVE // <-- changed
