@@ -131,7 +131,7 @@
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "SynDaver Axi" // <-- changed
+#define CUSTOM_MACHINE_NAME "SynDaver Axi 2" // <-- changed
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
@@ -799,7 +799,7 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 500, 400} // <-- changed
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 100, 400} // <-- changed
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -1055,7 +1055,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET {43.5, 23.75, -2.35} // <-- changed
+#define NOZZLE_TO_PROBE_OFFSET {37.89, 38.25, -4.6} // <-- changed
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
@@ -1237,11 +1237,11 @@
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
 #define X_MIN_POS -49 // <-- changed
-#define Y_MIN_POS -35 // <-- changed
+#define Y_MIN_POS -55 // <-- changed
 #define Z_MIN_POS 0
 #define X_MAX_POS 288 // <-- changed
-#define Y_MAX_POS 300 // <-- changed
-#define Z_MAX_POS 294 // <-- changed
+#define Y_MAX_POS 284 // <-- changed
+#define Z_MAX_POS 283 // <-- changed
 
 /**
  * Software Endstops
@@ -1725,7 +1725,7 @@
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
-  #define NOZZLE_PARK_POINT {100, 290, 20} // <-- changed
+  #define NOZZLE_PARK_POINT {100, 274, 20} // <-- changed
   //#define NOZZLE_PARK_X_ONLY          // X move only is required to park
   //#define NOZZLE_PARK_Y_ONLY          // Y move only is required to park
   #define NOZZLE_PARK_Z_RAISE_MIN   2   // (mm) Always raise Z by at least this distance
@@ -2755,7 +2755,7 @@
 #define USB_DEVICE_PRODUCT_ID 0x0001 // <-- changed
 #define TOUCH_UI_NO_BOOTSCREEN // <-- changed
 #define TOUCH_UI_ROYAL_THEME // <-- changed
-#define TOUCH_UI_VERSION "Release: 6 (" __DATE__  ")\nMarlin " SHORT_BUILD_VERSION // <-- changed
+#define TOUCH_UI_VERSION "Release: 2 (" __DATE__  ")\nMarlin " SHORT_BUILD_VERSION // <-- changed
 #define TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS // <-- changed
 #define CURA_LE_RUNOUT_HANDLING_WORKAROUND // <-- changed
 #define FIL_RUNOUT_PIN 15 // <-- changed
