@@ -131,7 +131,7 @@
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "SynDaver Axi 2" // <-- changed
+#define CUSTOM_MACHINE_NAME "SynDaver Axi" // <-- changed
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
@@ -755,7 +755,7 @@
 
 // Enable this feature if all enabled endstop pins are interrupt-capable.
 // This will remove the need to poll the interrupt pins, saving many CPU cycles.
-//#define ENDSTOP_INTERRUPTS_FEATURE
+#define ENDSTOP_INTERRUPTS_FEATURE // <-- changed
 
 /**
  * Endstop Noise Threshold
@@ -799,7 +799,7 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 100, 400} // <-- changed
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 500, 400} // <-- changed
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -1055,7 +1055,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET {37.89, 38.25, -4.6} // <-- changed
+#define NOZZLE_TO_PROBE_OFFSET {43.5, 23.75, -2.35} // <-- changed
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
@@ -1237,11 +1237,11 @@
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
 #define X_MIN_POS -49 // <-- changed
-#define Y_MIN_POS -55 // <-- changed
+#define Y_MIN_POS -35 // <-- changed
 #define Z_MIN_POS 0
 #define X_MAX_POS 288 // <-- changed
-#define Y_MAX_POS 284 // <-- changed
-#define Z_MAX_POS 283 // <-- changed
+#define Y_MAX_POS 300 // <-- changed
+#define Z_MAX_POS 294 // <-- changed
 
 /**
  * Software Endstops
@@ -1725,7 +1725,7 @@
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
-  #define NOZZLE_PARK_POINT {100, 274, 20} // <-- changed
+  #define NOZZLE_PARK_POINT {100, 290, 20} // <-- changed
   //#define NOZZLE_PARK_X_ONLY          // X move only is required to park
   //#define NOZZLE_PARK_Y_ONLY          // Y move only is required to park
   #define NOZZLE_PARK_Z_RAISE_MIN   2   // (mm) Always raise Z by at least this distance
@@ -2744,7 +2744,7 @@
 #define TOOLHEAD_NAME "E3D Hermera" // <-- changed
 #define TOOLHEAD_TYPE "Hermera" // <-- changed
 #define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z0\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nM109 R160\nM107" // <-- changed
-//#define AXIS_LEVELING_COMMANDS
+#define AXIS_LEVELING_COMMANDS "M117 Leveling X Axis\nG91\nM211 S0\nM120\nM400\nG0 Z400 F6000 U\nG92 Z294\nG0 Z-5 F500 U\nM400\nG90\nM121\nM211 S1\nM18 Z\nM17 Z\nM117 Leveling done." // <-- changed
 #define BED_LEVELING_COMMANDS "G28 O\nG29 P1 X0 Y0\nG29 S1" // <-- changed
 //#define AO_EXP1_DEPRECATED_PINMAP
 #define DISABLE_DUE_SD_MMC // <-- changed
@@ -2755,7 +2755,7 @@
 #define USB_DEVICE_PRODUCT_ID 0x0001 // <-- changed
 #define TOUCH_UI_NO_BOOTSCREEN // <-- changed
 #define TOUCH_UI_ROYAL_THEME // <-- changed
-#define TOUCH_UI_VERSION "Release: 2 (" __DATE__  ")\nMarlin " SHORT_BUILD_VERSION // <-- changed
+#define TOUCH_UI_VERSION "Release: 6 (" __DATE__  ")\nMarlin " SHORT_BUILD_VERSION // <-- changed
 #define TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS // <-- changed
 #define CURA_LE_RUNOUT_HANDLING_WORKAROUND // <-- changed
 #define FIL_RUNOUT_PIN 15 // <-- changed
@@ -2765,11 +2765,11 @@
 //#define SWAP_E0_AND_E1
 //#define Z_STOP_PIN
 //#define Z_MAX_PIN
-//#define NO_MOTION_BEFORE_HOMING_WORKAROUND
+#define NO_MOTION_BEFORE_HOMING_WORKAROUND // <-- changed
 #define NO_TIME_AFTER_SD_PRINT // <-- changed
 #define EMI_MITIGATION // <-- changed
 #define Z_MIN_PROBE_REPEATABILITY_TEST // <-- changed
-//#define Z2_PRESENCE_CHECK
-#define USE_ELECTROMAGNETIC_BRAKE // <-- changed
+#define Z2_PRESENCE_CHECK // <-- changed
+//#define USE_ELECTROMAGNETIC_BRAKE
 //#define ELECTROMAGNETIC_BRAKE_PIN
 #define UBL_HILBERT_CURVE // <-- changed
