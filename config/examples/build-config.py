@@ -425,6 +425,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SHOW_CUSTOM_BOOTSCREEN"]                 = False
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["BLTOUCH"]                                = True
+        MARLIN["ENDSTOP_INTERRUPTS_FEATURE"]             = True
         MARLIN["SENSORLESS_HOMING"]                      = False
         MARLIN["STEALTHCHOP_XY"]                         = False
         MARLIN["STEALTHCHOP_E"]                          = True
