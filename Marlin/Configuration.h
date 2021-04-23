@@ -2773,8 +2773,3 @@
 #define USE_ELECTROMAGNETIC_BRAKE // <-- changed
 //#define ELECTROMAGNETIC_BRAKE_PIN
 #define UBL_HILBERT_CURVE // <-- changed
-BE_REPEATABILITY_TEST // <-- changed
-#define Z2_PRESENCE_CHECK // <-- changed
-//#define USE_ELECTROMAGNETIC_BRAKE
-//#define ELECTROMAGNETIC_BRAKE_PIN
-#define UBL_HILBERT_CURVE // <-- changed
