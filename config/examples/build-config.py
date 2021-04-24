@@ -1031,6 +1031,10 @@ def make_config(PRINTER, TOOLHEAD):
         TOOLHEAD_TYPE                                    = "HardenedSteelPlus"
         TOOLHEAD_BLOCK                                   = "SliceEngineering_Mosquito"
         E_STEPS                                          = 415
+        TOOLHEAD_X_MIN_ADJ                               = -6.9
+        TOOLHEAD_X_MAX_ADJ                               = -6.5
+        TOOLHEAD_Y_MIN_ADJ                               =  0.1
+        TOOLHEAD_Y_MAX_ADJ                               = -13.5
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("M175")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
