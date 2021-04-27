@@ -184,6 +184,7 @@ def make_config(PRINTER, TOOLHEAD):
     if "HallEffect" in PRINTER:
         MARLIN["FILAMENT_MOTION_SENSOR"]                 = "HallEffect" in PRINTER
     MARLIN["G26_MESH_VALIDATION"]                        = True
+    MARLIN["WATCHDOG_RESET_MANUAL"]                      = True
 
     # LulzBot uses a "G26" in start GCODE. As a workaround, do not allow
     # this GCODE to execute if the print timer is started.
