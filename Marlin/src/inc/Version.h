@@ -119,5 +119,5 @@
 #else
   #define  USB_DEVICE_PRODUCT_NAME        MACHINE_NAME
 #endif*/
-#define  USB_DEVICE_PRODUCT_NAME          "SynDaver Axi 2"
+#define  USB_DEVICE_PRODUCT_NAME          "SynDaver Axi2"
 #define  USB_DEVICE_SERIAL_NAME           "123985739853"
