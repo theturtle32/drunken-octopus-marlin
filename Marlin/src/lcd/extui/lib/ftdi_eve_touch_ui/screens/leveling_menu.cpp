@@ -84,6 +84,7 @@ void LevelingMenu::onRedraw(draw_mode_t what) {
     #if EITHER(Z_STEPPER_AUTO_ALIGN,MECHANICAL_GANTRY_CALIBRATION) || defined(AXIS_LEVELING_COMMANDS)
        .tag(2).button(LEVEL_AXIS_POS, GET_TEXT_F(MSG_LEVEL_X_AXIS))
     #endif
+       .enabled(ENABLED(HAS_BED_PROBE))
        .tag(3).button(PROBE_BED_POS, GET_TEXT_F(MSG_PROBE_BED))
        .enabled(ENABLED(HAS_MESH))
        .tag(4).button(SHOW_MESH_POS, GET_TEXT_F(MSG_SHOW_MESH))
@@ -120,6 +121,7 @@ bool LevelingMenu::onTouchEnd(uint8_t tag) {
         ExtUI::injectCommands_P(PSTR("G28 Z\nG34 A2 I20 T0.01"));
         break;
     #endif
+    #if ENABLED(HAS_BED_PROBE)
     case 3:
     #ifndef BED_LEVELING_COMMANDS
       #define BED_LEVELING_COMMANDS "G29"
@@ -130,6 +132,7 @@ bool LevelingMenu::onTouchEnd(uint8_t tag) {
       SpinnerDialogBox::enqueueAndWait_P(F(BED_LEVELING_COMMANDS));
     #endif
     break;
+    #endif
     #if ENABLED(AUTO_BED_LEVELING_UBL)
     case 4: BedMeshViewScreen::show(); break;
     case 5: BedMeshEditScreen::show(); break;
