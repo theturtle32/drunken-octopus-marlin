@@ -163,5 +163,5 @@ build_config custom    Redgum_TAZWorkhorseArchimTouchUSBBLTouch  E3D_Hermera
 
 vendor=SynDaver
 
-build_config standard  SynDaver_AXI                              E3D_Hermera
-build_config custom    SynDaver_AXI_2                            E3D_Hermera
+build_config standard  SynDaver_Axi                              E3D_Hermera
+build_config standard  SynDaver_Axi_2                            E3D_Hermera

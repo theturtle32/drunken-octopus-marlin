@@ -30,8 +30,8 @@ PRINTER_CHOICES = [
     "Redgum_TAZWorkhorse",
 
     # SynDaver Printers
-    "SynDaver_AXI",
-    "SynDaver_AXI_2",
+    "SynDaver_Axi",
+    "SynDaver_Axi_2",
 
     # Experimental Configurations
     "Experimental_TouchDemo",
@@ -409,7 +409,7 @@ def make_config(PRINTER, TOOLHEAD):
                 if ENABLED("BLTOUCH"):
                     USE_LESS_MEMORY                      = 2
 
-    if "SynDaver_AXI" in PRINTER:
+    if "SynDaver_Axi" in PRINTER:
         IS_TAZ                                           = True
         TAZ_BED                                          = True
         USE_TWO_PIECE_BED                                = True
@@ -435,7 +435,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = True
         MARLIN["SDSUPPORT"]                              = True
         USE_DUAL_Z_STEPPERS                              = True
-        if "SynDaver_AXI_2" in PRINTER:
+        if "SynDaver_Axi_2" in PRINTER:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Axi 2")
             MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 2 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
@@ -715,7 +715,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["Y_HOME_DIR"]                             = -1 # Home bed rear
         MARLIN["QUICK_HOME"]                             =  True
 
-    elif "Redgum_TAZWorkhorse" in PRINTER or "SynDaver_AXI" in PRINTER:
+    elif "Redgum_TAZWorkhorse" in PRINTER or "SynDaver_Axi" in PRINTER:
         MARLIN["X_HOME_DIR"]                             = -1 # Home left
         MARLIN["Y_HOME_DIR"]                             = -1 # Home bed rear
         MARLIN["QUICK_HOME"]                             =  True
@@ -1062,7 +1062,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     if not TOOLHEAD_IS_UNIVERSAL and (
         "Redgum_TAZWorkhorse" in PRINTER or
-        "SynDaver_AXI" in PRINTER or
+        "SynDaver_Axi" in PRINTER or
         "Quiver_TAZPro" in PRINTER or
         "Hibiscus_Mini2" in PRINTER
     ):
@@ -1181,7 +1181,7 @@ def make_config(PRINTER, TOOLHEAD):
     if IS_MINI:
         # Heater current: 24V/5.5 Ohms = 4.4A
         MARLIN["MAX_BED_POWER"]                          = 255
-    elif "SynDaver_AXI" in PRINTER:
+    elif "SynDaver_Axi" in PRINTER:
         # Heater current: 24V/1.6 Ohms = 15A
         # Verified that the AXI can support 100% power to the bed
         MARLIN["MAX_BED_POWER"]                          = 255
@@ -1368,7 +1368,7 @@ def make_config(PRINTER, TOOLHEAD):
         STANDARD_X_BED_SIZE                              = 280
         STANDARD_Y_BED_SIZE                              = 280
 
-    elif "SynDaver_AXI_2" in PRINTER:
+    elif "SynDaver_Axi_2" in PRINTER:
         STANDARD_X_MAX_POS                               = 288
         STANDARD_X_MIN_POS                               = -49
         STANDARD_Y_MAX_POS                               = 284
@@ -1377,7 +1377,7 @@ def make_config(PRINTER, TOOLHEAD):
         STANDARD_X_BED_SIZE                              = 280
         STANDARD_Y_BED_SIZE                              = 280
 
-    elif "SynDaver_AXI" in PRINTER:
+    elif "SynDaver_Axi" in PRINTER:
         STANDARD_X_MAX_POS                               = 288
         STANDARD_X_MIN_POS                               = -49
         STANDARD_Y_MAX_POS                               = 300
@@ -1420,11 +1420,11 @@ def make_config(PRINTER, TOOLHEAD):
         STANDARD_Z_MIN_POS                               = 0
         STANDARD_Z_MAX_POS                               = 270
 
-    elif "SynDaver_AXI_2" in PRINTER:
+    elif "SynDaver_Axi_2" in PRINTER:
         STANDARD_Z_MIN_POS                               = 0
         STANDARD_Z_MAX_POS                               = 283
 
-    elif "SynDaver_AXI" in PRINTER:
+    elif "SynDaver_Axi" in PRINTER:
         STANDARD_Z_MIN_POS                               = 0
         STANDARD_Z_MAX_POS                               = 294
 
@@ -1583,7 +1583,7 @@ def make_config(PRINTER, TOOLHEAD):
             "G28 Z0\n"                                   # Home Axis
         )
 
-    elif USE_Z_BELT and IS_TAZ and MARLIN["BLTOUCH"] and USE_ARCHIM2 and PRINTER not in ["SynDaver_AXI_2"]:
+    elif USE_Z_BELT and IS_TAZ and MARLIN["BLTOUCH"] and USE_ARCHIM2 and PRINTER not in ["SynDaver_Axi_2"]:
         # Since the printer homes to the bottom, we cannot use a home Z to auto-level
         AXIS_LEVELING_COMMANDS = (
             "G91\n"                                      # Set relative motion mode
@@ -1629,9 +1629,9 @@ def make_config(PRINTER, TOOLHEAD):
     if USE_Z_BELT:
       if IS_MINI:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING("M17 Z")
-      elif "SynDaver_AXI_2" in PRINTER:
+      elif "SynDaver_Axi_2" in PRINTER:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING("M17 Z\nG29 L1\nM280 P0 S60")
-      elif "SynDaver_AXI" in PRINTER:
+      elif "SynDaver_Axi" in PRINTER:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING("G29 L1\n" + AXIS_LEVELING_COMMANDS + "M280 P0 S60\nM117 SynDaver Axi Ready")
       else:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING(AXIS_LEVELING_COMMANDS)
@@ -1726,8 +1726,8 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["NUM_RUNOUT_SENSORS"]                     = MARLIN["EXTRUDERS"]
         if USE_TOUCH_UI:
             MARLIN["FILAMENT_RUNOUT_SCRIPT"]             = C_STRING("M25\n")
-        MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 0 if "SynDaver_AXI" in PRINTER else 14
-        if not PRINTER in ["Quiver_TAZPro", "SynDaver_AXI", "SynDaver_AXI_2"]:
+        MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 0 if "SynDaver_Axi" in PRINTER else 14
+        if not PRINTER in ["Quiver_TAZPro", "SynDaver_Axi", "SynDaver_Axi_2"]:
             MARLIN["FIL_RUNOUT_ENABLED_DEFAULT"]         = "false"
         MARLIN["ACTION_ON_FILAMENT_RUNOUT"]              = C_STRING("pause: filament_runout")
         MARLIN["TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS"]   = USE_TOUCH_UI
@@ -1955,7 +1955,7 @@ def make_config(PRINTER, TOOLHEAD):
                 LEFT_WIPE_Y2                             =  73
             else:
                 LEFT_WIPE_Y2                             =  25
-            if "SynDaver_AXI" in PRINTER:
+            if "SynDaver_Axi" in PRINTER:
                 LEFT_WIPE_Z                              =   0
             else:
                 LEFT_WIPE_Z                              =   1
@@ -2159,7 +2159,7 @@ def make_config(PRINTER, TOOLHEAD):
             MOTOR_CURRENT_Z                              = 1630 # mA
 
     elif IS_TAZ:
-        if "SynDaver_AXI_2" in PRINTER:
+        if "SynDaver_Axi_2" in PRINTER:
             # Make the Sanyo motors run quieter
             MOTOR_CURRENT_X                              = 600 # mA
             MOTOR_CURRENT_Y                              = 600 # mA
@@ -2265,9 +2265,9 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["DEFAULT_TRAVEL_ACCELERATION"]        = 500
 
         if not "NOZZLE_TO_PROBE_OFFSET" in MARLIN:
-            if "SynDaver_AXI_2" in PRINTER:
+            if "SynDaver_Axi_2" in PRINTER:
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [37.89, 38.25, -4.6]
-            elif "SynDaver_AXI" in PRINTER:
+            elif "SynDaver_Axi" in PRINTER:
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [43.5, 23.75, -2.35]
             elif MARLIN["BLTOUCH"] and "Guava_TAZ4" in PRINTER:
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [-54, 0, -4.0]
@@ -2305,7 +2305,7 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["DEFAULT_MAX_FEEDRATE"]               = [300, 300, 3, 25] # (mm/sec)
             MARLIN["DEFAULT_MAX_ACCELERATION"]           = [9000,9000,100,9000]
 
-    elif "SynDaver_AXI_2" in PRINTER:
+    elif "SynDaver_Axi_2" in PRINTER:
         Z_STEPS                                          = 100
         Z_MICROSTEPS                                     = 16
         MARLIN["DEFAULT_MAX_FEEDRATE"]                   = [300, 300, 30, 25] # (mm/sec)
