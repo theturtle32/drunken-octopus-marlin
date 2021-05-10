@@ -32,6 +32,8 @@ PRINTER_CHOICES = [
     # SynDaver Printers
     "SynDaver_Axi",
     "SynDaver_Axi_2",
+    "SynDaver_Level",
+    "SynDaver_LevelUp",
 
     # Experimental Configurations
     "Experimental_TouchDemo",
@@ -136,6 +138,7 @@ def make_config(PRINTER, TOOLHEAD):
                                                             "TAZ"      in PRINTER)
 
     USE_AUTOLEVELING                                     = False
+    USE_MANUAL_PROBING                                   = False
     USE_Z_BELT                                           = False
     USE_Z_SCREW                                          = False
     USE_NORMALLY_CLOSED_ENDSTOPS                         = False
@@ -466,6 +469,49 @@ def make_config(PRINTER, TOOLHEAD):
 
     # Unsupported or unreleased experimental configurations. Use at your own risk.
 
+    if "SynDaver_Level" in PRINTER:
+        IS_MINI                                          = True
+        MINI_BED                                         = True
+        USE_TWO_PIECE_BED                                = True
+        USE_Z_SCREW                                      = True
+        USE_AUTOLEVELING                                 = "LevelUp" in PRINTER
+        USE_MANUAL_PROBING                               = not "LevelUp" in PRINTER
+        USE_NORMALLY_CLOSED_ENDSTOPS                     = True
+        USE_MIN_ENDSTOPS                                 = True
+        USE_TOUCH_UI                                     = True
+        USE_REPRAP_LCD_DISPLAY                           = False
+        USE_ARCHIM2                                      = True
+        MARLIN["SHOW_CUSTOM_BOOTSCREEN"]                 = False
+        MARLIN["BACKLASH_COMPENSATION"]                  = False
+        MARLIN["BLTOUCH"]                                = "LevelUp" in PRINTER
+        MARLIN["ENDSTOP_INTERRUPTS_FEATURE"]             = True
+        MARLIN["SENSORLESS_HOMING"]                      = False
+        MARLIN["STEALTHCHOP_XY"]                         = False
+        MARLIN["STEALTHCHOP_E"]                          = True
+        MARLIN["BAUDRATE"]                               = 250000
+        MARLIN["PRINTCOUNTER"]                           = True
+        MARLIN["MACHINE_UUID"]                           = C_STRING("a952577d-8722-483a-999d-acdc9e772b7b")
+        MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = True
+        MARLIN["SDSUPPORT"]                              = True
+        if "SynDaver_LevelUp" in PRINTER:
+            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Level Up")
+            MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
+            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 2 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+        else:
+            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Level")
+            MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
+            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 6 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+        MARLIN["USE_UHS3_USB"]                           = False
+        MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
+        MARLIN["EMI_MITIGATION"]                         = True
+        # Touch LCD configuration
+        MARLIN["TOUCH_UI_PORTRAIT"]                      = False
+        MARLIN["TOUCH_UI_NO_BOOTSCREEN"]                 = True
+        MARLIN["TOUCH_UI_800x480"]                       = True
+        MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]               = True
+        MARLIN["TOUCH_UI_ROYAL_THEME"]                   = True
+        MARLIN["AO_EXP2_PINMAP"]                         = True
+
     if "Experimental_TouchDemo" in PRINTER:
         # Test stand with Einsy Rambo and LulzBot Touch LCD
         IS_MINI                                          = True
@@ -562,7 +608,7 @@ def make_config(PRINTER, TOOLHEAD):
     if USE_ARCHIM2:
         MARLIN["MOTHERBOARD"]                            = 'BOARD_ARCHIM2'
         MARLIN["SERIAL_PORT"]                            = -1
-        if USE_REPRAP_LCD_DISPLAY or "SynDaver_AXI" in PRINTER:
+        if USE_REPRAP_LCD_DISPLAY or "SynDaver_" in PRINTER:
             MARLIN["SERIAL_PORT_2"]                      = 0
         MARLIN["SD_SPI_SPEED"]                           = 'SPI_SIXTEENTH_SPEED'
 
@@ -1448,40 +1494,43 @@ def make_config(PRINTER, TOOLHEAD):
 
 ########################### AUTOLEVELING / BED PROBE ##########################
 
-    if USE_AUTOLEVELING or MARLIN["BLTOUCH"]:
+    if USE_AUTOLEVELING or USE_MANUAL_PROBING or MARLIN["BLTOUCH"]:
 
         MARLIN["RESTORE_LEVELING_AFTER_G28"]             = True
-        MARLIN["Z_MIN_PROBE_REPEATABILITY_TEST"]         = True
+        MARLIN["Z_MIN_PROBE_REPEATABILITY_TEST"]         = not USE_MANUAL_PROBING
 
-        if MARLIN["BLTOUCH"]:
-            # BLTouch Auto-Leveling
-            MARLIN["Z_PROBE_FEEDRATE_SLOW"]              = 5*60
-            if "Guava_TAZ4" in PRINTER:
-                MARLIN["XY_PROBE_FEEDRATE"]              = 66*60
-            else:
-                MARLIN["XY_PROBE_FEEDRATE"]              = 300*60
-            MARLIN["Z_CLEARANCE_DEPLOY_PROBE"]           = 10 if "Guava_TAZ4" in PRINTER else 15
-            MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 5
-            MARLIN["Z_SERVO_ANGLES"]                     = [10,90]
+        if MARLIN["BLTOUCH"] or USE_MANUAL_PROBING:
+            # General probing grid parameters
+            MARLIN["GRID_MAX_POINTS_X"]                  = 5
+            MARLIN["GRID_MAX_POINTS_Y"]                  = 5
+            MARLIN["UBL_HILBERT_CURVE"]                  = USE_ARCHIM2
             if USE_REPRAP_LCD_DISPLAY or USE_TOUCH_UI:
                 MARLIN["AUTO_BED_LEVELING_UBL"]          = True
             else:
                 MARLIN["AUTO_BED_LEVELING_BILINEAR"]     = True
-            MARLIN["GRID_MAX_POINTS_X"]                  = 5
-            MARLIN["GRID_MAX_POINTS_Y"]                  = 5
-            MARLIN["UBL_HILBERT_CURVE"]                  = USE_ARCHIM2
-            if "SynDaver_AXI" in PRINTER:
+            if "SynDaver_" in PRINTER:
                 MARLIN["PROBING_MARGIN"]                 = 0
                 MARLIN["MESH_INSET"]                     = 0
             else:
                 MARLIN["PROBING_MARGIN"]                 = 15
                 MARLIN["MESH_INSET"]                     = 15
-            MARLIN["PROBING_FANS_OFF"]                   = True
-            MARLIN["PROBING_STEPPERS_OFF"]               = True
-            GOTO_1ST_PROBE_POINT                         = ""
-
-            MARLIN["BED_LEVELING_COMMANDS"]              = C_STRING("G28 O\nG29 P1 X0 Y0\nG29 S1")
-
+            # BLTouch automatic probing
+            if MARLIN["BLTOUCH"]:
+                # BLTouch Auto-Leveling
+                MARLIN["Z_PROBE_FEEDRATE_SLOW"]              = 5*60
+                if "Guava_TAZ4" in PRINTER:
+                    MARLIN["XY_PROBE_FEEDRATE"]              = 66*60
+                else:
+                    MARLIN["XY_PROBE_FEEDRATE"]              = 300*60
+                MARLIN["Z_CLEARANCE_DEPLOY_PROBE"]           = 10 if "Guava_TAZ4" in PRINTER else 15
+                MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 5
+                MARLIN["Z_SERVO_ANGLES"]                     = [10,90]
+                MARLIN["PROBING_FANS_OFF"]                   = True
+                MARLIN["PROBING_STEPPERS_OFF"]               = True
+                GOTO_1ST_PROBE_POINT                         = ""
+                MARLIN["BED_LEVELING_COMMANDS"]              = C_STRING("G28 O\nG29 P1 X0 Y0\nG29 S1")
+            else:
+                MARLIN["PROBE_MANUALLY"]                     = True
         else:
             # Conductive Probing
 
