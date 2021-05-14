@@ -481,6 +481,7 @@ def make_config(PRINTER, TOOLHEAD):
         USE_TOUCH_UI                                     = True
         USE_REPRAP_LCD_DISPLAY                           = False
         USE_ARCHIM2                                      = True
+        MARLIN["TOUCH_UI_SYNDAVER_LEVEL"]                = True
         MARLIN["SHOW_CUSTOM_BOOTSCREEN"]                 = False
         MARLIN["BACKLASH_COMPENSATION"]                  = False
         MARLIN["BLTOUCH"]                                = "LevelUp" in PRINTER

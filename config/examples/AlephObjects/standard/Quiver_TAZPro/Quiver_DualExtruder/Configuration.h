@@ -2753,6 +2753,7 @@
 #define G26_IN_START_GCODE_WORKAROUND // <-- changed
 #define USB_DEVICE_VENDOR_ID 0x27b1 // <-- changed
 #define USB_DEVICE_PRODUCT_ID 0x0001 // <-- changed
+//#define TOUCH_UI_SYNDAVER_LEVEL
 //#define TOUCH_UI_NO_BOOTSCREEN
 //#define TOUCH_UI_ROYAL_THEME
 //#define TOUCH_UI_VERSION
