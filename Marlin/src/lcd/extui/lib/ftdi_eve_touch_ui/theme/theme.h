@@ -23,6 +23,10 @@
 #pragma once
 
 #include "bitmaps.h"
-#include "colors.h"
+#if ENABLED(TOUCH_UI_SYNDAVER_LEVEL)
+  #include "../screens/syndaver_level/colors.h"
+#else
+  #include "colors.h"
+#endif
 #include "fonts.h"
 #include "sounds.h"

@@ -154,6 +154,12 @@ enum {
   #include "cocoa_press_move_e_screen.h"
   #include "tune_menu.h"
 
+#elif ENABLED(TOUCH_UI_SYNDAVER_LEVEL)
+  #include "syndaver_level/status_screen.h"
+  #include "tune_menu.h"
+  #include "main_menu.h"
+  #include "advanced_settings_menu.h"
+
 #else
   #include "status_screen.h"
   #include "main_menu.h"

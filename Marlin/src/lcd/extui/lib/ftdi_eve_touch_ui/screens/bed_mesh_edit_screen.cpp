@@ -121,8 +121,9 @@ bool BedMeshEditScreen::changeHighlightedValue(uint8_t tag) {
 void BedMeshEditScreen::drawHighlightedPointValue() {
   CommandProcessor cmd;
   cmd.font(Theme::font_medium)
-     .colors(normal_btn)
+     .cmd(COLOR_RGB(bg_text_enabled))
      .text(Z_LABEL_POS, GET_TEXT_F(MSG_MESH_EDIT_Z))
+     .colors(normal_btn)
      .font(font_small);
   if(mydata.highlight.x != NONE)
     draw_adjuster(cmd, Z_VALUE_POS, 3, getHighlightedValue(), GET_TEXT_F(MSG_UNITS_MM), 4, 3);
