@@ -47,15 +47,16 @@
   #define MARGIN_DEFAULT   3
 #endif
 
-// EDGE_R adds some black space on the right edge of the display
-// This shifts some of the screens left to visually center them.
-
+// The EDGE variables adds some space on the edges of the display
+#define EDGE_T           0
+#define EDGE_B           0
+#define EDGE_L           0
 #define EDGE_R           0
 
 // GRID_X and GRID_Y computes the positions of the divisions on
 // the layout grid.
-#define GRID_X(x)        ((x)*(FTDI::display_width-EDGE_R)/GRID_COLS)
-#define GRID_Y(y)        ((y)*FTDI::display_height/GRID_ROWS)
+#define GRID_X(x)        ((x)*(FTDI::display_width-EDGE_R-EDGE_L)/GRID_COLS+EDGE_L)
+#define GRID_Y(y)        ((y)*(FTDI::display_height-EDGE_B-EDGE_T)/GRID_ROWS+EDGE_T)
 
 // BTN_X, BTN_Y, BTN_W and BTN_X returns the top-left and width
 // and height of a button, taking into account the button margins.
