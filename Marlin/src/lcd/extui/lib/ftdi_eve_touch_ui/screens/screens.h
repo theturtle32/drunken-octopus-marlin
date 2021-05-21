@@ -155,8 +155,9 @@ enum {
   #include "tune_menu.h"
 
 #elif ENABLED(TOUCH_UI_SYNDAVER_LEVEL)
+  #include "syndaver_level/syn_level_base.h"
   #include "syndaver_level/status_screen.h"
-  #include "tune_menu.h"
+  #include "syndaver_level/tune_menu.h"
   #include "main_menu.h"
   #include "advanced_settings_menu.h"
 
