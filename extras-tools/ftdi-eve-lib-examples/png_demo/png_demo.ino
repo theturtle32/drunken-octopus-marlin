@@ -75,8 +75,15 @@ class MainScreen : public UIScreen, public UncachedScreen {
          .execute();
       send_buffer(cmd, data, len);
       cmd.wait();
-      Serial.print("Inflate CRC ");
-      Serial.println(cmd.memcrc(0,len));
+      //Serial.print("Inflate CRC ");
+      //Serial.println(cmd.memcrc(0,23172));
+
+      cmd.cmd (BITMAP_SOURCE(0))
+         .bitmap_layout(RGB565, 480*2, 272)
+         .bitmap_size(BILINEAR, BORDER, BORDER, 480, 272)
+         .cmd(BEGIN(BITMAPS))
+         .cmd(VERTEX2II(0, 0, 0, 0))
+         .execute();
     }
  
     static void onRedraw(draw_mode_t what) {
@@ -87,8 +94,8 @@ class MainScreen : public UIScreen, public UncachedScreen {
          .font(30)
          .text(0, 0, display_width, display_height, F("The quick brown fox jumps over the lazy fox"))
          .cmd(COLOR_RGB(0xFFFFFF));
-      draw_background(cmd, screen1, sizeof(screen1));
-      //inflate_background(cmd, screen3, sizeof(screen3));
+      //draw_background(cmd, screen1, sizeof(screen1));
+      inflate_background(cmd, screen3, sizeof(screen3));
     }
 };
 
