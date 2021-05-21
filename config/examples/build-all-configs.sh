@@ -100,7 +100,6 @@ build_config custom    Juniper_TAZ5BLTouch                       Tilapia_SingleE
 build_config custom    Juniper_TAZ5BLTouch                       Angelfish_Aerostruder
 build_config custom    Juniper_TAZ5ArchimBLTouch                 Tilapia_SingleExtruder
 build_config custom    Juniper_TAZ5ArchimBLTouch                 Angelfish_Aerostruder
-build_config custom    Juniper_TAZ5ArchimBLTouchHallEffect       Angelfish_Aerostruder
 
 build_config standard  Oliveoil_TAZ6                             Tilapia_SingleExtruder
 build_config accessory Oliveoil_TAZ6                             Angelfish_Aerostruder
