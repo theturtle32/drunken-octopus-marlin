@@ -166,5 +166,5 @@ vendor=SynDaver
 
 build_config standard  SynDaver_Axi                              E3D_Hermera
 build_config standard  SynDaver_Axi_2                            E3D_Hermera
-build_config custom    SynDaver_Level                            E3D_Hermera
-build_config custom    SynDaver_LevelUp                          E3D_Hermera
+build_config custom    SynDaver_Level                            SynDaver_Level
+build_config custom    SynDaver_LevelUp                          SynDaver_Level

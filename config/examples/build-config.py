@@ -60,7 +60,8 @@ TOOLHEAD_CHOICES = [
     "Quiver_DualExtruder",
     "KangarooPaw_SingleExtruder",
     "Lutefisk_M175",
-    "E3D_Hermera"
+    "E3D_Hermera",
+    "SynDaver_Level"
 ]
 
 usage = (
@@ -481,10 +482,10 @@ def make_config(PRINTER, TOOLHEAD):
         USE_TOUCH_UI                                     = True
         USE_REPRAP_LCD_DISPLAY                           = False
         USE_ARCHIM2                                      = True
-        MARLIN["TOUCH_UI_SYNDAVER_LEVEL"]                = True
+        MARLIN["TOUCH_UI_SYNDAVER_LEVEL"]                = False
         MARLIN["SHOW_CUSTOM_BOOTSCREEN"]                 = False
         MARLIN["BACKLASH_COMPENSATION"]                  = False
-        MARLIN["BLTOUCH"]                                = "LevelUp" in PRINTER
+        MARLIN["BLTOUCH"]                                = False
         MARLIN["ENDSTOP_INTERRUPTS_FEATURE"]             = True
         MARLIN["SENSORLESS_HOMING"]                      = False
         MARLIN["STEALTHCHOP_XY"]                         = False
@@ -506,6 +507,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
         MARLIN["EMI_MITIGATION"]                         = True
         # Touch LCD configuration
+        MARLIN["TOUCH_UI_DEBUG"]                         = True
         MARLIN["TOUCH_UI_PORTRAIT"]                      = False
         MARLIN["TOUCH_UI_NO_BOOTSCREEN"]                 = True
         MARLIN["TOUCH_UI_800x480"]                       = True
@@ -694,7 +696,15 @@ def make_config(PRINTER, TOOLHEAD):
         # The Mini and TAZ Pro lack a home button and probe using the Z_MIN pin.
         MARLIN["Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN"]     = True
 
-    if USE_BTT_002 and IS_MINI:
+    if "SynDaver_Level" in PRINTER:
+        MARLIN["USE_XMIN_PLUG"]                              = True
+        MARLIN["USE_YMIN_PLUG"]                              = False
+        MARLIN["USE_ZMIN_PLUG"]                              = True
+
+        MARLIN["USE_XMAX_PLUG"]                              = False
+        MARLIN["USE_YMAX_PLUG"]                              = True
+        MARLIN["USE_ZMAX_PLUG"]                              = True
+    elif USE_BTT_002 and IS_MINI:
         MARLIN["USE_XMIN_PLUG"]                              = True
         MARLIN["USE_YMIN_PLUG"]                              = False
         MARLIN["USE_ZMIN_PLUG"]                              = False
@@ -772,7 +782,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["Y_HOME_DIR"]                             =  1 # Home bed forward
         MARLIN["QUICK_HOME"]                             =  True
 
-    if USE_HOME_BUTTON or MARLIN["BLTOUCH"] or "Juniper_TAZ5" in PRINTER or "Guava_TAZ4" in PRINTER:
+    if USE_HOME_BUTTON or MARLIN["BLTOUCH"] or "Juniper_TAZ5" in PRINTER or "Guava_TAZ4" in PRINTER or "SynDaver_Level" in PRINTER:
         MARLIN["Z_HOME_DIR"]                             = -1 # Home towards bed
     else:
         MARLIN["Z_HOME_DIR"]                             = 1 # Home to top
@@ -789,7 +799,7 @@ def make_config(PRINTER, TOOLHEAD):
     elif TAZ_BED and USE_Z_SCREW:
         MARLIN["HOMING_FEEDRATE_MM_M"]                   = [50*60,50*60,3*60]  # mm/m
 
-    if MARLIN["BLTOUCH"]:
+    if MARLIN["BLTOUCH"] or "SynDaver_Level" in PRINTER:
         MARLIN["Z_SAFE_HOMING"]                          = True
     elif USE_HOME_BUTTON:
         # Only the TAZ 6 has a Z-homing button
@@ -814,9 +824,8 @@ def make_config(PRINTER, TOOLHEAD):
        # On a TAZ, we need to raise the print head after homing to clear the button
        MARLIN["HOMING_BACKOFF_POST_MM"]                  = [5, 5, 16 if USE_HOME_BUTTON else 2]
 
-    # Enable NO_MOTION_BEFORE_HOMING on newer printers that have no MAX endstops,
-    # but leave TAZ4/5 as is so we don't introduce a change for those users.
-    if not USE_MAX_ENDSTOPS and not "Juniper_TAZ5" in PRINTER and not "Guava_TAZ4":
+    # Enable NO_MOTION_BEFORE_HOMING on newer printers that have no MAX endstops
+    if not USE_MAX_ENDSTOPS:
         MARLIN["NO_MOTION_BEFORE_HOMING"]                = True
 
     # If the printer uses dual Z endstops for X axis leveling,
@@ -1173,6 +1182,16 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 1.75
 
+    if TOOLHEAD in ["SynDaver_Level"]:
+        TOOLHEAD_TYPE                                    = "Hermera"
+        TOOLHEAD_BLOCK                                   = "E3D_Hermera_V6"
+        E_STEPS                                          = 136
+        MOTOR_CURRENT_E                                  = 960 # mA
+        MARLIN["TOOLHEAD_NAME"]                          = C_STRING("E3D Hermera")
+        #         16 chars max                                       ^^^^^^^^^^^^^^^
+        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 1.75
+
 ############################# TEMPERATURE SETTINGS ############################
 
     if ENABLED("LULZBOT_DISABLE_TOOLHEAD_HEATER"):
@@ -1379,6 +1398,15 @@ def make_config(PRINTER, TOOLHEAD):
         STANDARD_X_BED_SIZE                              = 155.8
         STANDARD_Y_BED_SIZE                              = 155.8
 
+    elif "SynDaver_Level" in PRINTER:
+        STANDARD_X_MAX_POS                               = 170
+        STANDARD_X_MIN_POS                               = -20
+        STANDARD_Y_MAX_POS                               = 187
+        STANDARD_Y_MIN_POS                               =  -1
+
+        STANDARD_X_BED_SIZE                              = 155.8
+        STANDARD_Y_BED_SIZE                              = 155.8
+
     elif IS_MINI and USE_Z_SCREW:
         STANDARD_X_MAX_POS                               = 165.8
         STANDARD_X_MIN_POS                               =   0.0
@@ -1451,7 +1479,11 @@ def make_config(PRINTER, TOOLHEAD):
         STANDARD_X_BED_SIZE                              = 281.4
         STANDARD_Y_BED_SIZE                              = 281.4
 
-    if IS_MINI and USE_Z_SCREW:
+    if "SynDaver_Level" in PRINTER:
+        STANDARD_Z_MIN_POS                               = 0
+        STANDARD_Z_MAX_POS                               = 180
+
+    elif IS_MINI and USE_Z_SCREW:
         STANDARD_Z_MIN_POS                               = -5
         STANDARD_Z_MAX_POS                               = 159
 
@@ -1776,8 +1808,8 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["NUM_RUNOUT_SENSORS"]                     = MARLIN["EXTRUDERS"]
         if USE_TOUCH_UI:
             MARLIN["FILAMENT_RUNOUT_SCRIPT"]             = C_STRING("M25\n")
-        MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 0 if "SynDaver_Axi" in PRINTER else 14
-        if not PRINTER in ["Quiver_TAZPro", "SynDaver_Axi", "SynDaver_Axi_2"]:
+        MARLIN["FILAMENT_RUNOUT_DISTANCE_MM"]            = 0 if "SynDaver" in PRINTER else 14
+        if not PRINTER in ["Quiver_TAZPro", "SynDaver_Axi", "SynDaver_Axi_2", "SynDaver_Level", "SynDaver_LevelUp"]:
             MARLIN["FIL_RUNOUT_ENABLED_DEFAULT"]         = "false"
         MARLIN["ACTION_ON_FILAMENT_RUNOUT"]              = C_STRING("pause: filament_runout")
         MARLIN["TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS"]   = USE_TOUCH_UI
@@ -2197,7 +2229,12 @@ def make_config(PRINTER, TOOLHEAD):
     # Values for XYZ vary by printer model, values for E vary by toolhead.
 
     if IS_MINI:
-        if USE_Z_BELT or USE_EINSY_RETRO or USE_EINSY_RAMBO:
+        if "SynDaver_Level" in PRINTER:
+            # Make the Sanyo motors run quieter
+            MOTOR_CURRENT_X                              = 600 # mA
+            MOTOR_CURRENT_Y                              = 600 # mA
+            MOTOR_CURRENT_Z                              = 1000 # mA
+        elif USE_Z_BELT or USE_EINSY_RETRO or USE_EINSY_RAMBO:
             # These values specify the maximum current, but actual
             # currents may be lower when used with COOLCONF
             MOTOR_CURRENT_X                              = 920 # mA
