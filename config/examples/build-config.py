@@ -799,7 +799,11 @@ def make_config(PRINTER, TOOLHEAD):
     elif TAZ_BED and USE_Z_SCREW:
         MARLIN["HOMING_FEEDRATE_MM_M"]                   = [50*60,50*60,3*60]  # mm/m
 
-    if MARLIN["BLTOUCH"] or "SynDaver_Level" in PRINTER:
+    if "SynDaver_Level" in PRINTER:
+        MARLIN["Z_SAFE_HOMING"]                          = True
+        MARLIN["Z_SAFE_HOMING_X_POINT"]                  = 90
+        MARLIN["Z_SAFE_HOMING_Y_POINT"]                  = 185
+    elif MARLIN["BLTOUCH"]:
         MARLIN["Z_SAFE_HOMING"]                          = True
     elif USE_HOME_BUTTON:
         # Only the TAZ 6 has a Z-homing button
@@ -1986,7 +1990,9 @@ def make_config(PRINTER, TOOLHEAD):
     MARLIN["NOZZLE_PARK_POINT"]                          = [ 10 if IS_MINI else 100, MARLIN["Y_MAX_POS"] - 10, 20 ]
 
     if MARLIN["SDSUPPORT"]:
-        if IS_MINI:
+        if "SynDaver_Level" in PRINTER:
+            EVENT_GCODE_SD_ABORT = "G91\nG0 Z5 F3000\nG90\nG0 X90 Y185"
+        elif IS_MINI:
             EVENT_GCODE_SD_ABORT = "G28 Z\nG0 X80 Y190 F3000"
 
         elif "Juniper_TAZ5" in PRINTER or "Guava_TAZ4" in PRINTER:
