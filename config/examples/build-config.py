@@ -140,6 +140,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     USE_AUTOLEVELING                                     = False
     USE_MANUAL_PROBING                                   = False
+    USE_INDUCTIVE_PROBE                                  = False
     USE_GRID_PROBING                                     = "BLTouch" in PRINTER or "SynDaver_Level" in PRINTER
     USE_Z_BELT                                           = False
     USE_Z_SCREW                                          = False
@@ -477,7 +478,8 @@ def make_config(PRINTER, TOOLHEAD):
         USE_TWO_PIECE_BED                                = True
         USE_Z_SCREW                                      = True
         USE_AUTOLEVELING                                 = "LevelUp" in PRINTER
-        USE_MANUAL_PROBING                               = not "LevelUp" in PRINTER
+        USE_MANUAL_PROBING                               = PRINTER == "SynDaver_Level"
+        USE_INDUCTIVE_PROBE                              = PRINTER == "SynDaver_LevelUp"
         USE_NORMALLY_CLOSED_ENDSTOPS                     = True
         USE_MIN_ENDSTOPS                                 = True
         USE_TOUCH_UI                                     = True
@@ -1553,7 +1555,8 @@ def make_config(PRINTER, TOOLHEAD):
                 MARLIN["PROBING_MARGIN"]                 = 15
                 MARLIN["MESH_INSET"]                     = 15
             # BLTouch automatic probing
-            if MARLIN["BLTOUCH"]:
+            GOTO_1ST_PROBE_POINT                         = ""
+            if MARLIN["BLTOUCH"] or USE_INDUCTIVE_PROBE:
                 # BLTouch Auto-Leveling
                 MARLIN["Z_PROBE_FEEDRATE_SLOW"]              = 5*60
                 if "Guava_TAZ4" in PRINTER:
@@ -1565,7 +1568,6 @@ def make_config(PRINTER, TOOLHEAD):
                 MARLIN["Z_SERVO_ANGLES"]                     = [10,90]
                 MARLIN["PROBING_FANS_OFF"]                   = True
                 MARLIN["PROBING_STEPPERS_OFF"]               = True
-                GOTO_1ST_PROBE_POINT                         = ""
                 MARLIN["BED_LEVELING_COMMANDS"]              = C_STRING("G28 O\nG29 P1 X0 Y0\nG29 S1")
             else:
                 MARLIN["PROBE_MANUALLY"]                     = True
