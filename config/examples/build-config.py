@@ -140,6 +140,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     USE_AUTOLEVELING                                     = False
     USE_MANUAL_PROBING                                   = False
+    USE_GRID_PROBING                                     = "BLTouch" in PRINTER or "SynDaver_Level" in PRINTER
     USE_Z_BELT                                           = False
     USE_Z_SCREW                                          = False
     USE_NORMALLY_CLOSED_ENDSTOPS                         = False
@@ -1531,12 +1532,12 @@ def make_config(PRINTER, TOOLHEAD):
 
 ########################### AUTOLEVELING / BED PROBE ##########################
 
-    if USE_AUTOLEVELING or USE_MANUAL_PROBING or MARLIN["BLTOUCH"]:
+    if USE_AUTOLEVELING or USE_GRID_PROBING or USE_MANUAL_PROBING:
 
         MARLIN["RESTORE_LEVELING_AFTER_G28"]             = True
         MARLIN["Z_MIN_PROBE_REPEATABILITY_TEST"]         = not USE_MANUAL_PROBING
 
-        if MARLIN["BLTOUCH"] or USE_MANUAL_PROBING:
+        if USE_GRID_PROBING:
             # General probing grid parameters
             MARLIN["GRID_MAX_POINTS_X"]                  = 5
             MARLIN["GRID_MAX_POINTS_Y"]                  = 5
