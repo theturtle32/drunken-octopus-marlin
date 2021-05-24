@@ -75,10 +75,7 @@ class MainScreen : public UIScreen, public UncachedScreen {
          .execute();
       send_buffer(cmd, data, len);
       cmd.wait();
-      //Serial.print("Inflate CRC ");
-      //Serial.println(cmd.memcrc(0,23172));
-
-      cmd.cmd (BITMAP_SOURCE(0))
+      cmd.cmd(BITMAP_SOURCE(0))
          .bitmap_layout(RGB565, 480*2, 272)
          .bitmap_size(BILINEAR, BORDER, BORDER, 480, 272)
          .cmd(BEGIN(BITMAPS))
