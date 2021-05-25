@@ -112,7 +112,7 @@ LulzBot printers.'''
 #  33. LCD OPTIONS
 
 def C_STRING(str):
-    return '"' + str.strip().replace('\n','\\n') + '"'
+    return '"' + str.strip("\n").replace('\n','\\n') + '"'
 
 def make_config(PRINTER, TOOLHEAD):
     MARLIN = {}
@@ -250,6 +250,9 @@ def make_config(PRINTER, TOOLHEAD):
         USE_EXPERIMENTAL_FEATURES                        = True
         PROBE_STYLE                                      = "None"
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ 4")
+        if USE_ARCHIM2:
+            # Must use 12 character USB product name to prevent board lockups
+            MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("TAZ 4       ")
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["MACHINE_UUID"]                           = C_STRING("c3255c96-4097-4884-8ed0-ded2ff9bae61")
@@ -270,6 +273,9 @@ def make_config(PRINTER, TOOLHEAD):
         USE_EXPERIMENTAL_FEATURES                        = True
         PROBE_STYLE                                      = "None"
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ 5")
+        if USE_ARCHIM2:
+            # Must use 12 character USB product name to prevent board lockups
+            MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("TAZ 5       ")
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["MACHINE_UUID"]                           = C_STRING("c3255c96-4097-4884-8ed0-ded2ff9bae61")
@@ -291,6 +297,9 @@ def make_config(PRINTER, TOOLHEAD):
         USE_MAX_ENDSTOPS                                 = True
         USE_HOME_BUTTON                                  = False if PROBE_STYLE == "BLTouch" else True
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ 6")
+        if USE_ARCHIM2:
+            # Must use 12 character USB product name to prevent board lockups
+            MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("TAZ 6       ")
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["ENDSTOPS_ALWAYS_ON_DEFAULT"]             = True
         MARLIN["BAUDRATE"]                               = 250000
@@ -357,6 +366,9 @@ def make_config(PRINTER, TOOLHEAD):
         USE_ARCHIM2                                      = True
         USE_EXPERIMENTAL_FEATURES                        = True
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ Pro")
+        if USE_ARCHIM2:
+            # Must use 12 character USB product name to prevent board lockups
+            MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("TAZ Pro     ")
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["SENSORLESS_HOMING"]                      = True
         MARLIN["STEALTHCHOP_XY"]                         = False
@@ -389,6 +401,9 @@ def make_config(PRINTER, TOOLHEAD):
         USE_DUAL_Z_ENDSTOPS                              = True
         USE_EXPERIMENTAL_FEATURES                        = True
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ Workhorse Edition")
+        if USE_ARCHIM2:
+            # Must use 12 character USB product name to prevent board lockups
+            MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("TAZWorkhorse")
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["PRINTCOUNTER"]                           = True
@@ -441,6 +456,8 @@ def make_config(PRINTER, TOOLHEAD):
         USE_DUAL_Z_STEPPERS                              = True
         if "SynDaver_Axi_2" in PRINTER:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Axi 2")
+            # Must use 12 character USB product name to prevent board lockups
+            MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("SynDaverAxi2")
             MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 2 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["USE_ELECTROMAGNETIC_BRAKE"]          = True
@@ -449,6 +466,8 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["HYBRID_THRESHOLD"]                   = False
         else:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Axi")
+            # Must use 12 character USB product name to prevent board lockups
+            MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("SynDaver Axi")
             MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 6 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["Z2_PRESENCE_CHECK"]                  = True
@@ -496,11 +515,15 @@ def make_config(PRINTER, TOOLHEAD):
         if "SynDaver_LevelUp" in PRINTER:
             PROBE_STYLE                                  = "Inductive"
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Level Up")
+            # Must use 12 character USB product name to prevent board lockups
+            MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("SynDaverLvlU")
             MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 2 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
         else:
             PROBE_STYLE                                  = "Manual"
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Level")
+            # Must use 12 character USB product name to prevent board lockups
+            MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("SynDaver Lvl")
             MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 6 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
         MARLIN["USE_UHS3_USB"]                           = False
