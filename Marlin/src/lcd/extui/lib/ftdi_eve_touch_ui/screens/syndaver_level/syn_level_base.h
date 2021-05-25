@@ -1,10 +1,9 @@
-/***********
- * theme.h *
- ***********/
+/***********************************
+ * syndaver_level/syn_level_base.h *
+ ***********************************/
 
 /****************************************************************************
- *   Written By Mark Pelletier  2017 - Aleph Objects, Inc.                  *
- *   Written By Marcio Teixeira 2018 - Aleph Objects, Inc.                  *
+ *   Written By Marcio Teixeira 2021 - SynDaver Labs, Inc.                  *
  *                                                                          *
  *   This program is free software: you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published by   *
@@ -22,11 +21,22 @@
 
 #pragma once
 
-#include "bitmaps.h"
-#if ENABLED(TOUCH_UI_SYNDAVER_LEVEL)
-  #include "../screens/syndaver_level/colors.h"
-#else
-  #include "colors.h"
-#endif
-#include "fonts.h"
-#include "sounds.h"
+#define SYNDAVER_LEVEL_BASE
+
+class SynLevelBase : public BaseScreen {
+  private:
+    static void _format_time(char *outstr, uint32_t time);  
+  protected:
+    static void send_buffer(CommandProcessor &cmd, const void *data, uint16_t len);
+    static void load_background(const void *data, uint16_t len);
+
+    static void draw_progress(CommandProcessor &, draw_mode_t);
+    static void draw_fan(CommandProcessor &, draw_mode_t);
+    static void draw_temperatures(CommandProcessor &, draw_mode_t);
+    static void draw_title(CommandProcessor &, const char * const);
+    static void draw_title(CommandProcessor &, progmem_str message);
+    static void draw_background(CommandProcessor &cmd);
+    static void restore_bitmaps(CommandProcessor &);
+  public:
+    static void loadBitmaps();
+};

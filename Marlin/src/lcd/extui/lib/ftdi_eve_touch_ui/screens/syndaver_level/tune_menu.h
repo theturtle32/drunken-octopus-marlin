@@ -1,10 +1,9 @@
-/***********
- * theme.h *
- ***********/
+/******************************
+ * syndaver_level/tune_menu.h *
+ ******************************/
 
 /****************************************************************************
- *   Written By Mark Pelletier  2017 - Aleph Objects, Inc.                  *
- *   Written By Marcio Teixeira 2018 - Aleph Objects, Inc.                  *
+ *   Written By Marcio Teixeira 2021 - SynDaver Labs, Inc.                  *
  *                                                                          *
  *   This program is free software: you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published by   *
@@ -22,11 +21,15 @@
 
 #pragma once
 
-#include "bitmaps.h"
-#if ENABLED(TOUCH_UI_SYNDAVER_LEVEL)
-  #include "../screens/syndaver_level/colors.h"
-#else
-  #include "colors.h"
-#endif
-#include "fonts.h"
-#include "sounds.h"
+#define SYNDAVER_LEVEL_TUNE_MENU
+#define SYNDAVER_LEVEL_TUNE_MENU_CLASS TuneMenu
+
+class TuneMenu : public SynLevelBase, public CachedScreen<TUNE_SCREEN_CACHE> {
+  private:
+    static void pausePrint();
+    static void resumePrint();
+    static void draw_buttons(CommandProcessor &, draw_mode_t what);
+  public:
+    static void onRedraw(draw_mode_t);
+    static bool onTouchEnd(uint8_t tag);
+};

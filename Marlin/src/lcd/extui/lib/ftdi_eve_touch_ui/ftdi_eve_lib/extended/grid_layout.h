@@ -48,6 +48,7 @@
 #endif
 
 // The EDGE variables adds some space on the edges of the display
+
 #define EDGE_T           0
 #define EDGE_B           0
 #define EDGE_L           0
@@ -63,8 +64,8 @@
 
 #define BTN_X(x)         (GRID_X((x)-1) + MARGIN_L)
 #define BTN_Y(y)         (GRID_Y((y)-1) + MARGIN_T)
-#define BTN_W(w)         (GRID_X(w)   - MARGIN_L - MARGIN_R)
-#define BTN_H(h)         (GRID_Y(h)   - MARGIN_T - MARGIN_B)
+#define BTN_W(w)         (GRID_X(w) - GRID_X(0) - MARGIN_L - MARGIN_R)
+#define BTN_H(h)         (GRID_Y(h) - GRID_Y(0) - MARGIN_T - MARGIN_B)
 
 // Abbreviations for common phrases, to allow a button to be
 // defined in one line of source.

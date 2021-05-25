@@ -1,10 +1,9 @@
-/***********
- * theme.h *
- ***********/
+/**********************************
+ * syndaver_level/status_screen.h *
+ **********************************/
 
 /****************************************************************************
- *   Written By Mark Pelletier  2017 - Aleph Objects, Inc.                  *
- *   Written By Marcio Teixeira 2018 - Aleph Objects, Inc.                  *
+ *   Written By Marcio Teixeira 2021 - SynDaver Labs, Inc.                  *
  *                                                                          *
  *   This program is free software: you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published by   *
@@ -22,11 +21,16 @@
 
 #pragma once
 
-#include "bitmaps.h"
-#if ENABLED(TOUCH_UI_SYNDAVER_LEVEL)
-  #include "../screens/syndaver_level/colors.h"
-#else
-  #include "colors.h"
-#endif
-#include "fonts.h"
-#include "sounds.h"
+#define SYNDAVER_LEVEL_STATUS_SCREEN
+#define SYNDAVER_LEVEL_STATUS_SCREEN_CLASS StatusScreen
+
+class StatusScreen : public SynLevelBase, public CachedScreen<STATUS_SCREEN_CACHE,STATUS_SCREEN_DL_SIZE> {
+  public:
+    static void setStatusMessage(const char *);
+    static void setStatusMessage(progmem_str);
+    static void onRedraw(draw_mode_t);
+    static void onEntry();
+    static void onStartup();
+    static void onIdle();
+    static bool onTouchEnd(uint8_t tag);
+};
