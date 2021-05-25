@@ -43,14 +43,15 @@ void StatusScreen::onStartup() {
   UIFlashStorage::initialize();
 }
 
+void StatusScreen::onEntry() {
+  SynLevelBase::load_background(status_screen, sizeof(status_screen));
+}
+
 void StatusScreen::onRedraw(draw_mode_t what) {
   if (what & FOREGROUND) {
     const bool has_media = isMediaInserted() && !isPrintingFromMedia();
 
     CommandProcessor cmd;
-    SynLevelBase::draw_background(cmd, status_screen, sizeof(status_screen));
-    
-    /*CommandProcessor cmd;
     cmd.colors(normal_btn)
        .font(Theme::font_medium)
        .enabled(has_media && !isPrinting())
@@ -60,7 +61,7 @@ void StatusScreen::onRedraw(draw_mode_t what) {
        .tag(4).button(SETTINGS_POS, F("Settings"));
     SynLevelBase::draw_temperatures(cmd, FOREGROUND);
     SynLevelBase::draw_fan(cmd, FOREGROUND);
-    SynLevelBase::draw_progress(cmd, FOREGROUND);*/
+    SynLevelBase::draw_progress(cmd, FOREGROUND);
   }
 }
 
@@ -81,15 +82,15 @@ void StatusScreen::setStatusMessage(const char *message) {
   CommandProcessor cmd;
   cmd.cmd(CMD_DLSTART)
      .cmd(CLEAR_COLOR_RGB(bg_color))
-     .cmd(CLEAR(true,true,true))
-     .cmd(COLOR_RGB(bg_text_enabled));
+     .cmd(CLEAR(true,true,true));
 
-  //SynLevelBase::draw_background(cmd, status_screen, sizeof(status_screen));
-  /*SynLevelBase::draw_title(cmd, message);
+  SynLevelBase::draw_background(cmd);
+  cmd.cmd(COLOR_RGB(bg_text_enabled));
+  SynLevelBase::draw_title(cmd, message);
   SynLevelBase::draw_progress(cmd, BACKGROUND);
   SynLevelBase::draw_fan(cmd, BACKGROUND);
   SynLevelBase::draw_temperatures(cmd, BACKGROUND);
-  SynLevelBase::restore_bitmaps(cmd);*/
+  SynLevelBase::restore_bitmaps(cmd);
 
   storeBackground();
 

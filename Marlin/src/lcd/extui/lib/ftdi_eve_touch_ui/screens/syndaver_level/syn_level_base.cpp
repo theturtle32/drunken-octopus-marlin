@@ -30,6 +30,12 @@ using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
 
+// Format for background image
+
+constexpr uint8_t  format   = RGB332;
+constexpr uint16_t bitmap_w = 480;
+constexpr uint16_t bitmap_h = 272;
+
 #define _ICON_POS(x,y,w,h) x, y, w/4, h
 #define _TEXT_POS(x,y,w,h) x + w/4, y, w - w/4, h
 #define ICON_POS(pos) _ICON_POS(pos)
@@ -128,21 +134,14 @@ void SynLevelBase::loadBitmaps() {
   #endif
 }
 
-void SynLevelBase::draw_background(CommandProcessor &cmd, const void *data, uint16_t len) {
+void SynLevelBase::send_buffer(CommandProcessor &cmd, const void *data, uint16_t len) {
   const char *ptr = (const char*) data;
-  constexpr uint16_t block_size = 128;
+  constexpr uint16_t block_size = 512;
   char               block[block_size];
-  SERIAL_ECHOLNPAIR("Writing image", len);
-  cmd.loadimage(BACKGROUND_OFFSET,0)
-     .execute();
-  for(;;) {
+  for(;len > 0;) {
     const uint16_t nBytes = min(len, block_size);
     memcpy_P(block, ptr, nBytes);
-    SERIAL_ECHOLNPAIR("Writing block", nBytes);
-    ptr += nBytes;
-    len -= nBytes;
-    if(!len) break;
-    cmd.write((const void*)block, nBytes);
+    cmd.write((void*)block, nBytes);
     cmd.execute();
     if(cmd.has_fault()) {
       SERIAL_ECHOLNPGM("Recovering from fault: ");
@@ -150,14 +149,42 @@ void SynLevelBase::draw_background(CommandProcessor &cmd, const void *data, uint
       delay(1000);
       return;
     }
+    ptr += nBytes;
+    len -= nBytes;
   }
-  SERIAL_ECHOLNPGM("Writing image finished");
-  cmd.cmd(BEGIN(BITMAPS))
-     .cmd(VERTEX2II(0, 0, 0, 0))
+}
+
+void SynLevelBase::load_background(const void *data, uint16_t len) {
+  CommandProcessor cmd;
+  cmd.inflate(BACKGROUND_OFFSET)
      .execute();
-  SERIAL_ECHOLNPGM("Waiting to complete");
-  while(cmd.is_processing() && !cmd.has_fault());
-  SERIAL_ECHOLNPGM("Finalized");
+  send_buffer(cmd, data, len);
+  cmd.wait();
+}
+
+void SynLevelBase::draw_background(CommandProcessor &cmd) {
+  constexpr float scale_w = float(FTDI::display_width)/bitmap_w;
+  constexpr float scale_h = float(FTDI::display_height)/bitmap_h;
+  uint16_t linestride;
+  uint32_t color;
+  switch(format) {
+    case RGB565: linestride = bitmap_w * 2; color = 0xFFFFFF; break;
+    case RGB332: linestride = bitmap_w    ; color = 0xFFFFFF; break;
+    case L1:     linestride = bitmap_w/8  ; color = 0x000000; break;
+    case L2:     linestride = bitmap_w/4  ; color = 0x000000; break;
+    case L4:     linestride = bitmap_w/2  ; color = 0x000000; break;
+    case L8:     linestride = bitmap_w    ; color = 0x000000; break;
+  }
+  cmd.cmd(COLOR_RGB(color))
+     .cmd(BITMAP_SOURCE(BACKGROUND_OFFSET))
+     .bitmap_layout(format, linestride, bitmap_h)
+     .bitmap_size(BILINEAR, BORDER, BORDER, bitmap_w*scale_w, bitmap_h*scale_h)
+     .cmd(BITMAP_TRANSFORM_A(uint32_t(float(256)/scale_w)))
+     .cmd(BITMAP_TRANSFORM_E(uint32_t(float(256)/scale_h)))
+     .cmd(BEGIN(BITMAPS))
+     .cmd(VERTEX2II(0, 0, 0, 0))
+     .cmd(BITMAP_TRANSFORM_A(256))
+     .cmd(BITMAP_TRANSFORM_E(256));
 }
 
 void SynLevelBase::draw_title(CommandProcessor &cmd, const char *message) {

@@ -80,12 +80,12 @@ class MainScreen : public UIScreen, public UncachedScreen {
       uint16_t linestride;
       uint32_t color;
       switch(format) {
-        case RGB565: linestride = bitmap_w * 2; color = 0xFFFFFFFF; break;
-        case RGB332: linestride = bitmap_w    ; color = 0xFFFFFFFF; break;
-        case L1:     linestride = bitmap_w/8  ; color = 0x00000000; break;
-        case L2:     linestride = bitmap_w/4  ; color = 0x00000000; break;
-        case L4:     linestride = bitmap_w/2  ; color = 0x00000000; break;
-        case L8:     linestride = bitmap_w    ; color = 0x00000000; break;
+        case RGB565: linestride = bitmap_w * 2; color = 0xFFFFFF; break;
+        case RGB332: linestride = bitmap_w    ; color = 0xFFFFFF; break;
+        case L1:     linestride = bitmap_w/8  ; color = 0x000000; break;
+        case L2:     linestride = bitmap_w/4  ; color = 0x000000; break;
+        case L4:     linestride = bitmap_w/2  ; color = 0x000000; break;
+        case L8:     linestride = bitmap_w    ; color = 0x000000; break;
       }
       cmd.inflate(0)
          .execute();

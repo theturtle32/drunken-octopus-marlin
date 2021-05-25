@@ -1,0 +1,1 @@
+../../../ftdi_eve_lib/scripts/img2cpp.py --deflate  --mode rgb332 status_screen.png > status_screen.h

@@ -1,1 +1,0 @@
-../../../ftdi_eve_lib/scripts/file2cpp.py status_screen.png > status_screen.h

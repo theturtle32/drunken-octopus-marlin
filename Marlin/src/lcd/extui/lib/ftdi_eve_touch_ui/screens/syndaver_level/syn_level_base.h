@@ -27,12 +27,15 @@ class SynLevelBase : public BaseScreen {
   private:
     static void _format_time(char *outstr, uint32_t time);  
   protected:
+    static void send_buffer(CommandProcessor &cmd, const void *data, uint16_t len);
+    static void load_background(const void *data, uint16_t len);
+
     static void draw_progress(CommandProcessor &, draw_mode_t);
     static void draw_fan(CommandProcessor &, draw_mode_t);
     static void draw_temperatures(CommandProcessor &, draw_mode_t);
     static void draw_title(CommandProcessor &, const char * const);
     static void draw_title(CommandProcessor &, progmem_str message);
-    static void draw_background(CommandProcessor &cmd, const void *data, uint16_t len);
+    static void draw_background(CommandProcessor &cmd);
     static void restore_bitmaps(CommandProcessor &);
   public:
     static void loadBitmaps();
