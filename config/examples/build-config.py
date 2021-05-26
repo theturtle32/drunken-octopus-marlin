@@ -1701,7 +1701,7 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["Z_STEPPER_AUTO_ALIGN"]                   = True
             MARLIN["NUM_Z_STEPPER_DRIVERS"]                  = 2
 
-        elif IS_MINI:
+        if IS_MINI:
             AXIS_LEVELING_COMMANDS = (
                 "G28\n"                                      # Home Axis
                 + XLEVEL_POS +                               # Move toolhead to the right
