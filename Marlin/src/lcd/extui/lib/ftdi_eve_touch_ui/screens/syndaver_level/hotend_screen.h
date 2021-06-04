@@ -1,6 +1,6 @@
-/***********************************
- * syndaver_level/syn_level_base.h *
- ***********************************/
+/**********************************
+ * syndaver_level/hotend_screen.h *
+ **********************************/
 
 /****************************************************************************
  *   Written By Marcio Teixeira 2021 - SynDaver Labs, Inc.                  *
@@ -21,27 +21,30 @@
 
 #pragma once
 
-#define SYNDAVER_LEVEL_BASE
+#define SYNDAVER_LEVEL_HOTEND_SCREEN
+#define SYNDAVER_LEVEL_HOTEND_SCREEN_CLASS HotendScreen
 
-class SynLevelBase : public BaseScreen {
+struct HotendScreenData {
+  uint8_t e_tag, t_tag, repeat_tag;
+  ExtUI::extruder_t saved_extruder;
+  #if FILAMENT_UNLOAD_PURGE_LENGTH > 0
+    bool need_purge;
+  #endif
+};
+
+class HotendScreen : public BaseScreen, public CachedScreen<HOTEND_SCREEN_CACHE> {
   private:
-    static void _format_time(char *outstr, uint32_t time);
-  protected:
-    static void send_buffer(CommandProcessor &cmd, const void *data, uint16_t len);
-    static void load_background(const void *data, uint16_t len);
-
-    static void draw_prog(  CommandProcessor &, draw_mode_t);
-    static void draw_fan(   CommandProcessor &, draw_mode_t);
-    static void draw_temp(  CommandProcessor &, draw_mode_t);
-    static void draw_start( CommandProcessor &, draw_mode_t);
-    static void draw_title( CommandProcessor &, draw_mode_t, const char * const);
-    static void draw_title( CommandProcessor &, draw_mode_t, progmem_str message);
-    static void draw_bkgnd( CommandProcessor &, draw_mode_t);
-    static void draw_back(  CommandProcessor &, draw_mode_t);
-    static void draw_tile(  CommandProcessor &, draw_mode_t, uint8_t tag, progmem_str label, bool enabled = true);
-    static void restore_bitmaps(CommandProcessor &);
+    static uint8_t getSoftenTemp();
+    static ExtUI::extruder_t getExtruder();
+    static void drawTempGradient(uint16_t x, uint16_t y, uint16_t w, uint16_t h);
+    static uint32_t getTempColor(uint32_t temp);
+    static void doPurge();
   public:
-    static void loadBitmaps();
-    static void onIdle();
+    static void onEntry();
+    static void onExit();
+    static void onRedraw(draw_mode_t);
+    static bool onTouchStart(uint8_t tag);
     static bool onTouchEnd(uint8_t tag);
+    static bool onTouchHeld(uint8_t tag);
+    static void onIdle();
 };

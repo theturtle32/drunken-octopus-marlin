@@ -1,6 +1,6 @@
-/***********************************
- * syndaver_level/syn_level_base.h *
- ***********************************/
+/************************************
+ * syndaver_level/safety_screen.cpp *
+ ************************************/
 
 /****************************************************************************
  *   Written By Marcio Teixeira 2021 - SynDaver Labs, Inc.                  *
@@ -19,29 +19,31 @@
  *   location: <https://www.gnu.org/licenses/>.                             *
  ****************************************************************************/
 
-#pragma once
+#include "../../config.h"
+#include "../screens.h"
 
-#define SYNDAVER_LEVEL_BASE
+#ifdef SYNDAVER_LEVEL_SAFETY_SCREEN
 
-class SynLevelBase : public BaseScreen {
-  private:
-    static void _format_time(char *outstr, uint32_t time);
-  protected:
-    static void send_buffer(CommandProcessor &cmd, const void *data, uint16_t len);
-    static void load_background(const void *data, uint16_t len);
+using namespace FTDI;
+using namespace ExtUI;
+using namespace Theme;
 
-    static void draw_prog(  CommandProcessor &, draw_mode_t);
-    static void draw_fan(   CommandProcessor &, draw_mode_t);
-    static void draw_temp(  CommandProcessor &, draw_mode_t);
-    static void draw_start( CommandProcessor &, draw_mode_t);
-    static void draw_title( CommandProcessor &, draw_mode_t, const char * const);
-    static void draw_title( CommandProcessor &, draw_mode_t, progmem_str message);
-    static void draw_bkgnd( CommandProcessor &, draw_mode_t);
-    static void draw_back(  CommandProcessor &, draw_mode_t);
-    static void draw_tile(  CommandProcessor &, draw_mode_t, uint8_t tag, progmem_str label, bool enabled = true);
-    static void restore_bitmaps(CommandProcessor &);
-  public:
-    static void loadBitmaps();
-    static void onIdle();
-    static bool onTouchEnd(uint8_t tag);
-};
+void SafetyScreen::onRedraw(draw_mode_t what) {
+  widgets_t w(what);
+  w.heading( F("Safety"));
+  w.toggle( 2, GET_TEXT_F(MSG_RUNOUT_SENSOR), getFilamentRunoutEnabled());
+  w.toggle( 3, F("Door Switch:"), false, false);
+}
+
+bool SafetyScreen::onTouchHeld(uint8_t tag) {
+  switch (tag) {
+    case 2: setFilamentRunoutEnabled(!getFilamentRunoutEnabled()); break;
+    default:
+      return false;
+  }
+
+  SaveSettingsDialogBox::settingsChanged();
+  return true;
+}
+
+#endif // SYNDAVER_LEVEL_SAFETY_SCREEN

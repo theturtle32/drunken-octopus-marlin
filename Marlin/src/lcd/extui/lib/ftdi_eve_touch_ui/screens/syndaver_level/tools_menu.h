@@ -1,6 +1,6 @@
-/*****************************************
- * syndaver_level/status_screen_layout.h *
- *****************************************/
+/*******************************
+ * syndaver_level/tools_menu.h *
+ *******************************/
 
 /****************************************************************************
  *   Written By Marcio Teixeira 2021 - SynDaver Labs, Inc.                  *
@@ -21,35 +21,12 @@
 
 #pragma once
 
-#ifdef TOUCH_UI_800x480
-  #undef  EDGE_L
-  #undef  EDGE_R
-  #undef  EDGE_B
-  #undef  MARGIN_L
-  #undef  MARGIN_R
-  #undef  MARGIN_T
-  #undef  MARGIN_B
-  #define EDGE_L         14
-  #define EDGE_R         14
-  #define EDGE_B         14
-  #define MARGIN_L       14
-  #define MARGIN_R       14
-  #define MARGIN_T       14
-  #define MARGIN_B       14
-#endif
+#define SYNDAVER_LEVEL_TOOLS_MENU
+#define SYNDAVER_LEVEL_TOOLS_MENU_CLASS ToolsMenu
 
-#define GRID_ROWS 7
-#define GRID_COLS 4
-#define STATUS_POS       BTN_POS(1,1), BTN_SIZE(4,2)
-#define NOZ_POS          BTN_POS(1,6), BTN_SIZE(1,2)
-#define BED_POS          BTN_POS(2,6), BTN_SIZE(1,2)
-#define FAN_POS          BTN_POS(3,6), BTN_SIZE(1,2)
-#define TIME_POS         BTN_POS(4,6), BTN_SIZE(1,2)
-
-#define BUTTONS_POS      BTN_POS(1,3), BTN_SIZE(4,3)
-#define BTN1_POS         BTN_POS(1,3), BTN_SIZE(1,3)
-#define BTN2_POS         BTN_POS(2,3), BTN_SIZE(1,3)
-#define BTN3_POS         BTN_POS(3,3), BTN_SIZE(1,3)
-#define BTN4_POS         BTN_POS(4,3), BTN_SIZE(1,3)
-#define BACK_POS         BTN_POS(3,6), BTN_SIZE(2,2)
-
+class ToolsMenu : public SynLevelBase, public CachedScreen<TOOLS_MENU_CACHE> {
+  public:
+    static void onEntry();
+    static void onRedraw(draw_mode_t);
+    static bool onTouchEnd(uint8_t tag);
+};

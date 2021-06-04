@@ -52,30 +52,31 @@ namespace Theme {
 
   constexpr uint32_t theme_darkest          = accent_color_1;
   constexpr uint32_t theme_dark             = accent_color_4;
-                                            
+
   constexpr uint32_t bg_color               = 0xFFFFFF;
   constexpr uint32_t axis_label             = gray_color_5;
-                                            
+
   constexpr uint32_t bg_text_enabled        = accent_color_1;
   constexpr uint32_t bg_text_disabled       = gray_color_1;
   constexpr uint32_t bg_normal              = accent_color_4;
   constexpr uint32_t fg_disabled            = gray_color_6;
   constexpr uint32_t fg_normal              = accent_color_1;
   constexpr uint32_t fg_action              = daver_color;
-                                            
+
   constexpr uint32_t logo_bg_rgb            = accent_color_5;
   constexpr uint32_t logo_fill_rgb          = accent_color_6;
   constexpr uint32_t logo_stroke_rgb        = accent_color_2;
-                                            
-  constexpr uint32_t bed_mesh_lines_rgb     = accent_color_6;
-  constexpr uint32_t bed_mesh_shadow_rgb    = 0x444444;
-  
+
+  #define BED_MESH_POINTS_GRAY
+  constexpr uint32_t bed_mesh_lines_rgb     = syn_color;
+  constexpr uint32_t bed_mesh_shadow_rgb    = 0xAAAAAA;
+
   constexpr uint32_t shadow_rgb             = gray_color_6;
   constexpr uint32_t stroke_rgb             = accent_color_1;
   constexpr uint32_t fill_rgb               = accent_color_3;
   constexpr uint32_t syringe_rgb            = accent_color_5;
   constexpr uint32_t fluid_rgb              = accent_color_3;
-                                            
+
   constexpr uint32_t x_axis                 = hsl_to_rgb(0,   1.00, 0.26);
   constexpr uint32_t y_axis                 = hsl_to_rgb(120, 1.00, 0.13);
   constexpr uint32_t z_axis                 = hsl_to_rgb(240, 1.00, 0.10);

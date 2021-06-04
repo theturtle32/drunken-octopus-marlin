@@ -26,10 +26,13 @@
 
 class TuneMenu : public SynLevelBase, public CachedScreen<TUNE_SCREEN_CACHE> {
   private:
+    static void pauseResumePrint();
     static void pausePrint();
     static void resumePrint();
-    static void draw_buttons(CommandProcessor &, draw_mode_t what);
+    static void stopPrint();
+    static void bedHeight();
   public:
+    static void onEntry();
     static void onRedraw(draw_mode_t);
     static bool onTouchEnd(uint8_t tag);
 };

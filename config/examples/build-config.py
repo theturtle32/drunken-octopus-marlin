@@ -500,7 +500,7 @@ def make_config(PRINTER, TOOLHEAD):
         USE_TOUCH_UI                                     = True
         USE_REPRAP_LCD_DISPLAY                           = False
         USE_ARCHIM2                                      = True
-        MARLIN["TOUCH_UI_SYNDAVER_LEVEL"]                = False
+        MARLIN["TOUCH_UI_SYNDAVER_LEVEL"]                = True
         MARLIN["SHOW_CUSTOM_BOOTSCREEN"]                 = False
         MARLIN["BACKLASH_COMPENSATION"]                  = False
         MARLIN["ENDSTOP_INTERRUPTS_FEATURE"]             = True
@@ -1453,8 +1453,8 @@ def make_config(PRINTER, TOOLHEAD):
         STANDARD_Y_MAX_POS                               = 187
         STANDARD_Y_MIN_POS                               =  -1
 
-        STANDARD_X_BED_SIZE                              = 155.8
-        STANDARD_Y_BED_SIZE                              = 155.8
+        STANDARD_X_BED_SIZE                              = 170
+        STANDARD_Y_BED_SIZE                              = 180
 
     elif IS_MINI and USE_Z_SCREW:
         STANDARD_X_MAX_POS                               = 165.8
@@ -1693,7 +1693,7 @@ def make_config(PRINTER, TOOLHEAD):
 ############################# X AXIS LEVELING #############################
 
     AXIS_LEVELING_COMMANDS                                   = ""
-        
+
     if USE_Z_BELT:
         XLEVEL_POS                                           = "G0 X150 F9999\n"
 
@@ -2045,6 +2045,23 @@ def make_config(PRINTER, TOOLHEAD):
             EVENT_GCODE_SD_ABORT = "G91\nG0 Z15 F600\nG90\nG0 X170 Y290 F3000"
 
         MARLIN["EVENT_GCODE_SD_ABORT"]                   = C_STRING(EVENT_GCODE_SD_ABORT)
+
+    if "SynDaver_Level" in PRINTER:
+        MARLIN["FILAMENT_LOAD_UNLOAD_GCODES"]            = True
+
+        MARLIN["EXTRUDE_MAXLENGTH"]                      = 550
+
+        MARLIN["FILAMENT_CHANGE_SLOW_LOAD_LENGTH"]       = 0
+        MARLIN["FILAMENT_CHANGE_FAST_LOAD_FEEDRATE"]     = 16.6    # move E axis forward 550mm at 1000mm/s
+        MARLIN["FILAMENT_CHANGE_FAST_LOAD_LENGTH"]       = 550
+        MARLIN["ADVANCED_PAUSE_PURGE_FEEDRATE"]          = 0.6     # move E axis forward 20mm at 40mm/s
+        MARLIN["ADVANCED_PAUSE_PURGE_LENGTH"]            = 20
+
+        MARLIN["FILAMENT_UNLOAD_PURGE_RETRACT"]          = 0
+        MARLIN["FILAMENT_UNLOAD_PURGE_DELAY"]            = 0
+        MARLIN["FILAMENT_UNLOAD_PURGE_LENGTH"]           = 0
+        MARLIN["FILAMENT_CHANGE_UNLOAD_FEEDRATE"]        = 16.6    # move E axis backwards 550mm at 1000mm/s
+        MARLIN["FILAMENT_CHANGE_UNLOAD_LENGTH"]          = 550
 
 ################################## WIPER PAD ##################################
 
@@ -2738,3 +2755,4 @@ if __name__ == "__main__":
 
         if args.summary:
             dump_variables(config, args.directory + "/Configuration_summary.txt")
+iguration_summary.txt")

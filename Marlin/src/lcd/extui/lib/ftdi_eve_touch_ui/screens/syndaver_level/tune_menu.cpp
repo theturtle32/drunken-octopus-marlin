@@ -1,6 +1,6 @@
-/******************************
- * syndaver_level/tune_menu.h *
- ******************************/
+/********************************
+ * syndaver_level/tune_menu.cpp *
+ ********************************/
 
 /****************************************************************************
  *   Written By Marcio Teixeira 2021 - SynDaver Labs, Inc.                  *
@@ -24,71 +24,50 @@
 
 #ifdef SYNDAVER_LEVEL_TUNE_MENU
 
-#include "status_screen_layout.h"
-
-#define PAUSE_POS          BTN1_POS
-#define STOP_POS           BTN2_POS
-#define FIL_CHANGE_POS     BTN3_POS
-#define ZPROBE_ZOFFSET_POS BTN4_POS
-
 #include "../../../../../../feature/host_actions.h"
+#include "png/tune_menu.h"
 
 using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
 
-void TuneMenu::onRedraw(draw_mode_t what) {
-  CommandProcessor cmd;
-  if (what & BACKGROUND) {
-    cmd.cmd(CLEAR_COLOR_RGB(bg_color))
-       .cmd(CLEAR(true,true,true));
-    SynLevelBase::draw_title(cmd, F("Print Menu"));
-  }
-  SynLevelBase::draw_temperatures(cmd, what);
-  SynLevelBase::restore_bitmaps(cmd);
-  draw_buttons(cmd, what);
+void TuneMenu::onEntry() {
+  SynLevelBase::load_background(tune_menu, sizeof(tune_menu));
 }
 
-void TuneMenu::draw_buttons(CommandProcessor &cmd, draw_mode_t what) {
-  if (what & FOREGROUND) {
-    const bool sdOrHostPrinting = ExtUI::isPrinting();
-    const bool sdOrHostPaused   = ExtUI::isPrintingPaused();
+void TuneMenu::onRedraw(draw_mode_t what) {
+  const bool sdOrHostPrinting = ExtUI::isPrinting();
+  const bool sdOrHostPaused   = ExtUI::isPrintingPaused();
 
-    cmd.colors(normal_btn)
-       .font(font_medium)
-       .enabled(sdOrHostPrinting)
-       .tag(sdOrHostPaused ? 3 : 2)
-       .button(PAUSE_POS, sdOrHostPaused ? GET_TEXT_F(MSG_RESUME_PRINT) : GET_TEXT_F(MSG_PAUSE_PRINT))
-       .enabled(sdOrHostPrinting)
-       .tag(4).button(STOP_POS, GET_TEXT_F(MSG_STOP_PRINT))
-       .enabled(!sdOrHostPrinting || sdOrHostPaused)
-       .tag(5).button(FIL_CHANGE_POS, GET_TEXT_F(MSG_FILAMENTCHANGE))
-       .enabled(ENABLED(HAS_BED_PROBE))
-       .tag(6).button(ZPROBE_ZOFFSET_POS, GET_TEXT_F(MSG_ZPROBE_ZOFFSET))
-       .tag(1).colors(action_btn).button(BACK_POS, GET_TEXT_F(MSG_BACK));
-  }
+  CommandProcessor cmd;
+  SynLevelBase::draw_start( cmd, what);
+  SynLevelBase::draw_bkgnd( cmd, what);
+  SynLevelBase::draw_title( cmd, what, F("Print Menu"));
+  SynLevelBase::draw_tile(  cmd, what, 1, sdOrHostPaused ? GET_TEXT_F(MSG_RESUME_PRINT) : GET_TEXT_F(MSG_PAUSE_PRINT), sdOrHostPrinting);
+  SynLevelBase::draw_tile(  cmd, what, 2, GET_TEXT_F(MSG_STOP_PRINT), sdOrHostPrinting);
+  SynLevelBase::draw_tile(  cmd, what, 3, GET_TEXT_F(MSG_ZPROBE_ZOFFSET), ENABLED(HAS_BED_PROBE));
+  SynLevelBase::draw_tile(  cmd, what, 4, GET_TEXT_F(MSG_FILAMENTCHANGE), !sdOrHostPrinting || sdOrHostPaused);
+  SynLevelBase::draw_temp(  cmd, what);
+  SynLevelBase::draw_back(  cmd, what);
+  SynLevelBase::restore_bitmaps(cmd);
 }
 
 bool TuneMenu::onTouchEnd(uint8_t tag) {
   switch (tag) {
-    case  1: GOTO_PREVIOUS(); break;
-    case  2: pausePrint(); break;
-    case  3: resumePrint(); break;
-    case  4:
-      GOTO_SCREEN(ConfirmAbortPrintDialogBox);
-      current_screen.forget();
-      PUSH_SCREEN(StatusScreen);
-      break;
-    case  5: GOTO_SCREEN(ChangeFilamentScreen);  break;
-    case  6:
-      #if ENABLED(HAS_BED_PROBE)
-        GOTO_SCREEN(ZOffsetScreen);
-      #endif
-      break;
-    default:
-      return false;
+    case 1: pauseResumePrint(); break;
+    case 2: stopPrint(); break;
+    case 3: bedHeight(); break;
+    case 4: GOTO_SCREEN(HotendScreen); break;
+    default: return SynLevelBase::onTouchEnd(tag);
   }
   return true;
+}
+
+void TuneMenu::pauseResumePrint() {
+  if(ExtUI::isPrintingPaused())
+    resumePrint();
+  else
+    pausePrint();
 }
 
 void TuneMenu::pausePrint() {
@@ -111,6 +90,18 @@ void TuneMenu::resumePrint() {
     else host_action_resume();
   #endif
   GOTO_SCREEN(StatusScreen);
+}
+
+void TuneMenu::stopPrint() {
+  GOTO_SCREEN(ConfirmAbortPrintDialogBox);
+  current_screen.forget();
+  PUSH_SCREEN(StatusScreen);
+}
+
+void TuneMenu::bedHeight() {
+  #if ENABLED(HAS_BED_PROBE)
+    GOTO_SCREEN(ZOffsetScreen);
+  #endif
 }
 
 #endif // SYNDAVER_LEVEL_TUNE_MENU

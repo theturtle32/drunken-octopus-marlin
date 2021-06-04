@@ -26,18 +26,11 @@
 #ifdef SYNDAVER_LEVEL_STATUS_SCREEN
 
 #include "../../archim2-flash/flash_storage.h"
+#include "png/status_screen.h"
 
 using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
-
-#include "status_screen_layout.h"
-#include "png/status_screen.h"
-
-#define FILE_POS         BTN1_POS
-#define PRINT_POS        BTN2_POS
-#define TOOLS_POS        BTN3_POS
-#define SETTINGS_POS     BTN4_POS
 
 void StatusScreen::onStartup() {
   UIFlashStorage::initialize();
@@ -49,19 +42,15 @@ void StatusScreen::onEntry() {
 
 void StatusScreen::onRedraw(draw_mode_t what) {
   if (what & FOREGROUND) {
-    const bool has_media = isMediaInserted() && !isPrintingFromMedia();
-
     CommandProcessor cmd;
-    cmd.colors(normal_btn)
-       .font(Theme::font_medium)
-       .enabled(has_media && !isPrinting())
-       .tag(1).button(FILE_POS,     F("File Select"))
-       .tag(2).button(PRINT_POS,    F("Print"))
-       .tag(3).button(TOOLS_POS,    F("Tools"))
-       .tag(4).button(SETTINGS_POS, F("Settings"));
-    SynLevelBase::draw_temperatures(cmd, FOREGROUND);
-    SynLevelBase::draw_fan(cmd, FOREGROUND);
-    SynLevelBase::draw_progress(cmd, FOREGROUND);
+    SynLevelBase::draw_start( cmd, what);
+    SynLevelBase::draw_tile(  cmd, what, 1, F("File Select"), isMediaInserted() && !isPrintingFromMedia() && !isPrinting());
+    SynLevelBase::draw_tile(  cmd, what, 2, F("Print"));
+    SynLevelBase::draw_tile(  cmd, what, 3, F("Tools"));
+    SynLevelBase::draw_tile(  cmd, what, 4, F("Settings"));
+    SynLevelBase::draw_fan(   cmd, what);
+    SynLevelBase::draw_prog(  cmd, what);
+    SynLevelBase::draw_temp(  cmd, what);
   }
 }
 
@@ -84,12 +73,11 @@ void StatusScreen::setStatusMessage(const char *message) {
      .cmd(CLEAR_COLOR_RGB(bg_color))
      .cmd(CLEAR(true,true,true));
 
-  SynLevelBase::draw_background(cmd);
-  cmd.cmd(COLOR_RGB(bg_text_enabled));
-  SynLevelBase::draw_title(cmd, message);
-  SynLevelBase::draw_progress(cmd, BACKGROUND);
-  SynLevelBase::draw_fan(cmd, BACKGROUND);
-  SynLevelBase::draw_temperatures(cmd, BACKGROUND);
+  SynLevelBase::draw_bkgnd( cmd, BACKGROUND);
+  SynLevelBase::draw_title( cmd, BACKGROUND, message);
+  SynLevelBase::draw_prog(  cmd, BACKGROUND);
+  SynLevelBase::draw_fan(   cmd, BACKGROUND);
+  SynLevelBase::draw_temp(  cmd, BACKGROUND);
   SynLevelBase::restore_bitmaps(cmd);
 
   storeBackground();
@@ -103,25 +91,16 @@ void StatusScreen::setStatusMessage(const char *message) {
   }
 }
 
-void StatusScreen::onIdle() {
-  if (refresh_timer.elapsed(STATUS_UPDATE_INTERVAL)) {
-    onRefresh();
-    refresh_timer.start();
-  }
-  BaseScreen::onIdle();
-}
-
 bool StatusScreen::onTouchEnd(uint8_t tag) {
   switch (tag) {
     #if ENABLED(SDSUPPORT)
       case 1: GOTO_SCREEN(FilesScreen); break;
     #endif
     case 2: GOTO_SCREEN(TuneMenu); break;
-    case 3:
-    case 4: GOTO_SCREEN(MainMenu); break;
-    case 5: GOTO_SCREEN(TemperatureScreen); break;
-    default:
-      return true;
+    case 3: GOTO_SCREEN(ToolsMenu); break;
+    case 4: GOTO_SCREEN(SettingsMenu); break;
+    case 6: GOTO_SCREEN(TemperatureScreen); break;
+    default: return SynLevelBase::onTouchEnd(tag);
   }
   return true;
 }
