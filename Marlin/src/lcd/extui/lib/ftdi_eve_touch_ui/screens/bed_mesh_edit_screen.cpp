@@ -69,7 +69,15 @@ void BedMeshEditScreen::onEntry() {
   mydata.zAdjustment = 0;
   mydata.savedMeshLevelingState = ExtUI::getLevelingActive();
   mydata.savedEndstopState = ExtUI::getSoftEndstopState();
+  makeMeshValid();
   BaseScreen::onEntry();
+}
+
+void BedMeshEditScreen::makeMeshValid() {
+  bed_mesh_t &mesh = ExtUI::getMeshArray();
+  GRID_LOOP(x, y) {
+    if (isnan(mesh[x][y])) mesh[x][y] = 0;
+  }
 }
 
 void BedMeshEditScreen::onExit() {

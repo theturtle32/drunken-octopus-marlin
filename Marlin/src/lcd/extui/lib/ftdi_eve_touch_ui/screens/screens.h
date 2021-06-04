@@ -105,6 +105,14 @@ enum {
     MOVE_XYZ_SCREEN_CACHE,
     MOVE_E_SCREEN_CACHE,
   #endif
+  #if ENABLED(TOUCH_UI_SYNDAVER_LEVEL)
+    TOOLS_MENU_CACHE,
+    SETTINGS_MENU_CACHE,
+    MOVE_MENU_CACHE,
+    LEVELING_MENU_CACHE,
+    HOTEND_SCREEN_CACHE,
+    SAFETY_SCREEN_CACHE,
+  #endif
   #if ENABLED(SDSUPPORT)
     FILES_SCREEN_CACHE,
   #endif
@@ -158,9 +166,13 @@ enum {
   #include "syndaver_level/syn_level_base.h"
   #include "syndaver_level/status_screen.h"
   #include "syndaver_level/tune_menu.h"
+  #include "syndaver_level/tools_menu.h"
+  #include "syndaver_level/settings_menu.h"
+  #include "syndaver_level/move_menu.h"
+  #include "syndaver_level/hotend_screen.h"
+  #include "syndaver_level/safety_screen.h"
   #include "main_menu.h"
   #include "advanced_settings_menu.h"
-
 #else
   #include "status_screen.h"
   #include "main_menu.h"
@@ -209,7 +221,11 @@ enum {
 #endif
 
 #if HAS_LEVELING
-  #include "leveling_menu.h"
+  #if ENABLED(TOUCH_UI_SYNDAVER_LEVEL)
+    #include "syndaver_level/leveling_menu.h"
+  #else
+    #include "leveling_menu.h"
+  #endif
   #if HAS_BED_PROBE
     #include "z_offset_screen.h"
   #endif
