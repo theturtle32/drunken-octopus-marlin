@@ -533,7 +533,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOUCH_UI_DEBUG"]                         = True
         MARLIN["TOUCH_UI_PORTRAIT"]                      = False
         MARLIN["TOUCH_UI_NO_BOOTSCREEN"]                 = True
-        MARLIN["TOUCH_UI_800x480"]                       = True
+        MARLIN["TOUCH_UI_480x272"]                       = True
         MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]               = True
         MARLIN["TOUCH_UI_ROYAL_THEME"]                   = True
         MARLIN["AO_EXP2_PINMAP"]                         = True
@@ -2755,4 +2755,4 @@ if __name__ == "__main__":
 
         if args.summary:
             dump_variables(config, args.directory + "/Configuration_summary.txt")
-iguration_summary.txt")
+
