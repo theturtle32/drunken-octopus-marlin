@@ -130,7 +130,7 @@ namespace Language_en {
   PROGMEM Language_Str MSG_EEPROM_RESTORED          = u8"Settings restored from backup";
   PROGMEM Language_Str MSG_EEPROM_RESET             = u8"Settings restored to default";
   PROGMEM Language_Str MSG_EEPROM_SAVED             = u8"Settings saved!";
-  PROGMEM Language_Str MSG_EEPROM_SAVE_PROMPT       = u8"Do you wish to save these settings as defaults?";
+  PROGMEM Language_Str MSG_EEPROM_SAVE_PROMPT       = u8"Do you wish to save these settings for next power-on?";
   PROGMEM Language_Str MSG_EEPROM_RESET_WARNING     = u8"Are you sure? Customizations will be lost.";
 
   PROGMEM Language_Str MSG_PASSCODE_REJECTED        = u8"Wrong passcode!";
