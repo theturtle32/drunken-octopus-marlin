@@ -1687,7 +1687,6 @@ def make_config(PRINTER, TOOLHEAD):
                 MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 5
                 MARLIN["Z_SERVO_ANGLES"]                     = [10,90]
                 MARLIN["PROBING_FANS_OFF"]                   = True
-                MARLIN["PROBING_STEPPERS_OFF"]               = True
                 MARLIN["BED_LEVELING_COMMANDS"]              = C_STRING("G28 O\nG29 P1 X0 Y0\nG29 S1")
 
 ############################# X AXIS LEVELING #############################
