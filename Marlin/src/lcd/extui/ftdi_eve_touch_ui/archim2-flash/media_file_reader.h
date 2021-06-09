@@ -26,7 +26,6 @@
 
 #if ENABLED(SDSUPPORT)
   #include "../../../../sd/SdFile.h"
-  #include "../../../../sd/Sd2Card.h"
   #include "../../../../sd/cardreader.h"
 #endif
 
