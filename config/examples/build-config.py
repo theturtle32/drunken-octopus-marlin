@@ -781,8 +781,12 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["Z_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
 
     # Electrical probing pins are always open until contact is made
-    MARLIN["Z_MIN_ENDSTOP_INVERTING"]                    = NORMALLY_OPEN_ENDSTOP
-    MARLIN["Z_MIN_PROBE_ENDSTOP_INVERTING"]              = NORMALLY_OPEN_ENDSTOP
+    if PROBE_STYLE == "BLTouch":
+        MARLIN["Z_MIN_ENDSTOP_INVERTING"]                = 0
+        MARLIN["Z_MIN_PROBE_ENDSTOP_INVERTING"]          = 0
+    else:
+        MARLIN["Z_MIN_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["Z_MIN_PROBE_ENDSTOP_INVERTING"]          = NORMALLY_OPEN_ENDSTOP
 
     if USE_Z_SCREW:
         # The older Minis seem succeptible to noise in the probe lines.
