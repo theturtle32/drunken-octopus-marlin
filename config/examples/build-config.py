@@ -1997,7 +1997,7 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["X_STALL_SENSITIVITY"]                = 4
             MARLIN["Y_STALL_SENSITIVITY"]                = 4
 
-        MARLIN["SENSORLESS_BACKOFF_MM"]                  = [5, 5]
+        MARLIN["SENSORLESS_BACKOFF_MM"]                  = [5, 5, 0]
 
         MARLIN["USE_XMIN_PLUG"]                          = True # Uses Stallguard
         MARLIN["USE_YMAX_PLUG"]                          = True # Uses Stallguard
