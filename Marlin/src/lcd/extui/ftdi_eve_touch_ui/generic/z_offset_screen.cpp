@@ -57,9 +57,6 @@ void ZOffsetScreen::move(float mm, int16_t steps) {
     // In the wizard
     mydata.z += mm;
     setAxisPosition_mm(mydata.z, Z);
-  } else {
-    // Otherwise doing a manual adjustment, possibly during a print.
-    babystepAxis_steps(steps, Z);
   }
   else {
     // Otherwise doing a manual adjustment, possibly during a print.
