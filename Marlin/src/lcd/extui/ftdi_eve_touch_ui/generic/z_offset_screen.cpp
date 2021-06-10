@@ -53,11 +53,15 @@ void ZOffsetScreen::move(float mm, int16_t steps) {
   // We can't store state after the call to the AlertBox, so
   // check whether the current position equal mydata.z in order
   // to know whether the user started the wizard.
-  if(getAxisPosition_mm(Z) == mydata.z) {
+  if (getAxisPosition_mm(Z) == mydata.z) {
     // In the wizard
     mydata.z += mm;
     setAxisPosition_mm(mydata.z, Z);
   } else {
+    // Otherwise doing a manual adjustment, possibly during a print.
+    babystepAxis_steps(steps, Z);
+  }
+  else {
     // Otherwise doing a manual adjustment, possibly during a print.
     babystepAxis_steps(steps, Z);
   }
