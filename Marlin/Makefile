@@ -648,10 +648,8 @@ ifeq ($(NEOPIXEL), 1)
 VPATH += $(ARDUINO_INSTALL_DIR)/libraries/Adafruit_NeoPixel
 endif
 ifeq ($(U8GLIB), 1)
-VPATH += $(ARDUINO_INSTALL_DIR)/libraries/U8glib
-VPATH += $(ARDUINO_INSTALL_DIR)/libraries/U8glib/csrc
-VPATH += $(ARDUINO_INSTALL_DIR)/libraries/U8glib/cppsrc
-VPATH += $(ARDUINO_INSTALL_DIR)/libraries/U8glib/fntsrc
+VPATH += lib/U8glib-HAL-master/src
+VPATH += lib/U8glib-HAL-master/src/clib
 endif
 ifeq ($(TMC), 1)
 VPATH += $(ARDUINO_INSTALL_DIR)/libraries/TMCStepper/src
@@ -719,10 +717,9 @@ ifeq ($(TONE), 1)
 endif
 
 ifeq ($(U8GLIB), 1)
-  LIB_CXXSRC += U8glib.cpp
-  LIB_SRC += u8g_ll_api.c u8g_bitmap.c u8g_clip.c u8g_com_null.c u8g_delay.c \
-    u8g_page.c u8g_pb.c u8g_pb16h1.c u8g_rect.c u8g_state.c u8g_font.c \
-    u8g_font_6x13.c u8g_font_04b_03.c u8g_font_5x8.c
+  LIB_CXXSRC += U8glib.cpp u8g_delay.cpp
+  LIB_SRC += u8g_ll_api.c u8g_bitmap.c u8g_clip.c u8g_com_null.c \
+    u8g_page.c u8g_pb.c u8g_pb16h1.c u8g_rect.c u8g_state.c u8g_font.c
 endif
 
 ifeq ($(TMC), 1)
