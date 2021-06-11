@@ -28,6 +28,10 @@
 #include "gcode.h"
 GcodeSuite gcode;
 
+#if ENABLED(M997_ARCHIM_BOOTLOADER)
+  extern "C" void banzai();
+#endif
+
 #if ENABLED(WIFI_CUSTOM_COMMAND)
   extern bool wifi_custom_command(char * const command_ptr);
 #endif
@@ -987,6 +991,8 @@ void GcodeSuite::process_parsed_command(const bool no_ok/*=false*/) {
 
       #if ENABLED(PLATFORM_M997_SUPPORT)
         case 997: M997(); break;                                  // M997: Perform in-application firmware update
+      #elif ENABLED(M997_ARCHIM_BOOTLOADER)
+        case 997: banzai(); break;
       #endif
 
       case 999: M999(); break;                                    // M999: Restart after being Stopped

@@ -648,6 +648,7 @@ def make_config(PRINTER, TOOLHEAD):
         if USE_REPRAP_LCD_DISPLAY or "SynDaver_" in PRINTER:
             MARLIN["SERIAL_PORT_2"]                      = 0
         MARLIN["SD_SPI_SPEED"]                           = 'SPI_SIXTEENTH_SPEED'
+        MARLIN["M997_ARCHIM_BOOTLOADER"]                 = True
 
         # Force Archim to use same USB ID as Mini-Rambo and Rambo when flashed
         # NOTE: While in "erase" (bootloader) mode, the ID will be 03eb:6124
