@@ -50,6 +50,10 @@ MarlinUI ui;
   #include "dwin/e3v2/dwin.h"
 #endif
 
+#if ENABLED(EXTENSIBLE_UI)
+  bool MarlinUI::lcd_clicked;
+#endif
+
 #if ENABLED(LCD_PROGRESS_BAR) && !IS_TFTGLCD_PANEL
   #define BASIC_PROGRESS_BAR 1
 #endif
@@ -223,7 +227,7 @@ millis_t MarlinUI::next_button_update_ms; // = 0
 
 #endif
 
-#if EITHER(HAS_LCD_MENU, EXTENSIBLE_UI)
+#if HAS_LCD_MENU
   bool MarlinUI::lcd_clicked;
 #endif
 
