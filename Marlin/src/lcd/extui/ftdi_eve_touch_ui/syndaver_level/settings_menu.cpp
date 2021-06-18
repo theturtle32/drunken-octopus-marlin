@@ -24,36 +24,42 @@
 
 #ifdef SYNDAVER_LEVEL_SETTINGS_MENU
 
-#include "png/settings_menu.h"
+#include "autogen/settings_menu.h"
+#include "autogen/layout_5_icons.h"
 
 using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
 
 void SettingsMenu::onEntry() {
-  SynLevelBase::load_background(settings_menu, sizeof(settings_menu));
+  SynLevelUI::load_background(settings_menu, sizeof(settings_menu));
 }
 
 void SettingsMenu::onRedraw(draw_mode_t what) {
   CommandProcessor cmd;
-  SynLevelBase::draw_start( cmd, what);
-  SynLevelBase::draw_bkgnd( cmd, what);
-  SynLevelBase::draw_title( cmd, what, F("Settings Menu"));
-  SynLevelBase::draw_tile(  cmd, what, 1, GET_TEXT_F(MSG_INFO_MENU));
-  SynLevelBase::draw_tile(  cmd, what, 2, GET_TEXT_F(MSG_INTERFACE));
-  SynLevelBase::draw_tile(  cmd, what, 3, F("Safety"));
-  SynLevelBase::draw_tile(  cmd, what, 4, F("Wireless"));
-  SynLevelBase::draw_temp(  cmd, what);
-  SynLevelBase::draw_back(  cmd, what);
-  SynLevelBase::restore_bitmaps(cmd);
+  SynLevelUI ui(cmd, what);
+  ui.draw_start( );
+  ui.draw_bkgnd( );
+  ui.draw_title( POLY(status_text), F("Settings Menu"));
+  ui.draw_tile(  POLY(icon_1), 1,   GET_TEXT_F(MSG_INFO_MENU));
+  ui.draw_tile(  POLY(icon_2), 2,   GET_TEXT_F(MSG_ZPROBE_ZOFFSET));
+  ui.draw_tile(  POLY(icon_3), 3,   GET_TEXT_F(MSG_INTERFACE));
+  ui.draw_tile(  POLY(icon_4), 4,   F("Safety"));
+  ui.draw_tile(  POLY(icon_5), 5,   F("Advanced"));
+  ui.draw_noz(   POLY(nozzle_temp));
+  ui.draw_bed(   POLY(bed_temp));
+  ui.draw_fan(   POLY(fan_percent));
+  ui.draw_back(  POLY(done_btn));
+  ui.restore_bitmaps();
 }
 
 bool SettingsMenu::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 1: GOTO_SCREEN(AboutScreen); break;
-    case 2: GOTO_SCREEN(InterfaceSettingsScreen); LockScreen::check_passcode(); break;
-    case 3: GOTO_SCREEN(SafetyScreen); break;
-    case 4: GOTO_SCREEN(MainMenu); break;
+    case 2: GOTO_SCREEN(ZOffsetScreen); break;
+    case 3: GOTO_SCREEN(InterfaceSettingsScreen); LockScreen::check_passcode(); break;
+    case 4: GOTO_SCREEN(SafetyScreen); break;
+    case 5: GOTO_SCREEN(MainMenu); break;
     default: return SynLevelBase::onTouchEnd(tag);
   }
   return true;

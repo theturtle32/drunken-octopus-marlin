@@ -26,7 +26,8 @@
 #ifdef SYNDAVER_LEVEL_STATUS_SCREEN
 
 #include "../archim2-flash/flash_storage.h"
-#include "png/status_screen.h"
+#include "autogen/status_screen.h"
+#include "autogen/layout_4_icons.h"
 
 using namespace FTDI;
 using namespace Theme;
@@ -37,20 +38,24 @@ void StatusScreen::onStartup() {
 }
 
 void StatusScreen::onEntry() {
-  SynLevelBase::load_background(status_screen, sizeof(status_screen));
+  SynLevelUI::load_background(status_screen, sizeof(status_screen));
 }
 
 void StatusScreen::onRedraw(draw_mode_t what) {
   if (what & FOREGROUND) {
     CommandProcessor cmd;
-    SynLevelBase::draw_start( cmd, what);
-    SynLevelBase::draw_tile(  cmd, what, 1, F("File Select"), isMediaInserted() && !isPrintingFromMedia() && !isPrinting());
-    SynLevelBase::draw_tile(  cmd, what, 2, F("Print"));
-    SynLevelBase::draw_tile(  cmd, what, 3, F("Tools"));
-    SynLevelBase::draw_tile(  cmd, what, 4, F("Settings"));
-    SynLevelBase::draw_fan(   cmd, what);
-    SynLevelBase::draw_prog(  cmd, what);
-    SynLevelBase::draw_temp(  cmd, what);
+    SynLevelUI ui(cmd, what);
+    ui.draw_start();
+    ui.draw_tile( POLY(icon_1), 1, F("File Select"), isMediaInserted() && !isPrintingFromMedia() && !isPrinting());
+    ui.draw_tile( POLY(icon_2), 2, F("Print"));
+    ui.draw_tile( POLY(icon_3), 3, F("Tools"));
+    ui.draw_tile( POLY(icon_4), 4, F("Settings"));
+    ui.draw_fan(  POLY(fan_percent));
+    ui.draw_prog( POLY(done_btn));
+    ui.draw_time( POLY(print_time));
+    ui.draw_noz(  POLY(nozzle_temp));
+    ui.draw_bed(  POLY(bed_temp));
+    ui.draw_file( POLY(file_name));
   }
 }
 
@@ -73,12 +78,16 @@ void StatusScreen::setStatusMessage(const char *message) {
      .cmd(CLEAR_COLOR_RGB(bg_color))
      .cmd(CLEAR(true,true,true));
 
-  SynLevelBase::draw_bkgnd( cmd, BACKGROUND);
-  SynLevelBase::draw_title( cmd, BACKGROUND, message);
-  SynLevelBase::draw_prog(  cmd, BACKGROUND);
-  SynLevelBase::draw_fan(   cmd, BACKGROUND);
-  SynLevelBase::draw_temp(  cmd, BACKGROUND);
-  SynLevelBase::restore_bitmaps(cmd);
+  SynLevelUI ui(cmd, BACKGROUND);
+  ui.draw_bkgnd();
+  ui.draw_title( POLY(status_text), message);
+  ui.draw_prog( POLY(print_time));
+  ui.draw_time( POLY(done_btn));
+  ui.draw_fan( POLY(fan_percent));
+  ui.draw_noz( POLY(nozzle_temp));
+  ui.draw_bed( POLY(bed_temp));
+  ui.draw_file( POLY(file_name));
+  ui.restore_bitmaps();
 
   storeBackground();
 

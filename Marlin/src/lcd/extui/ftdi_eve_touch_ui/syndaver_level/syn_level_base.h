@@ -23,23 +23,35 @@
 
 #define SYNDAVER_LEVEL_BASE
 
+#define POLY(A) PolyUI::poly_reader_t(A, sizeof(A)/sizeof(A[0]))
+
+class SynLevelUI : public PolyUI {
+  private:
+    static void _format_time(char *outstr, uint32_t time);
+    static void send_buffer(CommandProcessor &cmd, const void *data, uint16_t len);
+  public:
+    SynLevelUI(CommandProcessor &cmd, draw_mode_t what = BOTH) : PolyUI(cmd, what) {}
+
+    static void load_background(const void *data, uint16_t len);
+
+    void draw_start();
+    void draw_bkgnd();
+    void draw_time(poly_reader_t);
+    void draw_prog(poly_reader_t);
+    void draw_fan(poly_reader_t);
+    void draw_noz(poly_reader_t);
+    void draw_bed(poly_reader_t);
+    void draw_title(poly_reader_t, const char * const);
+    void draw_title(poly_reader_t, progmem_str message);
+    void draw_file(poly_reader_t);
+    void draw_back(poly_reader_t);
+    void draw_tile(poly_reader_t, uint8_t tag, progmem_str label, bool enabled = true);
+    void restore_bitmaps();
+};
+
 class SynLevelBase : public BaseScreen {
   private:
     static void _format_time(char *outstr, uint32_t time);
-  protected:
-    static void send_buffer(CommandProcessor &cmd, const void *data, uint16_t len);
-    static void load_background(const void *data, uint16_t len);
-
-    static void draw_prog(  CommandProcessor &, draw_mode_t);
-    static void draw_fan(   CommandProcessor &, draw_mode_t);
-    static void draw_temp(  CommandProcessor &, draw_mode_t);
-    static void draw_start( CommandProcessor &, draw_mode_t);
-    static void draw_title( CommandProcessor &, draw_mode_t, const char * const);
-    static void draw_title( CommandProcessor &, draw_mode_t, progmem_str message);
-    static void draw_bkgnd( CommandProcessor &, draw_mode_t);
-    static void draw_back(  CommandProcessor &, draw_mode_t);
-    static void draw_tile(  CommandProcessor &, draw_mode_t, uint8_t tag, progmem_str label, bool enabled = true);
-    static void restore_bitmaps(CommandProcessor &);
   public:
     static void loadBitmaps();
     static void onIdle();

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="480"
+   height="272"
+   viewBox="0 0 480 272"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="layout_4_icons.svg"
+   inkscape:export-filename="\\wsl$\Ubuntu\home\marciot\syndaver\drunken-octopus-marlin\Marlin\src\lcd\extui\ftdi_eve_touch_ui\syndaver_level\ui\layout_4_icons.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.250069"
+     inkscape:cx="227.75408"
+     inkscape:cy="135.13104"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer4"
+     showgrid="true"
+     units="px"
+     inkscape:window-width="1519"
+     inkscape:window-height="832"
+     inkscape:window-x="1735"
+     inkscape:window-y="92"
+     inkscape:window-maximized="0"
+     inkscape:snap-global="true"
+     inkscape:snap-nodes="true"
+     inkscape:document-rotation="0">
+    <inkscape:grid
+       spacingy="1.06667"
+       spacingx="1.06667"
+       id="grid3680"
+       type="xygrid"
+       empspacing="1"
+       dotted="false"
+       snapvisiblegridlinesonly="true"
+       units="px"
+       originx="0"
+       originy="0"
+       enabled="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <linearGradient
+       gradientTransform="matrix(0.46102176,0,0,0.40115168,31019.167,1443.0649)"
+       osb:paint="solid"
+       id="linearGradient4768">
+      <stop
+         id="stop4766"
+         offset="0"
+         style="stop-color:#ffd32e;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       gradientTransform="matrix(9.1914415e-5,0,0,9.1914415e-5,-7.5664749,84.927648)"
+       osb:paint="solid"
+       id="linearGradient4762">
+      <stop
+         id="stop4760"
+         offset="0"
+         style="stop-color:#000000;stop-opacity:1;" />
+    </linearGradient>
+  </defs>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     style="display:inline"
+     inkscape:label="Outlines"
+     id="layer4"
+     inkscape:groupmode="layer">
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="icon_1"
+       d="m 21.3334,74.6669 h 85.3336 v 96.0003 H 21.3334 Z"
+       style="display:inline;fill:url(#linearGradient4768);fill-opacity:1;stroke:none;stroke-width:3.13384;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="status_text"
+       d="M 10.6667,10.6667 H 469.3348 V 64.0002 H 10.6667 Z"
+       style="display:inline;fill:url(#linearGradient4768);fill-opacity:1;stroke:none;stroke-width:5.41537;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="nozzle_temp"
+       d="m 10.6667,213.334 h 106.667 v 42.6668 H 10.6667 Z"
+       style="display:inline;fill:url(#linearGradient4768);fill-opacity:1;stroke:none;stroke-width:2.33583;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="bed_temp"
+       d="m 128.0004,213.334 h 106.667 v 42.6668 h -106.667 z"
+       style="display:inline;fill:url(#linearGradient4768);fill-opacity:1;stroke:none;stroke-width:2.33583;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="fan_percent"
+       d="m 245.3341,213.334 h 106.667 v 42.6668 h -106.667 z"
+       style="display:inline;fill:url(#linearGradient4768);fill-opacity:1;stroke:none;stroke-width:2.33583;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="done_btn"
+       d="m 362.6678,213.334 h 106.667 v 42.6668 h -106.667 z"
+       style="display:inline;fill:url(#linearGradient4768);fill-opacity:1;stroke:none;stroke-width:2.33583;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="icon_2"
+       d="m 138.6671,74.6669 h 85.3336 v 96.0003 h -85.3336 z"
+       style="display:inline;fill:url(#linearGradient4768);fill-opacity:1;stroke:none;stroke-width:3.13384;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="icon_3"
+       d="m 256.0008,74.6669 h 85.3336 v 96.0003 h -85.3336 z"
+       style="display:inline;fill:url(#linearGradient4768);fill-opacity:1;stroke:none;stroke-width:3.13384;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="icon_4"
+       d="m 373.3345,74.6669 h 85.3336 v 96.0003 h -85.3336 z"
+       style="display:inline;fill:url(#linearGradient4768);fill-opacity:1;stroke:none;stroke-width:3.13384;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="file_name"
+       d="M 10.6667,170.6672 H 352.0011 V 213.334 H 10.6667 Z"
+       style="display:inline;fill:#008000;fill-opacity:1;stroke:none;stroke-width:4.17843;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="print_time"
+       d="m 362.6678,170.6672 h 106.667 v 42.6668 h -106.667 z"
+       style="display:inline;fill:#008000;fill-opacity:1;stroke:none;stroke-width:2.33581;stroke-miterlimit:4;stroke-dasharray:none"
+       sodipodi:insensitive="true" />
+  </g>
+</svg>

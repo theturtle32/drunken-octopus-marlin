@@ -25,14 +25,15 @@
 #ifdef SYNDAVER_LEVEL_TUNE_MENU
 
 #include "../../../../feature/host_actions.h"
-#include "png/tune_menu.h"
+#include "autogen/tune_menu.h"
+#include "autogen/layout_4_icons.h"
 
 using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
 
 void TuneMenu::onEntry() {
-  SynLevelBase::load_background(tune_menu, sizeof(tune_menu));
+  SynLevelUI::load_background(tune_menu, sizeof(tune_menu));
 }
 
 void TuneMenu::onRedraw(draw_mode_t what) {
@@ -40,16 +41,19 @@ void TuneMenu::onRedraw(draw_mode_t what) {
   const bool sdOrHostPaused   = ExtUI::isPrintingPaused();
 
   CommandProcessor cmd;
-  SynLevelBase::draw_start( cmd, what);
-  SynLevelBase::draw_bkgnd( cmd, what);
-  SynLevelBase::draw_title( cmd, what, F("Print Menu"));
-  SynLevelBase::draw_tile(  cmd, what, 1, sdOrHostPaused ? GET_TEXT_F(MSG_RESUME_PRINT) : GET_TEXT_F(MSG_PAUSE_PRINT), sdOrHostPrinting);
-  SynLevelBase::draw_tile(  cmd, what, 2, GET_TEXT_F(MSG_STOP_PRINT), sdOrHostPrinting);
-  SynLevelBase::draw_tile(  cmd, what, 3, GET_TEXT_F(MSG_ZPROBE_ZOFFSET), ENABLED(HAS_BED_PROBE));
-  SynLevelBase::draw_tile(  cmd, what, 4, GET_TEXT_F(MSG_FILAMENTCHANGE), !sdOrHostPrinting || sdOrHostPaused);
-  SynLevelBase::draw_temp(  cmd, what);
-  SynLevelBase::draw_back(  cmd, what);
-  SynLevelBase::restore_bitmaps(cmd);
+  SynLevelUI ui(cmd, what);
+  ui.draw_start();
+  ui.draw_bkgnd();
+  ui.draw_title( POLY(status_text), F("Print Menu"));
+  ui.draw_tile(  POLY(icon_1), 1, sdOrHostPaused ? GET_TEXT_F(MSG_RESUME_PRINT) : GET_TEXT_F(MSG_PAUSE_PRINT), sdOrHostPrinting);
+  ui.draw_tile(  POLY(icon_2), 2, GET_TEXT_F(MSG_STOP_PRINT), sdOrHostPrinting);
+  ui.draw_tile(  POLY(icon_3), 3, GET_TEXT_F(MSG_ZPROBE_ZOFFSET), ENABLED(HAS_BED_PROBE));
+  ui.draw_tile(  POLY(icon_4), 4, GET_TEXT_F(MSG_FILAMENTCHANGE), !sdOrHostPrinting || sdOrHostPaused);
+  ui.draw_noz(   POLY(nozzle_temp));
+  ui.draw_bed(   POLY(bed_temp));
+  ui.draw_fan( POLY(fan_percent));
+  ui.draw_back(  POLY(done_btn));
+  ui.restore_bitmaps();
 }
 
 bool TuneMenu::onTouchEnd(uint8_t tag) {

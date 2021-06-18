@@ -34,103 +34,10 @@ constexpr uint8_t  format   = RGB332;
 constexpr uint16_t bitmap_w = 480;
 constexpr uint16_t bitmap_h = 272;
 
-#ifdef TOUCH_UI_800x480
-  #undef  EDGE_L
-  #undef  EDGE_R
-  #undef  EDGE_B
-  #undef  MARGIN_L
-  #undef  MARGIN_R
-  #undef  MARGIN_T
-  #undef  MARGIN_B
-  #define EDGE_L         14
-  #define EDGE_R         14
-  #define EDGE_B         14
-  #define MARGIN_L       14
-  #define MARGIN_R       14
-  #define MARGIN_T       14
-  #define MARGIN_B       14
-#endif
+#define ICON_POS(x,y,w,h) x,     y,     h, h
+#define TEXT_POS(x,y,w,h) x + h, y, w - h, h
 
-#define GRID_ROWS 7
-#define GRID_COLS 4
-#define STATUS_POS       BTN_POS(1,1), BTN_SIZE(4,2)
-#define NOZ_POS          BTN_POS(1,6), BTN_SIZE(1,2)
-#define BED_POS          BTN_POS(2,6), BTN_SIZE(1,2)
-#define FAN_POS          BTN_POS(3,6), BTN_SIZE(1,2)
-#define TIME_POS         BTN_POS(4,6), BTN_SIZE(1,2)
-
-#define BUTTONS_POS      BTN_POS(1,3), BTN_SIZE(4,3)
-#define BTN1_POS         BTN_POS(1,3), BTN_SIZE(1,3)
-#define BTN2_POS         BTN_POS(2,3), BTN_SIZE(1,3)
-#define BTN3_POS         BTN_POS(3,3), BTN_SIZE(1,3)
-#define BTN4_POS         BTN_POS(4,3), BTN_SIZE(1,3)
-#define BACK_POS         BTN_POS(3,6), BTN_SIZE(2,2)
-
-#define _ICON_POS(x,y,w,h) x, y, w/4, h
-#define _TEXT_POS(x,y,w,h) x + w/4, y, w - w/4, h
-#define ICON_POS(pos) _ICON_POS(pos)
-#define TEXT_POS(pos) _TEXT_POS(pos)
-
-void SynLevelBase::draw_fan(CommandProcessor &cmd, draw_mode_t what) {
-  if (what & BACKGROUND) {
-    // Draw Fan Percent Bitmap
-    cmd.tag(6)
-       .cmd (BITMAP_SOURCE(Fan_Icon_Info))
-       .cmd (BITMAP_LAYOUT(Fan_Icon_Info))
-       .cmd (BITMAP_SIZE  (Fan_Icon_Info))
-       .icon(ICON_POS(FAN_POS), Fan_Icon_Info, icon_scale);
-  }
-
-  if (what & FOREGROUND) {
-    char fan_str[20];
-    sprintf_P(fan_str, PSTR("%-3d %%"), int8_t(getActualFan_percent(FAN0)));
-
-    cmd.tag(6)
-       .font(font_medium)
-       .text(TEXT_POS(FAN_POS), fan_str);
-  }
-}
-
-void SynLevelBase::draw_temp(CommandProcessor &cmd, draw_mode_t what) {
-  if (what & BACKGROUND) {
-    cmd.tag(6)
-       .cmd(COLOR_RGB(daver_color));
-
-    // Draw Extruder Bitmap on Extruder Temperature Button
-
-    cmd.cmd (BITMAP_SOURCE(Extruder_Icon_Info))
-       .cmd (BITMAP_LAYOUT(Extruder_Icon_Info))
-       .cmd (BITMAP_SIZE  (Extruder_Icon_Info))
-       .icon(ICON_POS(NOZ_POS), Extruder_Icon_Info, icon_scale);
-
-    // Draw Bed Heat Bitmap on Bed Heat Button
-    cmd.cmd (BITMAP_SOURCE(Bed_Heat_Icon_Info))
-       .cmd (BITMAP_LAYOUT(Bed_Heat_Icon_Info))
-       .cmd (BITMAP_SIZE  (Bed_Heat_Icon_Info))
-       .icon(ICON_POS(BED_POS), Bed_Heat_Icon_Info, icon_scale)
-       .cmd(COLOR_RGB(bg_text_enabled));
-  }
-
-  if (what & FOREGROUND) {
-    char e0_str[20], bed_str[20];
-
-    format_temp(e0_str, getActualTemp_celsius(H0));
-    format_temp(bed_str, getActualTemp_celsius(BED));
-
-    cmd.tag(6)
-       .font(font_medium)
-       .cmd(COLOR_RGB(daver_color))
-       .text(TEXT_POS(NOZ_POS), e0_str)
-       .text(TEXT_POS(BED_POS), bed_str)
-       .cmd(COLOR_RGB(bg_text_enabled));
-  }
-}
-
-void SynLevelBase::restore_bitmaps(CommandProcessor &cmd) {
-  TERN_(TOUCH_UI_USE_UTF8, load_utf8_bitmaps(cmd)); // Restore font bitmap handles
-}
-
-void SynLevelBase::_format_time(char *outstr, uint32_t time) {
+void SynLevelUI::_format_time(char *outstr, uint32_t time) {
   const uint8_t hrs = time / 3600,
                 min = (time / 60) % 60,
                 sec = time % 60;
@@ -140,34 +47,7 @@ void SynLevelBase::_format_time(char *outstr, uint32_t time) {
     sprintf_P(outstr, PSTR("%02d:%02ds"), min, sec);
 }
 
-void SynLevelBase::draw_prog(CommandProcessor &cmd, draw_mode_t what) {
-  if (what & FOREGROUND) {
-    const uint32_t elapsed = getProgress_seconds_elapsed();
-    char elapsed_str[10];
-    _format_time(elapsed_str, elapsed);
-
-    cmd.cmd(COLOR_RGB(bg_text_enabled))
-       .font(font_medium)
-       .text(TIME_POS, elapsed_str);
-  }
-}
-
-void SynLevelBase::loadBitmaps() {
-  // Load the bitmaps for the status screen
-  using namespace Theme;
-  constexpr uint32_t base = ftdi_memory_map::RAM_G;
-  CLCD::mem_write_pgm(base + TD_Icon_Info.RAMG_offset,       TD_Icon,       sizeof(TD_Icon));
-  CLCD::mem_write_pgm(base + Extruder_Icon_Info.RAMG_offset, Extruder_Icon, sizeof(Extruder_Icon));
-  CLCD::mem_write_pgm(base + Bed_Heat_Icon_Info.RAMG_offset, Bed_Heat_Icon, sizeof(Bed_Heat_Icon));
-  CLCD::mem_write_pgm(base + Fan_Icon_Info.RAMG_offset,      Fan_Icon,      sizeof(Fan_Icon));
-
-  // Load fonts for internationalization
-  #if ENABLED(TOUCH_UI_USE_UTF8)
-    load_utf8_data(base + UTF8_FONT_OFFSET);
-  #endif
-}
-
-void SynLevelBase::send_buffer(CommandProcessor &cmd, const void *data, uint16_t len) {
+void SynLevelUI::send_buffer(CommandProcessor &cmd, const void *data, uint16_t len) {
   const char *ptr = (const char*) data;
   constexpr uint16_t block_size = 512;
   char               block[block_size];
@@ -187,16 +67,128 @@ void SynLevelBase::send_buffer(CommandProcessor &cmd, const void *data, uint16_t
   }
 }
 
-void SynLevelBase::load_background(const void *data, uint16_t len) {
-  CommandProcessor cmd;
-  cmd.inflate(BACKGROUND_OFFSET)
-     .execute();
-  send_buffer(cmd, data, len);
-  cmd.wait();
+void SynLevelUI::draw_start() {
+  if (mode & BACKGROUND) {
+    cmd.cmd(CLEAR_COLOR_RGB(bg_color))
+       .cmd(CLEAR(true,true,true))
+       .cmd(TAG(0));
+  }
+  cmd.cmd(COLOR_RGB(bg_text_enabled));
 }
 
-void SynLevelBase::draw_bkgnd(CommandProcessor &cmd, draw_mode_t what) {
-  if (what & BACKGROUND) {
+void SynLevelUI::draw_fan(PolyUI::poly_reader_t poly) {
+  PolyUI ui(cmd, mode);
+  int16_t x, y, h, v;
+  ui.bounds(poly, x, y, h, v);
+
+  if (mode & BACKGROUND) {
+    // Draw Fan Percent Bitmap
+    cmd.tag(7)
+       .cmd(COLOR_RGB(bg_text_enabled))
+       .cmd (BITMAP_SOURCE(Fan_Icon_Info))
+       .cmd (BITMAP_LAYOUT(Fan_Icon_Info))
+       .cmd (BITMAP_SIZE  (Fan_Icon_Info))
+       .icon(ICON_POS(x, y, h, v), Fan_Icon_Info, icon_scale);
+  }
+
+  if (mode & FOREGROUND) {
+    char fan_str[20];
+    sprintf_P(fan_str, PSTR("%-3d %%"), int8_t(getActualFan_percent(FAN0)));
+
+    cmd.tag(7)
+       .cmd(COLOR_RGB(bg_text_enabled))
+       .font(font_medium)
+       .text(TEXT_POS(x, y, h, v), fan_str);
+  }
+}
+
+void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly) {
+  PolyUI ui(cmd, mode);
+  int16_t x, y, h, v;
+  ui.bounds(poly, x, y, h, v);
+
+  if (mode & BACKGROUND) {
+    cmd.tag(7)
+       .cmd (COLOR_RGB(daver_color))
+       .cmd (BITMAP_SOURCE(Extruder_Icon_Info))
+       .cmd (BITMAP_LAYOUT(Extruder_Icon_Info))
+       .cmd (BITMAP_SIZE  (Extruder_Icon_Info))
+       .icon(ICON_POS(x, y, h, v), Extruder_Icon_Info, icon_scale);
+  }
+
+  if (mode & FOREGROUND) {
+    char e0_str[20];
+
+    format_temp(e0_str, getActualTemp_celsius(H0));
+
+    cmd.tag(7)
+       .font(font_medium)
+       .cmd(COLOR_RGB(daver_color))
+       .text(TEXT_POS(x, y, h, v), e0_str)
+       .cmd(COLOR_RGB(bg_text_enabled));
+  }
+}
+
+void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly) {
+  PolyUI ui(cmd, mode);
+  int16_t x, y, h, v;
+  ui.bounds(poly, x, y, h, v);
+
+  if (mode & BACKGROUND) {
+    cmd.tag(7)
+       .cmd(COLOR_RGB(daver_color))
+       .cmd (BITMAP_SOURCE(Bed_Heat_Icon_Info))
+       .cmd (BITMAP_LAYOUT(Bed_Heat_Icon_Info))
+       .cmd (BITMAP_SIZE  (Bed_Heat_Icon_Info))
+       .icon(ICON_POS(x, y, h, v), Bed_Heat_Icon_Info, icon_scale)
+       .cmd(COLOR_RGB(bg_text_enabled));
+  }
+
+  if (mode & FOREGROUND) {
+    char bed_str[20];
+    format_temp(bed_str, getActualTemp_celsius(BED));
+
+    cmd.tag(7)
+       .font(font_medium)
+       .cmd(COLOR_RGB(daver_color))
+       .text(TEXT_POS(x, y, h, v), bed_str)
+       .cmd(COLOR_RGB(bg_text_enabled));
+  }
+}
+
+void SynLevelUI::draw_prog(PolyUI::poly_reader_t poly) {
+  int16_t x, y, h, v;
+  bounds(poly, x, y, h, v);
+
+  if (mode & BACKGROUND) {
+    cmd.tag(7)
+       .cmd (BITMAP_SOURCE(Clock_Icon_Info))
+       .cmd (BITMAP_LAYOUT(Clock_Icon_Info))
+       .cmd (BITMAP_SIZE  (Clock_Icon_Info))
+       .icon(ICON_POS(x, y, h, v), Clock_Icon_Info, icon_scale)
+       .cmd(COLOR_RGB(bg_text_enabled));
+  }
+
+  if (mode & FOREGROUND) {
+    const uint16_t current_progress = getProgress_percent() * 100;
+    char progress_str[8];
+    sprintf_P(progress_str,
+      #if ENABLED(PRINT_PROGRESS_SHOW_DECIMALS)
+        PSTR("%3d.%02d%%"), uint8_t(current_progress / 100), current_progress % 100
+      #else
+        PSTR("%3d%%"), uint8_t(current_progress / 100)
+      #endif
+    );
+
+    cmd.tag(7)
+       .font(font_medium)
+       .cmd(COLOR_RGB(bg_text_enabled))
+       .text(TEXT_POS(x, y, h, v), progress_str);
+  }
+}
+
+void SynLevelUI::draw_bkgnd() {
+  if (mode & BACKGROUND) {
     constexpr float scale_w = float(FTDI::display_width)/bitmap_w;
     constexpr float scale_h = float(FTDI::display_height)/bitmap_h;
     uint16_t linestride;
@@ -223,39 +215,76 @@ void SynLevelBase::draw_bkgnd(CommandProcessor &cmd, draw_mode_t what) {
     }
 }
 
-void SynLevelBase::draw_title(CommandProcessor &cmd, draw_mode_t what, const char *message) {
-  if (what & BACKGROUND) {
+void SynLevelUI::draw_title(PolyUI::poly_reader_t poly, const char *message) {
+  if (mode & BACKGROUND) {
+    int16_t x, y, h, v;
+    bounds(poly, x, y, h, v);
     cmd.cmd(COLOR_RGB(bg_text_enabled));
-    draw_text_box(cmd, STATUS_POS, message, OPT_CENTER, font_large);
+    draw_text_box(cmd, x, y, h, v, message, OPT_CENTER, font_large);
   }
 }
 
-void SynLevelBase::draw_title(CommandProcessor &cmd, draw_mode_t what, progmem_str message) {
-  if (what & BACKGROUND) {
+void SynLevelUI::draw_title(PolyUI::poly_reader_t poly, progmem_str message) {
+  if (mode & BACKGROUND) {
+    int16_t x, y, h, v;
+    bounds(poly, x, y, h, v);
     cmd.cmd(COLOR_RGB(bg_text_enabled));
-    draw_text_box(cmd, STATUS_POS, message, OPT_CENTER, font_large);
+    draw_text_box(cmd, x, y, h, v, message, OPT_CENTER, font_large);
   }
 }
 
-void SynLevelBase::draw_start(CommandProcessor &cmd, draw_mode_t what) {
-  if (what & BACKGROUND) {
-    cmd.cmd(CLEAR_COLOR_RGB(bg_color))
-       .cmd(CLEAR(true,true,true))
-       .cmd(TAG(0));
+void SynLevelUI::draw_file(PolyUI::poly_reader_t poly) {
+  int16_t x, y, h, v;
+  bounds(poly, x, y, h, v);
+
+  if (mode & BACKGROUND) {
+    cmd.tag(7)
+       .cmd (BITMAP_SOURCE(File_Icon_Info))
+       .cmd (BITMAP_LAYOUT(File_Icon_Info))
+       .cmd (BITMAP_SIZE  (File_Icon_Info))
+       .icon(ICON_POS(x, y, h, v), File_Icon_Info, icon_scale)
+       .cmd(COLOR_RGB(bg_text_enabled));
   }
-  cmd.cmd(COLOR_RGB(bg_text_enabled));
+
+  if (mode & FOREGROUND) {
+    cmd.font(font_medium)
+       .cmd(COLOR_RGB(bg_text_enabled))
+       .text(TEXT_POS(x, y, h, v), isMediaInserted() ? F("Media present") : F("No media present"));
+  }
 }
 
-void SynLevelBase::draw_tile(CommandProcessor &cmd, draw_mode_t what, uint8_t tag, progmem_str label, bool enabled) {
-  if (what & FOREGROUND) {
+void SynLevelUI::draw_time(PolyUI::poly_reader_t poly) {
+  int16_t x, y, h, v;
+  bounds(poly, x, y, h, v);
+
+  if (mode & BACKGROUND) {
+    cmd.cmd(COLOR_RGB(bg_text_enabled))
+       .cmd (BITMAP_SOURCE(Clock_Icon_Info))
+       .cmd (BITMAP_LAYOUT(Clock_Icon_Info))
+       .cmd (BITMAP_SIZE  (Clock_Icon_Info))
+       .icon(ICON_POS(x, y, h, v), Clock_Icon_Info, icon_scale)
+       .cmd(COLOR_RGB(bg_text_enabled));
+  }
+
+  if (mode & FOREGROUND) {
+    const uint32_t elapsed = getProgress_seconds_elapsed();
+    char elapsed_str[10];
+    _format_time(elapsed_str, elapsed);
+
+    cmd.font(font_medium)
+       .cmd(COLOR_RGB(bg_text_enabled))
+       .text(TEXT_POS(x, y, h, v), elapsed_str);
+  }
+}
+
+void SynLevelUI::draw_tile(PolyUI::poly_reader_t poly, uint8_t tag, progmem_str label, bool enabled) {
+  if (mode & FOREGROUND) {
+    int16_t x, y, h, v;
+    bounds(poly, x, y, h, v);
+      
     cmd.cmd(TAG(enabled ? tag : 0))
        .cmd(COLOR_RGB(0));
-    switch(tag) {
-      case 1: draw_text_box(cmd, BTN1_POS, label, OPT_CENTERX | OPT_BOTTOMY, font_xsmall); break;
-      case 2: draw_text_box(cmd, BTN2_POS, label, OPT_CENTERX | OPT_BOTTOMY, font_xsmall); break;
-      case 3: draw_text_box(cmd, BTN3_POS, label, OPT_CENTERX | OPT_BOTTOMY, font_xsmall); break;
-      case 4: draw_text_box(cmd, BTN4_POS, label, OPT_CENTERX | OPT_BOTTOMY, font_xsmall); break;
-    }
+    draw_text_box(cmd, x, y, h, v, label, OPT_CENTERX | OPT_BOTTOMY, font_xsmall);
     if(enabled) {
       cmd.cmd(COLOR_MASK(0,0,0,0));
     } else {
@@ -263,12 +292,7 @@ void SynLevelBase::draw_tile(CommandProcessor &cmd, draw_mode_t what, uint8_t ta
          .cmd(COLOR_A(224))
          .cmd(COLOR_RGB(bg_color));
     }
-    switch(tag) {
-      case 1: cmd.rectangle(BTN1_POS); break;
-      case 2: cmd.rectangle(BTN2_POS); break;
-      case 3: cmd.rectangle(BTN3_POS); break;
-      case 4: cmd.rectangle(BTN4_POS); break;
-    }
+    cmd.rectangle(x, y, h, v);
     if(enabled)
       cmd.cmd(COLOR_MASK(1,1,1,1));
     else
@@ -276,12 +300,44 @@ void SynLevelBase::draw_tile(CommandProcessor &cmd, draw_mode_t what, uint8_t ta
   }
 }
 
-void SynLevelBase::draw_back(CommandProcessor &cmd, draw_mode_t what) {
-  if (what & FOREGROUND) {
+void SynLevelUI::draw_back(PolyUI::poly_reader_t poly) {
+  if (mode & FOREGROUND) {
+    int16_t x, y, h, v;
+    bounds(poly, x, y, h, v);
+
     cmd.colors(action_btn)
        .font(font_medium)
-       .tag(5).button(BACK_POS, GET_TEXT_F(MSG_BACK));
+       .tag(6).button(x, y, h, v, GET_TEXT_F(MSG_BUTTON_DONE));
   }
+}
+
+void SynLevelUI::load_background(const void *data, uint16_t len) {
+  CommandProcessor cmd;
+  cmd.inflate(BACKGROUND_OFFSET)
+     .execute();
+  send_buffer(cmd, data, len);
+  cmd.wait();
+}
+
+void SynLevelUI::restore_bitmaps() {
+  TERN_(TOUCH_UI_USE_UTF8, load_utf8_bitmaps(cmd)); // Restore font bitmap handles
+}
+
+void SynLevelBase::loadBitmaps() {
+  // Load the bitmaps for the status screen
+  using namespace Theme;
+  constexpr uint32_t base = ftdi_memory_map::RAM_G;
+  CLCD::mem_write_pgm(base + Clock_Icon_Info.RAMG_offset,    Clock_Icon,    sizeof(Clock_Icon));
+  CLCD::mem_write_pgm(base + File_Icon_Info.RAMG_offset,     File_Icon,     sizeof(File_Icon));
+  CLCD::mem_write_pgm(base + TD_Icon_Info.RAMG_offset,       TD_Icon,       sizeof(TD_Icon));
+  CLCD::mem_write_pgm(base + Extruder_Icon_Info.RAMG_offset, Extruder_Icon, sizeof(Extruder_Icon));
+  CLCD::mem_write_pgm(base + Bed_Heat_Icon_Info.RAMG_offset, Bed_Heat_Icon, sizeof(Bed_Heat_Icon));
+  CLCD::mem_write_pgm(base + Fan_Icon_Info.RAMG_offset,      Fan_Icon,      sizeof(Fan_Icon));
+
+  // Load fonts for internationalization
+  #if ENABLED(TOUCH_UI_USE_UTF8)
+    load_utf8_data(base + UTF8_FONT_OFFSET);
+  #endif
 }
 
 void SynLevelBase::onIdle() {
@@ -294,8 +350,8 @@ void SynLevelBase::onIdle() {
 
 bool SynLevelBase::onTouchEnd(uint8_t tag) {
   switch (tag) {
-    case 5: GOTO_PREVIOUS(); break;
-    case 6: GOTO_SCREEN(TemperatureScreen); break;
+    case 6: GOTO_PREVIOUS(); break;
+    case 7: GOTO_SCREEN(TemperatureScreen); break;
     default: return false;
   }
   return true;

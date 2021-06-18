@@ -24,39 +24,44 @@
 
 #ifdef SYNDAVER_LEVEL_LEVELING_MENU
 
-#include "png/leveling_menu.h"
+#include "autogen/leveling_menu.h"
+#include "autogen/layout_5_icons.h"
 
 using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
 
 void LevelingMenu::onEntry() {
-  SynLevelBase::load_background(leveling_menu, sizeof(leveling_menu));
+  SynLevelUI::load_background(leveling_menu, sizeof(leveling_menu));
 }
 
 void LevelingMenu::onRedraw(draw_mode_t what) {
   CommandProcessor cmd;
-  SynLevelBase::draw_start( cmd, what);
-  SynLevelBase::draw_bkgnd( cmd, what);
-  SynLevelBase::draw_title( cmd, what, F("Leveling Menu"));
-  SynLevelBase::draw_tile(  cmd, what, 1, GET_TEXT_F(MSG_PROBE_BED));
-  SynLevelBase::draw_tile(  cmd, what, 2, GET_TEXT_F(MSG_SHOW_MESH));
-  SynLevelBase::draw_tile(  cmd, what, 3, GET_TEXT_F(MSG_EDIT_MESH));
-  SynLevelBase::draw_tile(  cmd, what, 4, GET_TEXT_F(MSG_PRINT_TEST));
-  SynLevelBase::draw_temp(  cmd, what);
-  SynLevelBase::draw_back(  cmd, what);
-  SynLevelBase::restore_bitmaps(cmd);
+  SynLevelUI ui(cmd, what);
+  ui.draw_start();
+  ui.draw_bkgnd();
+  ui.draw_title( POLY(status_text), F("Leveling Menu"));
+  ui.draw_tile(  POLY(icon_1), 1, F("Manual Leveling"));
+  ui.draw_tile(  POLY(icon_2), 2, GET_TEXT_F(MSG_PROBE_BED));
+  ui.draw_tile(  POLY(icon_3), 3, GET_TEXT_F(MSG_SHOW_MESH));
+  ui.draw_tile(  POLY(icon_4), 4, GET_TEXT_F(MSG_EDIT_MESH));
+  ui.draw_tile(  POLY(icon_5), 5, GET_TEXT_F(MSG_PRINT_TEST));
+  ui.draw_noz(   POLY(nozzle_temp));
+  ui.draw_bed(   POLY(bed_temp));
+  ui.draw_fan(   POLY(fan_percent));
+  ui.draw_back(  POLY(done_btn));
+  ui.restore_bitmaps();
 }
 
 bool LevelingMenu::onTouchEnd(uint8_t tag) {
   switch (tag) {
     #if ENABLED(AUTO_BED_LEVELING_UBL)
-    case 1: BedMeshViewScreen::doProbe(); break;
-    case 2: BedMeshViewScreen::show(); break;
-    case 3: BedMeshEditScreen::show(); break;
+    case 2: BedMeshViewScreen::doProbe(); break;
+    case 3: BedMeshViewScreen::show(); break;
+    case 4: BedMeshEditScreen::show(); break;
     #endif
     #if ENABLED(G26_MESH_VALIDATION)
-    case 4: BedMeshViewScreen::doMeshValidation(); break;
+    case 5: BedMeshViewScreen::doMeshValidation(); break;
     #endif
     default: return SynLevelBase::onTouchEnd(tag);
   }

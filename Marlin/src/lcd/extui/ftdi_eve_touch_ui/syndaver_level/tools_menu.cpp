@@ -24,27 +24,31 @@
 
 #ifdef SYNDAVER_LEVEL_TOOLS_MENU
 
-#include "png/tools_menu.h"
+#include "autogen/tools_menu.h"
+#include "autogen/layout_3_icons.h"
 
 using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
 
 void ToolsMenu::onEntry() {
-  SynLevelBase::load_background(tools_menu, sizeof(tools_menu));
+  SynLevelUI::load_background(tools_menu, sizeof(tools_menu));
 }
 
 void ToolsMenu::onRedraw(draw_mode_t what) {
   CommandProcessor cmd;
-  SynLevelBase::draw_start( cmd, what);
-  SynLevelBase::draw_bkgnd( cmd, what);
-  SynLevelBase::draw_title( cmd, what, F("Tools Menu"));
-  SynLevelBase::draw_tile(  cmd, what, 1, GET_TEXT_F(MSG_MOVE_AXIS), !isPrinting());
-  SynLevelBase::draw_tile(  cmd, what, 2, GET_TEXT_F(MSG_LEVELING),  !isPrinting());
-  SynLevelBase::draw_tile(  cmd, what, 3, F("Hotend"),               !isPrinting());
-  SynLevelBase::draw_temp(  cmd, what);
-  SynLevelBase::draw_back(  cmd, what);
-  SynLevelBase::restore_bitmaps(cmd);
+  SynLevelUI ui(cmd, what);
+  ui.draw_start();
+  ui.draw_bkgnd();
+  ui.draw_title( POLY(status_text), F("Tools Menu"));
+  ui.draw_tile(  POLY(icon_1), 1,   GET_TEXT_F(MSG_MOVE_AXIS), !isPrinting());
+  ui.draw_tile(  POLY(icon_2), 2,   GET_TEXT_F(MSG_LEVELING),  !isPrinting());
+  ui.draw_tile(  POLY(icon_3), 3,   F("Hotend"),               !isPrinting());
+  ui.draw_noz(   POLY(nozzle_temp));
+  ui.draw_bed(   POLY(bed_temp));
+  ui.draw_fan(   POLY(fan_percent));
+  ui.draw_back(  POLY(done_btn));
+  ui.restore_bitmaps();
 }
 
 bool ToolsMenu::onTouchEnd(uint8_t tag) {

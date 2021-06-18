@@ -24,28 +24,33 @@
 
 #ifdef SYNDAVER_LEVEL_MOVE_MENU
 
-#include "png/move_menu.h"
+#include "autogen/move_menu.h"
+#include "autogen/layout_5_icons.h"
 
 using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
 
 void MoveMenu::onEntry() {
-  SynLevelBase::load_background(move_menu, sizeof(move_menu));
+  SynLevelUI::load_background(move_menu, sizeof(move_menu));
 }
 
 void MoveMenu::onRedraw(draw_mode_t what) {
   CommandProcessor cmd;
-  SynLevelBase::draw_start( cmd, what);
-  SynLevelBase::draw_bkgnd( cmd, what);
-  SynLevelBase::draw_title( cmd, what, F("Move Menu"));
-  SynLevelBase::draw_tile(  cmd, what, 1, F("Home (All)"));
-  SynLevelBase::draw_tile(  cmd, what, 2, F("Top"));
-  SynLevelBase::draw_tile(  cmd, what, 3, F("Bottom"));
-  SynLevelBase::draw_tile(  cmd, what, 4, F("Maintenance Position"));
-  SynLevelBase::draw_temp(  cmd, what);
-  SynLevelBase::draw_back(  cmd, what);    
-  SynLevelBase::restore_bitmaps(cmd);
+  SynLevelUI ui(cmd, what);
+  ui.draw_start();
+  ui.draw_bkgnd();
+  ui.draw_title( POLY(status_text), F("Move Menu"));
+  ui.draw_tile(  POLY(icon_1), 1,   F("Home (All)"));
+  ui.draw_tile(  POLY(icon_2), 2,   F("Top"));
+  ui.draw_tile(  POLY(icon_3), 3,   F("Bottom"));
+  ui.draw_tile(  POLY(icon_4), 4,   F("Maintenance Position"));
+  ui.draw_tile(  POLY(icon_5), 5,   F("Custom"));
+  ui.draw_noz(   POLY(nozzle_temp));
+  ui.draw_bed(   POLY(bed_temp));
+  ui.draw_fan(   POLY(fan_percent));
+  ui.draw_back(  POLY(done_btn)); 
+  ui.restore_bitmaps();
 }
 
 bool MoveMenu::onTouchEnd(uint8_t tag) {
