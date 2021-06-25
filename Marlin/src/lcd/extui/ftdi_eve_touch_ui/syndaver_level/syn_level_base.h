@@ -33,6 +33,7 @@ class SynLevelUI : public PolyUI {
     SynLevelUI(CommandProcessor &cmd, draw_mode_t what = BOTH) : PolyUI(cmd, what) {}
 
     static void load_background(const void *data, uint16_t len);
+    static bool isFileSelected();
 
     void draw_start();
     void draw_bkgnd();

@@ -78,8 +78,8 @@ void SynLevelUI::draw_start() {
 
 void SynLevelUI::draw_fan(PolyUI::poly_reader_t poly) {
   PolyUI ui(cmd, mode);
-  int16_t x, y, h, v;
-  ui.bounds(poly, x, y, h, v);
+  int16_t x, y, w, h;
+  ui.bounds(poly, x, y, w, h);
 
   if (mode & BACKGROUND) {
     // Draw Fan Percent Bitmap
@@ -88,7 +88,7 @@ void SynLevelUI::draw_fan(PolyUI::poly_reader_t poly) {
        .cmd (BITMAP_SOURCE(Fan_Icon_Info))
        .cmd (BITMAP_LAYOUT(Fan_Icon_Info))
        .cmd (BITMAP_SIZE  (Fan_Icon_Info))
-       .icon(ICON_POS(x, y, h, v), Fan_Icon_Info, icon_scale);
+       .icon(ICON_POS(x, y, w, h), Fan_Icon_Info, icon_scale);
   }
 
   if (mode & FOREGROUND) {
@@ -98,14 +98,14 @@ void SynLevelUI::draw_fan(PolyUI::poly_reader_t poly) {
     cmd.tag(7)
        .cmd(COLOR_RGB(bg_text_enabled))
        .font(font_medium)
-       .text(TEXT_POS(x, y, h, v), fan_str);
+       .text(TEXT_POS(x, y, w, h), fan_str);
   }
 }
 
 void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly) {
   PolyUI ui(cmd, mode);
-  int16_t x, y, h, v;
-  ui.bounds(poly, x, y, h, v);
+  int16_t x, y, w, h;
+  ui.bounds(poly, x, y, w, h);
 
   if (mode & BACKGROUND) {
     cmd.tag(7)
@@ -113,7 +113,7 @@ void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly) {
        .cmd (BITMAP_SOURCE(Extruder_Icon_Info))
        .cmd (BITMAP_LAYOUT(Extruder_Icon_Info))
        .cmd (BITMAP_SIZE  (Extruder_Icon_Info))
-       .icon(ICON_POS(x, y, h, v), Extruder_Icon_Info, icon_scale);
+       .icon(ICON_POS(x, y, w, h), Extruder_Icon_Info, icon_scale);
   }
 
   if (mode & FOREGROUND) {
@@ -124,15 +124,15 @@ void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly) {
     cmd.tag(7)
        .font(font_medium)
        .cmd(COLOR_RGB(daver_color))
-       .text(TEXT_POS(x, y, h, v), e0_str)
+       .text(TEXT_POS(x, y, w, h), e0_str)
        .cmd(COLOR_RGB(bg_text_enabled));
   }
 }
 
 void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly) {
   PolyUI ui(cmd, mode);
-  int16_t x, y, h, v;
-  ui.bounds(poly, x, y, h, v);
+  int16_t x, y, w, h;
+  ui.bounds(poly, x, y, w, h);
 
   if (mode & BACKGROUND) {
     cmd.tag(7)
@@ -140,7 +140,7 @@ void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly) {
        .cmd (BITMAP_SOURCE(Bed_Heat_Icon_Info))
        .cmd (BITMAP_LAYOUT(Bed_Heat_Icon_Info))
        .cmd (BITMAP_SIZE  (Bed_Heat_Icon_Info))
-       .icon(ICON_POS(x, y, h, v), Bed_Heat_Icon_Info, icon_scale)
+       .icon(ICON_POS(x, y, w, h), Bed_Heat_Icon_Info, icon_scale)
        .cmd(COLOR_RGB(bg_text_enabled));
   }
 
@@ -151,21 +151,21 @@ void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly) {
     cmd.tag(7)
        .font(font_medium)
        .cmd(COLOR_RGB(daver_color))
-       .text(TEXT_POS(x, y, h, v), bed_str)
+       .text(TEXT_POS(x, y, w, h), bed_str)
        .cmd(COLOR_RGB(bg_text_enabled));
   }
 }
 
 void SynLevelUI::draw_prog(PolyUI::poly_reader_t poly) {
-  int16_t x, y, h, v;
-  bounds(poly, x, y, h, v);
+  int16_t x, y, w, h;
+  bounds(poly, x, y, w, h);
 
   if (mode & BACKGROUND) {
     cmd.tag(7)
        .cmd (BITMAP_SOURCE(Clock_Icon_Info))
        .cmd (BITMAP_LAYOUT(Clock_Icon_Info))
        .cmd (BITMAP_SIZE  (Clock_Icon_Info))
-       .icon(ICON_POS(x, y, h, v), Clock_Icon_Info, icon_scale)
+       .icon(ICON_POS(x, y, w, h), Clock_Icon_Info, icon_scale)
        .cmd(COLOR_RGB(bg_text_enabled));
   }
 
@@ -183,7 +183,7 @@ void SynLevelUI::draw_prog(PolyUI::poly_reader_t poly) {
     cmd.tag(7)
        .font(font_medium)
        .cmd(COLOR_RGB(bg_text_enabled))
-       .text(TEXT_POS(x, y, h, v), progress_str);
+       .text(TEXT_POS(x, y, w, h), progress_str);
   }
 }
 
@@ -217,52 +217,67 @@ void SynLevelUI::draw_bkgnd() {
 
 void SynLevelUI::draw_title(PolyUI::poly_reader_t poly, const char *message) {
   if (mode & BACKGROUND) {
-    int16_t x, y, h, v;
-    bounds(poly, x, y, h, v);
+    int16_t x, y, w, h;
+    bounds(poly, x, y, w, h);
     cmd.cmd(COLOR_RGB(bg_text_enabled));
-    draw_text_box(cmd, x, y, h, v, message, OPT_CENTER, font_large);
+    draw_text_box(cmd, x, y, w, h, message, OPT_CENTER, font_large);
   }
 }
 
 void SynLevelUI::draw_title(PolyUI::poly_reader_t poly, progmem_str message) {
   if (mode & BACKGROUND) {
-    int16_t x, y, h, v;
-    bounds(poly, x, y, h, v);
+    int16_t x, y, w, h;
+    bounds(poly, x, y, w, h);
     cmd.cmd(COLOR_RGB(bg_text_enabled));
-    draw_text_box(cmd, x, y, h, v, message, OPT_CENTER, font_large);
+    draw_text_box(cmd, x, y, w, h, message, OPT_CENTER, font_large);
   }
 }
 
 void SynLevelUI::draw_file(PolyUI::poly_reader_t poly) {
-  int16_t x, y, h, v;
-  bounds(poly, x, y, h, v);
+  int16_t x, y, w, h;
+  bounds(poly, x, y, w, h);
 
   if (mode & BACKGROUND) {
     cmd.tag(7)
        .cmd (BITMAP_SOURCE(File_Icon_Info))
        .cmd (BITMAP_LAYOUT(File_Icon_Info))
        .cmd (BITMAP_SIZE  (File_Icon_Info))
-       .icon(ICON_POS(x, y, h, v), File_Icon_Info, icon_scale)
+       .icon(ICON_POS(x, y, w, h), File_Icon_Info, icon_scale)
        .cmd(COLOR_RGB(bg_text_enabled));
   }
 
   if (mode & FOREGROUND) {
     cmd.font(font_medium)
-       .cmd(COLOR_RGB(bg_text_enabled))
-       .text(TEXT_POS(x, y, h, v), isMediaInserted() ? F("Media present") : F("No media present"));
+       .cmd(COLOR_RGB(bg_text_enabled));
+
+    FileList list;
+    if(!isMediaInserted())
+      cmd.text(TEXT_POS(x, y, w, h), F("No media present"));
+    else if(isFileSelected())
+      cmd.text(TEXT_POS(x, y, w, h), list.filename());
+    else
+      cmd.text(TEXT_POS(x, y, w, h), F("No file selected"));
   }
 }
 
+bool SynLevelUI::isFileSelected() {
+  FileList list;
+  if(list.isDir()) return false;
+  const char *filename = list.filename();
+  if(filename[0] == '\0') return false;
+  return true;
+}
+
 void SynLevelUI::draw_time(PolyUI::poly_reader_t poly) {
-  int16_t x, y, h, v;
-  bounds(poly, x, y, h, v);
+  int16_t x, y, w, h;
+  bounds(poly, x, y, w, h);
 
   if (mode & BACKGROUND) {
     cmd.cmd(COLOR_RGB(bg_text_enabled))
        .cmd (BITMAP_SOURCE(Clock_Icon_Info))
        .cmd (BITMAP_LAYOUT(Clock_Icon_Info))
        .cmd (BITMAP_SIZE  (Clock_Icon_Info))
-       .icon(ICON_POS(x, y, h, v), Clock_Icon_Info, icon_scale)
+       .icon(ICON_POS(x, y, w, h), Clock_Icon_Info, icon_scale)
        .cmd(COLOR_RGB(bg_text_enabled));
   }
 
@@ -273,18 +288,18 @@ void SynLevelUI::draw_time(PolyUI::poly_reader_t poly) {
 
     cmd.font(font_medium)
        .cmd(COLOR_RGB(bg_text_enabled))
-       .text(TEXT_POS(x, y, h, v), elapsed_str);
+       .text(TEXT_POS(x, y, w, h), elapsed_str);
   }
 }
 
 void SynLevelUI::draw_tile(PolyUI::poly_reader_t poly, uint8_t tag, progmem_str label, bool enabled) {
   if (mode & FOREGROUND) {
-    int16_t x, y, h, v;
-    bounds(poly, x, y, h, v);
+    int16_t x, y, w, h;
+    bounds(poly, x, y, w, h);
       
     cmd.cmd(TAG(enabled ? tag : 0))
        .cmd(COLOR_RGB(0));
-    draw_text_box(cmd, x, y, h, v, label, OPT_CENTERX | OPT_BOTTOMY, font_xsmall);
+    draw_text_box(cmd, x, y, w, h, label, OPT_CENTERX | OPT_BOTTOMY, font_xsmall);
     if(enabled) {
       cmd.cmd(COLOR_MASK(0,0,0,0));
     } else {
@@ -292,7 +307,7 @@ void SynLevelUI::draw_tile(PolyUI::poly_reader_t poly, uint8_t tag, progmem_str 
          .cmd(COLOR_A(224))
          .cmd(COLOR_RGB(bg_color));
     }
-    cmd.rectangle(x, y, h, v);
+    cmd.rectangle(x, y, w, h);
     if(enabled)
       cmd.cmd(COLOR_MASK(1,1,1,1));
     else
@@ -302,12 +317,12 @@ void SynLevelUI::draw_tile(PolyUI::poly_reader_t poly, uint8_t tag, progmem_str 
 
 void SynLevelUI::draw_back(PolyUI::poly_reader_t poly) {
   if (mode & FOREGROUND) {
-    int16_t x, y, h, v;
-    bounds(poly, x, y, h, v);
+    int16_t x, y, w, h;
+    bounds(poly, x, y, w, h);
 
     cmd.colors(action_btn)
        .font(font_medium)
-       .tag(6).button(x, y, h, v, GET_TEXT_F(MSG_BUTTON_DONE));
+       .tag(6).button(x, y, w, h, GET_TEXT_F(MSG_BUTTON_DONE));
   }
 }
 

@@ -57,9 +57,9 @@ bool SettingsMenu::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 1: GOTO_SCREEN(AboutScreen); break;
     case 2: GOTO_SCREEN(ZOffsetScreen); break;
-    case 3: GOTO_SCREEN(InterfaceSettingsScreen); LockScreen::check_passcode(); break;
+    case 3: GOTO_SCREEN(InterfaceSettingsScreen); break;
     case 4: GOTO_SCREEN(SafetyScreen); break;
-    case 5: GOTO_SCREEN(MainMenu); break;
+    case 5: break;
     default: return SynLevelBase::onTouchEnd(tag);
   }
   return true;

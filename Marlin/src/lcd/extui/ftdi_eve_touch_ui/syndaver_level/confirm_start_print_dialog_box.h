@@ -1,9 +1,10 @@
-/**********************************
- * syndaver_level/status_screen.h *
- **********************************/
+/************************************
+ * confirm_start_print_dialog_box.h *
+ ************************************/
 
 /****************************************************************************
- *   Written By Marcio Teixeira 2021 - SynDaver Labs, Inc.                  *
+ *   Written By Mark Pelletier  2017 - Aleph Objects, Inc.                  *
+ *   Written By Marcio Teixeira 2018 - Aleph Objects, Inc.                  *
  *                                                                          *
  *   This program is free software: you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published by   *
@@ -21,17 +22,16 @@
 
 #pragma once
 
-#define SYNDAVER_LEVEL_STATUS_SCREEN
-#define SYNDAVER_LEVEL_STATUS_SCREEN_CLASS StatusScreen
+#define SYNDAVER_LEVEL_CONFIRM_START_PRINT
+#define SYNDAVER_LEVEL_CONFIRM_START_PRINT_CLASS ConfirmStartPrintDialogBox
 
-class StatusScreen : public SynLevelBase, public CachedScreen<STATUS_SCREEN_CACHE,STATUS_SCREEN_DL_SIZE> {
+class ConfirmStartPrintDialogBox : public DialogBoxBaseClass, public UncachedScreen {
+  private:
+    inline static const char *getShortFilename() {return getFilename(false);}
+    inline static const char *getLongFilename()  {return getFilename(true);}
+
+    static const char *getFilename(bool longName);
   public:
-    static void setStatusMessage(const char *);
-    static void setStatusMessage(progmem_str);
     static void onRedraw(draw_mode_t);
-    static void onEntry();
-    static void onStartup();
-    static bool onTouchEnd(uint8_t tag);
-    static void onMediaInserted();
-    static void onMediaRemoved();
+    static bool onTouchEnd(uint8_t);
 };
