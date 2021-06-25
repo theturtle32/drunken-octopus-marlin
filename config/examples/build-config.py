@@ -2535,7 +2535,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOUCH_UI_USE_UTF8"]                      = True
         MARLIN["TOUCH_UI_UTF8_COPYRIGHT"]                = True
         MARLIN["TOUCH_UI_UTF8_SUPERSCRIPTS"]             = True
-        MARLIN["TOUCH_UI_DEVELOPER_MENU"]                = True
+        MARLIN["TOUCH_UI_DEVELOPER_MENU"]                = not "SynDaver" in PRINTER
         MARLIN["LCD_SET_PROGRESS_MANUALLY"]              = True
         MARLIN["SCROLL_LONG_FILENAMES"]                  = True
         MARLIN["NO_TIME_AFTER_SD_PRINT"]                 = True
