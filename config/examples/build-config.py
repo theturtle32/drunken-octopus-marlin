@@ -1472,7 +1472,7 @@ def make_config(PRINTER, TOOLHEAD):
                 MARLIN["PROBING_MARGIN"]                 = 10
                 MARLIN["MESH_INSET"]                     = 10
             MARLIN["PROBING_FANS_OFF"]                   = True
-            MARLIN["PROBING_STEPPERS_OFF"]               = True
+            MARLIN["PROBING_STEPPERS_OFF"]               = False
             GOTO_1ST_PROBE_POINT                         = ""
 
             MARLIN["BED_LEVELING_COMMANDS"]              = C_STRING("G28 O\nG29 P1 X0 Y0\nG29 S1")
