@@ -1476,7 +1476,7 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["PROBING_STEPPERS_OFF"]               = False
             GOTO_1ST_PROBE_POINT                         = ""
 
-            MARLIN["BED_LEVELING_COMMANDS"]              = C_STRING("G28 O\nG29 P1 X0 Y0\nG29 S1")
+            MARLIN["BED_LEVELING_COMMANDS"]              = C_STRING("G28\nG29 P1 X0 Y0\nG29 S1")
 
         else:
             # Conductive Probing
