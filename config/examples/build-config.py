@@ -437,7 +437,7 @@ def make_config(PRINTER, TOOLHEAD):
         if "SynDaver_AXI_2" in PRINTER:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Axi 2")
             MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
-            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 2 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 4 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["USE_ELECTROMAGNETIC_BRAKE"]          = True
             MARLIN["CASE_LIGHT_ENABLE"]                  = True
             MARLIN["STEALTHCHOP_Z"]                      = False
@@ -445,7 +445,7 @@ def make_config(PRINTER, TOOLHEAD):
         else:
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Axi")
             MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
-            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 6 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 7 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["Z2_PRESENCE_CHECK"]                  = True
             MARLIN["STEALTHCHOP_Z"]                      = True
             MARLIN["HYBRID_THRESHOLD"]                   = True
