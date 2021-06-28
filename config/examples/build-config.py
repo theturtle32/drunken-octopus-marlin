@@ -459,7 +459,7 @@ def make_config(PRINTER, TOOLHEAD):
             # Must use 12 character USB product name to prevent board lockups
             MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("SynDaverAxi2")
             MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
-            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 2 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 3 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["USE_ELECTROMAGNETIC_BRAKE"]          = True
             MARLIN["CASE_LIGHT_ENABLE"]                  = True
             MARLIN["STEALTHCHOP_Z"]                      = False
@@ -469,7 +469,7 @@ def make_config(PRINTER, TOOLHEAD):
             # Must use 12 character USB product name to prevent board lockups
             MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("SynDaver Axi")
             MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
-            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 6 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
+            MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 7 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
             MARLIN["Z2_PRESENCE_CHECK"]                  = True
             MARLIN["STEALTHCHOP_Z"]                      = True
             MARLIN["HYBRID_THRESHOLD"]                   = True
@@ -1692,7 +1692,7 @@ def make_config(PRINTER, TOOLHEAD):
                 MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 5
                 MARLIN["Z_SERVO_ANGLES"]                     = [10,90]
                 MARLIN["PROBING_FANS_OFF"]                   = True
-                MARLIN["BED_LEVELING_COMMANDS"]              = C_STRING("G28 O\nG29 P1 X0 Y0\nG29 S1")
+                MARLIN["BED_LEVELING_COMMANDS"]              = C_STRING("G28\nG29 P1 X0 Y0\nG29 S1")
 
 ############################# X AXIS LEVELING #############################
 
