@@ -1034,19 +1034,10 @@ namespace ExtUI {
   }
 
   bool isPrintingFromMediaPaused() {
-    return TERN0(SDSUPPORT, isPrintingFromMedia() && !IS_SD_PRINTING());
+    return TERN0(SDSUPPORT, IS_SD_PAUSED());
   }
 
-  bool isPrintingFromMedia() {
-    #if ENABLED(SDSUPPORT)
-      // Account for when IS_SD_PRINTING() reports the end of the
-      // print when there is still SD card data in the planner.
-      flags.was_sd_printing = card.isFileOpen() || (flags.was_sd_printing && commandsInQueue());
-      return flags.was_sd_printing;
-    #else
-      return false;
-    #endif
-  }
+  bool isPrintingFromMedia() { return TERN0(SDSUPPORT, IS_SD_PRINTING() || IS_SD_PAUSED()); }
 
   bool isPrinting() {
     return (commandsInQueue() || isPrintingFromMedia() || TERN0(SDSUPPORT, IS_SD_PRINTING())) || print_job_timer.isRunning() || print_job_timer.isPaused();
