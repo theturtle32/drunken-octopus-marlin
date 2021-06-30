@@ -42,7 +42,7 @@ void SettingsMenu::onRedraw(draw_mode_t what) {
   ui.draw_bkgnd( );
   ui.draw_title( POLY(status_text), F("Settings Menu"));
   ui.draw_tile(  POLY(icon_1), 1,   GET_TEXT_F(MSG_INFO_MENU));
-  ui.draw_tile(  POLY(icon_2), 2,   GET_TEXT_F(MSG_ZPROBE_ZOFFSET), HAS_BED_PROBE);
+  ui.draw_tile(  POLY(icon_2), 2,   GET_TEXT_F(MSG_ZPROBE_ZOFFSET), ENABLED(HAS_BED_PROBE));
   ui.draw_tile(  POLY(icon_3), 3,   GET_TEXT_F(MSG_INTERFACE));
   ui.draw_tile(  POLY(icon_4), 4,   F("Safety"));
   ui.draw_tile(  POLY(icon_5), 5,   F("Advanced"));
