@@ -105,44 +105,44 @@ bool LevelingMenu::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 1: GOTO_PREVIOUS();                   break;
     #if ENABLED(Z2_PRESENCE_CHECK)
-    case 2:
-      if(has_z2_jumper()) {
-        GOTO_SCREEN(StatusScreen);
-        ExtUI::injectCommands_P(PSTR("G34 A2 I20 T0.01"));
-      } else {
-        SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS));
-      }
-      break;
+      case 2:
+        if(has_z2_jumper()) {
+          GOTO_SCREEN(StatusScreen);
+          ExtUI::injectCommands_P(PSTR("G34 A2 I20 T0.01"));
+        } else {
+          SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS));
+        }
+        break;
     #elif defined(AXIS_LEVELING_COMMANDS)
-    case 2: SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS)); break;
+      case 2: SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS)); break;
     #elif EITHER(Z_STEPPER_AUTO_ALIGN,MECHANICAL_GANTRY_CALIBRATION)
-    case 2:
+      case 2:
         GOTO_SCREEN(StatusScreen);
         ExtUI::injectCommands_P(PSTR("G28 Z\nG34 A2 I20 T0.01"));
         break;
     #endif
     #if ENABLED(HAS_BED_PROBE)
-    case 3:
-    #ifndef BED_LEVELING_COMMANDS
-      #define BED_LEVELING_COMMANDS "G29"
+      case 3:
+        #ifndef BED_LEVELING_COMMANDS
+          #define BED_LEVELING_COMMANDS "G29"
+        #endif
+        #if ENABLED(AUTO_BED_LEVELING_UBL)
+          BedMeshViewScreen::doProbe();
+        #else
+          SpinnerDialogBox::enqueueAndWait_P(F(BED_LEVELING_COMMANDS));
+        #endif
+        break;
     #endif
     #if ENABLED(AUTO_BED_LEVELING_UBL)
-      BedMeshViewScreen::doProbe();
-    #else
-      SpinnerDialogBox::enqueueAndWait_P(F(BED_LEVELING_COMMANDS));
-    #endif
-    break;
-    #endif
-    #if ENABLED(AUTO_BED_LEVELING_UBL)
-    case 4: BedMeshViewScreen::show(); break;
-    case 5: BedMeshEditScreen::show(); break;
+      case 4: BedMeshViewScreen::show(); break;
+      case 5: BedMeshEditScreen::show(); break;
     #endif
     #if ENABLED(G26_MESH_VALIDATION)
-    case 6: BedMeshViewScreen::doMeshValidation(); break;
+      case 6: BedMeshViewScreen::doMeshValidation(); break;
     #endif
     #if ENABLED(BLTOUCH)
-    case 7: injectCommands_P(PSTR("M280 P0 S60")); break;
-    case 8: SpinnerDialogBox::enqueueAndWait_P(F("M280 P0 S90\nG4 P100\nM280 P0 S120")); break;
+      case 7: injectCommands_P(PSTR("M280 P0 S60")); break;
+      case 8: SpinnerDialogBox::enqueueAndWait_P(F("M280 P0 S90\nG4 P100\nM280 P0 S120")); break;
     #endif
     default: return false;
   }
