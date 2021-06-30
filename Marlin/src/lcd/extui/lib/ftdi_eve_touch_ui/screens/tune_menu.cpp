@@ -104,7 +104,7 @@ bool TuneMenu::onTouchEnd(uint8_t tag) {
   using namespace Theme;
   using namespace ExtUI;
   switch (tag) {
-    case  1: GOTO_PREVIOUS();                    break;
+    case  1: SaveSettingsDialogBox::promptToSaveSettings(); break;
     case  2: GOTO_SCREEN(TemperatureScreen);     break;
     case  3: GOTO_SCREEN(ChangeFilamentScreen);  break;
     case  4:
