@@ -255,8 +255,8 @@ bool MoveScreen::onTouchHeld(uint8_t tag) {
     case 2: jog({ s,  0,  0}); return false;
     case 3: jog({ 0, -s,  0}); return false;
     case 4: jog({ 0,  s,  0}); return false;
-    case 5: jog({ 0,  0, -s}); return false;
-    case 6: jog({ 0,  0,  s}); return false;
+    case 5: jog({ 0,  0,  s}); return false; // Z orientation reversed because bed rather than nozzle moves
+    case 6: jog({ 0,  0, -s}); return false;
     case 7: UI_DECREMENT_AXIS(X); break;
     case 8: UI_INCREMENT_AXIS(X); break;
     case 9: UI_DECREMENT_AXIS(Y); break;
