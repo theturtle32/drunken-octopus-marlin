@@ -506,6 +506,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["ENDSTOP_INTERRUPTS_FEATURE"]             = True
         MARLIN["SENSORLESS_HOMING"]                      = False
         MARLIN["STEALTHCHOP_XY"]                         = False
+        MARLIN["STEALTHCHOP_Z"]                          = False
         MARLIN["STEALTHCHOP_E"]                          = True
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["PRINTCOUNTER"]                           = True
@@ -530,7 +531,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]   = 1000
         MARLIN["EMI_MITIGATION"]                         = True
         # Touch LCD configuration
-        MARLIN["TOUCH_UI_DEBUG"]                         = True
+        MARLIN["TOUCH_UI_DEBUG"]                         = False
         MARLIN["TOUCH_UI_PORTRAIT"]                      = False
         MARLIN["TOUCH_UI_NO_BOOTSCREEN"]                 = True
         MARLIN["TOUCH_UI_480x272"]                       = True
@@ -1237,11 +1238,11 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 1.75
 
     if TOOLHEAD in ["SynDaver_Level"]:
-        TOOLHEAD_TYPE                                    = "Hermera"
-        TOOLHEAD_BLOCK                                   = "E3D_Hermera_V6"
+        TOOLHEAD_TYPE                                    = "SingleExtruder"
+        TOOLHEAD_BLOCK                                   = "E3D_V6_30W_Cylinder"
         E_STEPS                                          = 136
-        MOTOR_CURRENT_E                                  = 960 # mA
-        MARLIN["TOOLHEAD_NAME"]                          = C_STRING("E3D Hermera")
+        MOTOR_CURRENT_E                                  = 600 # mA
+        MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Single Extruder")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 1.75
@@ -1365,10 +1366,22 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["DEFAULT_Ki"]                             = 3.49
         MARLIN["DEFAULT_Kd"]                             = 102.08
 
+    elif TOOLHEAD_BLOCK == "E3D_V6_30W_Cylinder":
+        # E3D V6 hotend on 1.75 Bowden Cylindrical heatsink w/ 30W heater
+        MARLIN["DEFAULT_Kp"]                             = 18.64
+        MARLIN["DEFAULT_Ki"]                             = 1.22
+        MARLIN["DEFAULT_Kd"]                             = 71.21
+
     # Heated bed variants
 
+    if "SynDaver_Level" in PRINTER:
+      # SynDaver Level aluminium bed with 150W tempco heater
+      MARLIN["DEFAULT_bedKp"]                            = 30.05
+      MARLIN["DEFAULT_bedKi"]                            = 2.04
+      MARLIN["DEFAULT_bedKd"]                            = 294.88
+
     #24V 360W silicone heater from NPH on 3mm borosilicate (TAZ 2.2+)
-    if "Guava_TAZ4" in PRINTER:
+    elif "Guava_TAZ4" in PRINTER:
       MARLIN["DEFAULT_bedKp"]                            = 20
       MARLIN["DEFAULT_bedKi"]                            = 5
       MARLIN["DEFAULT_bedKd"]                            = 275
