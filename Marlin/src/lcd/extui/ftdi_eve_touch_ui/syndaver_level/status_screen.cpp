@@ -63,6 +63,8 @@ void StatusScreen::setStatusMessage(progmem_str message) {
   char buff[strlen_P((const char * const)message)+1];
   strcpy_P(buff, (const char * const) message);
   setStatusMessage((const char *) buff);
+
+  PrintingScreen::setStatusMessage(message);
 }
 
 void StatusScreen::setStatusMessage(const char *message) {
@@ -98,6 +100,8 @@ void StatusScreen::setStatusMessage(const char *message) {
   if (AT_SCREEN(StatusScreen)) {
     current_screen.onRefresh();
   }
+
+  PrintingScreen::setStatusMessage(message);
 }
 
 bool StatusScreen::onTouchEnd(uint8_t tag) {
@@ -117,6 +121,11 @@ bool StatusScreen::onTouchEnd(uint8_t tag) {
     default: return SynLevelBase::onTouchEnd(tag);
   }
   return true;
+}
+
+void StatusScreen::onIdle() {
+  SynLevelBase::onIdle();
+  if(print_job_timer.isRunning()) GOTO_SCREEN(PrintingScreen);
 }
 
 void StatusScreen::onMediaInserted() {

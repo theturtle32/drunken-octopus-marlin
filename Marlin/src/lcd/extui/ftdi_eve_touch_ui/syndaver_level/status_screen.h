@@ -32,6 +32,7 @@ class StatusScreen : public SynLevelBase, public CachedScreen<STATUS_SCREEN_CACH
     static void onEntry();
     static void onStartup();
     static bool onTouchEnd(uint8_t tag);
+    static void onIdle();
     static void onMediaInserted();
     static void onMediaRemoved();
 };
