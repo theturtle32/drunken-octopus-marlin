@@ -62,6 +62,7 @@ bool SettingsMenu::onTouchEnd(uint8_t tag) {
     case 3: GOTO_SCREEN(InterfaceSettingsScreen); break;
     case 4: GOTO_SCREEN(SafetyScreen); break;
     case 5: break;
+    case 6: SaveSettingsDialogBox::promptToSaveSettings(); break;
     default: return SynLevelBase::onTouchEnd(tag);
   }
   return true;

@@ -34,6 +34,7 @@ using namespace ExtUI;
 
 void PrintingScreen::onEntry() {
   SynLevelUI::load_background(printing_screen, sizeof(printing_screen));
+  SaveSettingsDialogBox::promptToSaveAndStay();
 }
 
 void PrintingScreen::onRedraw(draw_mode_t what) {
