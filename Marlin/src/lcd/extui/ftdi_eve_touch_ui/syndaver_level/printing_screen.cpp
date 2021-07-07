@@ -1,6 +1,6 @@
-/************************************
- * syndaver_level/status_screen.cpp *
- ************************************/
+/**************************************
+ * syndaver_level/printing_screen.cpp *
+ **************************************/
 
 /****************************************************************************
  *   Written By Marcio Teixeira 2021 - SynDaver Labs, Inc.                  *
@@ -21,35 +21,34 @@
 
 #include "../config.h"
 #include "../screens.h"
-#include "../screen_data.h"
 
-#ifdef SYNDAVER_LEVEL_STATUS_SCREEN
+#ifdef SYNDAVER_LEVEL_PRINTING_SCREEN
 
-#include "../archim2-flash/flash_storage.h"
-#include "autogen/status_screen.h"
+#include "../../../../feature/host_actions.h"
+#include "autogen/printing_screen.h"
 #include "autogen/layout_4_icons.h"
 
 using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
 
-void StatusScreen::onStartup() {
-  UIFlashStorage::initialize();
+void PrintingScreen::onEntry() {
+  SynLevelUI::load_background(printing_screen, sizeof(printing_screen));
 }
 
-void StatusScreen::onEntry() {
-  SynLevelUI::load_background(status_screen, sizeof(status_screen));
-}
-
-void StatusScreen::onRedraw(draw_mode_t what) {
+void PrintingScreen::onRedraw(draw_mode_t what) {
   if (what & FOREGROUND) {
+    const bool sdOrHostPrinting = ExtUI::isPrinting();
+    const bool sdOrHostPaused   = ExtUI::isPrintingPaused();
+    
     CommandProcessor cmd;
     SynLevelUI ui(cmd, what);
     ui.draw_start();
-    ui.draw_tile( POLY(icon_1), 1, F("File Select"), isMediaInserted() && !isPrintingFromMedia() && !isPrinting());
-    ui.draw_tile( POLY(icon_2), 2, isPrinting() ? F("Print Status") : F("Print"), ui.isFileSelected() || isPrinting());
-    ui.draw_tile( POLY(icon_3), 3, F("Tools"));
-    ui.draw_tile( POLY(icon_4), 4, F("Settings"));
+    ui.draw_bkgnd();
+    ui.draw_tile(  POLY(icon_1), 1, sdOrHostPaused ? GET_TEXT_F(MSG_RESUME_PRINT) : GET_TEXT_F(MSG_PAUSE_PRINT), sdOrHostPrinting);
+    ui.draw_tile(  POLY(icon_2), 2, F("Cancel Print"), sdOrHostPrinting);
+    ui.draw_tile(  POLY(icon_3), 3, GET_TEXT_F(MSG_ZPROBE_ZOFFSET), ENABLED(HAS_BED_PROBE));
+    ui.draw_tile(  POLY(icon_4), 4, GET_TEXT_F(MSG_FILAMENTCHANGE), !sdOrHostPrinting || sdOrHostPaused);
     ui.draw_fan(  POLY(fan_percent));
     ui.draw_prog( POLY(done_btn));
     ui.draw_time( POLY(print_time));
@@ -59,13 +58,13 @@ void StatusScreen::onRedraw(draw_mode_t what) {
   }
 }
 
-void StatusScreen::setStatusMessage(progmem_str message) {
+void PrintingScreen::setStatusMessage(progmem_str message) {
   char buff[strlen_P((const char * const)message)+1];
   strcpy_P(buff, (const char * const) message);
   setStatusMessage((const char *) buff);
 }
 
-void StatusScreen::setStatusMessage(const char *message) {
+void PrintingScreen::setStatusMessage(const char *message) {
   if (CommandProcessor::is_processing()) {
     #if ENABLED(TOUCH_UI_DEBUG)
       SERIAL_ECHO_MSG("Cannot update status message, command processor busy");
@@ -95,37 +94,66 @@ void StatusScreen::setStatusMessage(const char *message) {
     SERIAL_ECHO_MSG("New status message: ", message);
   #endif
 
-  if (AT_SCREEN(StatusScreen)) {
+  if (AT_SCREEN(PrintingScreen)) {
     current_screen.onRefresh();
   }
 }
 
-bool StatusScreen::onTouchEnd(uint8_t tag) {
+bool PrintingScreen::onTouchEnd(uint8_t tag) {
   switch (tag) {
-    #if ENABLED(SDSUPPORT)
-      case 1: GOTO_SCREEN(FilesScreen); break;
-    #endif
-    case 2: 
-      if(isPrinting())
-          GOTO_SCREEN(PrintingScreen);
-      else
-          GOTO_SCREEN(ConfirmStartPrintDialogBox);
-      break;
-    case 3: GOTO_SCREEN(ToolsMenu); break;
-    case 4: GOTO_SCREEN(SettingsMenu); break;
-    case 6: GOTO_SCREEN(TemperatureScreen); break;
+    case 1: pauseResumePrint(); break;
+    case 2: stopPrint(); break;
+    case 3: bedHeight(); break;
+    case 4: GOTO_SCREEN(HotendScreen); break;
     default: return SynLevelBase::onTouchEnd(tag);
   }
   return true;
 }
 
-void StatusScreen::onMediaInserted() {
-  FileList list;
-  list.seek(0);
-  if (AT_SCREEN(StatusScreen)) current_screen.onRefresh();
+void PrintingScreen::onIdle() {
+  SynLevelBase::onIdle();
+  if(!print_job_timer.isRunning()) GOTO_SCREEN(StatusScreen);
 }
 
-void StatusScreen::onMediaRemoved() {
-  if (AT_SCREEN(StatusScreen)) current_screen.onRefresh();
+void PrintingScreen::pauseResumePrint() {
+  if(ExtUI::isPrintingPaused())
+    resumePrint();
+  else
+    pausePrint();
 }
-#endif // SYNDAVER_LEVEL_STATUS_SCREEN
+
+void PrintingScreen::pausePrint() {
+  sound.play(twinkle, PLAY_ASYNCHRONOUS);
+  if (ExtUI::isPrintingFromMedia())
+    ExtUI::pausePrint();
+  #ifdef ACTION_ON_PAUSE
+    else host_action_pause();
+  #endif
+  GOTO_SCREEN(StatusScreen);
+}
+
+void PrintingScreen::resumePrint() {
+  sound.play(twinkle, PLAY_ASYNCHRONOUS);
+  if (ExtUI::awaitingUserConfirm())
+    ExtUI::setUserConfirmed();
+  else if (ExtUI::isPrintingFromMedia())
+    ExtUI::resumePrint();
+  #ifdef ACTION_ON_RESUME
+    else host_action_resume();
+  #endif
+  GOTO_SCREEN(StatusScreen);
+}
+
+void PrintingScreen::stopPrint() {
+  GOTO_SCREEN(ConfirmAbortPrintDialogBox);
+  current_screen.forget();
+  PUSH_SCREEN(StatusScreen);
+}
+
+void PrintingScreen::bedHeight() {
+  #if ENABLED(HAS_BED_PROBE)
+    GOTO_SCREEN(ZOffsetScreen);
+  #endif
+}
+
+#endif // SYNDAVER_LEVEL_PRINTING_SCREEN

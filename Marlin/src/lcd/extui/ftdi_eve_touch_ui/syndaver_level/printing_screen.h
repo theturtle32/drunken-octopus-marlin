@@ -1,6 +1,6 @@
-/******************************
- * syndaver_level/tune_menu.h *
- ******************************/
+/************************************
+ * syndaver_level/printing_screen.h *
+ ************************************/
 
 /****************************************************************************
  *   Written By Marcio Teixeira 2021 - SynDaver Labs, Inc.                  *
@@ -21,10 +21,10 @@
 
 #pragma once
 
-#define SYNDAVER_LEVEL_TUNE_MENU
-#define SYNDAVER_LEVEL_TUNE_MENU_CLASS TuneMenu
+#define SYNDAVER_LEVEL_PRINTING_SCREEN
+#define SYNDAVER_LEVEL_PRINTING_SCREEN_CLASS PrintingScreen
 
-class TuneMenu : public SynLevelBase, public CachedScreen<TUNE_SCREEN_CACHE> {
+class PrintingScreen : public SynLevelBase, public CachedScreen<PRINTING_SCREEN_CACHE,PRINTING_SCREEN_DL_SIZE> {
   private:
     static void pauseResumePrint();
     static void pausePrint();
@@ -32,7 +32,10 @@ class TuneMenu : public SynLevelBase, public CachedScreen<TUNE_SCREEN_CACHE> {
     static void stopPrint();
     static void bedHeight();
   public:
+    static void setStatusMessage(const char *);
+    static void setStatusMessage(progmem_str);
     static void onEntry();
     static void onRedraw(draw_mode_t);
     static bool onTouchEnd(uint8_t tag);
+    static void onIdle();
 };

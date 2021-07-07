@@ -30,7 +30,7 @@
 
 enum {
   STATUS_SCREEN_CACHE,
-  TUNE_SCREEN_CACHE,
+  PRINTING_SCREEN_CACHE,
   ALERT_BOX_CACHE,
   SPINNER_CACHE,
   TEMPERATURE_SCREEN_CACHE,
@@ -60,6 +60,7 @@ enum {
 // cache, so we reserve a large chunk of memory for the DL cache
 
 #define STATUS_SCREEN_DL_SIZE        4096
+#define PRINTING_SCREEN_DL_SIZE      4096
 #define ALERT_BOX_DL_SIZE            3072
 #define SPINNER_DL_SIZE              3072
 #define FILE_SCREEN_DL_SIZE          4160
@@ -94,7 +95,7 @@ enum {
 
 #include "syn_level_base.h"
 #include "status_screen.h"
-#include "tune_menu.h"
+#include "printing_screen.h"
 #include "tools_menu.h"
 #include "settings_menu.h"
 #include "move_menu.h"
