@@ -145,8 +145,8 @@ void FilesScreen::drawHeader() {
      .tag(0).button(BTN_POS(2,1), BTN_SIZE(4,header_h), str, OPT_CENTER | OPT_FLAT)
      .font(font_medium)
      .colors(action_btn)
-     .tag(241).enabled(prev_enabled).button(BTN_POS(1,1), BTN_SIZE(1,header_h), F("<"))
-     .tag(242).enabled(next_enabled).button(BTN_POS(6,1), BTN_SIZE(1,header_h), F(">"));
+     .tag(242).enabled(prev_enabled).button(BTN_POS(1,1), BTN_SIZE(1,header_h), F("<"))
+     .tag(243).enabled(next_enabled).button(BTN_POS(6,1), BTN_SIZE(1,header_h), F(">"));
 }
 
 void FilesScreen::drawFooter() {
@@ -167,14 +167,14 @@ void FilesScreen::drawFooter() {
   cmd.colors(normal_btn)
      .font(font_medium)
      .colors(has_selection ? normal_btn : action_btn)
-     .tag(mydata.flags.is_root ? 240 : 244).button(BTN_POS(4,y), BTN_SIZE(3,h), mydata.flags.is_root ? GET_TEXT_F(MSG_BUTTON_DONE) : F("Up Dir"))
+     .tag(mydata.flags.is_root ? 240 : 245).button(BTN_POS(4,y), BTN_SIZE(3,h), mydata.flags.is_root ? GET_TEXT_F(MSG_BUTTON_DONE) : F("Up Dir"))
      .enabled(has_selection)
      .colors(has_selection ? action_btn : normal_btn);
 
   if (has_selection && mydata.flags.is_dir)
-    cmd.tag(243).button(BTN_POS(1, y), BTN_SIZE(3,h), GET_TEXT_F(MSG_BUTTON_OPEN));
+    cmd.tag(244).button(BTN_POS(1, y), BTN_SIZE(3,h), GET_TEXT_F(MSG_BUTTON_OPEN));
   else
-    cmd.tag(240).button(BTN_POS(1, y), BTN_SIZE(3,h), F("Select"));
+    cmd.tag(241).button(BTN_POS(1, y), BTN_SIZE(3,h), F("Select"));
 }
 
 void FilesScreen::onRedraw(draw_mode_t what) {
@@ -199,25 +199,33 @@ void FilesScreen::gotoPage(uint8_t page) {
 
 bool FilesScreen::onTouchEnd(uint8_t tag) {
   switch (tag) {
-    case 240: GOTO_PREVIOUS(); return true;
-    case 241:
+    case 240:
+    {
+        // Done button, always select first file
+        FileList files;
+        files.seek(0);
+        GOTO_PREVIOUS();
+    }
+    return true;
+    case 241: GOTO_PREVIOUS(); return true;
+    case 242:
       if (mydata.cur_page > 0) {
         gotoPage(mydata.cur_page-1);
       }
       break;
-    case 242:
+    case 243:
       if (mydata.cur_page < (mydata.num_page-1)) {
         gotoPage(mydata.cur_page+1);
       }
       break;
-    case 243:
+    case 244:
       {
         FileList files;
         files.changeDir(getSelectedShortFilename());
         gotoPage(0);
       }
       break;
-    case 244:
+    case 245:
       {
         FileList files;
         files.upDir();
