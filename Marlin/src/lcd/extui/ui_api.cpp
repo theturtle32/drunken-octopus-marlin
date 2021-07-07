@@ -1137,4 +1137,3 @@ void MarlinUI::kill_screen(PGM_P const error, PGM_P const component) {
 }
 
 #endif // EXTENSIBLE_UI
-

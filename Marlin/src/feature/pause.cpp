@@ -609,7 +609,7 @@ void resume_print(const_float_t slow_load_length/*=0*/, const_float_t fast_load_
     UNUSED(purge_length);
     UNUSED(max_beep_count);
   #else
-  if (nozzle_timed_out || thermalManager.hotEnoughToExtrude(active_extruder)) // Load the new filament
+    // Load the new filament
     load_filament(slow_load_length, fast_load_length, purge_length, max_beep_count, true, nozzle_timed_out, PAUSE_MODE_SAME DXC_PASS);
   #endif
 
