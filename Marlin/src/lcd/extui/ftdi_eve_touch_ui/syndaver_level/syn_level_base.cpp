@@ -54,7 +54,7 @@ void SynLevelUI::send_buffer(CommandProcessor &cmd, const void *data, uint16_t l
   for(;len > 0;) {
     const uint16_t nBytes = min(len, block_size);
     memcpy_P(block, ptr, nBytes);
-    cmd.write((void*)block, nBytes);
+    cmd.write((const void*)block, nBytes);
     cmd.execute();
     if(cmd.has_fault()) {
       SERIAL_ECHOLNPGM("Recovering from fault: ");
