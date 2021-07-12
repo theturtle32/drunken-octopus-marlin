@@ -121,7 +121,7 @@ bool LevelingMenu::onTouchEnd(uint8_t tag) {
         ExtUI::injectCommands_P(PSTR("G28 Z\nG34 A2 I20 T0.01"));
         break;
     #endif
-    #if ENABLED(HAS_BED_PROBE)
+    #if HAS_BED_PROBE
       case 3:
         #ifndef BED_LEVELING_COMMANDS
           #define BED_LEVELING_COMMANDS "G29"
