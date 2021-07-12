@@ -74,7 +74,7 @@ void AboutScreen::onRedraw(draw_mode_t) {
     #else
       GET_TEXT_F(MSG_ABOUT_TOUCH_PANEL_1)
     #endif
-    , OPT_CENTER, font_large
+    , OPT_CENTER, font_xlarge
   );
   #if ENABLED(TOUCH_UI_DEVELOPER_MENU) && defined(FTDI_DEVELOPER_MENU)
     cmd.tag(3);
