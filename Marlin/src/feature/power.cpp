@@ -26,7 +26,7 @@
 
 #include "../inc/MarlinConfig.h"
 
-#if ENABLED(AUTO_POWER_CONTROL)
+#if EITHER(PSU_CONTROL, AUTO_POWER_CONTROL)
 
 #include "power.h"
 #include "../module/stepper/indirection.h"
