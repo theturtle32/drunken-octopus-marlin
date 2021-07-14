@@ -538,6 +538,9 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]               = True
         MARLIN["TOUCH_UI_ROYAL_THEME"]                   = True
         MARLIN["AO_EXP2_PINMAP"]                         = True
+        # Put filament sensor on Y_MIN
+        MARLIN["USE_YMIN_PLUG"]                          = False
+        MARLIN["FIL_RUNOUT_PIN"]                         = 29 # Archim2 Y-Min
 
     if "Experimental_TouchDemo" in PRINTER:
         # Test stand with Einsy Rambo and LulzBot Touch LCD
@@ -851,8 +854,8 @@ def make_config(PRINTER, TOOLHEAD):
 
     if "SynDaver_Level" in PRINTER:
         MARLIN["Z_SAFE_HOMING"]                          = True
-        MARLIN["Z_SAFE_HOMING_X_POINT"]                  = 90
-        MARLIN["Z_SAFE_HOMING_Y_POINT"]                  = 185
+        MARLIN["Z_SAFE_HOMING_X_POINT"]                  = -24
+        MARLIN["Z_SAFE_HOMING_Y_POINT"]                  = 198
     elif PROBE_STYLE in ["BLTouch", "Inductive"]:
         MARLIN["Z_SAFE_HOMING"]                          = True
     elif USE_HOME_BUTTON:
@@ -1466,12 +1469,12 @@ def make_config(PRINTER, TOOLHEAD):
         STANDARD_Y_BED_SIZE                              = 155.8
 
     elif "SynDaver_Level" in PRINTER:
-        STANDARD_X_MAX_POS                               = 170
-        STANDARD_X_MIN_POS                               = -20
-        STANDARD_Y_MAX_POS                               = 187
-        STANDARD_Y_MIN_POS                               =  -1
+        STANDARD_X_MAX_POS                               = 180.5
+        STANDARD_X_MIN_POS                               = -24.5
+        STANDARD_Y_MAX_POS                               = 198.5
+        STANDARD_Y_MIN_POS                               =  -1.5
 
-        STANDARD_X_BED_SIZE                              = 170
+        STANDARD_X_BED_SIZE                              = 180
         STANDARD_Y_BED_SIZE                              = 180
 
     elif IS_MINI and USE_Z_SCREW:
@@ -1548,7 +1551,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     if "SynDaver_Level" in PRINTER:
         STANDARD_Z_MIN_POS                               = 0
-        STANDARD_Z_MAX_POS                               = 180
+        STANDARD_Z_MAX_POS                               = 183
 
     elif IS_MINI and USE_Z_SCREW:
         STANDARD_Z_MIN_POS                               = -5
