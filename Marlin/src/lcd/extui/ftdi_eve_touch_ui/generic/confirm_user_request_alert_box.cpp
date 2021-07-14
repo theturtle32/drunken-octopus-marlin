@@ -35,6 +35,12 @@ void ConfirmUserRequestAlertBox::onRedraw(draw_mode_t mode) {
 bool ConfirmUserRequestAlertBox::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 1:
+      #ifdef SYNDAVER_LEVEL_PRINTING_SCREEN
+        if (ExtUI::isPrintingPaused())
+          // The TuneMenu will call ExtUI::setUserConfirmed()
+          GOTO_PREVIOUS()
+        else
+      #endif
       #ifdef FTDI_TUNE_MENU
         if (ExtUI::isPrintingPaused()) {
           // The TuneMenu will call ExtUI::setUserConfirmed()
