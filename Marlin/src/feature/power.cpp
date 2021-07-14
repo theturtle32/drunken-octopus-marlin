@@ -26,8 +26,6 @@
 
 #include "../inc/MarlinConfig.h"
 
-#if ENABLED(AUTO_POWER_CONTROL)
-
 #include "power.h"
 #include "../module/stepper/indirection.h"
 #include "../MarlinCore.h"
@@ -43,13 +41,15 @@
 Power powerManager;
 bool Power::psu_on;
 
-#include "../module/temperature.h"
+#if ENABLED(AUTO_POWER_CONTROL)
+  #include "../module/temperature.h"
 
-#if BOTH(USE_CONTROLLER_FAN, AUTO_POWER_CONTROLLERFAN)
-  #include "controllerfan.h"
+  #if BOTH(USE_CONTROLLER_FAN, AUTO_POWER_CONTROLLERFAN)
+    #include "controllerfan.h"
+  #endif
+
+  millis_t Power::lastPowerOn;
 #endif
-
-millis_t Power::lastPowerOn;
 
 /**
  * Initialize pins & state for the power manager.
@@ -66,8 +66,10 @@ void Power::init(){
  *
  */
 void Power::power_on() {
-  const millis_t now = millis();
-  lastPowerOn = now + !now;
+  #if ENABLED(AUTO_POWER_CONTROL)
+    const millis_t now = millis();
+    lastPowerOn = now + !now;
+  #endif
 
   if (psu_on) return;
 
@@ -102,110 +104,113 @@ void Power::power_off() {
   psu_on = false;
 }
 
-#ifndef POWER_TIMEOUT
-  #define POWER_TIMEOUT 0
-#endif
 
-/**
- * Check all conditions that would signal power needing to be on.
- *
- * @returns bool  if power is needed
- */
-bool Power::is_power_needed() {
+#if ENABLED(AUTO_POWER_CONTROL)
 
-  if (printJobOngoing() || printingIsPaused()) return true;
-
-  #if ENABLED(AUTO_POWER_FANS)
-    FANS_LOOP(i) if (thermalManager.fan_speed[i]) return true;
+  #ifndef POWER_TIMEOUT
+    #define POWER_TIMEOUT 0
   #endif
-
-  #if ENABLED(AUTO_POWER_E_FANS)
-    HOTEND_LOOP() if (thermalManager.autofan_speed[e]) return true;
-  #endif
-
-  #if BOTH(USE_CONTROLLER_FAN, AUTO_POWER_CONTROLLERFAN)
-    if (controllerFan.state()) return true;
-  #endif
-
-  if (TERN0(AUTO_POWER_CHAMBER_FAN, thermalManager.chamberfan_speed))
-    return true;
-
-  if (TERN0(AUTO_POWER_COOLER_FAN, thermalManager.coolerfan_speed))
-    return true;
-
-  // If any of the drivers or the bed are enabled...
-  if (X_ENABLE_READ() == X_ENABLE_ON || Y_ENABLE_READ() == Y_ENABLE_ON || Z_ENABLE_READ() == Z_ENABLE_ON
-    #if HAS_X2_ENABLE
-      || X2_ENABLE_READ() == X_ENABLE_ON
-    #endif
-    #if HAS_Y2_ENABLE
-      || Y2_ENABLE_READ() == Y_ENABLE_ON
-    #endif
-    #if HAS_Z2_ENABLE
-      || Z2_ENABLE_READ() == Z_ENABLE_ON
-    #endif
-    #if E_STEPPERS
-      #define _OR_ENABLED_E(N) || E##N##_ENABLE_READ() == E_ENABLE_ON
-      REPEAT(E_STEPPERS, _OR_ENABLED_E)
-    #endif
-  ) return true;
-
-  #if HAS_HOTEND
-    HOTEND_LOOP() if (thermalManager.degTargetHotend(e) > 0 || thermalManager.temp_hotend[e].soft_pwm_amount > 0) return true;
-  #endif
-
-  if (TERN0(HAS_HEATED_BED, thermalManager.degTargetBed() > 0 || thermalManager.temp_bed.soft_pwm_amount > 0)) return true;
-
-  #if HAS_HOTEND && AUTO_POWER_E_TEMP
-    HOTEND_LOOP() if (thermalManager.degHotend(e) >= (AUTO_POWER_E_TEMP)) return true;
-  #endif
-
-  #if HAS_HEATED_CHAMBER && AUTO_POWER_CHAMBER_TEMP
-    if (thermalManager.degChamber() >= (AUTO_POWER_CHAMBER_TEMP)) return true;
-  #endif
-
-  #if HAS_COOLER && AUTO_POWER_COOLER_TEMP
-    if (thermalManager.degCooler() >= (AUTO_POWER_COOLER_TEMP)) return true;
-  #endif
-
-  return false;
-}
-
-/**
- * Check if we should power off automatically (POWER_TIMEOUT elapsed, !is_power_needed).
- *
- * @param pause  pause the 'timer'
- */
-void Power::check(const bool pause) {
-  static millis_t nextPowerCheck = 0;
-  const millis_t now = millis();
-  #if POWER_TIMEOUT > 0
-    static bool _pause = false;
-    if (pause != _pause) {
-      lastPowerOn = now + !now;
-      _pause = pause;
-    }
-    if (pause) return;
-  #endif
-  if (ELAPSED(now, nextPowerCheck)) {
-    nextPowerCheck = now + 2500UL;
-    if (is_power_needed())
-      power_on();
-    else if (!lastPowerOn || (POWER_TIMEOUT > 0 && ELAPSED(now, lastPowerOn + SEC_TO_MS(POWER_TIMEOUT))))
-      power_off();
-  }
-}
-
-#if POWER_OFF_DELAY > 0
 
   /**
-   * Power off with a delay. Power off is triggered by check() after the delay.
+   * Check all conditions that would signal power needing to be on.
    *
+   * @returns bool  if power is needed
    */
-  void Power::power_off_soon() {
-    lastPowerOn = millis() - SEC_TO_MS(POWER_TIMEOUT) + SEC_TO_MS(POWER_OFF_DELAY);
+  bool Power::is_power_needed() {
+
+    if (printJobOngoing() || printingIsPaused()) return true;
+
+    #if ENABLED(AUTO_POWER_FANS)
+      FANS_LOOP(i) if (thermalManager.fan_speed[i]) return true;
+    #endif
+
+    #if ENABLED(AUTO_POWER_E_FANS)
+      HOTEND_LOOP() if (thermalManager.autofan_speed[e]) return true;
+    #endif
+
+    #if BOTH(USE_CONTROLLER_FAN, AUTO_POWER_CONTROLLERFAN)
+      if (controllerFan.state()) return true;
+    #endif
+
+    if (TERN0(AUTO_POWER_CHAMBER_FAN, thermalManager.chamberfan_speed))
+      return true;
+
+    if (TERN0(AUTO_POWER_COOLER_FAN, thermalManager.coolerfan_speed))
+      return true;
+
+    // If any of the drivers or the bed are enabled...
+    if (X_ENABLE_READ() == X_ENABLE_ON || Y_ENABLE_READ() == Y_ENABLE_ON || Z_ENABLE_READ() == Z_ENABLE_ON
+      #if HAS_X2_ENABLE
+        || X2_ENABLE_READ() == X_ENABLE_ON
+      #endif
+      #if HAS_Y2_ENABLE
+        || Y2_ENABLE_READ() == Y_ENABLE_ON
+      #endif
+      #if HAS_Z2_ENABLE
+        || Z2_ENABLE_READ() == Z_ENABLE_ON
+      #endif
+      #if E_STEPPERS
+        #define _OR_ENABLED_E(N) || E##N##_ENABLE_READ() == E_ENABLE_ON
+        REPEAT(E_STEPPERS, _OR_ENABLED_E)
+      #endif
+    ) return true;
+
+    #if HAS_HOTEND
+      HOTEND_LOOP() if (thermalManager.degTargetHotend(e) > 0 || thermalManager.temp_hotend[e].soft_pwm_amount > 0) return true;
+    #endif
+
+    if (TERN0(HAS_HEATED_BED, thermalManager.degTargetBed() > 0 || thermalManager.temp_bed.soft_pwm_amount > 0)) return true;
+
+    #if HAS_HOTEND && AUTO_POWER_E_TEMP
+      HOTEND_LOOP() if (thermalManager.degHotend(e) >= (AUTO_POWER_E_TEMP)) return true;
+    #endif
+
+    #if HAS_HEATED_CHAMBER && AUTO_POWER_CHAMBER_TEMP
+      if (thermalManager.degChamber() >= (AUTO_POWER_CHAMBER_TEMP)) return true;
+    #endif
+
+    #if HAS_COOLER && AUTO_POWER_COOLER_TEMP
+      if (thermalManager.degCooler() >= (AUTO_POWER_COOLER_TEMP)) return true;
+    #endif
+
+    return false;
   }
 
-#endif
+  /**
+   * Check if we should power off automatically (POWER_TIMEOUT elapsed, !is_power_needed).
+   *
+   * @param pause  pause the 'timer'
+   */
+  void Power::check(const bool pause) {
+    static millis_t nextPowerCheck = 0;
+    const millis_t now = millis();
+    #if POWER_TIMEOUT > 0
+      static bool _pause = false;
+      if (pause != _pause) {
+        lastPowerOn = now + !now;
+        _pause = pause;
+      }
+      if (pause) return;
+    #endif
+    if (ELAPSED(now, nextPowerCheck)) {
+      nextPowerCheck = now + 2500UL;
+      if (is_power_needed())
+        power_on();
+      else if (!lastPowerOn || (POWER_TIMEOUT > 0 && ELAPSED(now, lastPowerOn + SEC_TO_MS(POWER_TIMEOUT))))
+        power_off();
+    }
+  }
+
+  #if POWER_OFF_DELAY > 0
+
+    /**
+     * Power off with a delay. Power off is triggered by check() after the delay.
+     *
+     */
+    void Power::power_off_soon() {
+      lastPowerOn = millis() - SEC_TO_MS(POWER_TIMEOUT) + SEC_TO_MS(POWER_OFF_DELAY);
+    }
+
+  #endif
 
 #endif // AUTO_POWER_CONTROL
