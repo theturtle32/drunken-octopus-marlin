@@ -37,6 +37,40 @@ constexpr uint16_t bitmap_h = 272;
 #define ICON_POS(x,y,w,h) x,     y,     h, h
 #define TEXT_POS(x,y,w,h) x + h, y, w - h, h
 
+uint32_t SynLevelUI::getTempColor(uint16_t temp) {
+  const rgb_t cool_rgb = fg_normal;
+  const rgb_t warm_rgb (255,  128,     0);
+  const rgb_t hot_rgb  (255,   0,      0);
+  const uint16_t cool = 25;
+  const uint16_t warm = 55;
+  const uint16_t hot  = 65;
+  rgb_t R0, R1, mix;
+
+  float t;
+  if (temp < cool) {
+    R0 = cool_rgb;
+    R1 = warm_rgb;
+    t  = 0;
+  }
+  else if (temp < warm) {
+    R0 = cool_rgb;
+    R1 = warm_rgb;
+    t = (float(temp)-cool)/(warm-cool);
+  }
+  else if (temp < hot) {
+    R0 = warm_rgb;
+    R1 = hot_rgb;
+    t = (float(temp)-warm)/(hot-warm);
+  }
+  else if (temp >= hot) {
+    R0 = warm_rgb;
+    R1 = hot_rgb;
+    t = 1;
+  }
+  rgb_t::lerp(t, R0, R1, mix);
+  return mix;
+}
+
 void SynLevelUI::_format_time(char *outstr, uint32_t time) {
   const uint8_t hrs = time / 3600,
                 min = (time / 60) % 60,
@@ -107,23 +141,19 @@ void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly) {
   int16_t x, y, w, h;
   ui.bounds(poly, x, y, w, h);
 
-  if (mode & BACKGROUND) {
+  if (mode & FOREGROUND) {
+    const float temp = getActualTemp_celsius(H0);
+    char e0_str[20];
+
+    format_temp(e0_str, temp);
+
     cmd.tag(7)
-       .cmd (COLOR_RGB(daver_color))
+       .cmd (COLOR_RGB(getTempColor(temp)))
        .cmd (BITMAP_SOURCE(Extruder_Icon_Info))
        .cmd (BITMAP_LAYOUT(Extruder_Icon_Info))
        .cmd (BITMAP_SIZE  (Extruder_Icon_Info))
-       .icon(ICON_POS(x, y, w, h), Extruder_Icon_Info, icon_scale);
-  }
-
-  if (mode & FOREGROUND) {
-    char e0_str[20];
-
-    format_temp(e0_str, getActualTemp_celsius(H0));
-
-    cmd.tag(7)
+       .icon(ICON_POS(x, y, w, h), Extruder_Icon_Info, icon_scale)
        .font(font_medium)
-       .cmd(COLOR_RGB(daver_color))
        .text(TEXT_POS(x, y, w, h), e0_str)
        .cmd(COLOR_RGB(bg_text_enabled));
   }
@@ -134,23 +164,19 @@ void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly) {
   int16_t x, y, w, h;
   ui.bounds(poly, x, y, w, h);
 
-  if (mode & BACKGROUND) {
+  if (mode & FOREGROUND) {
+    const float temp = getActualTemp_celsius(BED);
+
+    char bed_str[20];
+    format_temp(bed_str, temp);
+
     cmd.tag(7)
-       .cmd(COLOR_RGB(daver_color))
+       .cmd(COLOR_RGB(getTempColor(temp)))
        .cmd (BITMAP_SOURCE(Bed_Heat_Icon_Info))
        .cmd (BITMAP_LAYOUT(Bed_Heat_Icon_Info))
        .cmd (BITMAP_SIZE  (Bed_Heat_Icon_Info))
        .icon(ICON_POS(x, y, w, h), Bed_Heat_Icon_Info, icon_scale)
-       .cmd(COLOR_RGB(bg_text_enabled));
-  }
-
-  if (mode & FOREGROUND) {
-    char bed_str[20];
-    format_temp(bed_str, getActualTemp_celsius(BED));
-
-    cmd.tag(7)
        .font(font_medium)
-       .cmd(COLOR_RGB(daver_color))
        .text(TEXT_POS(x, y, w, h), bed_str)
        .cmd(COLOR_RGB(bg_text_enabled));
   }

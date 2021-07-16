@@ -47,44 +47,6 @@ constexpr static HotendScreenData &mydata = screen_data.HotendScreen;
 #define LOAD_CONT_POS        BTN_POS(4,3),  BTN_SIZE(1,1)
 #define BACK_POS             BTN_POS(3,4),  BTN_SIZE(2,1)
 
-#define COOL_TEMP  40
-#define LOW_TEMP  180
-#define MED_TEMP  200
-#define HIGH_TEMP 220
-
-uint32_t HotendScreen::getWarmColor(uint16_t temp, uint16_t cool, uint16_t low, uint16_t med, uint16_t high) {
-  rgb_t R0, R1, mix;
-
-  float t;
-  if (temp < cool) {
-    R0 = cool_rgb;
-    R1 = low_rgb;
-    t  = 0;
-  }
-  else if (temp < low) {
-    R0 = cool_rgb;
-    R1 = low_rgb;
-    t = (float(temp)-cool)/(low-cool);
-  }
-  else if (temp < med) {
-    R0 = low_rgb;
-    R1 = med_rgb;
-    t = (float(temp)-low)/(med-low);
-  }
-  else if (temp < high) {
-    R0 = med_rgb;
-    R1 = high_rgb;
-    t = (float(temp)-med)/(high-med);
-  }
-  else if (temp >= high) {
-    R0 = med_rgb;
-    R1 = high_rgb;
-    t = 1;
-  }
-  rgb_t::lerp(t, R0, R1, mix);
-  return mix;
-}
-
 void HotendScreen::onEntry() {
   BaseScreen::onEntry();
   mydata.repeat_tag = 0;
@@ -177,7 +139,7 @@ void HotendScreen::draw_temperature(draw_mode_t what, int16_t x, int16_t y, int1
     char str[15];
     format_temp(str, getActualTemp_celsius(E0));
 
-    const rgb_t tcol = getWarmColor(getActualTemp_celsius(E0), COOL_TEMP, LOW_TEMP, MED_TEMP, HIGH_TEMP);
+    const rgb_t tcol = SynLevelUI::getTempColor(getActualTemp_celsius(E0));
 
     CommandProcessor cmd;
     cmd.font(font_medium).fgcolor(tcol)
