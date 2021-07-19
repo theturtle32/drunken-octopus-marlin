@@ -681,7 +681,9 @@ void CardReader::openFileRead(const char * const path, const uint8_t subcall_typ
     }
 
     selectFileByName(fname);
+    #if DISABLED(TOUCH_UI_SYNDAVER_LEVEL)
     ui.set_status(longFilename[0] ? longFilename : fname);
+    #endif
   }
   else
     openFailed(fname);

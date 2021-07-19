@@ -1344,11 +1344,15 @@ constexpr uint8_t epps = ENCODER_PULSES_PER_STEP;
       static PGMSTR(service3, "> " SERVICE_NAME_3 "!");
     #endif
     PGM_P msg;
+    #if DISABLED(TOUCH_UI_SYNDAVER_LEVEL)
     if (printingIsPaused())
       msg = GET_TEXT(MSG_PRINT_PAUSED);
     #if ENABLED(SDSUPPORT)
       else if (IS_SD_PRINTING())
         return set_status(card.longest_filename(), true);
+    #endif
+    #else
+    if(0);
     #endif
     else if (print_job_timer.isRunning())
       msg = GET_TEXT(MSG_PRINTING);
@@ -1691,7 +1695,9 @@ constexpr uint8_t epps = ENCODER_PULSES_PER_STEP;
       case PAUSE_MESSAGE_RESUME:   ExtUI::onUserConfirmRequired_P(GET_TEXT(MSG_FILAMENT_CHANGE_RESUME));
       case PAUSE_MESSAGE_HEAT:     ExtUI::onUserConfirmRequired_P(GET_TEXT(MSG_FILAMENT_CHANGE_HEAT));
       case PAUSE_MESSAGE_HEATING:  ExtUI::onUserConfirmRequired_P(GET_TEXT(MSG_FILAMENT_CHANGE_HEATING));
+      #if DISABLED(TOUCH_UI_SYNDAVER_LEVEL)
       case PAUSE_MESSAGE_OPTION:   ExtUI::onUserConfirmRequired_P(GET_TEXT(MSG_FILAMENT_CHANGE_OPTION_HEADER));
+      #endif
       case PAUSE_MESSAGE_STATUS:
       default: break;
     }

@@ -603,7 +603,9 @@ void resume_print(const_float_t slow_load_length/*=0*/, const_float_t fast_load_
     thermalManager.setTargetHotend(targetTemp, active_extruder);
 
   #if ENABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
-    ExtUI::onStatusChanged(GET_TEXT(MSG_FILAMENT_CHANGE_RESUME));
+    #if DISABLED(TOUCH_UI_SYNDAVER_LEVEL)
+      ExtUI::onStatusChanged(GET_TEXT(MSG_FILAMENT_CHANGE_RESUME));
+    #endif
     UNUSED(slow_load_length);
     UNUSED(fast_load_length);
     UNUSED(purge_length);
