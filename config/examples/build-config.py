@@ -2035,6 +2035,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["ADVANCED_PAUSE_PURGE_FEEDRATE"]          = MANUAL_FEEDRATE_E
         MARLIN["PAUSE_PARK_RETRACT_FEEDRATE"]            = 10 # mm/s
         MARLIN["PARK_HEAD_ON_PAUSE"]                     = True
+        MARLIN["FILAMENT_LOAD_UNLOAD_GCODES"]            = USE_REPRAP_LCD_DISPLAY
 
         # In order to prevent jams on the Aero toolheads,
         # do a purge prior to unload
@@ -2067,8 +2068,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["EVENT_GCODE_SD_ABORT"]                   = C_STRING(EVENT_GCODE_SD_ABORT)
 
     if "SynDaver_Level" in PRINTER:
-        MARLIN["FILAMENT_LOAD_UNLOAD_GCODES"]            = True
-
         MARLIN["EXTRUDE_MAXLENGTH"]                      = 550
 
         MARLIN["FILAMENT_CHANGE_SLOW_LOAD_LENGTH"]       = 0
@@ -2082,6 +2081,22 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["FILAMENT_UNLOAD_PURGE_LENGTH"]           = 0
         MARLIN["FILAMENT_CHANGE_UNLOAD_FEEDRATE"]        = 16.6    # move E axis backwards 550mm at 1000mm/s
         MARLIN["FILAMENT_CHANGE_UNLOAD_LENGTH"]          = 550
+
+        MARLIN["FILAMENT_LOAD_COMMANDS"]                 = C_STRING(
+            "G92 E0\n" +                                 # set extruder position to 0
+            "M203 E1000\n" +                             # set E axis max speed to 1000mm/s
+            "G1 E550 F1000\n" +                          # move E axis forward 550mm at 1000mm/s
+            "G1 E570 F40\n" +                            # move E axis forward 20mm to 570mm at 40mm/s
+            "M203 E40.\n"                                # revert E axis max speed to 40mm/s
+        )
+
+        MARLIN["FILAMENT_UNLOAD_COMMANDS"]               = C_STRING(
+            "G92 E0\n" +                                 # set extruder position to 0
+            "M203 E1000\n" +                             # set E axis max speed to 1000mm/s
+            "G1 E-20 F40\n" +                            # move E axis backwards 20mm at 40mm/s
+            "G1 E-570 F1000\n" +                         # move E axis backwards 550mm to -570mm at 1000mm/s
+            "M203 E40"                                   # revert E axis max speed to 40mm/s
+        )
 
 ################################## WIPER PAD ##################################
 

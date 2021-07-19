@@ -121,8 +121,10 @@ void HotendScreen::draw_interaction_buttons(draw_mode_t what) {
 
     cmd.colors(normal_btn)
        .font(font_medium)
+    #if defined(FILAMENT_LOAD_COMMANDS) && defined(FILAMENT_UNLOAD_COMMANDS)
        .tag(11)               .enabled(t_ok).button (UNLD_BTN_POS,  F("Unload"))
        .tag(12)               .enabled(t_ok).button (LOAD_BTN_POS,  F("Load"))
+    #endif
        .tag(7).TOG_STYLE(tog7).enabled(t_ok).button (UNLD_CONT_POS, F("Retract"))
        .tag(8).TOG_STYLE(tog8).enabled(t_ok).button (LOAD_CONT_POS, F("Extrude"))
        .tag(1).colors(action_btn)           .button (BACK_POS,      GET_TEXT_F(MSG_BUTTON_DONE));
@@ -196,8 +198,10 @@ bool HotendScreen::onTouchEnd(uint8_t tag) {
       mydata.repeat_tag = (mydata.repeat_tag == 8) ? 0 : 8;
       break;
     case 10: coolDown(); break;
-    case 11: SpinnerDialogBox::enqueueAndWait_P(F("M702")); break;
-    case 12: SpinnerDialogBox::enqueueAndWait_P(F("M701")); break;
+    #if defined(FILAMENT_LOAD_COMMANDS) && defined(FILAMENT_UNLOAD_COMMANDS)
+      case 11: SpinnerDialogBox::enqueueAndWait_P(F(FILAMENT_UNLOAD_COMMANDS)); break;
+      case 12: SpinnerDialogBox::enqueueAndWait_P(F(FILAMENT_LOAD_COMMANDS)); break;
+    #endif
     case 15: GOTO_SCREEN(TemperatureScreen); break;
   }
   return true;
