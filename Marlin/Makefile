@@ -717,7 +717,7 @@ ifeq ($(TONE), 1)
 endif
 
 ifeq ($(U8GLIB), 1)
-  LIB_CXXSRC += U8glib.cpp u8g_delay.cpp
+  LIB_CXXSRC += U8glib-HAL.cpp u8g_delay.cpp
   LIB_SRC += u8g_ll_api.c u8g_bitmap.c u8g_clip.c u8g_com_null.c \
     u8g_page.c u8g_pb.c u8g_pb16h1.c u8g_rect.c u8g_state.c u8g_font.c
 endif
