@@ -1314,6 +1314,9 @@ def make_config(PRINTER, TOOLHEAD):
         # Set Max Bed Power to 80% for a safety margin on the 15A fuse.
         MARLIN["MAX_BED_POWER"]                          = 206
 
+    if "SynDaver_Level" in PRINTER:
+        MARLIN["BED_MAXTEMP"]                            = 135
+
 ############################### HEATING ELEMENTS ##############################
 
     MARLIN["PIDTEMP"]                                    = True
@@ -2093,7 +2096,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["FILAMENT_UNLOAD_COMMANDS"]               = C_STRING(
             "G92 E0\n" +                                 # set extruder position to 0
             "M203 E1000\n" +                             # set E axis max speed to 1000mm/s
-            "G1 E-20 F40\n" +                            # move E axis backwards 20mm at 40mm/s
             "G1 E-570 F1000\n" +                         # move E axis backwards 550mm to -570mm at 1000mm/s
             "M203 E40"                                   # revert E axis max speed to 40mm/s
         )
@@ -2334,7 +2336,7 @@ def make_config(PRINTER, TOOLHEAD):
             # Make the Sanyo motors run quieter
             MOTOR_CURRENT_X                              = 600 # mA
             MOTOR_CURRENT_Y                              = 600 # mA
-            MOTOR_CURRENT_Z                              = 1000 # mA
+            MOTOR_CURRENT_Z                              = 600 # mA
         elif USE_Z_BELT or USE_EINSY_RETRO or USE_EINSY_RAMBO:
             # These values specify the maximum current, but actual
             # currents may be lower when used with COOLCONF

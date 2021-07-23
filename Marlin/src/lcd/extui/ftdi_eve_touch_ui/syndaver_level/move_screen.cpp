@@ -101,6 +101,7 @@ void MoveScreen::draw_adjuster(draw_mode_t what, uint8_t tag, progmem_str label,
     strcat_P(str, (const char*) GET_TEXT_F(MSG_UNITS_MM));
 
     cmd.text(SUB_POS(2,1), SUB_SIZE(5,1), str)
+       .colors(Theme::normal_btn)
        .tag(tag  ).button(SUB_POS(7,1), SUB_SIZE(2,1), F("-"))
        .tag(tag+1).button(SUB_POS(9,1), SUB_SIZE(2,1), F("+"));
   }
