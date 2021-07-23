@@ -1638,7 +1638,7 @@ def make_config(PRINTER, TOOLHEAD):
                 STANDARD_BACK_PROBE_BED_POSITION         = 292.5
                 STANDARD_FRONT_PROBE_BED_POSITION        =  -9.0
 
-            MARLIN["AUTO_BED_LEVELING_LINEAR"]           = True
+            MARLIN["AUTO_BED_LEVELING_BILINEAR"]         = True
 
             MARLIN["MULTIPLE_PROBING"]                   = 2
             MARLIN["Z_PROBE_FEEDRATE_SLOW"]              = 1*60

@@ -1713,7 +1713,7 @@
 //
 // Specify additional languages for the UI. Default specified by LCD_LANGUAGE.
 //
-#if ANY(DOGLCD, TFT_COLOR_UI, TOUCH_UI_FTDI_EVE)
+#if ANY(DOGLCD, TFT_COLOR_UI, TOUCH_UI_FTDI_EVE, IS_DWIN_MARLINUI)
   //#define LCD_LANGUAGE_2 fr
   //#define LCD_LANGUAGE_3 de
   //#define LCD_LANGUAGE_4 es
@@ -4177,6 +4177,14 @@
 
 // Enable Marlin dev mode which adds some special commands
 //#define MARLIN_DEV_MODE
+
+#if ENABLED(MARLIN_DEV_MODE)
+  /**
+   * D576 - Buffer Monitoring
+   * To help diagnose print quality issues stemming from empty command buffers.
+   */
+  //#define BUFFER_MONITORING
+#endif
 
 /**
  * Postmortem Debugging captures misbehavior and outputs the CPU status and backtrace to serial.
