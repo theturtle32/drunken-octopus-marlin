@@ -44,7 +44,7 @@ void MoveMenu::onRedraw(draw_mode_t what) {
   ui.draw_tile(  POLY(icon_1), 1,   F("Home (All)"));
   ui.draw_tile(  POLY(icon_2), 2,   F("Top"));
   ui.draw_tile(  POLY(icon_3), 3,   F("Bottom"));
-  ui.draw_tile(  POLY(icon_4), 4,   F("Maintenance Position"));
+  ui.draw_tile(  POLY(icon_4), 4,   F("Maint. Position"));
   ui.draw_tile(  POLY(icon_5), 5,   F("Custom"));
   ui.draw_noz(   POLY(nozzle_temp));
   ui.draw_bed(   POLY(bed_temp));

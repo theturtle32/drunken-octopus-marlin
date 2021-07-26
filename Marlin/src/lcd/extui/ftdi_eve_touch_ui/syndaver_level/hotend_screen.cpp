@@ -121,10 +121,8 @@ void HotendScreen::draw_interaction_buttons(draw_mode_t what) {
 
     cmd.colors(normal_btn)
        .font(font_medium)
-    #if defined(FILAMENT_LOAD_COMMANDS) && defined(FILAMENT_UNLOAD_COMMANDS)
        .tag(11)               .enabled(t_ok).button (UNLD_BTN_POS,  F("Unload"))
        .tag(12)               .enabled(t_ok).button (LOAD_BTN_POS,  F("Load"))
-    #endif
        .tag(7).TOG_STYLE(tog7).enabled(t_ok).button (UNLD_CONT_POS, F("Retract"))
        .tag(8).TOG_STYLE(tog8).enabled(t_ok).button (LOAD_CONT_POS, F("Extrude"))
        .tag(1).colors(action_btn)           .button (BACK_POS,      GET_TEXT_F(MSG_BUTTON_DONE));
@@ -198,10 +196,8 @@ bool HotendScreen::onTouchEnd(uint8_t tag) {
       mydata.repeat_tag = (mydata.repeat_tag == 8) ? 0 : 8;
       break;
     case 10: coolDown(); break;
-    #if defined(FILAMENT_LOAD_COMMANDS) && defined(FILAMENT_UNLOAD_COMMANDS)
-      case 11: SpinnerDialogBox::enqueueAndWait_P(F(FILAMENT_UNLOAD_COMMANDS)); break;
-      case 12: SpinnerDialogBox::enqueueAndWait_P(F(FILAMENT_LOAD_COMMANDS)); break;
-    #endif
+    case 11: unloadFilament(); break;
+    case 12: loadFilament(); break;
     case 15: GOTO_SCREEN(TemperatureScreen); break;
   }
   return true;
@@ -230,6 +226,25 @@ void HotendScreen::onIdle() {
     refresh_timer.start();
   }
   BaseScreen::onIdle();
+}
+
+void HotendScreen::loadFilament() {
+  SpinnerDialogBox::show(GET_TEXT_F(MSG_PLEASE_WAIT));
+  const float oldFr = getAxisMaxFeedrate_mm_s(E0);
+  setAxisMaxFeedrate_mm_s(MMM_TO_MMS(1000), E0);
+  unscaled_e_move(550, MMM_TO_MMS(1000)); // move E axis forward 550mm at 1000mm/m
+  unscaled_e_move(20, MMM_TO_MMS(40));    // move E axis forward 20mm at 40mm/m
+  setAxisMaxFeedrate_mm_s(oldFr, E0);
+  SpinnerDialogBox::hide();
+}
+
+void HotendScreen::unloadFilament() {
+  SpinnerDialogBox::show(GET_TEXT_F(MSG_PLEASE_WAIT));
+  const float oldFr = getAxisMaxFeedrate_mm_s(E0);
+  setAxisMaxFeedrate_mm_s(MMM_TO_MMS(1000), E0);
+  unscaled_e_move(570, MMM_TO_MMS(1000)); // move E axis backwards 570mm at 1000mm/m
+  setAxisMaxFeedrate_mm_s(oldFr, E0);
+  SpinnerDialogBox::hide();
 }
 
 #endif // SYNDAVER_LEVEL_HOTEND_SCREEN

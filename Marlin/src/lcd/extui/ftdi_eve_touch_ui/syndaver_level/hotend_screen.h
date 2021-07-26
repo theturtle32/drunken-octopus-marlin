@@ -36,6 +36,8 @@ class HotendScreen : public BaseScreen, public CachedScreen<HOTEND_SCREEN_CACHE>
     static void draw_interaction_buttons(draw_mode_t);
     static void draw_adjuster(draw_mode_t, uint8_t tag, float value, int16_t x, int16_t y, int16_t w, int16_t h);
     static float get_increment();
+    static void loadFilament();
+    static void unloadFilament();
   public:
     static void onEntry();
     static void onRedraw(draw_mode_t);

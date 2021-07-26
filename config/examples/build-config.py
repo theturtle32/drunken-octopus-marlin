@@ -482,6 +482,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOUCH_UI_800x480"]                       = True
         MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]               = True
         MARLIN["TOUCH_UI_ROYAL_THEME"]                   = True
+        MARLIN["TOUCH_UI_SYNDAVER_LEVEL"]                = True
         MARLIN["AO_EXP2_PINMAP"]                         = True
         # Put filament sensor on X_MAX
         MARLIN["USE_YMAX_PLUG"]                          = False
@@ -1713,6 +1714,35 @@ def make_config(PRINTER, TOOLHEAD):
                 MARLIN["PROBING_FANS_OFF"]                   = True
                 MARLIN["BED_LEVELING_COMMANDS"]              = C_STRING("G28\nG29 P1 X0 Y0\nG29 S1")
 
+########################### MANUAL BED LEVELING ###########################
+
+    if ENABLED("TOUCH_UI_SYNDAVER_LEVEL"):
+      MANUAL_BED_LEVELING_COMMANDS = (
+                "M420 S0\n" +                                # Disable mesh compensation
+                "G28\n" +                                    # Home
+                "G0 Z5\n" +                                  # Raise nozzle
+                "M0 Ensure the removable build plate is on the machine, and place a sheet of paper on top of it\n" +
+                "G0 X0 Y180\n" +                             # Move to back left corner
+                "G0 Z0\n" +                                  # Touch nozzle on bed
+                "M0 Adjust back left leveling hand screw\n" +
+                "G0 Z5\n" +                                  # Raise nozzle
+                "G0 X180 Y180\n" +                           # Move to back right corner
+                "G0 Z0\n" +                                  # Touch nozzle on bed
+                "M0 Adjust back right leveling hand screw\n" +
+                "G0 Z5\n" +                                  # Raise nozzle
+                "G0 X180 Y0\n" +                             # Move to front right corner
+                "G0 Z0\n" +                                  # Touch nozzle on bed
+                "M0 Adjust front right leveling hand screw\n" +
+                "G0 Z5\n" +                                  # Raise nozzle
+                "G0 X0 Y0\n" +                               # Move to front left corner
+                "G0 Z0\n" +                                  # Touch nozzle on bed
+                "M0 Adjust front left leveling hand screw\n" +
+                "G0 Z5\n" +                                  # Raise nozzle
+                "G0 X-24 Y198\n" +                           # Move to home position
+                "M0 Run again to confirm all points are good, or if you already have then proceed to other leveling steps. You will need a new bed mesh map now."
+      )
+      MARLIN["MANUAL_BED_LEVELING_COMMANDS"]                 = C_STRING(MANUAL_BED_LEVELING_COMMANDS)
+
 ############################# X AXIS LEVELING #############################
 
     AXIS_LEVELING_COMMANDS                                   = ""
@@ -1787,6 +1817,9 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING("G29 L1\n" + AXIS_LEVELING_COMMANDS + "M280 P0 S60\nM117 SynDaver Axi Ready")
       else:
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING(AXIS_LEVELING_COMMANDS)
+
+    if "SynDaver_Level" in PRINTER:
+      MARLIN["STARTUP_COMMANDS"]                         = C_STRING("G29 L1")
 
 ################ AUTO-CALIBRATION (BACKLASH AND NOZZLE OFFSET) ################
 
@@ -2070,35 +2103,8 @@ def make_config(PRINTER, TOOLHEAD):
 
         MARLIN["EVENT_GCODE_SD_ABORT"]                   = C_STRING(EVENT_GCODE_SD_ABORT)
 
-    if "SynDaver_Level" in PRINTER:
-        MARLIN["EXTRUDE_MAXLENGTH"]                      = 550
-
-        MARLIN["FILAMENT_CHANGE_SLOW_LOAD_LENGTH"]       = 0
-        MARLIN["FILAMENT_CHANGE_FAST_LOAD_FEEDRATE"]     = 16.6    # move E axis forward 550mm at 1000mm/s
-        MARLIN["FILAMENT_CHANGE_FAST_LOAD_LENGTH"]       = 550
-        MARLIN["ADVANCED_PAUSE_PURGE_FEEDRATE"]          = 0.6     # move E axis forward 20mm at 40mm/s
-        MARLIN["ADVANCED_PAUSE_PURGE_LENGTH"]            = 20
-
-        MARLIN["FILAMENT_UNLOAD_PURGE_RETRACT"]          = 0
-        MARLIN["FILAMENT_UNLOAD_PURGE_DELAY"]            = 0
-        MARLIN["FILAMENT_UNLOAD_PURGE_LENGTH"]           = 0
-        MARLIN["FILAMENT_CHANGE_UNLOAD_FEEDRATE"]        = 16.6    # move E axis backwards 550mm at 1000mm/s
-        MARLIN["FILAMENT_CHANGE_UNLOAD_LENGTH"]          = 550
-
-        MARLIN["FILAMENT_LOAD_COMMANDS"]                 = C_STRING(
-            "G92 E0\n" +                                 # set extruder position to 0
-            "M203 E1000\n" +                             # set E axis max speed to 1000mm/s
-            "G1 E550 F1000\n" +                          # move E axis forward 550mm at 1000mm/s
-            "G1 E570 F40\n" +                            # move E axis forward 20mm to 570mm at 40mm/s
-            "M203 E40.\n"                                # revert E axis max speed to 40mm/s
-        )
-
-        MARLIN["FILAMENT_UNLOAD_COMMANDS"]               = C_STRING(
-            "G92 E0\n" +                                 # set extruder position to 0
-            "M203 E1000\n" +                             # set E axis max speed to 1000mm/s
-            "G1 E-570 F1000\n" +                         # move E axis backwards 550mm to -570mm at 1000mm/s
-            "M203 E40"                                   # revert E axis max speed to 40mm/s
-        )
+    if ENABLED("TOUCH_UI_SYNDAVER_LEVEL"):
+        MARLIN["EXTRUDE_MAXLENGTH"]                      = 570
 
 ################################## WIPER PAD ##################################
 

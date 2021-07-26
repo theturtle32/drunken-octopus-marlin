@@ -105,3 +105,4 @@ enum {
 #include "files_screen.h"
 #include "leveling_menu.h"
 #include "confirm_start_print_dialog_box.h"
+#include "confirm_manual_level_dialog_box.h"

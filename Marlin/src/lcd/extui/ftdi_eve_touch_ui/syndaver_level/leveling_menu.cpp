@@ -55,6 +55,7 @@ void LevelingMenu::onRedraw(draw_mode_t what) {
 
 bool LevelingMenu::onTouchEnd(uint8_t tag) {
   switch (tag) {
+    case 1: GOTO_SCREEN(ConfirmManualLevelDialogBox); break;
     #if ENABLED(AUTO_BED_LEVELING_UBL)
     case 2: BedMeshViewScreen::doProbe(); break;
     case 3: BedMeshViewScreen::show(); break;

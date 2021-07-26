@@ -125,7 +125,7 @@ bool StatusScreen::onTouchEnd(uint8_t tag) {
 
 void StatusScreen::onIdle() {
   SynLevelBase::onIdle();
-  if(print_job_timer.isRunning()) GOTO_SCREEN(PrintingScreen);
+  if(print_job_timer.isRunning() || print_job_timer.isPaused()) GOTO_SCREEN(PrintingScreen);
 }
 
 void StatusScreen::onMediaInserted() {
