@@ -1196,7 +1196,7 @@
 
 // @section lcd
 
-#if EITHER(IS_ULTIPANEL, EXTENSIBLE_UI)
+#if ANY(IS_ULTIPANEL, EXTENSIBLE_UI, DWIN_CREALITY_LCD)
   #define MANUAL_FEEDRATE {3000, 3000, 240, 60.0} // <-- changed:  (mm/min) Feedrates for manual moves along X, Y, Z, E from panel
   #define FINE_MANUAL_MOVE 0.025    // (mm) Smallest manual move (< 0.1mm) applying to Z on most machines
   #if IS_ULTIPANEL
@@ -3821,6 +3821,7 @@
  */
 #define HOST_ACTION_COMMANDS // <-- changed
 #if ENABLED(HOST_ACTION_COMMANDS)
+  //#define HOST_PAUSE_M76
   #define HOST_PROMPT_SUPPORT // <-- changed
   //#define HOST_START_MENU_ITEM  // Add a menu item that tells the host to start
 #endif
