@@ -1456,6 +1456,14 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["CONTROLLERFAN_SPEED_ACTIVE"]             = 255
         MARLIN["CONTROLLERFAN_SPEED_IDLE"]               = 120
 
+    if "SynDaver_Level" in PRINTER:
+        # Heated Chamber Settings
+        MARLIN["CHAMBER_FAN"]                            = True
+        MARLIN["CHAMBER_FAN_MODE"]                       = 1
+        MARLIN["CHAMBER_FAN_BASE"]                       = 70
+        MARLIN["TEMP_SENSOR_CHAMBER"]                    = 7
+        MARLIN["THERMAL_PROTECTION_CHAMBER"]             = False
+
 ############################### AXIS TRAVEL LIMITS ###############################
 
     # Define min and max travel limits based on the printer model using a standard

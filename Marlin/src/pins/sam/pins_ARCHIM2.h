@@ -210,7 +210,11 @@
 #define TEMP_0_PIN                            10  // D10 PB19 THERM AN1 *
 #define TEMP_1_PIN                             9  // D9 PB18 THERM AN2 *
 #endif
+#if defined(TEMP_SENSOR_CHAMBER)
+#define TEMP_CHAMBER_PIN                       8  // D8 PB17 THERM AN4 *
+#else
 #define TEMP_2_PIN                             8  // D8 PB17 THERM AN4 *
+#endif
 #define TEMP_BED_PIN                          11  // D11 PB20 THERM AN3 *
 
 //
