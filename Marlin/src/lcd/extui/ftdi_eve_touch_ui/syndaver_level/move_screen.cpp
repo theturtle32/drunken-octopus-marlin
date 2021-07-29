@@ -225,7 +225,7 @@ bool MoveScreen::onTouchEnd(uint8_t tag) {
       mydata.inc_tag = tag;
       break;
     case 16:
-      SpinnerDialogBox::enqueueAndWait_P(F("G28")); break;
+      SpinnerDialogBox::enqueueAndWait(F("G28")); break;
       break;
     case 20: GOTO_PREVIOUS(); break;
     default: return false;

@@ -55,10 +55,10 @@ void MoveMenu::onRedraw(draw_mode_t what) {
 
 bool MoveMenu::onTouchEnd(uint8_t tag) {
   switch (tag) {
-    case 1: SpinnerDialogBox::enqueueAndWait_P(F("G28")); break;
+    case 1: SpinnerDialogBox::enqueueAndWait(F("G28")); break;
     case 2: raiseToTop(); break;
     case 3: lowerToBottom(); break;
-    case 4: SpinnerDialogBox::enqueueAndWait_P(F("M125")); break;
+    case 4: SpinnerDialogBox::enqueueAndWait(F("M125")); break;
     case 5: GOTO_SCREEN(MoveScreen); break;
     default: return SynLevelBase::onTouchEnd(tag);
   }
