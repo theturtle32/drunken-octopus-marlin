@@ -58,7 +58,6 @@ void SpinnerDialogBox::enqueueAndWait(progmem_str message, progmem_str commands)
 
 void SpinnerDialogBox::enqueueAndWait(progmem_str message, char *commands) {
   show(message);
-  GOTO_SCREEN(SpinnerDialogBox);
   ExtUI::injectCommands(commands);
 }
 
