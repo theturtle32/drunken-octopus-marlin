@@ -567,8 +567,10 @@ void GcodeSuite::process_parsed_command(const bool no_ok/*=false*/) {
         case 190: M190(); break;                                  // M190: Wait for bed temperature to reach target
       #endif
 
-      #if HAS_HEATED_CHAMBER
+      #if HAS_HEATED_CHAMBER || (ENABLED(CHAMBER_FAN) && CHAMBER_FAN_MODE != 0)
         case 141: M141(); break;                                  // M141: Set chamber temperature
+      #endif
+      #if HAS_HEATED_CHAMBER
         case 191: M191(); break;                                  // M191: Wait for chamber temperature to reach target
       #endif
 

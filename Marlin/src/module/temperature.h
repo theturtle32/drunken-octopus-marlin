@@ -229,7 +229,7 @@ struct PIDHeaterInfo : public HeaterInfo {
 #if HAS_TEMP_PROBE
   typedef temp_info_t probe_info_t;
 #endif
-#if HAS_HEATED_CHAMBER
+#if HAS_HEATED_CHAMBER || (ENABLED(CHAMBER_FAN) && CHAMBER_FAN_MODE != 0)
   #if ENABLED(PIDTEMPCHAMBER)
     typedef struct PIDHeaterInfo<PID_t> chamber_info_t;
   #else
@@ -779,15 +779,17 @@ class Temperature {
       #endif
       static inline celsius_float_t degChamber()    { return temp_chamber.celsius; }
       static inline celsius_t wholeDegChamber()     { return static_cast<celsius_t>(degChamber() + 0.5f); }
-      #if HAS_HEATED_CHAMBER
+      #if HAS_HEATED_CHAMBER || (ENABLED(CHAMBER_FAN) && CHAMBER_FAN_MODE != 0)
         static inline celsius_t degTargetChamber()  { return temp_chamber.target; }
+      #endif
+      #if HAS_HEATED_CHAMBER
         static inline bool isHeatingChamber()       { return temp_chamber.target > temp_chamber.celsius; }
         static inline bool isCoolingChamber()       { return temp_chamber.target < temp_chamber.celsius; }
         static bool wait_for_chamber(const bool no_wait_for_cooling=true);
       #endif
     #endif
 
-    #if HAS_HEATED_CHAMBER
+    #if HAS_HEATED_CHAMBER || (ENABLED(CHAMBER_FAN) && CHAMBER_FAN_MODE != 0)
       static void setTargetChamber(const celsius_t celsius) {
         temp_chamber.target = _MIN(celsius, CHAMBER_MAX_TARGET);
         start_watching_chamber();

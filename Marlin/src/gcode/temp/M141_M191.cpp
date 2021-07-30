@@ -28,7 +28,7 @@
 
 #include "../../inc/MarlinConfig.h"
 
-#if HAS_HEATED_CHAMBER
+#if HAS_HEATED_CHAMBER || (ENABLED(CHAMBER_FAN) && CHAMBER_FAN_MODE != 0)
 
 #include "../gcode.h"
 #include "../../module/temperature.h"
@@ -52,11 +52,12 @@ void GcodeSuite::M141() {
     #endif
   }
 }
-
+#endif
 /**
  * M191: Sxxx Wait for chamber current temp to reach target temp. Waits only when heating
  *       Rxxx Wait for chamber current temp to reach target temp. Waits when heating and cooling
  */
+#if HAS_HEATED_CHAMBER
 void GcodeSuite::M191() {
   if (DEBUGGING(DRYRUN)) return;
 

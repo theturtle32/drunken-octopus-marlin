@@ -728,8 +728,10 @@ private:
     FORCE_INLINE static void M190() { M140_M190(true); }
   #endif
 
-  #if HAS_HEATED_CHAMBER
+  #if HAS_HEATED_CHAMBER || (ENABLED(CHAMBER_FAN) && CHAMBER_FAN_MODE != 0)
     static void M141();
+  #endif
+  #if HAS_HEATED_CHAMBER
     static void M191();
   #endif
 

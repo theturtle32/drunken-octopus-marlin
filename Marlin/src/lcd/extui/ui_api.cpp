@@ -271,7 +271,7 @@ namespace ExtUI {
       #if HAS_HEATED_BED
         case BED: return GET_TEMP_ADJUSTMENT(thermalManager.degBed());
       #endif
-      #if HAS_HEATED_CHAMBER
+      #if HAS_TEMP_CHAMBER
         case CHAMBER: return GET_TEMP_ADJUSTMENT(thermalManager.degChamber());
       #endif
       default: return GET_TEMP_ADJUSTMENT(thermalManager.degHotend(heater - H0));
@@ -287,7 +287,7 @@ namespace ExtUI {
       #if HAS_HEATED_BED
         case BED: return GET_TEMP_ADJUSTMENT(thermalManager.degTargetBed());
       #endif
-      #if HAS_HEATED_CHAMBER
+      #if HAS_HEATED_CHAMBER || (ENABLED(CHAMBER_FAN) && CHAMBER_FAN_MODE != 0)
         case CHAMBER: return GET_TEMP_ADJUSTMENT(thermalManager.degTargetChamber());
       #endif
       default: return GET_TEMP_ADJUSTMENT(thermalManager.degTargetHotend(heater - H0));
@@ -980,7 +980,7 @@ namespace ExtUI {
     #endif
     enableHeater(heater);
     switch (heater) {
-      #if HAS_HEATED_CHAMBER
+      #if HAS_HEATED_CHAMBER || (ENABLED(CHAMBER_FAN) && CHAMBER_FAN_MODE != 0)
         case CHAMBER: thermalManager.setTargetChamber(LROUND(constrain(value, 0, CHAMBER_MAX_TARGET))); break;
       #endif
       #if HAS_COOLER
