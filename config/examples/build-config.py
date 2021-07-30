@@ -482,7 +482,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOUCH_UI_800x480"]                       = True
         MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]               = True
         MARLIN["TOUCH_UI_ROYAL_THEME"]                   = True
-        MARLIN["TOUCH_UI_SYNDAVER_LEVEL"]                = True
         MARLIN["AO_EXP2_PINMAP"]                         = True
         # Put filament sensor on X_MAX
         MARLIN["USE_YMAX_PLUG"]                          = False

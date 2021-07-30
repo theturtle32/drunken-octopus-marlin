@@ -110,11 +110,11 @@ bool LevelingMenu::onTouchEnd(uint8_t tag) {
           GOTO_SCREEN(StatusScreen);
           ExtUI::injectCommands_P(PSTR("G34 A2 I20 T0.01"));
         } else {
-          SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS));
+          SpinnerDialogBox::enqueueAndWait(F(AXIS_LEVELING_COMMANDS));
         }
         break;
     #elif defined(AXIS_LEVELING_COMMANDS)
-      case 2: SpinnerDialogBox::enqueueAndWait_P(F(AXIS_LEVELING_COMMANDS)); break;
+      case 2: SpinnerDialogBox::enqueueAndWait(F(AXIS_LEVELING_COMMANDS)); break;
     #elif EITHER(Z_STEPPER_AUTO_ALIGN,MECHANICAL_GANTRY_CALIBRATION)
       case 2:
         GOTO_SCREEN(StatusScreen);
