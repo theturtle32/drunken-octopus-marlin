@@ -278,11 +278,11 @@ void SynLevelUI::draw_file(PolyUI::poly_reader_t poly) {
 
     FileList list;
     if(!isMediaInserted())
-      cmd.text(TEXT_POS(x, y, w, h), F("No media present"));
+      draw_text_with_ellipsis(cmd, TEXT_POS(x, y, w, h), F("No media present"), OPT_CENTERY, font_medium);
     else if(isFileSelected())
-      cmd.text(TEXT_POS(x, y, w, h), list.filename());
+      draw_text_with_ellipsis(cmd, TEXT_POS(x, y, w, h), list.filename(),       OPT_CENTERY, font_medium);
     else
-      cmd.text(TEXT_POS(x, y, w, h), F("No file selected"));
+      draw_text_with_ellipsis(cmd, TEXT_POS(x, y, w, h), F("No file selected"), OPT_CENTERY, font_medium);
   }
 }
 

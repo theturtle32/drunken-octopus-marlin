@@ -1,10 +1,9 @@
-/**************************************
- * confirm_start_print_dialog_box.cpp *
- **************************************/
+/***************************************
+ * confirm_manual_level_dialog_box.cpp *
+ ***************************************/
 
 /****************************************************************************
- *   Written By Mark Pelletier  2017 - Aleph Objects, Inc.                  *
- *   Written By Marcio Teixeira 2018 - Aleph Objects, Inc.                  *
+ *   Written By Marcio Teixeira 2021 - SynDaver 3D                          *
  *                                                                          *
  *   This program is free software: you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published by   *
@@ -23,35 +22,28 @@
 #include "../config.h"
 #include "../screens.h"
 
-#ifdef SYNDAVER_LEVEL_CONFIRM_START_PRINT
+#ifdef SYNDAVER_LEVEL_CONFIRM_MANUAL_LEVEL
 
 using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
 
-void ConfirmStartPrintDialogBox::onRedraw(draw_mode_t) {
-  const char *filename = getLongFilename();
-  char buffer[strlen_P(GET_TEXT(MSG_START_PRINT_CONFIRMATION)) + strlen(filename) + 1];
-  sprintf_P(buffer, GET_TEXT(MSG_START_PRINT_CONFIRMATION), filename);
-  drawMessage((const char *)buffer);
+void ConfirmManualLevelDialogBox::onRedraw(draw_mode_t) {
+  drawMessage(F("Make sure the nozzle is clean before starting this process. Do you want to proceed?"));
   drawYesNoButtons();
 }
 
-bool ConfirmStartPrintDialogBox::onTouchEnd(uint8_t tag) {
+bool ConfirmManualLevelDialogBox::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 1:
-      printFile(getShortFilename());
-      StatusScreen::setStatusMessage(GET_TEXT_F(MSG_PRINT_STARTING));
-      GOTO_SCREEN(StatusScreen);
+      GOTO_PREVIOUS();
+      #ifdef MANUAL_BED_LEVELING_COMMANDS
+      SpinnerDialogBox::enqueueAndWait(F(MANUAL_BED_LEVELING_COMMANDS));
+      #endif
       return true;
     case 2: GOTO_PREVIOUS(); return true;
     default:                 return false;
   }
 }
 
-const char *ConfirmStartPrintDialogBox::getFilename(bool longName) {
-  FileList files;
-  return longName ? files.longFilename() : files.shortFilename();
-}
-
-#endif // SYNDAVER_LEVEL_CONFIRM_START_PRINT
+#endif // SYNDAVER_LEVEL_CONFIRM_MANUAL_LEVEL
