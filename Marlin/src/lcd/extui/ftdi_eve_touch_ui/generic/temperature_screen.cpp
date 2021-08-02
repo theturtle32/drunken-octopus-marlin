@@ -63,7 +63,7 @@ void TemperatureScreen::onRedraw(draw_mode_t what) {
   #if HAS_HEATED_BED
     w.adjuster(    20, GET_TEXT_F(MSG_BED),     getTargetTemp_celsius(BED));
   #endif
-  #if HAS_HEATED_CHAMBER || (ENABLED(CHAMBER_FAN) && CHAMBER_FAN_MODE != 0)
+  #if HAS_HEATED_CHAMBER
     w.adjuster(    22, GET_TEXT_F(MSG_CHAMBER), getTargetTemp_celsius(CHAMBER));
   #endif
   #if HAS_FAN
