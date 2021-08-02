@@ -1,6 +1,6 @@
-/**********************************
- * syndaver_level/safety_screen.h *
- **********************************/
+/******************************************
+ * syndaver_level/adv_settings_screen.cpp *
+ ******************************************/
 
 /****************************************************************************
  *   Written By Marcio Teixeira 2021 - SynDaver Labs, Inc.                  *
@@ -19,13 +19,38 @@
  *   location: <https://www.gnu.org/licenses/>.                             *
  ****************************************************************************/
 
-#pragma once
+#include "../config.h"
+#include "../screens.h"
 
-#define SYNDAVER_LEVEL_SAFETY_SCREEN
-#define SYNDAVER_LEVEL_SAFETY_SCREEN_CLASS SafetyScreen
+#ifdef SYNDAVER_LEVEL_ADV_SETTINGS_SCREEN
 
-class SafetyScreen : public BaseNumericAdjustmentScreen, public CachedScreen<SAFETY_SCREEN_CACHE> {
-  public:
-    static void onRedraw(draw_mode_t);
-    static bool onTouchHeld(uint8_t tag);
-};
+using namespace FTDI;
+using namespace ExtUI;
+using namespace Theme;
+
+void AdvSettingsScreen::onRedraw(draw_mode_t what) {
+  widgets_t w(what);
+  w.heading( F("Advanced Settings"));
+  w.heading( F(""));
+  w.toggle( 2, GET_TEXT_F(MSG_RUNOUT_SENSOR), getFilamentRunoutEnabled());
+  w.button( 3, GET_TEXT_F(MSG_LCD_ENDSTOPS));
+  w.button( 4, F("Wireless Info"));
+  w.heading( F(""));
+  w.button( 5, GET_TEXT_F(MSG_RESTORE_DEFAULTS));
+}
+
+bool AdvSettingsScreen::onTouchHeld(uint8_t tag) {
+  switch (tag) {
+    case 2: setFilamentRunoutEnabled(!getFilamentRunoutEnabled()); break;
+    case 3: GOTO_SCREEN(EndstopStatesScreen); break;
+    case 4: AlertDialogBox::show(F("State: Not Available\nIP Address: 0.0.0.0\nSubnet Mask: 255.255.255.0\nGateway: 0.0.0.0\nWireless Strength: 0 dBm")); break;
+    case 5: GOTO_SCREEN(RestoreFailsafeDialogBox); break;
+    default:
+      return false;
+  }
+
+  SaveSettingsDialogBox::settingsChanged();
+  return true;
+}
+
+#endif // SYNDAVER_LEVEL_ADV_SETTINGS_SCREEN

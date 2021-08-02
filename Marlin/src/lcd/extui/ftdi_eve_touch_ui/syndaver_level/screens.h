@@ -50,7 +50,7 @@ enum {
   MOVE_SCREEN_CACHE,
   LEVELING_MENU_CACHE,
   HOTEND_SCREEN_CACHE,
-  SAFETY_SCREEN_CACHE,
+  ADV_SETTINGS_CACHE,
   FILES_SCREEN_CACHE,
   INTERFACE_SETTINGS_SCREEN_CACHE,
   INTERFACE_SOUNDS_SCREEN_CACHE,
@@ -83,7 +83,6 @@ enum {
 #include "../generic/temperature_screen.h"
 #include "../generic/interface_sounds_screen.h"
 #include "../generic/interface_settings_screen.h"
-#include "../generic/endstop_state_screen.h"
 #include "../generic/statistics_screen.h"
 #include "../generic/bed_mesh_base.h"
 #include "../generic/bed_mesh_view_screen.h"
@@ -101,8 +100,9 @@ enum {
 #include "move_menu.h"
 #include "move_screen.h"
 #include "hotend_screen.h"
-#include "safety_screen.h"
+#include "adv_settings_screen.h"
 #include "files_screen.h"
 #include "leveling_menu.h"
+#include "endstop_state_screen.h"
 #include "confirm_start_print_dialog_box.h"
 #include "confirm_manual_level_dialog_box.h"

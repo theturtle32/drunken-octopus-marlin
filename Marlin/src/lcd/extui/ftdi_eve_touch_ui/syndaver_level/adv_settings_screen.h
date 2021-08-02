@@ -1,6 +1,6 @@
-/************************************
- * syndaver_level/safety_screen.cpp *
- ************************************/
+/****************************************
+ * syndaver_level/adv_settings_screen.h *
+ ****************************************/
 
 /****************************************************************************
  *   Written By Marcio Teixeira 2021 - SynDaver Labs, Inc.                  *
@@ -19,31 +19,13 @@
  *   location: <https://www.gnu.org/licenses/>.                             *
  ****************************************************************************/
 
-#include "../config.h"
-#include "../screens.h"
+#pragma once
 
-#ifdef SYNDAVER_LEVEL_SAFETY_SCREEN
+#define SYNDAVER_LEVEL_ADV_SETTINGS_SCREEN
+#define SYNDAVER_LEVEL_ADV_SETTINGS_SCREEN_CLASS AdvSettingsScreen
 
-using namespace FTDI;
-using namespace ExtUI;
-using namespace Theme;
-
-void SafetyScreen::onRedraw(draw_mode_t what) {
-  widgets_t w(what);
-  w.heading( F("Safety"));
-  w.toggle( 2, GET_TEXT_F(MSG_RUNOUT_SENSOR), getFilamentRunoutEnabled());
-  w.toggle( 3, F("Door Switch:"), false, false);
-}
-
-bool SafetyScreen::onTouchHeld(uint8_t tag) {
-  switch (tag) {
-    case 2: setFilamentRunoutEnabled(!getFilamentRunoutEnabled()); break;
-    default:
-      return false;
-  }
-
-  SaveSettingsDialogBox::settingsChanged();
-  return true;
-}
-
-#endif // SYNDAVER_LEVEL_SAFETY_SCREEN
+class AdvSettingsScreen : public BaseNumericAdjustmentScreen, public CachedScreen<ADV_SETTINGS_CACHE> {
+  public:
+    static void onRedraw(draw_mode_t);
+    static bool onTouchHeld(uint8_t tag);
+};

@@ -60,8 +60,7 @@ bool SettingsMenu::onTouchEnd(uint8_t tag) {
       case 2: GOTO_SCREEN(ZOffsetScreen); break;
     #endif
     case 3: GOTO_SCREEN(InterfaceSettingsScreen); break;
-    case 4: GOTO_SCREEN(SafetyScreen); break;
-    case 5: break;
+    case 5: GOTO_SCREEN(AdvSettingsScreen); break;
     case 6: SaveSettingsDialogBox::promptToSaveSettings(); break;
     default: return SynLevelBase::onTouchEnd(tag);
   }
