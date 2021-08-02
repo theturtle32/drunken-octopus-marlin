@@ -1456,12 +1456,14 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["CONTROLLERFAN_SPEED_IDLE"]               = 120
 
     if "SynDaver_Level" in PRINTER:
-        # Heated Chamber Settings
-        MARLIN["CHAMBER_FAN"]                            = True
-        MARLIN["CHAMBER_FAN_MODE"]                       = 1
-        MARLIN["CHAMBER_FAN_BASE"]                       = 70
+        # Vented Chamber Settings
         MARLIN["TEMP_SENSOR_CHAMBER"]                    = 7
+        MARLIN["CHAMBER_LIMIT_SWITCHING"]                = True
+        MARLIN["HEATER_CHAMBER_PIN"]                     = 8 # D8 PC22 FET_PWM5 ("HTR3" header)
+        MARLIN["FAN1_PIN"]                               = -1 
+        MARLIN["HEATER_CHAMBER_INVERTING"]               = 'true' # Activate cooler when temperature is above threshold
         MARLIN["THERMAL_PROTECTION_CHAMBER"]             = False
+        MARLIN["CHAMBER_MAXTEMP"]                        = 135;
 
 ############################### AXIS TRAVEL LIMITS ###############################
 
@@ -1826,7 +1828,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING(AXIS_LEVELING_COMMANDS)
 
     if "SynDaver_Level" in PRINTER:
-      MARLIN["STARTUP_COMMANDS"]                         = C_STRING("G29 L1")
+      MARLIN["STARTUP_COMMANDS"]                         = C_STRING("G29 L1\nM141 S100")
 
 ################ AUTO-CALIBRATION (BACKLASH AND NOZZLE OFFSET) ################
 

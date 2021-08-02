@@ -235,7 +235,9 @@
   #define FAN1_PIN                             4  // D4 PC26 FET_PWM1 ("FAN1" header)
 #else
   #define FAN_PIN                              4  // D4 PC26 FET_PWM1 ("FAN1" header)
+  #ifndef FAN1_PIN
   #define FAN1_PIN                             8  // D8 PC22 FET_PWM5 ("HTR3" header)
+  #endif
 #endif
 
 #ifndef CONTROLLER_FAN_PIN
