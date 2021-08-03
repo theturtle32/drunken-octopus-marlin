@@ -31,20 +31,19 @@ using namespace Theme;
 void AdvSettingsScreen::onRedraw(draw_mode_t what) {
   widgets_t w(what);
   w.heading( F("Advanced Settings"));
-  w.button( 2, F("Wireless Info"));
+  w.heading( F(""));
+  w.toggle( 2, GET_TEXT_F(MSG_RUNOUT_SENSOR), getFilamentRunoutEnabled());
+  w.heading( F(""));
   w.button( 3, GET_TEXT_F(MSG_LCD_ENDSTOPS));
   w.heading( F(""));
-  w.toggle( 4, GET_TEXT_F(MSG_RUNOUT_SENSOR), getFilamentRunoutEnabled());
-  w.heading( F(""));
-  w.button( 5, GET_TEXT_F(MSG_RESTORE_DEFAULTS));
+  w.button( 4, GET_TEXT_F(MSG_RESTORE_DEFAULTS));
 }
 
 bool AdvSettingsScreen::onTouchHeld(uint8_t tag) {
   switch (tag) {
-    case 2: AlertDialogBox::show(F("State: Not Available\nWireless Strength: 0 dBm\n\nIP Address: 0.0.0.0\nSubnet Mask: 255.255.255.0\nGateway: 0.0.0.0")); break;
+    case 2: setFilamentRunoutEnabled(!getFilamentRunoutEnabled()); break;
     case 3: GOTO_SCREEN(EndstopStatesScreen); break;
-    case 4: setFilamentRunoutEnabled(!getFilamentRunoutEnabled()); break;
-    case 5: GOTO_SCREEN(RestoreFailsafeDialogBox); break;
+    case 4: GOTO_SCREEN(RestoreFailsafeDialogBox); break;
     default:
       return false;
   }

@@ -1828,7 +1828,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["STARTUP_COMMANDS"]                       = C_STRING(AXIS_LEVELING_COMMANDS)
 
     if "SynDaver_Level" in PRINTER:
-      MARLIN["STARTUP_COMMANDS"]                         = C_STRING("G29 L1\nM141 S100")
+      MARLIN["STARTUP_COMMANDS"]                         = C_STRING("M141 S100\nG29 L1")
 
 ################ AUTO-CALIBRATION (BACKLASH AND NOZZLE OFFSET) ################
 
