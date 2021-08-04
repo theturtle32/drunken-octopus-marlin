@@ -3,7 +3,7 @@
  ***************************/
 
 /****************************************************************************
- *   Written By Marcio Teixeira 2021 - SynDaver Labs, Inc                   *
+ *   Written By Marcio Teixeira 2021 - SynDaver 3D                  *
  *                                                                          *
  *   This program is free software: you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published by   *
