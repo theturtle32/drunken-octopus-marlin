@@ -100,6 +100,7 @@ enum {
 #include "move_menu.h"
 #include "move_screen.h"
 #include "hotend_screen.h"
+#include "cooldown_screen.h"
 #include "adv_settings_screen.h"
 #include "files_screen.h"
 #include "leveling_menu.h"

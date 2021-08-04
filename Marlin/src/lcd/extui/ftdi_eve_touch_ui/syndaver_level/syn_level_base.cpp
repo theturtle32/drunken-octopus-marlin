@@ -136,7 +136,7 @@ void SynLevelUI::draw_fan(PolyUI::poly_reader_t poly) {
   }
 }
 
-void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly) {
+void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly, uint32_t color) {
   PolyUI ui(cmd, mode);
   int16_t x, y, w, h;
   ui.bounds(poly, x, y, w, h);
@@ -148,7 +148,7 @@ void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly) {
     format_temp(e0_str, temp);
 
     cmd.tag(7)
-       .cmd (COLOR_RGB(getTempColor(temp)))
+       .cmd (COLOR_RGB(color != -1u ? color : getTempColor(temp)))
        .cmd (BITMAP_SOURCE(Extruder_Icon_Info))
        .cmd (BITMAP_LAYOUT(Extruder_Icon_Info))
        .cmd (BITMAP_SIZE  (Extruder_Icon_Info))
@@ -159,7 +159,7 @@ void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly) {
   }
 }
 
-void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly) {
+void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly, uint32_t color) {
   PolyUI ui(cmd, mode);
   int16_t x, y, w, h;
   ui.bounds(poly, x, y, w, h);
@@ -171,7 +171,7 @@ void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly) {
     format_temp(bed_str, temp);
 
     cmd.tag(7)
-       .cmd(COLOR_RGB(getTempColor(temp)))
+       .cmd(COLOR_RGB(color != -1u ? color : getTempColor(temp)))
        .cmd (BITMAP_SOURCE(Bed_Heat_Icon_Info))
        .cmd (BITMAP_LAYOUT(Bed_Heat_Icon_Info))
        .cmd (BITMAP_SIZE  (Bed_Heat_Icon_Info))
@@ -340,15 +340,20 @@ void SynLevelUI::draw_tile(PolyUI::poly_reader_t poly, uint8_t tag, progmem_str 
   }
 }
 
-void SynLevelUI::draw_back(PolyUI::poly_reader_t poly) {
+
+void SynLevelUI::draw_button(PolyUI::poly_reader_t poly, progmem_str label) {
   if (mode & FOREGROUND) {
     int16_t x, y, w, h;
     bounds(poly, x, y, w, h);
 
     cmd.colors(action_btn)
        .font(font_medium)
-       .tag(6).button(x, y, w, h, GET_TEXT_F(MSG_BUTTON_DONE));
+       .tag(6).button(x, y, w, h, label);
   }
+}
+
+void SynLevelUI::draw_back(PolyUI::poly_reader_t poly) {
+  draw_button(poly, GET_TEXT_F(MSG_BUTTON_DONE));
 }
 
 void SynLevelUI::load_background(const void *data, uint16_t len) {

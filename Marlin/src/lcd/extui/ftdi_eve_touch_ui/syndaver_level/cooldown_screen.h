@@ -1,6 +1,6 @@
-/**********************************
- * syndaver_level/hotend_screen.h *
- **********************************/
+/*********************
+ * cooldown_screen.h *
+ *********************/
 
 /****************************************************************************
  *   Written By Marcio Teixeira 2021 - SynDaver 3D                          *
@@ -21,28 +21,11 @@
 
 #pragma once
 
-#define SYNDAVER_LEVEL_HOTEND_SCREEN
-#define SYNDAVER_LEVEL_HOTEND_SCREEN_CLASS HotendScreen
+#define SYNDAVER_LEVEL_COOLDOWN_SCREEN
+#define SYNDAVER_LEVEL_COOLDOWN_SCREEN_CLASS CooldownScreen
 
-struct HotendScreenData {
-  uint8_t repeat_tag, inc_tag;
-};
-
-class HotendScreen : public BaseScreen, public CachedScreen<HOTEND_SCREEN_CACHE> {
-  private:
-    static uint32_t getWarmColor(uint16_t temp, uint16_t cool, uint16_t low, uint16_t med, uint16_t high);
-    static void draw_temperature(draw_mode_t, int16_t x, int16_t y, int16_t w, int16_t h);
-    static void draw_increments(draw_mode_t, int16_t x, int16_t y, int16_t w, int16_t h);
-    static void draw_interaction_buttons(draw_mode_t);
-    static void draw_adjuster(draw_mode_t, uint8_t tag, float value, int16_t x, int16_t y, int16_t w, int16_t h);
-    static float get_increment();
-    static void loadFilament();
-    static void unloadFilament();
+class CooldownScreen : public SynLevelBase, public UncachedScreen {
   public:
-    static void onEntry();
     static void onRedraw(draw_mode_t);
-    static bool onTouchStart(uint8_t tag);
     static bool onTouchEnd(uint8_t tag);
-    static bool onTouchHeld(uint8_t tag);
-    static void onIdle();
 };
