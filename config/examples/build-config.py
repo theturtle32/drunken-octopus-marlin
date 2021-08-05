@@ -512,6 +512,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("a952577d-8722-483a-999d-acdc9e772b7b")
         MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = True
+        MARLIN["CASE_LIGHT_ENABLE"]                      = True
         MARLIN["SDSUPPORT"]                              = True
         if "SynDaver_LevelUp" in PRINTER:
             PROBE_STYLE                                  = "Inductive"
