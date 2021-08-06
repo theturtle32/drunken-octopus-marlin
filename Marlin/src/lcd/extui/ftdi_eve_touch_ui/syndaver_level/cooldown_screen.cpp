@@ -49,8 +49,8 @@ void CooldownScreen::onRedraw(draw_mode_t what) {
   draw_text_box(cmd, BTN_POS(1,1), BTN_SIZE(1,2), isCool ? F("Cooling Complete") : F("Cooling..."), OPT_CENTER, font_large);
   
   SynLevelUI ui(cmd, what);
-  ui.draw_noz(POLY(nozzle_temp), ccol);
-  ui.draw_bed(POLY(bed_temp), ccol);
+  ui.draw_noz(POLY(nozzle_temp), ccol, 0);
+  ui.draw_bed(POLY(bed_temp), ccol, 0);
   if (isCool)
     ui.draw_back(POLY(done_btn));
   else

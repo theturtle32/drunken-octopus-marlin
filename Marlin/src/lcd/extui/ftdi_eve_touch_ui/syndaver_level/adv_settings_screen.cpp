@@ -43,7 +43,9 @@ bool AdvSettingsScreen::onTouchHeld(uint8_t tag) {
   switch (tag) {
     case 2: setFilamentRunoutEnabled(!getFilamentRunoutEnabled()); break;
     case 3: GOTO_SCREEN(EndstopStatesScreen); break;
-    case 4: GOTO_SCREEN(CaseLightScreen); break;
+    #if ENABLED(CASE_LIGHT_ENABLE)
+      case 4: GOTO_SCREEN(CaseLightScreen); break;
+    #endif
     case 5: GOTO_SCREEN(RestoreFailsafeDialogBox); break;
     default:
       return false;

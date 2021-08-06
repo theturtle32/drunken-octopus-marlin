@@ -41,7 +41,7 @@ uint32_t SynLevelUI::getTempColor(uint16_t temp) {
   const rgb_t cool_rgb = fg_normal;
   const rgb_t warm_rgb (255,  128,     0);
   const rgb_t hot_rgb  (255,   0,      0);
-  const uint16_t cool = 25;
+  const uint16_t cool = 40;
   const uint16_t warm = 55;
   const uint16_t hot  = 65;
   rgb_t R0, R1, mix;
@@ -136,7 +136,7 @@ void SynLevelUI::draw_fan(PolyUI::poly_reader_t poly) {
   }
 }
 
-void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly, uint32_t color) {
+void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly, uint32_t color, uint8_t tag) {
   PolyUI ui(cmd, mode);
   int16_t x, y, w, h;
   ui.bounds(poly, x, y, w, h);
@@ -147,7 +147,7 @@ void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly, uint32_t color) {
 
     format_temp(e0_str, temp);
 
-    cmd.tag(7)
+    cmd.tag(tag)
        .cmd (COLOR_RGB(color != -1u ? color : getTempColor(temp)))
        .cmd (BITMAP_SOURCE(Extruder_Icon_Info))
        .cmd (BITMAP_LAYOUT(Extruder_Icon_Info))
@@ -159,7 +159,7 @@ void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly, uint32_t color) {
   }
 }
 
-void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly, uint32_t color) {
+void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly, uint32_t color, uint8_t tag) {
   PolyUI ui(cmd, mode);
   int16_t x, y, w, h;
   ui.bounds(poly, x, y, w, h);

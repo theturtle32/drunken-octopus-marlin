@@ -44,7 +44,9 @@ enum {
       BED_MESH_EDIT_SCREEN_CACHE,
     #endif
   #endif
-  CASE_LIGHT_SCREEN_CACHE,
+  #if ENABLED(CASE_LIGHT_ENABLE)
+    CASE_LIGHT_SCREEN_CACHE,
+  #endif
   TOOLS_MENU_CACHE,
   SETTINGS_MENU_CACHE,
   MOVE_MENU_CACHE,
@@ -82,13 +84,17 @@ enum {
 #include "../generic/confirm_user_request_alert_box.h"
 #include "../generic/touch_calibration_screen.h"
 #include "../generic/temperature_screen.h"
-#include "../generic/case_light_screen.h"
+
 #include "../generic/interface_sounds_screen.h"
 #include "../generic/interface_settings_screen.h"
 #include "../generic/statistics_screen.h"
 #include "../generic/bed_mesh_base.h"
 #include "../generic/bed_mesh_view_screen.h"
 #include "../generic/bed_mesh_edit_screen.h"
+
+#if ENABLED(CASE_LIGHT_ENABLE)
+  #include "../generic/case_light_screen.h"
+#endif
 
 #if HAS_BED_PROBE
   #include "../generic/z_offset_screen.h"
