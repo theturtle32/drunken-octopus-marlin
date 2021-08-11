@@ -169,6 +169,7 @@
 #define SOFT_PWM_SCALE 4
 #define SOURCE_CODE_URL "https://github.com/marciot/drunken-octopus-marlin"
 #define STARTUP_COMMANDS "G0 X150 F9999\nG28 Z0"
+#define START_PRINT_TIMER_ON_G26
 #define STATUS_EXPIRE_SECONDS 0
 #define STATUS_MESSAGE_SCROLLING
 #define STRING_CONFIG_H_AUTHOR "(Drunken Octopus Marlin)"

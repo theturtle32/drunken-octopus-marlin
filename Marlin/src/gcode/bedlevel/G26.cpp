@@ -510,6 +510,8 @@ void GcodeSuite::G26() {
   // or if the parameter parsing did not go OK, abort
   if (homing_needed_error()) return;
 
+  TERN_(START_PRINT_TIMER_ON_G26, AutoPrintTimer t);
+
   // Change the tool first, if specified
   if (parser.seenval('T')) tool_change(parser.value_int());
 
@@ -875,3 +877,4 @@ void GcodeSuite::G26() {
 }
 
 #endif // G26_MESH_VALIDATION
+N

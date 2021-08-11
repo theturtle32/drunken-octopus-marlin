@@ -36,21 +36,22 @@ using namespace ExtUI;
 
 void CooldownScreen::onRedraw(draw_mode_t what) {
   const float temp  = getActualTemp_celsius(H0);
-  const rgb_t tcol  = SynLevelUI::getTempColor(temp);
-  const rgb_t ccol  = tcol.luminance() > 128 ? 0x000000 : 0xFFFFFF;
   const bool isCool = temp < 40;
 
+  rgb_t fg_col, rgb_col;
+  SynLevelUI::getTempColor(temp, fg_col, rgb_col);
+
   CommandProcessor cmd;
-  cmd.cmd(CLEAR_COLOR_RGB(tcol))
+  cmd.cmd(CLEAR_COLOR_RGB(fg_col))
      .cmd(CLEAR(true,true,true))
      .tag(0)
-     .cmd(COLOR_RGB(ccol));
+     .cmd(COLOR_RGB(rgb_col));
 
   draw_text_box(cmd, BTN_POS(1,1), BTN_SIZE(1,2), isCool ? F("Cooling Complete") : F("Cooling..."), OPT_CENTER, font_large);
   
   SynLevelUI ui(cmd, what);
-  ui.draw_noz(POLY(nozzle_temp), ccol, 0);
-  ui.draw_bed(POLY(bed_temp), ccol, 0);
+  ui.draw_noz(POLY(nozzle_temp), rgb_col, 0);
+  ui.draw_bed(POLY(bed_temp), rgb_col, 0);
   if (isCool)
     ui.draw_back(POLY(done_btn));
   else

@@ -60,7 +60,7 @@ bool SettingsMenu::onTouchEnd(uint8_t tag) {
       case 2: GOTO_SCREEN(ZOffsetScreen); break;
     #endif
     case 3: GOTO_SCREEN(InterfaceSettingsScreen); break;
-    case 4: AlertDialogBox::show(F("State: Not Available\nWireless Strength: 0 dBm\n\nIP Address: 0.0.0.0\nSubnet Mask: 255.255.255.0\nGateway: 0.0.0.0")); break;
+    case 4: injectCommands_P(PSTR("M118 P0 wifi_report")); break;
     case 5: GOTO_SCREEN(AdvSettingsScreen); break;
     case 6: SaveSettingsDialogBox::promptToSaveSettings(); break;
     default: return SynLevelBase::onTouchEnd(tag);

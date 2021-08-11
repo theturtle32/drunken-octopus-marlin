@@ -2082,6 +2082,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["PAUSE_PARK_RETRACT_FEEDRATE"]            = 10 # mm/s
         MARLIN["PARK_HEAD_ON_PAUSE"]                     = True
         MARLIN["FILAMENT_LOAD_UNLOAD_GCODES"]            = USE_REPRAP_LCD_DISPLAY
+        MARLIN["START_PRINT_TIMER_ON_G26"]               = True
 
         # In order to prevent jams on the Aero toolheads,
         # do a purge prior to unload
@@ -2101,7 +2102,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     if MARLIN["SDSUPPORT"]:
         if "SynDaver_Level" in PRINTER:
-            EVENT_GCODE_SD_ABORT = "G91\nG0 Z5 F3000\nG90\nG0 X90 Y185"
+            EVENT_GCODE_SD_ABORT = "G91\nG0 Z5 F3000\nG90\nG0 X90 Y185\nM141 S100"
         elif IS_MINI:
             EVENT_GCODE_SD_ABORT = "G28 Z\nG0 X80 Y190 F3000"
 

@@ -34,7 +34,7 @@ class SynLevelUI : public PolyUI {
 
     static void load_background(const void *data, uint16_t len);
     static bool isFileSelected();
-    static uint32_t getTempColor(uint16_t temp);
+    static void getTempColor(uint16_t temp, rgb_t &fg_col, rgb_t &rgb_col);
 
     void draw_start();
     void draw_bkgnd();

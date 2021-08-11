@@ -40,3 +40,15 @@
 #if ELECTROMAGNETIC_BRAKE_PIN
   void em_brake_init();
 #endif
+
+/*************************** PRINT TIMER AUTOSTART *****************************/
+
+#if ENABLED(START_PRINT_TIMER_ON_G26)
+    class AutoPrintTimer {
+        private:
+            bool was_running, was_paused;
+        public:
+            AutoPrintTimer();
+            ~AutoPrintTimer();
+    };
+#endif

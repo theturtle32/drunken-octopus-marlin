@@ -113,3 +113,21 @@
         analogWrite(pin_t(ELECTROMAGNETIC_BRAKE_PIN), 255 * 0.75f);
     }
 #endif
+
+/*************************** PRINT TIMER AUTOSTART *****************************/
+
+#if ENABLED(START_PRINT_TIMER_ON_G26)
+    #include "module/printcounter.h"
+
+    AutoPrintTimer::AutoPrintTimer() {
+        was_running = print_job_timer.isRunning();
+        was_paused = print_job_timer.isPaused();
+        print_job_timer.start();
+    }
+    
+    AutoPrintTimer::~AutoPrintTimer() {
+        if(was_paused)
+            print_job_timer.pause();
+        else if(!was_running) print_job_timer.stop();
+    }
+#endif

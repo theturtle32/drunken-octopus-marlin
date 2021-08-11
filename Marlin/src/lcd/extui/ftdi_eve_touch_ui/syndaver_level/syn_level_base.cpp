@@ -37,14 +37,14 @@ constexpr uint16_t bitmap_h = 272;
 #define ICON_POS(x,y,w,h) x,     y,     h, h
 #define TEXT_POS(x,y,w,h) x + h, y, w - h, h
 
-uint32_t SynLevelUI::getTempColor(uint16_t temp) {
+void SynLevelUI::getTempColor(uint16_t temp, rgb_t &fg_col, uint32_t &rgb_t) {
   const rgb_t cool_rgb = fg_normal;
   const rgb_t warm_rgb (255,  128,     0);
   const rgb_t hot_rgb  (255,   0,      0);
   const uint16_t cool = 40;
   const uint16_t warm = 55;
   const uint16_t hot  = 65;
-  rgb_t R0, R1, mix;
+  rgb_t R0, R1;
 
   float t;
   if (temp < cool) {
@@ -67,8 +67,10 @@ uint32_t SynLevelUI::getTempColor(uint16_t temp) {
     R1 = hot_rgb;
     t = 1;
   }
-  rgb_t::lerp(t, R0, R1, mix);
-  return mix;
+  rgb_t::lerp(t, R0, R1, fg_col);
+
+  // Compute a contrasting text color
+  rgb_col = tcol.luminance() > 160 ? rgb_t(0x000000) : rgb_t(0xFFFFFF); 
 }
 
 void SynLevelUI::_format_time(char *outstr, uint32_t time) {
@@ -170,7 +172,7 @@ void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly, uint32_t color, uint8_t ta
     char bed_str[20];
     format_temp(bed_str, temp);
 
-    cmd.tag(7)
+    cmd.tag(tag)
        .cmd(COLOR_RGB(color != -1u ? color : getTempColor(temp)))
        .cmd (BITMAP_SOURCE(Bed_Heat_Icon_Info))
        .cmd (BITMAP_LAYOUT(Bed_Heat_Icon_Info))

@@ -136,14 +136,17 @@ void HotendScreen::draw_temperature(draw_mode_t what, int16_t x, int16_t y, int1
   #define SUB_ROWS 1
   
   if (what & FOREGROUND) {
+    const float temp = getActualTemp_celsius(E0);
     char str[15];
-    format_temp(str, getActualTemp_celsius(E0));
+    format_temp(str, temp);
 
-    const rgb_t tcol = SynLevelUI::getTempColor(getActualTemp_celsius(E0));
+    rgb_t fg_col, rgb_col;
+    SynLevelUI::getTempColor(temp, fg_col, rgb_col);
 
     CommandProcessor cmd;
-    cmd.font(font_medium).fgcolor(tcol)
-       .cmd(COLOR_RGB(tcol.luminance() > 128 ? 0x000000 : 0xFFFFFF))
+    cmd.font(font_medium)
+       .fgcolor(fg_col)
+       .cmd(COLOR_RGB(rgb_col))
        .tag(15).button(SUB_POS(1,1), SUB_SIZE(5,1), str, OPT_FLAT).colors(normal_btn)
        .tag(10).button(SUB_POS(6,1), SUB_SIZE(4,1), GET_TEXT_F(MSG_COOLDOWN));
   }
