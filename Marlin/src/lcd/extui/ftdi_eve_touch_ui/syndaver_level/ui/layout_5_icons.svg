@@ -25,7 +25,7 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.1202176"
+     inkscape:zoom="1.6290957"
      inkscape:cx="213.94995"
      inkscape:cy="75.588072"
      inkscape:document-units="px"
@@ -56,7 +56,7 @@
   <defs
      id="defs2">
     <linearGradient
-       gradientTransform="matrix(0.41096073,0,0,0.45129564,27585.484,1556.4495)"
+       gradientTransform="matrix(0.35839598,0,0,0.45129564,24058.472,1556.4495)"
        osb:paint="solid"
        id="linearGradient4768">
       <stop
@@ -101,8 +101,8 @@
        sodipodi:nodetypes="ccccc"
        inkscape:connector-curvature="0"
        id="status_text"
-       d="M 10.6667,10.6667 H 469.3348 V 64.0002 H 10.6667 Z"
-       style="display:inline;fill:url(#linearGradient4768);fill-opacity:1;stroke:none;stroke-width:5.41537;stroke-miterlimit:4;stroke-dasharray:none" />
+       d="M 10.6667,10.6667 H 410.66795 V 64.0002 H 10.6667 Z"
+       style="display:inline;fill:url(#linearGradient4768);fill-opacity:1;stroke:none;stroke-width:5.05719;stroke-miterlimit:4;stroke-dasharray:none" />
     <path
        sodipodi:nodetypes="ccccc"
        inkscape:connector-curvature="0"
@@ -163,5 +163,12 @@
        id="file_name"
        d="M 10.6667,170.6672 H 352.0011 V 213.334 H 10.6667 Z"
        style="display:inline;fill:#008000;fill-opacity:1;stroke:none;stroke-width:4.17843;stroke-miterlimit:4;stroke-dasharray:none" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="lamp_toggle"
+       d="M 421.33465,10.6667 H 469.3348 V 64.0002 H 421.33465 Z"
+       style="display:inline;fill:#d40000;fill-opacity:1;stroke:none;stroke-width:1.75186;stroke-miterlimit:4;stroke-dasharray:none"
+       inkscape:label="#lamp_toggle" />
   </g>
 </svg>

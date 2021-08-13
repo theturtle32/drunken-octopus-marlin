@@ -38,7 +38,7 @@ void CooldownScreen::onRedraw(draw_mode_t what) {
   const float temp  = getActualTemp_celsius(H0);
   const bool isCool = temp < 40;
 
-  rgb_t fg_col, rgb_col;
+  uint32_t fg_col, rgb_col;
   SynLevelUI::getTempColor(temp, fg_col, rgb_col);
 
   CommandProcessor cmd;
@@ -52,6 +52,7 @@ void CooldownScreen::onRedraw(draw_mode_t what) {
   SynLevelUI ui(cmd, what);
   ui.draw_noz(POLY(nozzle_temp), rgb_col, 0);
   ui.draw_bed(POLY(bed_temp), rgb_col, 0);
+  ui.draw_lamp(POLY(lamp_toggle), rgb_col);
   if (isCool)
     ui.draw_back(POLY(done_btn));
   else

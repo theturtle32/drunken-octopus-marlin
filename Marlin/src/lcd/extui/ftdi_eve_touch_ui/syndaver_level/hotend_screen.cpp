@@ -140,7 +140,7 @@ void HotendScreen::draw_temperature(draw_mode_t what, int16_t x, int16_t y, int1
     char str[15];
     format_temp(str, temp);
 
-    rgb_t fg_col, rgb_col;
+    uint32_t fg_col, rgb_col;
     SynLevelUI::getTempColor(temp, fg_col, rgb_col);
 
     CommandProcessor cmd;

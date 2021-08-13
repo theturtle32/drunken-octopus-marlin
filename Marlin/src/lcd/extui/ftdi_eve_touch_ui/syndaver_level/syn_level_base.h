@@ -34,7 +34,7 @@ class SynLevelUI : public PolyUI {
 
     static void load_background(const void *data, uint16_t len);
     static bool isFileSelected();
-    static void getTempColor(uint16_t temp, rgb_t &fg_col, rgb_t &rgb_col);
+    static void getTempColor(uint16_t temp, uint32_t &fg_col, uint32_t &rgb_col);
 
     void draw_start();
     void draw_bkgnd();
@@ -43,6 +43,7 @@ class SynLevelUI : public PolyUI {
     void draw_fan(poly_reader_t);
     void draw_noz(poly_reader_t, uint32_t color = -1u, uint8_t tag = 7);
     void draw_bed(poly_reader_t, uint32_t color = -1u, uint8_t tag = 7);
+    void draw_lamp(poly_reader_t, uint32_t color = -1u, uint8_t tag = 8);
     void draw_title(poly_reader_t, const char * const);
     void draw_title(poly_reader_t, progmem_str message);
     void draw_file(poly_reader_t);

@@ -49,6 +49,7 @@ void SettingsMenu::onRedraw(draw_mode_t what) {
   ui.draw_noz(   POLY(nozzle_temp));
   ui.draw_bed(   POLY(bed_temp));
   ui.draw_fan(   POLY(fan_percent));
+    ui.draw_lamp( POLY(lamp_toggle));
   ui.draw_back(  POLY(done_btn));
   ui.restore_bitmaps();
 }

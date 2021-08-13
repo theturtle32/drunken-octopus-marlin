@@ -55,6 +55,7 @@ void PrintingScreen::onRedraw(draw_mode_t what) {
     ui.draw_time( POLY(print_time));
     ui.draw_noz(  POLY(nozzle_temp));
     ui.draw_bed(  POLY(bed_temp));
+    ui.draw_lamp( POLY(lamp_toggle));
     ui.draw_file( POLY(file_name));
   }
 }

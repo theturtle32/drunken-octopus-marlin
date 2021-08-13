@@ -37,14 +37,14 @@ constexpr uint16_t bitmap_h = 272;
 #define ICON_POS(x,y,w,h) x,     y,     h, h
 #define TEXT_POS(x,y,w,h) x + h, y, w - h, h
 
-void SynLevelUI::getTempColor(uint16_t temp, rgb_t &fg_col, uint32_t &rgb_t) {
+void SynLevelUI::getTempColor(uint16_t temp, uint32_t &fg_col, uint32_t &rgb_col) {
   const rgb_t cool_rgb = fg_normal;
   const rgb_t warm_rgb (255,  128,     0);
   const rgb_t hot_rgb  (255,   0,      0);
   const uint16_t cool = 40;
   const uint16_t warm = 55;
   const uint16_t hot  = 65;
-  rgb_t R0, R1;
+  rgb_t R0, R1, mix;
 
   float t;
   if (temp < cool) {
@@ -67,10 +67,11 @@ void SynLevelUI::getTempColor(uint16_t temp, rgb_t &fg_col, uint32_t &rgb_t) {
     R1 = hot_rgb;
     t = 1;
   }
-  rgb_t::lerp(t, R0, R1, fg_col);
+  rgb_t::lerp(t, R0, R1, mix);
 
   // Compute a contrasting text color
-  rgb_col = tcol.luminance() > 160 ? rgb_t(0x000000) : rgb_t(0xFFFFFF); 
+  fg_col = mix;
+  rgb_col = mix.luminance() > 160 ? 0x000000 : 0xFFFFFF; 
 }
 
 void SynLevelUI::_format_time(char *outstr, uint32_t time) {
@@ -149,8 +150,11 @@ void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly, uint32_t color, uint8_t ta
 
     format_temp(e0_str, temp);
 
+    uint32_t fg_col, rgb_col;
+    SynLevelUI::getTempColor(temp, fg_col, rgb_col);
+
     cmd.tag(tag)
-       .cmd (COLOR_RGB(color != -1u ? color : getTempColor(temp)))
+       .cmd (COLOR_RGB(color != -1u ? color : rgb_col))
        .cmd (BITMAP_SOURCE(Extruder_Icon_Info))
        .cmd (BITMAP_LAYOUT(Extruder_Icon_Info))
        .cmd (BITMAP_SIZE  (Extruder_Icon_Info))
@@ -172,8 +176,11 @@ void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly, uint32_t color, uint8_t ta
     char bed_str[20];
     format_temp(bed_str, temp);
 
+    uint32_t fg_col, rgb_col;
+    SynLevelUI::getTempColor(temp, fg_col, rgb_col);
+
     cmd.tag(tag)
-       .cmd(COLOR_RGB(color != -1u ? color : getTempColor(temp)))
+       .cmd (COLOR_RGB(color != -1u ? color : rgb_col))
        .cmd (BITMAP_SOURCE(Bed_Heat_Icon_Info))
        .cmd (BITMAP_LAYOUT(Bed_Heat_Icon_Info))
        .cmd (BITMAP_SIZE  (Bed_Heat_Icon_Info))
@@ -181,6 +188,22 @@ void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly, uint32_t color, uint8_t ta
        .font(font_medium)
        .text(TEXT_POS(x, y, w, h), bed_str)
        .cmd(COLOR_RGB(bg_text_enabled));
+  }
+}
+
+void SynLevelUI::draw_lamp(poly_reader_t poly, uint32_t color, uint8_t tag) {
+  PolyUI ui(cmd, mode);
+  int16_t x, y, w, h;
+  ui.bounds(poly, x, y, w, h);
+
+  if (mode & BACKGROUND) {
+    // Draw Light Toggle Bitmap
+    cmd.tag(tag)
+       .cmd(COLOR_RGB(color != -1u ? color : bg_text_enabled))
+       .cmd (BITMAP_SOURCE(Light_Bulb_Info))
+       .cmd (BITMAP_LAYOUT(Light_Bulb_Info))
+       .cmd (BITMAP_SIZE  (Light_Bulb_Info))
+       .icon(ICON_POS(x, y, w, h), Light_Bulb_Info, icon_scale);
   }
 }
 
@@ -399,6 +422,7 @@ bool SynLevelBase::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 6: GOTO_PREVIOUS(); break;
     case 7: GOTO_SCREEN(TemperatureScreen); break;
+    case 8: setCaseLightState(!getCaseLightState()); break;
     default: return false;
   }
   return true;
