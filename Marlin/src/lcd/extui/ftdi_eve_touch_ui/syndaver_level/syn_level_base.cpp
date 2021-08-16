@@ -154,7 +154,7 @@ void SynLevelUI::draw_noz(PolyUI::poly_reader_t poly, uint32_t color, uint8_t ta
     SynLevelUI::getTempColor(temp, fg_col, rgb_col);
 
     cmd.tag(tag)
-       .cmd (COLOR_RGB(color != -1u ? color : rgb_col))
+       .cmd (COLOR_RGB(color != -1u ? color : fg_col))
        .cmd (BITMAP_SOURCE(Extruder_Icon_Info))
        .cmd (BITMAP_LAYOUT(Extruder_Icon_Info))
        .cmd (BITMAP_SIZE  (Extruder_Icon_Info))
@@ -180,7 +180,7 @@ void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly, uint32_t color, uint8_t ta
     SynLevelUI::getTempColor(temp, fg_col, rgb_col);
 
     cmd.tag(tag)
-       .cmd (COLOR_RGB(color != -1u ? color : rgb_col))
+       .cmd (COLOR_RGB(color != -1u ? color : fg_col))
        .cmd (BITMAP_SOURCE(Bed_Heat_Icon_Info))
        .cmd (BITMAP_LAYOUT(Bed_Heat_Icon_Info))
        .cmd (BITMAP_SIZE  (Bed_Heat_Icon_Info))
@@ -203,7 +203,7 @@ void SynLevelUI::draw_lamp(poly_reader_t poly, uint32_t color, uint8_t tag) {
        .cmd (BITMAP_SOURCE(Light_Bulb_Info))
        .cmd (BITMAP_LAYOUT(Light_Bulb_Info))
        .cmd (BITMAP_SIZE  (Light_Bulb_Info))
-       .icon(ICON_POS(x, y, w, h), Light_Bulb_Info, icon_scale);
+       .icon(x, y, w, h, Light_Bulb_Info, icon_scale);
   }
 }
 
