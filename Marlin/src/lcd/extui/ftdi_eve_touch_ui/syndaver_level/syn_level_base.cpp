@@ -311,6 +311,7 @@ void SynLevelUI::draw_file(PolyUI::poly_reader_t poly) {
 }
 
 bool SynLevelUI::isFileSelected() {
+  if(!isMediaInserted()) return false;
   FileList list;
   if(list.isDir()) return false;
   const char *filename = list.filename();
@@ -397,6 +398,7 @@ void SynLevelBase::loadBitmaps() {
   // Load the bitmaps for the status screen
   using namespace Theme;
   constexpr uint32_t base = ftdi_memory_map::RAM_G;
+  CLCD::mem_write_pgm(base + Light_Bulb_Info.RAMG_offset,   Light_Bulb,     sizeof(Light_Bulb));
   CLCD::mem_write_pgm(base + Clock_Icon_Info.RAMG_offset,    Clock_Icon,    sizeof(Clock_Icon));
   CLCD::mem_write_pgm(base + File_Icon_Info.RAMG_offset,     File_Icon,     sizeof(File_Icon));
   CLCD::mem_write_pgm(base + TD_Icon_Info.RAMG_offset,       TD_Icon,       sizeof(TD_Icon));

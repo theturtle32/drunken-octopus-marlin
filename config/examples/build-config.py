@@ -2102,7 +2102,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     if MARLIN["SDSUPPORT"]:
         if "SynDaver_Level" in PRINTER:
-            EVENT_GCODE_SD_ABORT = "G91\nG0 Z5 F3000\nG90\nG0 X90 Y185\nM141 S100"
+            EVENT_GCODE_SD_ABORT = "G91\nG0 Z5 F3000\nG90\nG0 X90 Y185\nM141 S30"
         elif IS_MINI:
             EVENT_GCODE_SD_ABORT = "G28 Z\nG0 X80 Y190 F3000"
 

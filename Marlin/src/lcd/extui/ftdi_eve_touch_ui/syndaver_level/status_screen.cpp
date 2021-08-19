@@ -56,7 +56,6 @@ void StatusScreen::onRedraw(draw_mode_t what) {
     ui.draw_noz(  POLY(nozzle_temp));
     ui.draw_bed(  POLY(bed_temp));
     ui.draw_file( POLY(file_name));
-    ui.draw_lamp( POLY(lamp_toggle));
   }
 }
 
@@ -90,6 +89,7 @@ void StatusScreen::setStatusMessage(const char *message) {
   ui.draw_noz( POLY(nozzle_temp));
   ui.draw_bed( POLY(bed_temp));
   ui.draw_file( POLY(file_name));
+  ui.draw_lamp( POLY(lamp_toggle));
   ui.restore_bitmaps();
 
   storeBackground();
