@@ -424,7 +424,9 @@ bool SynLevelBase::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 6: GOTO_PREVIOUS(); break;
     case 7: GOTO_SCREEN(TemperatureScreen); break;
-    case 8: setCaseLightState(!getCaseLightState()); break;
+    #if ENABLED(CASE_LIGHT_ENABLE)
+      case 8: setCaseLightState(!getCaseLightState()); break;
+    #endif
     default: return false;
   }
   return true;

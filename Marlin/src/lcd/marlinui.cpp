@@ -1692,7 +1692,9 @@ constexpr uint8_t epps = ENCODER_PULSES_PER_STEP;
       return;
     pause_mode = mode;
     switch (message) {
+      #if DISABLED(TOUCH_UI_SYNDAVER_LEVEL)
       case PAUSE_MESSAGE_PARKING:  ExtUI::onUserConfirmRequired_P(GET_TEXT(MSG_PAUSE_PRINT_PARKING));
+      #endif
       case PAUSE_MESSAGE_CHANGING: ExtUI::onUserConfirmRequired_P(GET_TEXT(MSG_FILAMENT_CHANGE_INIT));
       case PAUSE_MESSAGE_UNLOAD:   ExtUI::onUserConfirmRequired_P(GET_TEXT(MSG_FILAMENT_CHANGE_UNLOAD));
       case PAUSE_MESSAGE_WAITING:  ExtUI::onUserConfirmRequired_P(GET_TEXT(MSG_ADVANCED_PAUSE_WAITING));

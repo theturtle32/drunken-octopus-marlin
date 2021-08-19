@@ -62,7 +62,7 @@ void CooldownScreen::onRedraw(draw_mode_t what) {
 bool CooldownScreen::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 6: GOTO_SCREEN(StatusScreen); break;
-    default: return false;
+    default: SynLevelBase::onTouchEnd(tag);
   }
   return true;
 }

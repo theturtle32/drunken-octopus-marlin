@@ -55,7 +55,6 @@ void PrintingScreen::onRedraw(draw_mode_t what) {
     ui.draw_time( POLY(print_time));
     ui.draw_noz(  POLY(nozzle_temp));
     ui.draw_bed(  POLY(bed_temp));
-    ui.draw_lamp( POLY(lamp_toggle));
     ui.draw_file( POLY(file_name));
   }
 }
@@ -88,6 +87,7 @@ void PrintingScreen::setStatusMessage(const char *message) {
   ui.draw_noz( POLY(nozzle_temp));
   ui.draw_bed( POLY(bed_temp));
   ui.draw_file( POLY(file_name));
+  ui.draw_lamp( POLY(lamp_toggle));
   ui.restore_bitmaps();
 
   storeBackground();
@@ -131,7 +131,6 @@ void PrintingScreen::pausePrint() {
   #ifdef ACTION_ON_PAUSE
     else host_action_pause();
   #endif
-  GOTO_SCREEN(StatusScreen);
 }
 
 void PrintingScreen::resumePrint() {
@@ -143,7 +142,6 @@ void PrintingScreen::resumePrint() {
   #ifdef ACTION_ON_RESUME
     else host_action_resume();
   #endif
-  GOTO_SCREEN(StatusScreen);
 }
 
 void PrintingScreen::stopPrint() {
