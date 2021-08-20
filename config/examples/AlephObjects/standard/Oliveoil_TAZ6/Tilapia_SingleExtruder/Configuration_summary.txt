@@ -156,7 +156,7 @@
 #define SHOW_CUSTOM_BOOTSCREEN
 #define SOFT_PWM_SCALE 4
 #define SOURCE_CODE_URL "https://github.com/marciot/drunken-octopus-marlin"
-#define START_PRINT_TIMER_ON_G26
+//#define START_PRINT_TIMER_ON_G26
 #define STATUS_MESSAGE_SCROLLING
 #define STRING_CONFIG_H_AUTHOR "(Drunken Octopus Marlin)"
 #define TEMP_BED_HYSTERESIS 5

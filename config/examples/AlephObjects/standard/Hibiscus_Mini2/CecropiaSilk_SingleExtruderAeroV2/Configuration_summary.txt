@@ -177,7 +177,7 @@
 #define SOFT_PWM_SCALE 4
 #define SOURCE_CODE_URL "https://github.com/marciot/drunken-octopus-marlin"
 #define STARTUP_COMMANDS "M17 Z"
-#define START_PRINT_TIMER_ON_G26
+//#define START_PRINT_TIMER_ON_G26
 #define STATUS_EXPIRE_SECONDS 0
 #define STATUS_MESSAGE_SCROLLING
 //#define STEALTHCHOP_E
