@@ -25,7 +25,10 @@
 #define SYNDAVER_LEVEL_COOLDOWN_SCREEN_CLASS CooldownScreen
 
 class CooldownScreen : public SynLevelBase, public UncachedScreen {
+    static bool isCool(float temp) {return temp < 40;}
+    static float getTemp();
   public:
+    static void showIfHot();
     static void onRedraw(draw_mode_t);
     static bool onTouchEnd(uint8_t tag);
 };

@@ -26,6 +26,9 @@
 
 #ifdef SYNDAVER_LEVEL_FILES_SCREEN
 
+#define BTN1_POS BTN_POS(1,y), BTN_SIZE(3,h)
+#define BTN2_POS BTN_POS(4,y), BTN_SIZE(3,h)
+
 using namespace FTDI;
 using namespace ExtUI;
 using namespace Theme;
@@ -166,15 +169,18 @@ void FilesScreen::drawFooter() {
   CommandProcessor cmd;
   cmd.colors(normal_btn)
      .font(font_medium)
-     .colors(has_selection ? normal_btn : action_btn)
-     .tag(mydata.flags.is_root ? 240 : 245).button(BTN_POS(4,y), BTN_SIZE(3,h), mydata.flags.is_root ? GET_TEXT_F(MSG_BUTTON_DONE) : F("Up Dir"))
+     .colors(normal_btn)
+     .enabled(!mydata.flags.is_root)
+     .tag(245).button(BTN2_POS, F("Up Dir"))
      .enabled(has_selection)
-     .colors(has_selection ? action_btn : normal_btn);
+     .colors(action_btn);
 
   if (has_selection && mydata.flags.is_dir)
-    cmd.tag(244).button(BTN_POS(1, y), BTN_SIZE(3,h), GET_TEXT_F(MSG_BUTTON_OPEN));
+    cmd.tag(244).button(BTN1_POS, GET_TEXT_F(MSG_BUTTON_OPEN));
+  else if (has_selection)
+    cmd.tag(241).button(BTN1_POS, F("Select"));
   else
-    cmd.tag(241).button(BTN_POS(1, y), BTN_SIZE(3,h), F("Select"));
+    cmd.tag(240).button(BTN1_POS, GET_TEXT_F(MSG_BUTTON_DONE));
 }
 
 void FilesScreen::onRedraw(draw_mode_t what) {
@@ -199,33 +205,34 @@ void FilesScreen::gotoPage(uint8_t page) {
 
 bool FilesScreen::onTouchEnd(uint8_t tag) {
   switch (tag) {
-    case 240:
-    {
-        // Done button, always select first file
-        FileList files;
-        files.seek(0);
-        GOTO_PREVIOUS();
-    }
-    return true;
-    case 241: GOTO_PREVIOUS(); return true;
-    case 242:
+    case 240: // Done button, always select first file
+      {
+          FileList files;
+          files.seek(0);
+          GOTO_PREVIOUS();
+      }
+      return true;
+    case 241: // Select highlighted file
+      GOTO_PREVIOUS();
+      return true;
+    case 242: // Previous page
       if (mydata.cur_page > 0) {
         gotoPage(mydata.cur_page-1);
       }
       break;
-    case 243:
+    case 243: // Next page
       if (mydata.cur_page < (mydata.num_page-1)) {
         gotoPage(mydata.cur_page+1);
       }
       break;
-    case 244:
+    case 244: // Select directory
       {
         FileList files;
         files.changeDir(getSelectedShortFilename());
         gotoPage(0);
       }
       break;
-    case 245:
+    case 245: // Up directory
       {
         FileList files;
         files.upDir();
@@ -267,6 +274,7 @@ void FilesScreen::onIdle() {
 }
 
 void FilesScreen::onMediaRemoved() {
-    if (AT_SCREEN(FilesScreen)) GOTO_SCREEN(StatusScreen);
+  if (AT_SCREEN(FilesScreen)) GOTO_SCREEN(StatusScreen);
 }
+
 #endif // FTDI_FILES_SCREEN

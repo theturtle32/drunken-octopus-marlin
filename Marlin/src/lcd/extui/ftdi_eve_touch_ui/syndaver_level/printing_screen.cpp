@@ -114,7 +114,7 @@ bool PrintingScreen::onTouchEnd(uint8_t tag) {
 
 void PrintingScreen::onIdle() {
   SynLevelBase::onIdle();
-  if(!(print_job_timer.isRunning() || print_job_timer.isPaused())) GOTO_SCREEN(CooldownScreen);
+  if(!(print_job_timer.isRunning() || print_job_timer.isPaused())) CooldownScreen::showIfHot();
 }
 
 void PrintingScreen::pauseResumePrint() {

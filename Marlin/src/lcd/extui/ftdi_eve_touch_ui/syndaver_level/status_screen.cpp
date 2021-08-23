@@ -46,8 +46,8 @@ void StatusScreen::onRedraw(draw_mode_t what) {
     CommandProcessor cmd;
     SynLevelUI ui(cmd, what);
     ui.draw_start();
-    ui.draw_tile( POLY(icon_1), 1, F("File Select"), isMediaInserted() && !isPrintingFromMedia() && !isPrinting());
-    ui.draw_tile( POLY(icon_2), 2, isPrinting() ? F("Print Status") : F("Print"), ui.isFileSelected() || isPrinting());
+    ui.draw_tile( POLY(icon_1), 1, F("File Select"), !isPrinting() && isMediaInserted());
+    ui.draw_tile( POLY(icon_2), 2, F("Print"),       !isPrinting() && ui.isFileSelected());
     ui.draw_tile( POLY(icon_3), 3, F("Tools"));
     ui.draw_tile( POLY(icon_4), 4, F("Settings"));
     ui.draw_fan(  POLY(fan_percent));
@@ -110,12 +110,7 @@ bool StatusScreen::onTouchEnd(uint8_t tag) {
     #if ENABLED(SDSUPPORT)
       case 1: GOTO_SCREEN(FilesScreen); break;
     #endif
-    case 2: 
-      if(isPrinting())
-          GOTO_SCREEN(PrintingScreen);
-      else
-          GOTO_SCREEN(ConfirmStartPrintDialogBox);
-      break;
+    case 2: GOTO_SCREEN(ConfirmStartPrintDialogBox); break;
     case 3: GOTO_SCREEN(ToolsMenu); break;
     case 4: GOTO_SCREEN(SettingsMenu); break;
     case 6: GOTO_SCREEN(TemperatureScreen); break;

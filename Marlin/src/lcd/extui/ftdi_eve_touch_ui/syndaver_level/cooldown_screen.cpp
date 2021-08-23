@@ -34,9 +34,14 @@ using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
 
+float CooldownScreen::getTemp() {
+  const float eTemp  = getActualTemp_celsius(H0);
+  const float bTemp  = getActualTemp_celsius(BED);
+  return max(eTemp,bTemp);
+}
+
 void CooldownScreen::onRedraw(draw_mode_t what) {
-  const float temp  = getActualTemp_celsius(H0);
-  const bool isCool = temp < 40;
+  const float temp = getTemp();
 
   uint32_t fg_col, rgb_col;
   SynLevelUI::getTempColor(temp, fg_col, rgb_col);
@@ -47,13 +52,13 @@ void CooldownScreen::onRedraw(draw_mode_t what) {
      .tag(0)
      .cmd(COLOR_RGB(rgb_col));
 
-  draw_text_box(cmd, BTN_POS(1,1), BTN_SIZE(1,2), isCool ? F("Cooling Complete") : F("Cooling..."), OPT_CENTER, font_large);
+  draw_text_box(cmd, BTN_POS(1,1), BTN_SIZE(1,2), isCool(temp) ? F("Cooling Complete") : F("Cooling..."), OPT_CENTER, font_large);
   
   SynLevelUI ui(cmd, what);
   ui.draw_noz(POLY(nozzle_temp), rgb_col, 0);
   ui.draw_bed(POLY(bed_temp), rgb_col, 0);
   ui.draw_lamp(POLY(lamp_toggle), rgb_col);
-  if (isCool)
+  if (isCool(temp))
     ui.draw_back(POLY(done_btn));
   else
     ui.draw_button(POLY(done_btn), F("Skip"));
@@ -65,6 +70,13 @@ bool CooldownScreen::onTouchEnd(uint8_t tag) {
     default: SynLevelBase::onTouchEnd(tag);
   }
   return true;
+}
+
+void CooldownScreen::showIfHot() {
+  if(isCool(getTemp()))
+    GOTO_SCREEN(StatusScreen);
+  else
+    GOTO_SCREEN(CooldownScreen);
 }
 
 #endif // SYNDAVER_LEVEL_COOLDOWN_SCREEN
