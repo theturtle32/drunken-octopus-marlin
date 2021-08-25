@@ -79,33 +79,28 @@ uint16_t FilesScreen::getFileForTag(uint8_t tag) {
   #define GRID_ROWS (files_per_page + header_h + footer_h)
 #endif
 
-void FilesScreen::drawFileButton(const char *filename, uint8_t tag, bool is_dir, bool is_highlighted) {
-  const uint8_t line = getLineForTag(tag)+1;
+void FilesScreen::drawFileButton(int x, int y, int w, int h, const char *filename, uint8_t tag, bool is_dir, bool is_highlighted) {
   CommandProcessor cmd;
   cmd.tag(tag);
   cmd.cmd(COLOR_RGB(is_highlighted ? fg_action : bg_color));
-  cmd.font(font_medium)
-     .rectangle( 0, BTN_Y(header_h+line), display_width, BTN_H(1));
+  cmd.font(font_medium).rectangle( 0, y, display_width, h);
   cmd.cmd(COLOR_RGB(is_highlighted ? normal_btn.rgb : bg_text_enabled));
-  constexpr uint16_t dim[2] = {BTN_SIZE(6,1)};
-  #define POS_AND_SHORTEN(SHORTEN) BTN_POS(1,header_h+line), dim[0] - (SHORTEN), dim[1]
-  #define POS_AND_SIZE             POS_AND_SHORTEN(0)
   #if ENABLED(SCROLL_LONG_FILENAMES)
     if (is_highlighted) {
       cmd.cmd(SAVE_CONTEXT());
       cmd.cmd(MACRO(0));
-      cmd.text(POS_AND_SIZE, filename, OPT_CENTERY | OPT_NOFIT);
+      cmd.text(x, y, w, h, filename, OPT_CENTERY | OPT_NOFIT);
     } else
   #endif
-  draw_text_with_ellipsis(cmd, POS_AND_SHORTEN(is_dir ? 20 : 0), filename, OPT_CENTERY, font_medium);
-  if (is_dir && !is_highlighted) {
-    cmd.text(POS_AND_SIZE, F("> "),  OPT_CENTERY | OPT_RIGHTX);
-  }
+  draw_text_with_ellipsis(cmd, x,y, w - (is_dir ? 20 : 0), h, filename, OPT_CENTERY, font_medium);
+  if (is_dir && !is_highlighted) cmd.text(x, y, w, h, F("> "),  OPT_CENTERY | OPT_RIGHTX);
   #if ENABLED(SCROLL_LONG_FILENAMES)
-    if (is_highlighted) {
-      cmd.cmd(RESTORE_CONTEXT());
-    }
+    if (is_highlighted) cmd.cmd(RESTORE_CONTEXT());
   #endif
+}
+
+void FilesScreen::drawFileButton(const char *filename, uint8_t tag, bool is_dir, bool is_highlighted) {
+  drawFileButton(BTN_POS(1,header_h+getLineForTag(tag)+1),BTN_SIZE(6,1), filename, tag, is_dir, is_highlighted);
 }
 
 void FilesScreen::drawFileList() {
@@ -114,18 +109,12 @@ void FilesScreen::drawFileList() {
   mydata.cur_page = min(mydata.cur_page, mydata.num_page-1);
   mydata.flags.is_root  = files.isAtRootDir();
 
-  #undef MARGIN_T
-  #undef MARGIN_B
-  #define MARGIN_T 0
-  #define MARGIN_B 0
   uint16_t fileIndex = mydata.cur_page * files_per_page;
   for (uint8_t i = 0; i < files_per_page; i++, fileIndex++) {
-    if (files.seek(fileIndex)) {
+    if (files.seek(fileIndex))
       drawFileButton(files.filename(), getTagForLine(i), files.isDir(), false);
-    }
-    else {
+    else
       break;
-    }
   }
 }
 
