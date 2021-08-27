@@ -63,7 +63,10 @@ bool LevelingMenu::onTouchEnd(uint8_t tag) {
     case 4: BedMeshEditScreen::show(); break;
     #endif
     #if ENABLED(G26_MESH_VALIDATION)
-    case 5: BedMeshViewScreen::doMeshValidation(); break;
+    case 5:
+      GOTO_SCREEN(StatusScreen);
+      injectCommands_P(PSTR("G28\nM117 Heating...\nG26 R25 B75 H210 L0.5 O10 Q6\nG27"));
+      break;
     #endif
     default: return SynLevelBase::onTouchEnd(tag);
   }

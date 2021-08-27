@@ -26,8 +26,33 @@
 
 #ifdef SYNDAVER_LEVEL_FILES_SCREEN
 
-#define BTN1_POS BTN_POS(1,y), BTN_SIZE(3,h)
-#define BTN2_POS BTN_POS(4,y), BTN_SIZE(3,h)
+#if ENABLED(TOUCH_UI_PORTRAIT)
+  #define GRID_COLS  6
+  #define GRID_ROWS  15
+  #define FILES_PER_PAGE 11
+  #define PREV_DIR LEFT
+  #define NEXT_DIR RIGHT
+
+  #define PREV_POS BTN_POS(1,1),  BTN_SIZE(1,2)
+  #define HEAD_POS BTN_POS(2,1),  BTN_SIZE(4,2)
+  #define NEXT_POS BTN_POS(6,1),  BTN_SIZE(1,2)
+  #define LIST_POS BTN_POS(1,3),  BTN_SIZE(6,FILES_PER_PAGE)
+  #define BTN1_POS BTN_POS(1,14), BTN_SIZE(3,2)
+  #define BTN2_POS BTN_POS(4,14), BTN_SIZE(3,2)
+#else
+  #define GRID_COLS  12
+  #define GRID_ROWS  8
+  #define FILES_PER_PAGE 6
+  #define PREV_DIR UP
+  #define NEXT_DIR DOWN
+
+  #define PREV_POS BTN_POS(12,2), BTN_SIZE(1,3)
+  #define HEAD_POS BTN_POS( 1,1), BTN_SIZE(12,1)
+  #define NEXT_POS BTN_POS(12,5), BTN_SIZE(1,4)
+  #define LIST_POS BTN_POS( 1,2), BTN_SIZE(11,FILES_PER_PAGE)
+  #define BTN1_POS BTN_POS( 1,8), BTN_SIZE(6,1)
+  #define BTN2_POS BTN_POS( 7,8), BTN_SIZE(5,1)
+#endif
 
 using namespace FTDI;
 using namespace ExtUI;
@@ -52,6 +77,7 @@ const char *FilesScreen::getSelectedFilename(bool longName) {
 }
 
 void FilesScreen::drawSelectedFile() {
+  if(mydata.selected_tag == 0xFF) return;
   FileList files;
   files.seek(getSelectedFileIndex(), true);
   mydata.flags.is_dir = files.isDir();
@@ -68,49 +94,47 @@ uint16_t FilesScreen::getSelectedFileIndex() {
 }
 
 uint16_t FilesScreen::getFileForTag(uint8_t tag) {
-  return mydata.cur_page * files_per_page + tag - 2;
+  return mydata.cur_page * FILES_PER_PAGE + tag - 2;
 }
 
-#if ENABLED(TOUCH_UI_PORTRAIT)
-  #define GRID_COLS  6
-  #define GRID_ROWS (files_per_page + header_h + footer_h)
-#else
-  #define GRID_COLS  6
-  #define GRID_ROWS (files_per_page + header_h + footer_h)
-#endif
-
 void FilesScreen::drawFileButton(int x, int y, int w, int h, const char *filename, uint8_t tag, bool is_dir, bool is_highlighted) {
+  #define SUB_COLS 6
+  #define SUB_ROWS FILES_PER_PAGE
+
+  const int bx = SUB_X(1);
+  const int by = SUB_Y(getLineForTag(tag)+1);
+  const int bw = SUB_W(6);
+  const int bh = SUB_H(1);
+
   CommandProcessor cmd;
   cmd.tag(tag);
   cmd.cmd(COLOR_RGB(is_highlighted ? fg_action : bg_color));
-  cmd.font(font_medium).rectangle( 0, y, display_width, h);
+  cmd.font(font_medium).rectangle(bx, by, bw, bh);
   cmd.cmd(COLOR_RGB(is_highlighted ? normal_btn.rgb : bg_text_enabled));
   #if ENABLED(SCROLL_LONG_FILENAMES)
     if (is_highlighted) {
       cmd.cmd(SAVE_CONTEXT());
+      cmd.cmd(SCISSOR_XY(x,y));
+      cmd.cmd(SCISSOR_SIZE(w,h));
       cmd.cmd(MACRO(0));
-      cmd.text(x, y, w, h, filename, OPT_CENTERY | OPT_NOFIT);
+      cmd.text(bx, by, bw, bh, filename, OPT_CENTERY | OPT_NOFIT);
     } else
   #endif
-  draw_text_with_ellipsis(cmd, x,y, w - (is_dir ? 20 : 0), h, filename, OPT_CENTERY, font_medium);
-  if (is_dir && !is_highlighted) cmd.text(x, y, w, h, F("> "),  OPT_CENTERY | OPT_RIGHTX);
+  draw_text_with_ellipsis(cmd, bx,by, bw - (is_dir ? 20 : 0), bh, filename, OPT_CENTERY, font_medium);
+  if (is_dir && !is_highlighted) cmd.text(bx, by, bw, bh, F("> "),  OPT_CENTERY | OPT_RIGHTX);
   #if ENABLED(SCROLL_LONG_FILENAMES)
     if (is_highlighted) cmd.cmd(RESTORE_CONTEXT());
   #endif
 }
 
-void FilesScreen::drawFileButton(const char *filename, uint8_t tag, bool is_dir, bool is_highlighted) {
-  drawFileButton(BTN_POS(1,header_h+getLineForTag(tag)+1),BTN_SIZE(6,1), filename, tag, is_dir, is_highlighted);
-}
-
 void FilesScreen::drawFileList() {
   FileList files;
-  mydata.num_page = max(1,ceil(float(files.count()) / files_per_page));
+  mydata.num_page = max(1,ceil(float(files.count()) / FILES_PER_PAGE));
   mydata.cur_page = min(mydata.cur_page, mydata.num_page-1);
   mydata.flags.is_root  = files.isAtRootDir();
 
-  uint16_t fileIndex = mydata.cur_page * files_per_page;
-  for (uint8_t i = 0; i < files_per_page; i++, fileIndex++) {
+  uint16_t fileIndex = mydata.cur_page * FILES_PER_PAGE;
+  for (uint8_t i = 0; i < FILES_PER_PAGE; i++, fileIndex++) {
     if (files.seek(fileIndex))
       drawFileButton(files.filename(), getTagForLine(i), files.isDir(), false);
     else
@@ -119,41 +143,27 @@ void FilesScreen::drawFileList() {
 }
 
 void FilesScreen::drawHeader() {
-  const bool prev_enabled = mydata.cur_page > 0;
-  const bool next_enabled = mydata.cur_page < (mydata.num_page - 1);
-
-  #undef MARGIN_T
-  #undef MARGIN_B
-  #define MARGIN_T 0
-  #define MARGIN_B 2
-
   char str[16];
-  sprintf_P(str, PSTR("Page %d of %d"),
-    mydata.cur_page + 1, mydata.num_page);
+  sprintf_P(str, PSTR("Page %d of %d"), mydata.cur_page + 1, mydata.num_page);
 
   CommandProcessor cmd;
   cmd.colors(normal_btn)
      .font(font_small)
-     .tag(0).button(BTN_POS(2,1), BTN_SIZE(4,header_h), str, OPT_CENTER | OPT_FLAT)
-     .font(font_medium)
-     .colors(action_btn)
-     .tag(242).enabled(prev_enabled).button(BTN_POS(1,1), BTN_SIZE(1,header_h), F("<"))
-     .tag(243).enabled(next_enabled).button(BTN_POS(6,1), BTN_SIZE(1,header_h), F(">"));
+     .tag(0).button(HEAD_POS, str, OPT_CENTER | OPT_FLAT);
+}
+
+void FilesScreen::drawArrows() {
+  const bool prev_enabled = mydata.cur_page > 0;
+  const bool next_enabled = mydata.cur_page < (mydata.num_page - 1);
+
+  CommandProcessor cmd;
+  cmd.colors(normal_btn);
+  cmd.tag(242).enabled(prev_enabled).button(PREV_POS, F("")); if (prev_enabled) drawArrow(PREV_POS, PREV_DIR);
+  cmd.tag(243).enabled(next_enabled).button(NEXT_POS, F("")); if (next_enabled) drawArrow(NEXT_POS, NEXT_DIR);
 }
 
 void FilesScreen::drawFooter() {
-  #undef MARGIN_T
-  #undef MARGIN_B
-  #if ENABLED(TOUCH_UI_PORTRAIT)
-    #define MARGIN_T 15
-    #define MARGIN_B 5
-  #else
-    #define MARGIN_T 5
-    #define MARGIN_B 5
-  #endif
-  const bool    has_selection = mydata.selected_tag != 0xFF;
-  const uint8_t y             = GRID_ROWS - footer_h + 1;
-  const uint8_t h             = footer_h;
+  const bool has_selection = mydata.selected_tag != 0xFF;
 
   CommandProcessor cmd;
   cmd.colors(normal_btn)
@@ -161,7 +171,6 @@ void FilesScreen::drawFooter() {
      .colors(normal_btn)
      .enabled(!mydata.flags.is_root)
      .tag(245).button(BTN2_POS, F("Up Dir"))
-     .enabled(has_selection)
      .colors(action_btn);
 
   if (has_selection && mydata.flags.is_dir)
@@ -172,9 +181,18 @@ void FilesScreen::drawFooter() {
     cmd.tag(240).button(BTN1_POS, GET_TEXT_F(MSG_BUTTON_DONE));
 }
 
+void FilesScreen::drawFileButton(const char *filename, uint8_t tag, bool is_dir, bool is_highlighted) {
+  #undef  MARGIN_L
+  #undef  MARGIN_R
+  #define MARGIN_L 0
+  #define MARGIN_R 0
+  drawFileButton(LIST_POS, filename, tag, is_dir, is_highlighted);
+}
+
 void FilesScreen::onRedraw(draw_mode_t what) {
   if (what & FOREGROUND) {
     drawHeader();
+    drawArrows();
     drawSelectedFile();
     drawFooter();
   }
@@ -228,20 +246,20 @@ bool FilesScreen::onTouchEnd(uint8_t tag) {
         gotoPage(0);
       }
       break;
-    default:
+    default: // File selected
       if (tag < 240) {
         mydata.selected_tag = tag;
         #if ENABLED(SCROLL_LONG_FILENAMES) && (FTDI_API_LEVEL >= 810)
+          mydata.scroll_pos = 0;
+          mydata.scroll_max = 0;
           if (FTDI::ftdi_chip >= 810) {
             const char *longFilename = getSelectedLongFilename();
             if (longFilename[0]) {
               CommandProcessor cmd;
-              uint16_t text_width = cmd.font(font_medium).text_width(longFilename);
-              mydata.scroll_pos = 0;
-              if (text_width > display_width)
-                mydata.scroll_max = text_width - display_width + MARGIN_L + MARGIN_R;
-              else
-                mydata.scroll_max = 0;
+              constexpr int dim[4] = {LIST_POS};
+              const uint16_t text_width = cmd.font(font_medium).text_width(longFilename);
+              if (text_width > dim[2])
+                mydata.scroll_max = text_width - dim[2] + MARGIN_L + MARGIN_R + 10;
             }
           }
         #endif
