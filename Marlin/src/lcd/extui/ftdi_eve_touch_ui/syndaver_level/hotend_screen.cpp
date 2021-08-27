@@ -36,9 +36,8 @@ constexpr static HotendScreenData &mydata = screen_data.HotendScreen;
 
 #define CURRENT_TEMP_LBL_POS BTN_POS(1,1),  BTN_SIZE(2,1)
 #define CURRENT_TEMP_POS     BOX_POS(1,2),  BOX_SIZE(2,1)
-#define COOLDOWN_POS         BTN_POS(2,2),  BTN_SIZE(1,1)
 #define TARGET_TEMP_ADJ_POS  BOX_POS(1,3),  BOX_SIZE(2,1)
-#define INCREMENTS_POS       BOX_POS(1,4),  BOX_SIZE(2,1)
+#define INCREMENTS_POS       BTN_POS(1,4),  BTN_SIZE(2,1)
 
 #define FILAMENT_LABL_POS    BTN_POS(3,1),  BTN_SIZE(2,1)
 #define UNLD_BTN_POS         BTN_POS(3,2),  BTN_SIZE(1,1)
