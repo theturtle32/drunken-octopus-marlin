@@ -2957,6 +2957,7 @@
 #define USB_DEVICE_PRODUCT_ID 0x0001 // <-- changed
 #define USB_DEVICE_PRODUCT_NAME "TAZ Pro     " // <-- changed
 //#define TOUCH_UI_SYNDAVER_LEVEL
+//#define TOUCH_UI_SYNDAVER_LEVELUP
 //#define TOUCH_UI_NO_BOOTSCREEN
 //#define TOUCH_UI_ROYAL_THEME
 //#define TOUCH_UI_VERSION

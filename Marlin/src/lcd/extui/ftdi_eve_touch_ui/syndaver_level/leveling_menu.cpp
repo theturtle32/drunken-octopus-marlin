@@ -27,9 +27,11 @@
 #if ENABLED(TOUCH_UI_SYNDAVER_LEVELUP)
   #include "autogen/leveling_with_auto_menu.h"
   #include "autogen/layout_5_icons.h"
+  #define BACKGROUND leveling_with_auto_menu
 #else
   #include "autogen/leveling_wo_auto_menu.h"
   #include "autogen/layout_4_icons.h"
+  #define BACKGROUND leveling_wo_auto_menu
 #endif
 
 using namespace FTDI;
@@ -37,7 +39,7 @@ using namespace Theme;
 using namespace ExtUI;
 
 void LevelingMenu::onEntry() {
-  SynLevelUI::load_background(leveling_menu, sizeof(leveling_menu));
+  SynLevelUI::load_background(BACKGROUND, sizeof(BACKGROUND));
 }
 
 void LevelingMenu::onRedraw(draw_mode_t what) {

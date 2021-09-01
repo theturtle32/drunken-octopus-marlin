@@ -27,9 +27,11 @@
 #if ENABLED(TOUCH_UI_SYNDAVER_LEVELUP)
   #include "autogen/settings_with_wifi_menu.h"
   #include "autogen/layout_5_icons.h"
+  #define BACKGROUND settings_with_wifi_menu
 #else
   #include "autogen/settings_wo_wifi_menu.h"
   #include "autogen/layout_4_icons.h"
+  #define BACKGROUND settings_wo_wifi_menu
 #endif
 
 using namespace FTDI;
@@ -37,7 +39,7 @@ using namespace Theme;
 using namespace ExtUI;
 
 void SettingsMenu::onEntry() {
-  SynLevelUI::load_background(settings_menu, sizeof(settings_menu));
+  SynLevelUI::load_background(BACKGROUND, sizeof(BACKGROUND));
 }
 
 void SettingsMenu::onRedraw(draw_mode_t what) {
