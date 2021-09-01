@@ -501,6 +501,7 @@ def make_config(PRINTER, TOOLHEAD):
         USE_REPRAP_LCD_DISPLAY                           = False
         USE_ARCHIM2                                      = True
         MARLIN["TOUCH_UI_SYNDAVER_LEVEL"]                = True
+        MARLIN["TOUCH_UI_SYNDAVER_LEVELUP"]              = "SynDaver_LevelUp" in PRINTER
         MARLIN["SHOW_CUSTOM_BOOTSCREEN"]                 = False
         MARLIN["BACKLASH_COMPENSATION"]                  = False
         MARLIN["ENDSTOP_INTERRUPTS_FEATURE"]             = True
@@ -853,7 +854,7 @@ def make_config(PRINTER, TOOLHEAD):
     elif TAZ_BED and USE_Z_SCREW:
         MARLIN["HOMING_FEEDRATE_MM_M"]                   = [50*60,50*60,3*60]  # mm/m
 
-    if "SynDaver_Level" in PRINTER:
+    if "SynDaver_LevelUp" in PRINTER:
         MARLIN["Z_SAFE_HOMING"]                          = True
         MARLIN["Z_SAFE_HOMING_X_POINT"]                  = -24
         MARLIN["Z_SAFE_HOMING_Y_POINT"]                  = 198
@@ -2455,7 +2456,11 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["DEFAULT_ZJERK"]                          = 0.4
 
         if not "NOZZLE_TO_PROBE_OFFSET" in MARLIN:
-            if PROBE_STYLE == "BLTouch":
+            if "SynDaver_LevelUp" in PRINTER:
+                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, -22, -2.1]
+            elif "SynDaver_Level" in PRINTER:
+                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, -22, 0]
+            elif PROBE_STYLE == "BLTouch":
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, -22, -2.35]
             elif USE_Z_BELT:
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, 0, -1.1]

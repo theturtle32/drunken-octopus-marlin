@@ -24,8 +24,13 @@
 
 #ifdef SYNDAVER_LEVEL_SETTINGS_MENU
 
-#include "autogen/settings_menu.h"
-#include "autogen/layout_5_icons.h"
+#if ENABLED(TOUCH_UI_SYNDAVER_LEVELUP)
+  #include "autogen/settings_with_wifi_menu.h"
+  #include "autogen/layout_5_icons.h"
+#else
+  #include "autogen/settings_wo_wifi_menu.h"
+  #include "autogen/layout_4_icons.h"
+#endif
 
 using namespace FTDI;
 using namespace Theme;
@@ -44,12 +49,16 @@ void SettingsMenu::onRedraw(draw_mode_t what) {
   ui.draw_tile(  POLY(icon_1), 1,   GET_TEXT_F(MSG_INFO_MENU));
   ui.draw_tile(  POLY(icon_2), 2,   GET_TEXT_F(MSG_ZPROBE_ZOFFSET), ENABLED(HAS_BED_PROBE));
   ui.draw_tile(  POLY(icon_3), 3,   GET_TEXT_F(MSG_INTERFACE));
-  ui.draw_tile(  POLY(icon_4), 4,   F("Wireless Status"));
-  ui.draw_tile(  POLY(icon_5), 5,   F("Advanced"));
+  #if ENABLED(TOUCH_UI_SYNDAVER_LEVELUP)
+    ui.draw_tile(  POLY(icon_4), 4,   F("Wireless Status"));
+    ui.draw_tile(  POLY(icon_5), 5,   F("Advanced"));
+  #else
+    ui.draw_tile(  POLY(icon_4), 5,   F("Advanced"));
+  #endif
   ui.draw_noz(   POLY(nozzle_temp));
   ui.draw_bed(   POLY(bed_temp));
   ui.draw_fan(   POLY(fan_percent));
-    ui.draw_lamp( POLY(lamp_toggle));
+  ui.draw_lamp( POLY(lamp_toggle));
   ui.draw_back(  POLY(done_btn));
   ui.restore_bitmaps();
 }

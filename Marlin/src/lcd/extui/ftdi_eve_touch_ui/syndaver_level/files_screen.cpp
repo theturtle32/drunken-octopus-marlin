@@ -177,8 +177,10 @@ void FilesScreen::drawFooter() {
     cmd.tag(244).button(BTN1_POS, GET_TEXT_F(MSG_BUTTON_OPEN));
   else if (has_selection)
     cmd.tag(241).button(BTN1_POS, F("Select"));
-  else
-    cmd.tag(240).button(BTN1_POS, GET_TEXT_F(MSG_BUTTON_DONE));
+  else {
+    FileList files;
+    cmd.tag(240).enabled(files.count() == 0).button(BTN1_POS, GET_TEXT_F(MSG_BUTTON_DONE));
+  }
 }
 
 void FilesScreen::drawFileButton(const char *filename, uint8_t tag, bool is_dir, bool is_highlighted) {
