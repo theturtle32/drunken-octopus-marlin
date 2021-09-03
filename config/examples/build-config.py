@@ -2456,7 +2456,11 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["DEFAULT_ZJERK"]                          = 0.4
 
         if not "NOZZLE_TO_PROBE_OFFSET" in MARLIN:
-            if PROBE_STYLE == "BLTouch":
+            if "SynDaver_LevelUp" in PRINTER:
+                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, -22, -2.1]
+            elif "SynDaver_Level" in PRINTER:
+                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, -22, 0]
+            elif PROBE_STYLE == "BLTouch":
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, -22, -2.35]
             elif USE_Z_BELT:
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, 0, -1.1]
