@@ -854,7 +854,7 @@ def make_config(PRINTER, TOOLHEAD):
     elif TAZ_BED and USE_Z_SCREW:
         MARLIN["HOMING_FEEDRATE_MM_M"]                   = [50*60,50*60,3*60]  # mm/m
 
-    if "SynDaver_LevelUp" in PRINTER:
+    if "SynDaver_Level" in PRINTER:
         MARLIN["Z_SAFE_HOMING"]                          = True
         MARLIN["Z_SAFE_HOMING_X_POINT"]                  = -24
         MARLIN["Z_SAFE_HOMING_Y_POINT"]                  = 198
