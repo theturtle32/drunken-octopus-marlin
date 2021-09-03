@@ -1619,7 +1619,9 @@ def make_config(PRINTER, TOOLHEAD):
     elif PROBE_STYLE == "Conductive":
        MARLIN["NOZZLE_AS_PROBE"]                         = True
     elif PROBE_STYLE == "Manual":
-       MARLIN["PROBE_MANUALLY"]                          = True
+       # Use FIX_MOUNTED_PROBE to allow Z offset to work
+       MARLIN["FIX_MOUNTED_PROBE"]                       = True
+       MARLIN["NOZZLE_TO_PROBE_OFFSET"]                  = [0, 0, 0]
 
     if USE_BED_LEVELING:
         MARLIN["RESTORE_LEVELING_AFTER_G28"]             = True
@@ -2457,9 +2459,7 @@ def make_config(PRINTER, TOOLHEAD):
 
         if not "NOZZLE_TO_PROBE_OFFSET" in MARLIN:
             if "SynDaver_LevelUp" in PRINTER:
-                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, 0, -2.1]
-            elif "SynDaver_Level" in PRINTER:
-                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, 0, 0]
+                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, 18.69, -2.1]
             elif PROBE_STYLE == "BLTouch":
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, -22, -2.35]
             elif USE_Z_BELT:
