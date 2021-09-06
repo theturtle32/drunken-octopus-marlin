@@ -157,6 +157,7 @@ build_config custom    Redgum_TAZWorkhorseArchim                 Goldenrod_Harde
 build_config custom    Redgum_TAZWorkhorseArchim                 E3D_Hermera
 build_config custom    Redgum_TAZWorkhorseBLTouch                Goldenrod_HardenedExtruder
 build_config custom    Redgum_TAZWorkhorseBLTouch                E3D_Hermera
+build_config custom    Redgum_TAZWorkhorseBLTouch                Lutefisk_M175
 build_config custom    Redgum_TAZWorkhorseArchimBLTouch          Goldenrod_HardenedExtruder
 build_config custom    Redgum_TAZWorkhorseArchimBLTouch          E3D_Hermera
 build_config custom    Redgum_TAZWorkhorseArchimTouchUSBBLTouch  E3D_Hermera
