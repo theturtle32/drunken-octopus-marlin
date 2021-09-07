@@ -173,14 +173,14 @@ void FilesScreen::drawFooter() {
      .tag(245).button(BTN2_POS, F("Up Dir"))
      .colors(action_btn);
 
-  if (has_selection && mydata.flags.is_dir)
+  FileList files;
+
+  if (files.count() == 0)
+    cmd.tag(240).button(BTN1_POS, GET_TEXT_F(MSG_BUTTON_DONE));    
+  else if (has_selection && mydata.flags.is_dir)
     cmd.tag(244).button(BTN1_POS, GET_TEXT_F(MSG_BUTTON_OPEN));
-  else if (has_selection)
-    cmd.tag(241).button(BTN1_POS, F("Select"));
-  else {
-    FileList files;
-    cmd.tag(240).enabled(files.count() == 0).button(BTN1_POS, GET_TEXT_F(MSG_BUTTON_DONE));
-  }
+  else
+    cmd.tag(241).enabled(has_selection).button(BTN1_POS, F("Select"));
 }
 
 void FilesScreen::drawFileButton(const char *filename, uint8_t tag, bool is_dir, bool is_highlighted) {
