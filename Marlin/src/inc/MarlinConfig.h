@@ -55,8 +55,5 @@
   #include "../core/serial.h"  
 #endif
 
-#if ENABLED(EMI_MITIGATION)
-  #include "../drunken_octopus_extras.h"
-#endif
-
+#include "../drunken_octopus_extras.h"
 #include "../core/multi_language.h"
