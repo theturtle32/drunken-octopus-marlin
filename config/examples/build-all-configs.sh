@@ -93,6 +93,7 @@ build_config accessory Juniper_TAZ5                              AchemonSphinx_S
 build_config accessory Juniper_TAZ5                              BandedTiger_HardenedSteel
 build_config accessory Juniper_TAZ5                              DingyCutworm_HardenedSteelPlus
 build_config accessory Juniper_TAZ5                              Goldenrod_HardenedExtruder
+build_config accessory Juniper_TAZ5                              Lutefisk_M175
 build_config custom    Juniper_TAZ5Archim                        Tilapia_SingleExtruder
 build_config custom    Juniper_TAZ5Archim                        Angelfish_Aerostruder
 build_config custom    Juniper_TAZ5Archim                        E3D_Hermera
