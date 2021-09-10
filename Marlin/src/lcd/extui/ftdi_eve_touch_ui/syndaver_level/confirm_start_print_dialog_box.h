@@ -26,11 +26,6 @@
 #define SYNDAVER_LEVEL_CONFIRM_START_PRINT_CLASS ConfirmStartPrintDialogBox
 
 class ConfirmStartPrintDialogBox : public DialogBoxBaseClass, public UncachedScreen {
-  private:
-    inline static const char *getShortFilename() {return getFilename(false);}
-    inline static const char *getLongFilename()  {return getFilename(true);}
-
-    static const char *getFilename(bool longName);
   public:
     static void onRedraw(draw_mode_t);
     static bool onTouchEnd(uint8_t);

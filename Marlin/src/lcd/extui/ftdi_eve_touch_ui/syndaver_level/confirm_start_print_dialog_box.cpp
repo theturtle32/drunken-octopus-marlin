@@ -30,7 +30,8 @@ using namespace Theme;
 using namespace ExtUI;
 
 void ConfirmStartPrintDialogBox::onRedraw(draw_mode_t) {
-  const char *filename = getLongFilename();
+  FileList files;
+  const char *filename = files.filename();
   char buffer[strlen_P(GET_TEXT(MSG_START_PRINT_CONFIRMATION)) + strlen(filename) + 1];
   sprintf_P(buffer, GET_TEXT(MSG_START_PRINT_CONFIRMATION), filename);
   drawMessage((const char *)buffer);
@@ -39,19 +40,16 @@ void ConfirmStartPrintDialogBox::onRedraw(draw_mode_t) {
 
 bool ConfirmStartPrintDialogBox::onTouchEnd(uint8_t tag) {
   switch (tag) {
-    case 1:
-      printFile(getShortFilename());
+    case 1: {
+      FileList files;
+      printFile(files.shortFilename());
       StatusScreen::setStatusMessage(GET_TEXT_F(MSG_PRINT_STARTING));
       GOTO_SCREEN(StatusScreen);
       return true;
+    }
     case 2: GOTO_PREVIOUS(); return true;
     default:                 return false;
   }
-}
-
-const char *ConfirmStartPrintDialogBox::getFilename(bool longName) {
-  FileList files;
-  return longName ? files.longFilename() : files.shortFilename();
 }
 
 #endif // SYNDAVER_LEVEL_CONFIRM_START_PRINT

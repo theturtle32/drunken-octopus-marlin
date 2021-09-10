@@ -300,12 +300,12 @@ void SynLevelUI::draw_file(PolyUI::poly_reader_t poly) {
   if (mode & FOREGROUND) {
     cmd.cmd(COLOR_RGB(bg_text_enabled));
 
-    FileList list;
     if(!isMediaInserted())
       draw_text_with_ellipsis(cmd, TEXT_POS(x, y, w, h), F("No media present"), OPT_CENTERY, font_small);
-    else if(isFileSelected())
-      draw_text_with_ellipsis(cmd, TEXT_POS(x, y, w, h), list.filename(),       OPT_CENTERY, font_small);
-    else
+    else if(isFileSelected()) {
+      FileList list;
+      draw_text_with_ellipsis(cmd, TEXT_POS(x, y, w, h), list.filename(), OPT_CENTERY, font_small);
+    } else
       draw_text_with_ellipsis(cmd, TEXT_POS(x, y, w, h), F("No file selected"), OPT_CENTERY, font_small);
   }
 }
