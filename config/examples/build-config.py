@@ -235,7 +235,7 @@ def make_config(PRINTER, TOOLHEAD):
             USE_REPRAP_LCD_DISPLAY                       = False
             MARLIN["TOUCH_UI_PORTRAIT"]                  = True
             MARLIN["TOUCH_UI_480x272"]                   = True
-            MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]           = True
+            MARLIN["LCD_LULZBOT_CLCD_UI"]                = True
             MARLIN["AO_EXP2_PINMAP"]                     = True
             MARLIN["SDSUPPORT"]                          = True
             if ENABLED("USB_FLASH_DRIVE_SUPPORT"):
@@ -346,7 +346,7 @@ def make_config(PRINTER, TOOLHEAD):
             USE_LESS_MEMORY                              = 1
             MARLIN["TOUCH_UI_PORTRAIT"]                  = True
             MARLIN["TOUCH_UI_480x272"]                   = True
-            MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]           = True
+            MARLIN["LCD_LULZBOT_CLCD_UI"]                = True
             MARLIN["AO_EXP1_PINMAP"]                     = True
             MARLIN["SDSUPPORT"]                          = True
             if ENABLED("USB_FLASH_DRIVE_SUPPORT"):
@@ -386,7 +386,7 @@ def make_config(PRINTER, TOOLHEAD):
         # Touch LCD configuration
         MARLIN["TOUCH_UI_PORTRAIT"]                      = True
         MARLIN["TOUCH_UI_800x480"]                       = True
-        MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]               = True
+        MARLIN["LCD_LULZBOT_CLCD_UI"]                    = True
         MARLIN["AO_EXP2_PINMAP"]                         = True
 
     if "Redgum_TAZWorkhorse" in PRINTER:
@@ -417,7 +417,7 @@ def make_config(PRINTER, TOOLHEAD):
             # Touch LCD configuration
             MARLIN["TOUCH_UI_PORTRAIT"]                  = True
             MARLIN["TOUCH_UI_800x480"]                   = True
-            MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]           = True
+            MARLIN["LCD_LULZBOT_CLCD_UI"]                = True
             MARLIN["AO_EXP2_PINMAP"]                     = True
         else:
             # The LIGHTWEIGHT_UI is not currently compatible with 32-bit boards.
@@ -480,7 +480,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOUCH_UI_PORTRAIT"]                      = True
         MARLIN["TOUCH_UI_NO_BOOTSCREEN"]                 = True
         MARLIN["TOUCH_UI_800x480"]                       = True
-        MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]               = True
+        MARLIN["LCD_LULZBOT_CLCD_UI"]                    = True
         MARLIN["TOUCH_UI_ROYAL_THEME"]                   = True
         MARLIN["AO_EXP2_PINMAP"]                         = True
         # Put filament sensor on X_MAX
@@ -537,7 +537,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOUCH_UI_PORTRAIT"]                      = False
         MARLIN["TOUCH_UI_NO_BOOTSCREEN"]                 = True
         MARLIN["TOUCH_UI_480x272"]                       = True
-        MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]               = True
+        MARLIN["LCD_LULZBOT_CLCD_UI"]                    = True
         MARLIN["TOUCH_UI_ROYAL_THEME"]                   = True
         MARLIN["AO_EXP2_PINMAP"]                         = True
         # Put filament sensor on Y_MIN
@@ -564,7 +564,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("23421dc0-df9f-430b-8f91-0e3bcb55b4e4")
         # Since we are using EinsyRetro 1.1a, use EXP1 for touch panel
-        MARLIN["LCD_ALEPHOBJECTS_CLCD_UI"]               = True
+        MARLIN["LCD_LULZBOT_CLCD_UI"]                    = True
         MARLIN["AO_EXP2_PINMAP"]                         = True
         MARLIN["TOUCH_UI_PORTRAIT"]                      = True
         MARLIN["TOUCH_UI_INVERTED"]                      = True
