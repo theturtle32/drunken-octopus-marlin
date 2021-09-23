@@ -2483,7 +2483,14 @@ def make_config(PRINTER, TOOLHEAD):
             else:
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, 0, -1.200]
 
-    if IS_MINI and USE_Z_SCREW:
+    if "SynDaver_Level" in PRINTER:
+        Z_STEPS                                          = 3000
+        Z_MICROSTEPS                                     = 16
+
+        MARLIN["DEFAULT_MAX_FEEDRATE"]                   = [300, 300, 8, 40] # (mm/sec)
+        MARLIN["DEFAULT_MAX_ACCELERATION"]               = [9000,9000,100,1000]
+
+    elif IS_MINI and USE_Z_SCREW:
         Z_STEPS                                          = 1600
         Z_MICROSTEPS                                     = 16
 
