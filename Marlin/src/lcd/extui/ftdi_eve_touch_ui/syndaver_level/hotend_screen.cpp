@@ -234,8 +234,8 @@ void HotendScreen::loadFilament() {
   SpinnerDialogBox::show(GET_TEXT_F(MSG_PLEASE_WAIT));
   const float oldFr = getAxisMaxFeedrate_mm_s(E0);
   setAxisMaxFeedrate_mm_s(MMM_TO_MMS(1000), E0);
-  unscaled_e_move(550, MMM_TO_MMS(1000)); // move E axis forward 550mm at 1000mm/m
-  unscaled_e_move(20, MMM_TO_MMS(40));    // move E axis forward 20mm at 40mm/m
+  unscaled_e_move(800, MMM_TO_MMS(1000)); // move E axis forward 800mm at 1000mm/m
+  unscaled_e_move(70, MMM_TO_MMS(40));    // move E axis forward 70mm at 40mm/m
   setAxisMaxFeedrate_mm_s(oldFr, E0);
   SpinnerDialogBox::hide();
 }
@@ -244,7 +244,7 @@ void HotendScreen::unloadFilament() {
   SpinnerDialogBox::show(GET_TEXT_F(MSG_PLEASE_WAIT));
   const float oldFr = getAxisMaxFeedrate_mm_s(E0);
   setAxisMaxFeedrate_mm_s(MMM_TO_MMS(1000), E0);
-  unscaled_e_move(-570, MMM_TO_MMS(1000)); // move E axis backwards 570mm at 1000mm/m
+  unscaled_e_move(-900, MMM_TO_MMS(1000)); // move E axis backwards 900mm at 1000mm/m
   setAxisMaxFeedrate_mm_s(oldFr, E0);
   SpinnerDialogBox::hide();
 }

@@ -2110,8 +2110,8 @@ def make_config(PRINTER, TOOLHEAD):
 
         MARLIN["EVENT_GCODE_SD_ABORT"]                   = C_STRING(EVENT_GCODE_SD_ABORT)
 
-    if ENABLED("TOUCH_UI_SYNDAVER_LEVEL"):
-        MARLIN["EXTRUDE_MAXLENGTH"]                      = 570
+    if "SynDaver_Level" in PRINTER:
+        MARLIN["EXTRUDE_MAXLENGTH"]                      = 900
 
 ################################## WIPER PAD ##################################
 
