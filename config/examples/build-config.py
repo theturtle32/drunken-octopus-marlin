@@ -2459,7 +2459,7 @@ def make_config(PRINTER, TOOLHEAD):
 
         if not "NOZZLE_TO_PROBE_OFFSET" in MARLIN:
             if "SynDaver_LevelUp" in PRINTER:
-                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, 18.69, -2.1]
+                MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, 18.69, -1.5]
             elif PROBE_STYLE == "BLTouch":
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, -22, -2.35]
             elif USE_Z_BELT:
