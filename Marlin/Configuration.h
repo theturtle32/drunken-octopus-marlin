@@ -1,6 +1,6 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2021 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
  * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
@@ -143,7 +143,7 @@
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "SynDaver Level Up" // <-- changed
+#define CUSTOM_MACHINE_NAME "SynDaver LeveL UP" // <-- changed
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
@@ -564,7 +564,7 @@
 #define HEATER_6_MAXTEMP 275
 #define HEATER_7_MAXTEMP 275
 #define BED_MAXTEMP      135 // <-- changed
-#define CHAMBER_MAXTEMP  60
+#define CHAMBER_MAXTEMP  135 // <-- changed
 
 /**
  * Thermal Overshoot
@@ -667,7 +667,7 @@
  * the issues involved, don't use chamber PID until someone else verifies that your hardware works.
  */
 //#define PIDTEMPCHAMBER
-//#define CHAMBER_LIMIT_SWITCHING
+#define CHAMBER_LIMIT_SWITCHING // <-- changed
 
 /**
  * Max Chamber Power
@@ -717,7 +717,7 @@
  * Note: For Bowden Extruders make this large enough to allow load/unload.
  */
 #define PREVENT_LENGTHY_EXTRUDE
-#define EXTRUDE_MAXLENGTH 570 // <-- changed
+#define EXTRUDE_MAXLENGTH 900 // <-- changed
 
 //===========================================================================
 //======================== Thermal Runaway Protection =======================
@@ -916,7 +916,7 @@
  * Override with M92
  *                                      X, Y, Z [, I [, J [, K]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 1600, 136} // <-- changed
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 3000, 136} // <-- changed
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -1168,7 +1168,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET {0, 0, -1.375} // <-- changed
+#define NOZZLE_TO_PROBE_OFFSET {0, 18.69, -1.5} // <-- changed
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
@@ -1362,11 +1362,11 @@
 #define Y_BED_SIZE 180 // <-- changed
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
-#define X_MIN_POS -24.5 // <-- changed
-#define Y_MIN_POS -1.5 // <-- changed
+#define X_MIN_POS -23.5 // <-- changed
+#define Y_MIN_POS -19 // <-- changed
 #define Z_MIN_POS 0
 #define X_MAX_POS 180.5 // <-- changed
-#define Y_MAX_POS 198.5 // <-- changed
+#define Y_MAX_POS 193 // <-- changed
 #define Z_MAX_POS 183 // <-- changed
 //#define I_MIN_POS 0
 //#define I_MAX_POS 50
@@ -1729,8 +1729,8 @@
 #define Z_SAFE_HOMING // <-- changed
 
 #if ENABLED(Z_SAFE_HOMING)
-  #define Z_SAFE_HOMING_X_POINT -24 // <-- changed:  X point for Z homing
-  #define Z_SAFE_HOMING_Y_POINT 198 // <-- changed:  Y point for Z homing
+  #define Z_SAFE_HOMING_X_POINT X_CENTER  // X point for Z homing
+  #define Z_SAFE_HOMING_Y_POINT Y_CENTER  // Y point for Z homing
 #endif
 
 // Homing speeds (mm/min)
@@ -1871,7 +1871,7 @@
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
-  #define NOZZLE_PARK_POINT {10, 188.5, 20} // <-- changed
+  #define NOZZLE_PARK_POINT {10, 183, 20} // <-- changed
   //#define NOZZLE_PARK_X_ONLY          // X move only is required to park
   //#define NOZZLE_PARK_Y_ONLY          // Y move only is required to park
   #define NOZZLE_PARK_Z_RAISE_MIN   2   // (mm) Always raise Z by at least this distance
@@ -2947,7 +2947,7 @@
 #define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X115 Y175 Z10 F4000\nM109 R170\nG1 Z-0.5\nM114\nG1 X115 Y175\nG1 X45 Y175\nG1 X115 Y175\nG1 X45 Y175\nG1 X115 Y175\nG1 X45 Y175\nG1 X115 Y175\nG1 X45 Y175\nG1 X115 Y175\nG1 X45 Y175\nG1 X115 Y175\nG1 X45 Y175\nG1 Z15\nM400\nM106 S255\nM109 R160\nM107" // <-- changed
 //#define AXIS_LEVELING_COMMANDS
 #define BED_LEVELING_COMMANDS "G28\nG29 P1 X0 Y0\nG29 S1" // <-- changed
-#define MANUAL_BED_LEVELING_COMMANDS "M420 S0\nG28\nG0 Z5\nM0 Ensure the removable build plate is on the machine, and place a sheet of paper on top of it\nG0 X0 Y180\nG0 Z0\nM0 Adjust back left leveling hand screw\nG0 Z5\nG0 X180 Y180\nG0 Z0\nM0 Adjust back right leveling hand screw\nG0 Z5\nG0 X180 Y0\nG0 Z0\nM0 Adjust front right leveling hand screw\nG0 Z5\nG0 X0 Y0\nG0 Z0\nM0 Adjust front left leveling hand screw\nG0 Z5\nG0 X-24 Y198\nM0 Run again to confirm all points are good, or if you already have then proceed to other leveling steps. You will need a new bed mesh map now." // <-- changed
+#define MANUAL_BED_LEVELING_COMMANDS "M420 S0\nG28\nG0 Z5\nM0 Ensure the removable build plate is on the machine, and place a sheet of paper on top of it\nG0 X0 Y180\nG0 Z0\nM0 Adjust back left leveling hand screw\nG0 Z5\nG0 X180 Y180\nG0 Z0\nM0 Adjust back right leveling hand screw\nG0 Z5\nG0 X180 Y0\nG0 Z0\nM0 Adjust front right leveling hand screw\nG0 Z5\nG0 X0 Y0\nG0 Z0\nM0 Adjust front left leveling hand screw\nG0 Z5\nG0 X0 Y180\nG0 Z0\nM0 Adjust back left leveling hand screw\nG0 Z5\nG0 X180 Y180\nG0 Z0\nM0 Adjust back right leveling hand screw\nG0 Z5\nG0 X180 Y0\nG0 Z0\nM0 Adjust front right leveling hand screw\nG0 Z5\nG0 X0 Y0\nG0 Z0\nM0 Adjust front left leveling hand screw\nG0 Z5\nG0 X90 Y90\nM0 Process complete. You will need a new bed mesh map now." // <-- changed
 //#define AO_EXP1_DEPRECATED_PINMAP
 #define DISABLE_DUE_SD_MMC // <-- changed
 #define ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE 1000 // <-- changed
@@ -2957,6 +2957,7 @@
 #define USB_DEVICE_PRODUCT_ID 0x0001 // <-- changed
 #define USB_DEVICE_PRODUCT_NAME "SynDaverLvlU" // <-- changed
 #define TOUCH_UI_SYNDAVER_LEVEL // <-- changed
+#define TOUCH_UI_SYNDAVER_LEVELUP // <-- changed
 #define TOUCH_UI_NO_BOOTSCREEN // <-- changed
 #define TOUCH_UI_ROYAL_THEME // <-- changed
 #define TOUCH_UI_VERSION "Release: 2 (" __DATE__  ")\nMarlin " SHORT_BUILD_VERSION // <-- changed
@@ -2978,3 +2979,4 @@
 //#define ELECTROMAGNETIC_BRAKE_PIN
 #define UBL_HILBERT_CURVE // <-- changed
 #define M997_ARCHIM_BOOTLOADER // <-- changed
+#define START_PRINT_TIMER_ON_G26 // <-- changed
