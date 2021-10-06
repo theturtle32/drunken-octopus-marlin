@@ -46,10 +46,10 @@ void StatusScreen::onRedraw(draw_mode_t what) {
     CommandProcessor cmd;
     SynLevelUI ui(cmd, what);
     ui.draw_start();
-    ui.draw_tile( POLY(icon_1), 1, F("File Select"), !isPrinting() && isMediaInserted());
-    ui.draw_tile( POLY(icon_2), 2, F("Print"),       !isPrinting() && ui.isFileSelected());
-    ui.draw_tile( POLY(icon_3), 3, F("Tools"));
-    ui.draw_tile( POLY(icon_4), 4, F("Settings"));
+    ui.draw_tile( POLY(icon_1), 1, F(""), !isPrinting() && isMediaInserted());
+    ui.draw_tile( POLY(icon_2), 2, F(""), !isPrinting() && ui.isFileSelected());
+    ui.draw_tile( POLY(icon_3), 3, F(""));
+    ui.draw_tile( POLY(icon_4), 4, F(""));
     ui.draw_fan(  POLY(fan_percent));
     ui.draw_prog( POLY(done_btn));
     ui.draw_time( POLY(print_time));
@@ -83,13 +83,13 @@ void StatusScreen::setStatusMessage(const char *message) {
   SynLevelUI ui(cmd, BACKGROUND);
   ui.draw_bkgnd();
   ui.draw_title( POLY(status_text), message);
-  ui.draw_prog( POLY(print_time));
-  ui.draw_time( POLY(done_btn));
-  ui.draw_fan( POLY(fan_percent));
-  ui.draw_noz( POLY(nozzle_temp));
-  ui.draw_bed( POLY(bed_temp));
-  ui.draw_file( POLY(file_name));
-  ui.draw_lamp( POLY(lamp_toggle));
+  ui.draw_prog(  POLY(print_time));
+  ui.draw_time(  POLY(done_btn));
+  ui.draw_fan(   POLY(fan_percent));
+  ui.draw_noz(   POLY(nozzle_temp));
+  ui.draw_bed(   POLY(bed_temp));
+  ui.draw_file(  POLY(file_name));
+  ui.draw_lamp(  POLY(lamp_toggle));
   ui.restore_bitmaps();
 
   storeBackground();
