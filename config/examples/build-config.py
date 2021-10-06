@@ -507,14 +507,14 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SDSUPPORT"]                              = True
         if "SynDaver_LevelUp" in PRINTER:
             PROBE_STYLE                                  = "Inductive"
-            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Level Up")
+            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver LeveL Up")
             # Must use 12 character USB product name to prevent board lockups
             MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("SynDaverLvlU")
             MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
             MARLIN["TOUCH_UI_VERSION"]                   = '\"Release: 2 (\" __DATE__  \")\\nMarlin \" SHORT_BUILD_VERSION'
         else:
             PROBE_STYLE                                  = "Manual"
-            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver Level")
+            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver LeveL")
             # Must use 12 character USB product name to prevent board lockups
             MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("SynDaver Lvl")
             MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
@@ -1728,6 +1728,7 @@ def make_config(PRINTER, TOOLHEAD):
                 "G28\n" +                                    # Home
                 "G0 Z5\n" +                                  # Raise nozzle
                 "M0 Ensure the removable build plate is on the machine, and place a sheet of paper on top of it\n" +
+                # First pass
                 "G0 X0 Y180\n" +                             # Move to back left corner
                 "G0 Z0\n" +                                  # Touch nozzle on bed
                 "M0 Adjust back left leveling hand screw\n" +
@@ -1744,8 +1745,25 @@ def make_config(PRINTER, TOOLHEAD):
                 "G0 Z0\n" +                                  # Touch nozzle on bed
                 "M0 Adjust front left leveling hand screw\n" +
                 "G0 Z5\n" +                                  # Raise nozzle
-                "G0 X-24 Y198\n" +                           # Move to home position
-                "M0 Run again to confirm all points are good, or if you already have then proceed to other leveling steps. You will need a new bed mesh map now."
+                # Second pass
+                "G0 X0 Y180\n" +                             # Move to back left corner
+                "G0 Z0\n" +                                  # Touch nozzle on bed
+                "M0 Adjust back left leveling hand screw\n" +
+                "G0 Z5\n" +                                  # Raise nozzle
+                "G0 X180 Y180\n" +                           # Move to back right corner
+                "G0 Z0\n" +                                  # Touch nozzle on bed
+                "M0 Adjust back right leveling hand screw\n" +
+                "G0 Z5\n" +                                  # Raise nozzle
+                "G0 X180 Y0\n" +                             # Move to front right corner
+                "G0 Z0\n" +                                  # Touch nozzle on bed
+                "M0 Adjust front right leveling hand screw\n" +
+                "G0 Z5\n" +                                  # Raise nozzle
+                "G0 X0 Y0\n" +                               # Move to front left corner
+                "G0 Z0\n" +                                  # Touch nozzle on bed
+                "M0 Adjust front left leveling hand screw\n" +
+                "G0 Z5\n" +                                  # Raise nozzle
+                "G0 X90 Y90\n" +                           # Move to home position
+                "M0 Process complete. You will need a new bed mesh map now."
       )
       MARLIN["MANUAL_BED_LEVELING_COMMANDS"]                 = C_STRING(MANUAL_BED_LEVELING_COMMANDS)
 
