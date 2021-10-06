@@ -261,8 +261,6 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["STEALTHCHOP_XY"]                     = False
             MARLIN["STEALTHCHOP_Z"]                      = True
             MARLIN["STEALTHCHOP_E"]                      = True
-        elif PROBE_STYLE == ["BLTouch", "Inductive"]:
-            USE_LESS_MEMORY                              = 2
 
     if "Juniper_TAZ5" in PRINTER:
         IS_TAZ                                           = True
@@ -284,8 +282,6 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["STEALTHCHOP_XY"]                     = False
             MARLIN["STEALTHCHOP_Z"]                      = False
             MARLIN["STEALTHCHOP_E"]                      = True
-        elif PROBE_STYLE == ["BLTouch", "Inductive"]:
-            USE_LESS_MEMORY                              = 2
 
     if "Oliveoil_TAZ6" in PRINTER:
         IS_TAZ                                           = True
@@ -316,8 +312,6 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["STEALTHCHOP_Z"]                      = False
             MARLIN["STEALTHCHOP_E"]                      = True
             MARLIN["HYBRID_THRESHOLD"]                   = False
-        elif PROBE_STYLE == ["BLTouch", "Inductive"]:
-            USE_LESS_MEMORY                              = 2
 
     if "Hibiscus_Mini2" in PRINTER:
         IS_MINI                                          = True
@@ -366,9 +360,7 @@ def make_config(PRINTER, TOOLHEAD):
         USE_ARCHIM2                                      = True
         USE_EXPERIMENTAL_FEATURES                        = True
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ Pro")
-        if USE_ARCHIM2:
-            # Must use 12 character USB product name to prevent board lockups
-            MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("TAZ Pro     ")
+        MARLIN["USB_DEVICE_PRODUCT_NAME"]                = C_STRING("TAZ Pro     ")
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["SENSORLESS_HOMING"]                      = True
         MARLIN["STEALTHCHOP_XY"]                         = False
@@ -425,8 +417,6 @@ def make_config(PRINTER, TOOLHEAD):
                 MARLIN["LIGHTWEIGHT_UI"]                 = False
             else:
                 MARLIN["LIGHTWEIGHT_UI"]                 = True
-                if PROBE_STYLE == ["BLTouch", "Inductive"]:
-                    USE_LESS_MEMORY                      = 2
 
     if "SynDaver_Axi" in PRINTER:
         IS_TAZ                                           = True
@@ -613,6 +603,9 @@ def make_config(PRINTER, TOOLHEAD):
 
     if "HallEffect" in PRINTER:
         MARLIN["FILAMENT_MOTION_SENSOR"]                 = True
+
+    if IS_TAZ and not USE_ARCHIM2 and PROBE_STYLE in ["BLTouch", "Inductive"]:
+        USE_LESS_MEMORY                                  = 2
 
 ############################ GENERAL CONFIGURATION ############################
 
@@ -1462,7 +1455,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TEMP_SENSOR_CHAMBER"]                    = 7
         MARLIN["CHAMBER_LIMIT_SWITCHING"]                = True
         MARLIN["HEATER_CHAMBER_PIN"]                     = 8 # D8 PC22 FET_PWM5 ("HTR3" header)
-        MARLIN["FAN1_PIN"]                               = -1 
+        MARLIN["FAN1_PIN"]                               = -1
         MARLIN["HEATER_CHAMBER_INVERTING"]               = 'true' # Activate cooler when temperature is above threshold
         MARLIN["THERMAL_PROTECTION_CHAMBER"]             = False
         MARLIN["CHAMBER_MAXTEMP"]                        = 135;
@@ -2117,8 +2110,8 @@ def make_config(PRINTER, TOOLHEAD):
 
         MARLIN["EVENT_GCODE_SD_ABORT"]                   = C_STRING(EVENT_GCODE_SD_ABORT)
 
-    if ENABLED("TOUCH_UI_SYNDAVER_LEVEL"):
-        MARLIN["EXTRUDE_MAXLENGTH"]                      = 570
+    if "SynDaver_Level" in PRINTER:
+        MARLIN["EXTRUDE_MAXLENGTH"]                      = 900
 
 ################################## WIPER PAD ##################################
 
@@ -2490,7 +2483,14 @@ def make_config(PRINTER, TOOLHEAD):
             else:
                 MARLIN["NOZZLE_TO_PROBE_OFFSET"]         = [0, 0, -1.200]
 
-    if IS_MINI and USE_Z_SCREW:
+    if "SynDaver_Level" in PRINTER:
+        Z_STEPS                                          = 3000
+        Z_MICROSTEPS                                     = 16
+
+        MARLIN["DEFAULT_MAX_FEEDRATE"]                   = [300, 300, 8, 40] # (mm/sec)
+        MARLIN["DEFAULT_MAX_ACCELERATION"]               = [9000,9000,100,1000]
+
+    elif IS_MINI and USE_Z_SCREW:
         Z_STEPS                                          = 1600
         Z_MICROSTEPS                                     = 16
 
