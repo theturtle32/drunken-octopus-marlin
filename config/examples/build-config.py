@@ -517,7 +517,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SDSUPPORT"]                              = True
         if "SynDaver_LevelUp" in PRINTER:
             PROBE_STYLE                                  = "Inductive"
-            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver LeveL Up")
+            MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver LeveL UP")
             # Must use 12 character USB product name to prevent board lockups
             MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("SynDaverLvlU")
             MARLIN["SHORT_BUILD_VERSION"]                = '\"2.x.x (\" GIT_HASH \")\"'
@@ -1485,9 +1485,9 @@ def make_config(PRINTER, TOOLHEAD):
 
     elif "SynDaver_Level" in PRINTER:
         STANDARD_X_MAX_POS                               = 180.5
-        STANDARD_X_MIN_POS                               = -24.5
-        STANDARD_Y_MAX_POS                               = 198.5
-        STANDARD_Y_MIN_POS                               =  -1.5
+        STANDARD_X_MIN_POS                               = -23.5
+        STANDARD_Y_MAX_POS                               = 193
+        STANDARD_Y_MIN_POS                               = -19
 
         STANDARD_X_BED_SIZE                              = 180
         STANDARD_Y_BED_SIZE                              = 180
