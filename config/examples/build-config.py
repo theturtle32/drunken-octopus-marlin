@@ -597,9 +597,11 @@ def make_config(PRINTER, TOOLHEAD):
 
     if "BLTouch" in PRINTER:
         PROBE_STYLE                                      = "BLTouch"
+        USE_BED_LEVELING                                 = True
 
     if "Inductive" in PRINTER:
         PROBE_STYLE                                      = "Inductive"
+        USE_BED_LEVELING                                 = True
 
     if "HallEffect" in PRINTER:
         MARLIN["FILAMENT_MOTION_SENSOR"]                 = True
