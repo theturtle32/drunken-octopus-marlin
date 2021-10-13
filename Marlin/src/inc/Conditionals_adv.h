@@ -624,7 +624,9 @@
 #endif
 
 // Fallback Stepper Driver types that depend on Configuration_adv.h
-#if NONE(DUAL_X_CARRIAGE, X_DUAL_STEPPER_DRIVERS)
+#if EITHER(DUAL_X_CARRIAGE, X_DUAL_STEPPER_DRIVERS)
+  #define HAS_X2_STEPPER 1
+#else
   #undef X2_DRIVER_TYPE
 #endif
 #if DISABLED(Y_DUAL_STEPPER_DRIVERS)
@@ -658,7 +660,7 @@
 #endif
 
 // Add features that need hardware PWM here
-#if ANY(FAST_PWM_FAN, SPINDLE_LASER_PWM)
+#if ANY(FAST_PWM_FAN, SPINDLE_LASER_USE_PWM)
   #define NEEDS_HARDWARE_PWM 1
 #endif
 
