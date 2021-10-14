@@ -854,7 +854,7 @@ def make_config(PRINTER, TOOLHEAD):
     elif "SynDaver_Level" in PRINTER:
         MARLIN["Z_SAFE_HOMING"]                          = True
         MARLIN["Z_SAFE_HOMING_X_POINT"]                  = -23
-        MARLIN["Z_SAFE_HOMING_Y_POINT"]                  = 198
+        MARLIN["Z_SAFE_HOMING_Y_POINT"]                  = 193
     elif USE_HOME_BUTTON:
         # Only the TAZ 6 has a Z-homing button
         MARLIN["Z_SAFE_HOMING"]                          = True
