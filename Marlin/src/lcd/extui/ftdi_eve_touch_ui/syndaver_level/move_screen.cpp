@@ -53,18 +53,18 @@ void MoveScreen::draw_arrows(draw_mode_t what) {
   constexpr uint8_t style = PolyUI::REGULAR;
 
   if ((what & BACKGROUND) || isHomed) {
-    ui.button(1, POLY(x_neg), style);
-    ui.button(2, POLY(x_pos), style);
+    ui.button(isHomed ? 1 : 0, POLY(x_neg), style);
+    ui.button(isHomed ? 2 : 0, POLY(x_pos), style);
   }
 
   if ((what & BACKGROUND) || isHomed) {
-    ui.button(3, POLY(y_neg), style);
-    ui.button(4, POLY(y_pos), style);
+    ui.button(isHomed ? 3 : 0, POLY(y_neg), style);
+    ui.button(isHomed ? 4 : 0, POLY(y_pos), style);
   }
 
   if ((what & BACKGROUND) || isHomed) {
-    ui.button(5, POLY(z_neg), style);
-    ui.button(6, POLY(z_pos), style);
+    ui.button(isHomed ? 5 : 0, POLY(z_neg), style);
+    ui.button(isHomed ? 6 : 0, POLY(z_pos), style);
   }
 }
 
