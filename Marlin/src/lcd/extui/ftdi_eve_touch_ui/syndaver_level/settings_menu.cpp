@@ -48,14 +48,14 @@ void SettingsMenu::onRedraw(draw_mode_t what) {
   ui.draw_start( );
   ui.draw_bkgnd( );
   ui.draw_title( POLY(status_text), F("Settings Menu"));
-  ui.draw_tile(  POLY(icon_1), 1,   GET_TEXT_F(MSG_INFO_MENU));
-  ui.draw_tile(  POLY(icon_2), 2,   GET_TEXT_F(MSG_ZPROBE_ZOFFSET), ENABLED(HAS_BED_PROBE));
-  ui.draw_tile(  POLY(icon_3), 3,   GET_TEXT_F(MSG_INTERFACE));
+  ui.draw_tile(  POLY(icon_1), 1,   F("")); // About
+  ui.draw_tile(  POLY(icon_2), 2,   F(""), ENABLED(HAS_BED_PROBE)); // Z Offset
+  ui.draw_tile(  POLY(icon_3), 3,   F("")); // Interface
   #if ENABLED(TOUCH_UI_SYNDAVER_LEVELUP)
-    ui.draw_tile(  POLY(icon_4), 4,   F("Wireless Status"));
-    ui.draw_tile(  POLY(icon_5), 5,   F("Advanced"));
+    ui.draw_tile(  POLY(icon_4), 4, F("")); // Wireless Status
+    ui.draw_tile(  POLY(icon_5), 5, F("")); // Advanced
   #else
-    ui.draw_tile(  POLY(icon_4), 5,   F("Advanced"));
+    ui.draw_tile(  POLY(icon_4), 5, F("")); // Advanced
   #endif
   ui.draw_noz(   POLY(nozzle_temp));
   ui.draw_bed(   POLY(bed_temp));

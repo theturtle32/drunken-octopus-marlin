@@ -48,16 +48,16 @@ void LevelingMenu::onRedraw(draw_mode_t what) {
   ui.draw_start();
   ui.draw_bkgnd();
   ui.draw_title( POLY(status_text), F("Leveling Menu"));
-  ui.draw_tile(  POLY(icon_1), 1, F("Manual Leveling"));
+  ui.draw_tile(  POLY(icon_1), 1, F("")); // Manual Leveling
   #if ENABLED(TOUCH_UI_SYNDAVER_LEVELUP)
-    ui.draw_tile(  POLY(icon_2), 2, GET_TEXT_F(MSG_PROBE_BED));
-    ui.draw_tile(  POLY(icon_3), 3, GET_TEXT_F(MSG_SHOW_MESH));
-    ui.draw_tile(  POLY(icon_4), 4, GET_TEXT_F(MSG_EDIT_MESH));
-    ui.draw_tile(  POLY(icon_5), 5, GET_TEXT_F(MSG_PRINT_TEST));
+    ui.draw_tile(  POLY(icon_2), 2, F("")); // Probe Bed
+    ui.draw_tile(  POLY(icon_3), 3, F("")); // Show Mesh
+    ui.draw_tile(  POLY(icon_4), 4, F("")); // Edit Mesh
+    ui.draw_tile(  POLY(icon_5), 5, F("")); // Print Test
   #else
-    ui.draw_tile(  POLY(icon_2), 3, GET_TEXT_F(MSG_SHOW_MESH));
-    ui.draw_tile(  POLY(icon_3), 4, GET_TEXT_F(MSG_EDIT_MESH));
-    ui.draw_tile(  POLY(icon_4), 5, GET_TEXT_F(MSG_PRINT_TEST));
+    ui.draw_tile(  POLY(icon_2), 3, F("")); // Show Mesh
+    ui.draw_tile(  POLY(icon_3), 4, F("")); // Edit Mesh
+    ui.draw_tile(  POLY(icon_4), 5, F("")); // Print Test
   #endif
   ui.draw_noz(   POLY(nozzle_temp));
   ui.draw_bed(   POLY(bed_temp));

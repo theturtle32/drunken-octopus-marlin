@@ -46,10 +46,10 @@ void StatusScreen::onRedraw(draw_mode_t what) {
     CommandProcessor cmd;
     SynLevelUI ui(cmd, what);
     ui.draw_start();
-    ui.draw_tile( POLY(icon_1), 1, F(""), !isPrinting() && isMediaInserted());
-    ui.draw_tile( POLY(icon_2), 2, F(""), !isPrinting() && ui.isFileSelected());
-    ui.draw_tile( POLY(icon_3), 3, F(""));
-    ui.draw_tile( POLY(icon_4), 4, F(""));
+    ui.draw_tile( POLY(icon_1), 1, F(""), !isPrinting() && isMediaInserted());  // File
+    ui.draw_tile( POLY(icon_2), 2, F(""), !isPrinting() && ui.isFileSelected()); // Print
+    ui.draw_tile( POLY(icon_3), 3, F("")); // Tools
+    ui.draw_tile( POLY(icon_4), 4, F("")); // Settings
     ui.draw_fan(  POLY(fan_percent));
     ui.draw_prog( POLY(done_btn));
     ui.draw_time( POLY(print_time));
