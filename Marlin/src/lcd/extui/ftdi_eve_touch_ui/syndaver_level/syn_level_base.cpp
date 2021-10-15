@@ -197,13 +197,11 @@ void SynLevelUI::draw_lamp(poly_reader_t poly, uint32_t color, uint8_t tag) {
   ui.bounds(poly, x, y, w, h);
 
   if (mode & BACKGROUND) {
-    // Draw Light Toggle Bitmap
+    // Hotspot for lamp toggle
     cmd.tag(tag)
-       .cmd(COLOR_RGB(color != -1u ? color : bg_text_enabled))
-       .cmd (BITMAP_SOURCE(Light_Bulb_Info))
-       .cmd (BITMAP_LAYOUT(Light_Bulb_Info))
-       .cmd (BITMAP_SIZE  (Light_Bulb_Info))
-       .icon(x, y, w, h, Light_Bulb_Info, icon_scale);
+       .cmd(COLOR_MASK(0,0,0,0))
+       .rectangle(x, y, w, h)
+       .cmd(COLOR_MASK(1,1,1,1));
   }
 }
 

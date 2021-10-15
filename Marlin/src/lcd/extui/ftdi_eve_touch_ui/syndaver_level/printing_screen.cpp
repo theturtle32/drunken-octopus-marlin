@@ -46,10 +46,10 @@ void PrintingScreen::onRedraw(draw_mode_t what) {
     SynLevelUI ui(cmd, what);
     ui.draw_start();
     ui.draw_bkgnd();
-    ui.draw_tile(  POLY(icon_1), 1, sdOrHostPaused ? GET_TEXT_F(MSG_RESUME_PRINT) : GET_TEXT_F(MSG_PAUSE_PRINT), sdOrHostPrinting);
-    ui.draw_tile(  POLY(icon_2), 2, F("Cancel Print"), sdOrHostPrinting);
-    ui.draw_tile(  POLY(icon_3), 3, GET_TEXT_F(MSG_ZPROBE_ZOFFSET), ENABLED(HAS_BED_PROBE));
-    ui.draw_tile(  POLY(icon_4), 4, GET_TEXT_F(MSG_FILAMENTCHANGE), !sdOrHostPrinting || sdOrHostPaused);
+    ui.draw_tile(  POLY(icon_1), 1, F(""), sdOrHostPrinting); // Pause/Resume
+    ui.draw_tile(  POLY(icon_2), 2, F(""), sdOrHostPrinting); // Cancel
+    ui.draw_tile(  POLY(icon_3), 3, F(""), ENABLED(HAS_BED_PROBE)); // Z Offset
+    ui.draw_tile(  POLY(icon_4), 4, F(""), !sdOrHostPrinting || sdOrHostPaused); // Filament Change
     ui.draw_fan(  POLY(fan_percent));
     ui.draw_prog( POLY(done_btn));
     ui.draw_time( POLY(print_time));

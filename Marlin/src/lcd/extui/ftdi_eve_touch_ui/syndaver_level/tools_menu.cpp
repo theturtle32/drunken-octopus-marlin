@@ -41,9 +41,9 @@ void ToolsMenu::onRedraw(draw_mode_t what) {
   ui.draw_start();
   ui.draw_bkgnd();
   ui.draw_title( POLY(status_text), F("Tools Menu"));
-  ui.draw_tile(  POLY(icon_1), 1,   GET_TEXT_F(MSG_MOVE_AXIS), !isPrinting());
-  ui.draw_tile(  POLY(icon_2), 2,   GET_TEXT_F(MSG_LEVELING),  !isPrinting());
-  ui.draw_tile(  POLY(icon_3), 3,   F("Hotend"),               !isPrinting());
+  ui.draw_tile(  POLY(icon_1), 1,   F(""), !isPrinting()); // Move Axis
+  ui.draw_tile(  POLY(icon_2), 2,   F(""), !isPrinting()); // Leveling
+  ui.draw_tile(  POLY(icon_3), 3,   F(""), !isPrinting()); // Hotend
   ui.draw_noz(   POLY(nozzle_temp));
   ui.draw_bed(   POLY(bed_temp));
   ui.draw_fan(   POLY(fan_percent));
