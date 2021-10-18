@@ -515,6 +515,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = True
         MARLIN["CASE_LIGHT_ENABLE"]                      = True
         MARLIN["SDSUPPORT"]                              = True
+        MARLIN["DEFAULT_LEVELING_FADE_HEIGHT"            = 180
         if "SynDaver_LevelUp" in PRINTER:
             PROBE_STYLE                                  = "Inductive"
             MARLIN["CUSTOM_MACHINE_NAME"]                = C_STRING("SynDaver LeveL UP")
