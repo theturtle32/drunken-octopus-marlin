@@ -111,6 +111,7 @@ void MoveScreen::draw_disabled(draw_mode_t what, int16_t x, int16_t y, int16_t w
   if (what & FOREGROUND) {
     CommandProcessor cmd;
     cmd.cmd(SAVE_CONTEXT())
+       .tag(0)
        .cmd(COLOR_A(224))
        .cmd(COLOR_RGB(Theme::bg_color))
        .rectangle(x, y, w, h)
