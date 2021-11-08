@@ -96,6 +96,7 @@ build_config accessory Juniper_TAZ5                              Goldenrod_Harde
 build_config accessory Juniper_TAZ5                              Lutefisk_M175
 build_config custom    Juniper_TAZ5Archim                        Tilapia_SingleExtruder
 build_config custom    Juniper_TAZ5Archim                        Angelfish_Aerostruder
+build_config custom    Juniper_TAZ5Archim                        Opah_Moarstruder
 build_config custom    Juniper_TAZ5Archim                        E3D_Hermera
 build_config custom    Juniper_TAZ5BLTouch                       Tilapia_SingleExtruder
 build_config custom    Juniper_TAZ5BLTouch                       Angelfish_Aerostruder
