@@ -522,7 +522,7 @@ void GcodeSuite::G26() {
   g26.keep_heaters_on       = parser.boolval('K');
 
   // Accept 'I' if temperature presets are defined
-  #if PREHEAT_COUNT
+  #if HAS_PREHEAT
     const uint8_t preset_index = parser.seenval('I') ? _MIN(parser.value_byte(), PREHEAT_COUNT - 1) + 1 : 0;
   #endif
 
@@ -532,7 +532,7 @@ void GcodeSuite::G26() {
     celsius_t bedtemp = 0;
 
     // Use the 'I' index if temperature presets are defined
-    #if PREHEAT_COUNT
+    #if HAS_PREHEAT
       if (preset_index) bedtemp = ui.material_preset[preset_index - 1].bed_temp;
     #endif
 
@@ -615,7 +615,7 @@ void GcodeSuite::G26() {
   celsius_t noztemp = 0;
 
   // Accept 'I' if temperature presets are defined
-  #if PREHEAT_COUNT
+  #if HAS_PREHEAT
     if (preset_index) noztemp = ui.material_preset[preset_index - 1].hotend_temp;
   #endif
 
