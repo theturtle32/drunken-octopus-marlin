@@ -139,6 +139,7 @@ build_config custom    Oliveoil_TAZ6ArchimBLTouch                Angelfish_Aeros
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                AchemonSphinx_SmallLayer
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                Lutefisk_M175
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                E3D_Hermera
+build_config custom    Oliveoil_TAZ6ArchimBLTouch                Yellowfin_DualExtruderV3
 
 build_config accessory Quiver_TAZPro                             AchemonSphinx_SmallLayer
 build_config accessory Quiver_TAZPro                             CecropiaSilk_SingleExtruderAeroV2
