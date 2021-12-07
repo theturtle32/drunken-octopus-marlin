@@ -29,7 +29,7 @@ using namespace Theme;
 using namespace ExtUI;
 
 void ConfirmManualLevelDialogBox::onRedraw(draw_mode_t) {
-  drawMessage(F("Make sure the nozzle is clean before starting this process. Do you want to proceed?"));
+  drawMessage(F("Make sure the nozzle is clean before starting this process. Do you want to proceed?\n\nWARNING: Saying yes will clear the bed mesh map"));
   drawYesNoButtons();
 }
 

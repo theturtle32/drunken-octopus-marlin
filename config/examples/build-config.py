@@ -1732,6 +1732,8 @@ def make_config(PRINTER, TOOLHEAD):
 
     if ENABLED("TOUCH_UI_SYNDAVER_LEVEL"):
       MANUAL_BED_LEVELING_COMMANDS = (
+                "G29 P0\n" +                                 # Invalidate bed mesh
+                "G29 S1\n" +
                 "M420 S0\n" +                                # Disable mesh compensation
                 "G28\n" +                                    # Home
                 "G0 Z5\n" +                                  # Raise nozzle
