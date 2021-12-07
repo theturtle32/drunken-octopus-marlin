@@ -25,9 +25,6 @@
 #define SYNDAVER_LEVEL_MOVE_MENU_CLASS MoveMenu
 
 class MoveMenu : public SynLevelBase, public CachedScreen<MOVE_MENU_CACHE> {
-  private:
-    static void raiseToTop();
-    static void lowerToBottom();
   public:
     static void onEntry();
     static void onRedraw(draw_mode_t);

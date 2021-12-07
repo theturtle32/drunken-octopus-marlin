@@ -2980,3 +2980,6 @@
 //#define UBL_HILBERT_CURVE
 #define M997_ARCHIM_BOOTLOADER // <-- changed
 #define START_PRINT_TIMER_ON_G26 // <-- changed
+//#define MOVE_TO_Z_MIN_COMMANDS
+//#define MOVE_TO_Z_MAX_COMMANDS
+//#define MOVE_TO_MAINT_COMMANDS

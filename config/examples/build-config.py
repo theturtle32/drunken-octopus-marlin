@@ -1855,6 +1855,14 @@ def make_config(PRINTER, TOOLHEAD):
     if "SynDaver_Level" in PRINTER:
       MARLIN["STARTUP_COMMANDS"]                         = C_STRING("M141 S100\nG29 L1")
 
+################################ EXTRA SCRIPTS ################################
+
+    if "SynDaver_Level" in PRINTER:
+      FeedrateStr = " F" + str(MARLIN["HOMING_FEEDRATE_MM_M"][2])
+      MARLIN["MOVE_TO_MAINT_COMMANDS"] = C_STRING("G28 O\nG0 X90 Y90 Z180")
+      MARLIN["MOVE_TO_Z_MIN_COMMANDS"] = C_STRING("G28 O\nG0 Z" + str(MARLIN["Z_MIN_POS"] + 5) + FeedrateStr)
+      MARLIN["MOVE_TO_Z_MAX_COMMANDS"] = C_STRING("G28 O\nG0 Z" + str(MARLIN["Z_MAX_POS"] - 5) + FeedrateStr)
+
 ################ AUTO-CALIBRATION (BACKLASH AND NOZZLE OFFSET) ################
 
     if (USE_CALIBRATION_CUBE or CALIBRATE_ON_WASHER) and PROBE_STYLE == "Conductive":

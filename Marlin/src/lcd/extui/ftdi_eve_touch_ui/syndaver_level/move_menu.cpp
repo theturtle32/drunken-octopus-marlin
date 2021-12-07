@@ -49,7 +49,7 @@ void MoveMenu::onRedraw(draw_mode_t what) {
   ui.draw_noz(   POLY(nozzle_temp));
   ui.draw_bed(   POLY(bed_temp));
   ui.draw_fan(   POLY(fan_percent));
-  ui.draw_lamp( POLY(lamp_toggle));
+  ui.draw_lamp(  POLY(lamp_toggle));
   ui.draw_back(  POLY(done_btn)); 
   ui.restore_bitmaps();
 }
@@ -57,23 +57,19 @@ void MoveMenu::onRedraw(draw_mode_t what) {
 bool MoveMenu::onTouchEnd(uint8_t tag) {
   switch (tag) {
     case 1: SpinnerDialogBox::enqueueAndWait(F("G28")); break;
-    case 2: raiseToTop(); break;
-    case 3: lowerToBottom(); break;
-    case 4: SpinnerDialogBox::enqueueAndWait(F("G0 X90 Y90 Z180")); break;
+    #ifdef MOVE_TO_Z_MIN_COMMANDS
+        case 2: SpinnerDialogBox::enqueueAndWait(F(MOVE_TO_Z_MIN_COMMANDS)); break;
+    #endif
+    #ifdef MOVE_TO_Z_MAX_COMMANDS
+        case 3: SpinnerDialogBox::enqueueAndWait(F(MOVE_TO_Z_MAX_COMMANDS)); break;
+    #endif
+    #ifdef MOVE_TO_MAINT_COMMANDS
+        case 4: SpinnerDialogBox::enqueueAndWait(F(MOVE_TO_MAINT_COMMANDS)); break;
+    #endif
     case 5: GOTO_SCREEN(MoveScreen); break;
     default: return SynLevelBase::onTouchEnd(tag);
   }
   return true;
-}
-
-void MoveMenu::lowerToBottom() {
-  constexpr xyze_feedrate_t homing_feedrate = HOMING_FEEDRATE_MM_M;
-  setAxisPosition_mm(Z_MAX_POS - 5, Z, homing_feedrate[Z_AXIS]);
-}
-
-void MoveMenu::raiseToTop() {
-  constexpr xyze_feedrate_t homing_feedrate = HOMING_FEEDRATE_MM_M;
-  setAxisPosition_mm(Z_MIN_POS + 5, Z, homing_feedrate[Z_AXIS]);
 }
 
 #endif // SYNDAVER_LEVEL_SETTINGS_MENU
