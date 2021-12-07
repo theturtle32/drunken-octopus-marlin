@@ -881,7 +881,9 @@ def make_config(PRINTER, TOOLHEAD):
     else:
         MARLIN["Z_HOMING_HEIGHT"]                        = 5
 
-    if USE_HOME_BUTTON or ENABLED("ENDSTOPS_ALWAYS_ON_DEFAULT"):
+    if "SynDaver_Level" in PRINTER:
+       MARLIN["HOMING_BACKOFF_POST_MM"]                  = [0, 0, 10]
+    elif USE_HOME_BUTTON or ENABLED("ENDSTOPS_ALWAYS_ON_DEFAULT"):
        # On a TAZ, we need to raise the print head after homing to clear the button
        MARLIN["HOMING_BACKOFF_POST_MM"]                  = [5, 5, 16 if USE_HOME_BUTTON else 2]
 
