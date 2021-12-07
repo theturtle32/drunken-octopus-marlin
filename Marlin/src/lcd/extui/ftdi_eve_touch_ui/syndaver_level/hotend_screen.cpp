@@ -147,7 +147,7 @@ void HotendScreen::draw_temperature(draw_mode_t what, int16_t x, int16_t y, int1
        .fgcolor(fg_col)
        .cmd(COLOR_RGB(rgb_col))
        .tag(15).button(SUB_POS(1,1), SUB_SIZE(5,1), str, OPT_FLAT).colors(normal_btn)
-       .tag(10).button(SUB_POS(6,1), SUB_SIZE(4,1), GET_TEXT_F(MSG_COOLDOWN));
+       .tag(10).button(SUB_POS(6,1), SUB_SIZE(4,0.7), GET_TEXT_F(MSG_COOLDOWN));
   }
 }
 
@@ -233,7 +233,7 @@ void HotendScreen::onIdle() {
 void HotendScreen::loadFilament() {
   SpinnerDialogBox::show(GET_TEXT_F(MSG_PLEASE_WAIT));
   #ifdef MOVE_TO_FIL_CHG_COMMANDS
-    process_subcommands_now(F(MOVE_TO_FIL_CHG_COMMANDS));
+    gcode.process_subcommands_now_P(PSTR(MOVE_TO_FIL_CHG_COMMANDS));
   #endif
   const float oldFr = getAxisMaxFeedrate_mm_s(E0);
   setAxisMaxFeedrate_mm_s(MMM_TO_MMS(1000), E0);
@@ -246,7 +246,7 @@ void HotendScreen::loadFilament() {
 void HotendScreen::unloadFilament() {
   SpinnerDialogBox::show(GET_TEXT_F(MSG_PLEASE_WAIT));
   #ifdef MOVE_TO_FIL_CHG_COMMANDS
-    process_subcommands_now(F(MOVE_TO_FIL_CHG_COMMANDS));
+    gcode.process_subcommands_now_P(PSTR(MOVE_TO_FIL_CHG_COMMANDS));
   #endif
   const float oldFr = getAxisMaxFeedrate_mm_s(E0);
   setAxisMaxFeedrate_mm_s(MMM_TO_MMS(1000), E0);
