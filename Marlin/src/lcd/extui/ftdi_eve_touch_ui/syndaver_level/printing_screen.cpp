@@ -51,7 +51,8 @@ void PrintingScreen::onRedraw(draw_mode_t what) {
     ui.draw_tile(  POLY(icon_3), 3, F(""), ENABLED(HAS_BED_PROBE)); // Z Offset
     ui.draw_tile(  POLY(icon_4), 4, F(""), !sdOrHostPrinting || sdOrHostPaused); // Filament Change
     ui.draw_fan(  POLY(fan_percent));
-    ui.draw_prog( POLY(done_btn));
+    ui.draw_encl( POLY(done_btn));
+    ui.draw_prog( POLY(file_name));
     ui.draw_time( POLY(print_time));
     ui.draw_noz(  POLY(nozzle_temp));
     ui.draw_bed(  POLY(bed_temp));
@@ -81,9 +82,10 @@ void PrintingScreen::setStatusMessage(const char *message) {
   SynLevelUI ui(cmd, BACKGROUND);
   ui.draw_bkgnd();
   ui.draw_title( POLY(status_text), message);
-  ui.draw_prog( POLY(print_time));
-  ui.draw_time( POLY(done_btn));
+  ui.draw_prog( POLY(file_name));
+  ui.draw_time( POLY(print_time));
   ui.draw_fan( POLY(fan_percent));
+  ui.draw_encl( POLY(done_btn));
   ui.draw_noz( POLY(nozzle_temp));
   ui.draw_bed( POLY(bed_temp));
   ui.draw_file( POLY(file_name));
