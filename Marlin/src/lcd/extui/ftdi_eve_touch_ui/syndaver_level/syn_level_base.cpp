@@ -191,6 +191,32 @@ void SynLevelUI::draw_bed(PolyUI::poly_reader_t poly, uint32_t color, uint8_t ta
   }
 }
 
+void SynLevelUI::draw_encl(PolyUI::poly_reader_t poly, uint32_t color, uint8_t tag) {
+  PolyUI ui(cmd, mode);
+  int16_t x, y, w, h;
+  ui.bounds(poly, x, y, w, h);
+
+  if (mode & FOREGROUND) {
+    const float temp = getActualTemp_celsius(CHAMBER);
+
+    char chamber_str[20];
+    format_temp(chamber_str, temp);
+
+    uint32_t fg_col, rgb_col;
+    SynLevelUI::getTempColor(temp, fg_col, rgb_col);
+
+    cmd.tag(tag)
+       .cmd (COLOR_RGB(color != -1u ? color : fg_col))
+       .cmd (BITMAP_SOURCE(Chamber_Icon_Info))
+       .cmd (BITMAP_LAYOUT(Chamber_Icon_Info))
+       .cmd (BITMAP_SIZE  (Chamber_Icon_Info))
+       .icon(ICON_POS(x, y, w, h), Chamber_Icon_Info, icon_scale)
+       .font(font_medium)
+       .text(TEXT_POS(x, y, w, h), chamber_str)
+       .cmd(COLOR_RGB(bg_text_enabled));
+  }
+}
+
 void SynLevelUI::draw_lamp(poly_reader_t poly, uint32_t color, uint8_t tag) {
   PolyUI ui(cmd, mode);
   int16_t x, y, w, h;
@@ -209,30 +235,11 @@ void SynLevelUI::draw_prog(PolyUI::poly_reader_t poly) {
   int16_t x, y, w, h;
   bounds(poly, x, y, w, h);
 
-  if (mode & BACKGROUND) {
-    cmd.tag(7)
-       .cmd (BITMAP_SOURCE(Clock_Icon_Info))
-       .cmd (BITMAP_LAYOUT(Clock_Icon_Info))
-       .cmd (BITMAP_SIZE  (Clock_Icon_Info))
-       .icon(ICON_POS(x, y, w, h), Clock_Icon_Info, icon_scale)
-       .cmd(COLOR_RGB(bg_text_enabled));
-  }
-
   if (mode & FOREGROUND) {
-    const uint16_t current_progress = getProgress_percent() * 100;
-    char progress_str[8];
-    sprintf_P(progress_str,
-      #if ENABLED(PRINT_PROGRESS_SHOW_DECIMALS)
-        PSTR("%3d.%02d%%"), uint8_t(current_progress / 100), current_progress % 100
-      #else
-        PSTR("%3d%%"), uint8_t(current_progress / 100)
-      #endif
-    );
-
-    cmd.tag(7)
-       .font(font_medium)
-       .cmd(COLOR_RGB(bg_text_enabled))
-       .text(TEXT_POS(x, y, w, h), progress_str);
+    const uint16_t bar_width = w * getProgress_percent() / 100;
+    cmd.tag(8)
+       .cmd(COLOR_RGB(accent_color_5))
+       .rectangle(x, y, bar_width, h);
   }
 }
 
@@ -396,13 +403,14 @@ void SynLevelBase::loadBitmaps() {
   // Load the bitmaps for the status screen
   using namespace Theme;
   constexpr uint32_t base = ftdi_memory_map::RAM_G;
-  CLCD::mem_write_pgm(base + Light_Bulb_Info.RAMG_offset,   Light_Bulb,     sizeof(Light_Bulb));
-  CLCD::mem_write_pgm(base + Clock_Icon_Info.RAMG_offset,    Clock_Icon,    sizeof(Clock_Icon));
-  CLCD::mem_write_pgm(base + File_Icon_Info.RAMG_offset,     File_Icon,     sizeof(File_Icon));
-  CLCD::mem_write_pgm(base + TD_Icon_Info.RAMG_offset,       TD_Icon,       sizeof(TD_Icon));
-  CLCD::mem_write_pgm(base + Extruder_Icon_Info.RAMG_offset, Extruder_Icon, sizeof(Extruder_Icon));
-  CLCD::mem_write_pgm(base + Bed_Heat_Icon_Info.RAMG_offset, Bed_Heat_Icon, sizeof(Bed_Heat_Icon));
-  CLCD::mem_write_pgm(base + Fan_Icon_Info.RAMG_offset,      Fan_Icon,      sizeof(Fan_Icon));
+  CLCD::mem_write_xbm(base + Light_Bulb_Info.RAMG_offset,    Light_Bulb,    sizeof(Light_Bulb));
+  CLCD::mem_write_xbm(base + Chamber_Icon_Info.RAMG_offset,  Chamber_Icon,  sizeof(Chamber_Icon));
+  CLCD::mem_write_xbm(base + Clock_Icon_Info.RAMG_offset,    Clock_Icon,    sizeof(Clock_Icon));
+  CLCD::mem_write_xbm(base + File_Icon_Info.RAMG_offset,     File_Icon,     sizeof(File_Icon));
+  CLCD::mem_write_xbm(base + TD_Icon_Info.RAMG_offset,       TD_Icon,       sizeof(TD_Icon));
+  CLCD::mem_write_xbm(base + Extruder_Icon_Info.RAMG_offset, Extruder_Icon, sizeof(Extruder_Icon));
+  CLCD::mem_write_xbm(base + Bed_Heat_Icon_Info.RAMG_offset, Bed_Heat_Icon, sizeof(Bed_Heat_Icon));
+  CLCD::mem_write_xbm(base + Fan_Icon_Info.RAMG_offset,      Fan_Icon,      sizeof(Fan_Icon));
 
   // Load fonts for internationalization
   #if ENABLED(TOUCH_UI_USE_UTF8)
