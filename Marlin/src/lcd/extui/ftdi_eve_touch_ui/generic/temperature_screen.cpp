@@ -39,6 +39,9 @@ void TemperatureScreen::onRedraw(draw_mode_t what) {
    .color(temp).units(GET_TEXT_F(MSG_UNITS_C));
   w.heading(GET_TEXT_F(MSG_TEMPERATURE));
   w.button(30, GET_TEXT_F(MSG_COOLDOWN));
+  #if ENABLED(TOUCH_UI_SYNDAVER_LEVEL)
+    w.heading(F(""));
+  #endif
   #ifndef NO_TOOLHEAD_HEATER_GCODE
     #if ENABLED(TOUCH_UI_COCOA_PRESS)
       w.adjuster(   2, GET_TEXT_F(MSG_NOZZLE), getTargetTemp_celsius(E0));
