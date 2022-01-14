@@ -58,8 +58,4 @@ void DWIN_Popup_ConfirmCancel(const uint8_t icon, FSTR_P const fmsg2) {
   DWIN_UpdateLCD();
 }
 
-<<<<<<< HEAD
 #endif // DWIN_CREALITY_LCD_ENHANCED
-=======
-#endif // DWIN_CREALITY_LCD_ENHANCED
->>>>>>> upstream/bugfix-2.0.x
