@@ -226,6 +226,7 @@ def make_config(PRINTER, TOOLHEAD):
         if not USE_TOUCH_UI:
             if USE_REPRAP_LCD_DISPLAY:
                 MARLIN["LIGHTWEIGHT_UI"]                 = USE_EINSY_RETRO or USE_BTT_002
+                USE_LESS_MEMORY                          = 1
             else:
                 MARLIN["FILAMENT_RUNOUT_SENSOR"]         = False
 
@@ -712,6 +713,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SERIAL_PORT"]                            = 0
         if USE_REPRAP_LCD_DISPLAY:
             MARLIN["SERIAL_PORT_2"]                      = 1
+            USE_LESS_MEMORY                              = 1
         MARLIN["SD_SPI_SPEED"]                           = 'SPI_FULL_SPEED'
 
     if ENABLED("USB_FLASH_DRIVE_SUPPORT"):
