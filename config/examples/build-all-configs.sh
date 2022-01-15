@@ -52,6 +52,7 @@ build_config accessory Gladiola_Mini                             AchemonSphinx_S
 build_config accessory Gladiola_Mini                             BandedTiger_HardenedSteel
 build_config accessory Gladiola_Mini                             DingyCutworm_HardenedSteelPlus
 build_config accessory Gladiola_Mini                             Goldenrod_HardenedExtruder
+build_config accessory Gladiola_Mini                             Lutefisk_M175
 
 build_config custom    Gladiola_MiniLCD                          Gladiola_SingleExtruder
 build_config custom    Gladiola_MiniLCD                          Finch_Aerostruder
@@ -61,6 +62,7 @@ build_config custom    Gladiola_MiniLCD                          AchemonSphinx_S
 build_config custom    Gladiola_MiniLCD                          BandedTiger_HardenedSteel
 build_config custom    Gladiola_MiniLCD                          DingyCutworm_HardenedSteelPlus
 build_config custom    Gladiola_MiniLCD                          Goldenrod_HardenedExtruder
+build_config custom    Gladiola_MiniLCD                          Lutefisk_M175
 build_config custom    Gladiola_MiniTouchUSB                     Gladiola_SingleExtruder
 build_config custom    Gladiola_MiniEinsyLCD                     Gladiola_SingleExtruder
 build_config custom    Gladiola_MiniEinsyLCD                     CecropiaSilk_SingleExtruderAeroV2
@@ -73,6 +75,7 @@ build_config standard  Hibiscus_Mini2                            CecropiaSilk_Si
 build_config accessory Hibiscus_Mini2                            BandedTiger_HardenedSteel
 build_config accessory Hibiscus_Mini2                            DingyCutworm_HardenedSteelPlus
 build_config accessory Hibiscus_Mini2                            Goldenrod_HardenedExtruder
+build_config accessory Hibiscus_Mini2                            Lutefisk_M175
 build_config custom    Hibiscus_Mini2TouchSD                     CecropiaSilk_SingleExtruderAeroV2
 build_config custom    Hibiscus_Mini2TouchUSB                    CecropiaSilk_SingleExtruderAeroV2
 
@@ -147,6 +150,7 @@ build_config accessory Quiver_TAZPro                             BandedTiger_Har
 build_config accessory Quiver_TAZPro                             DingyCutworm_HardenedSteelPlus
 build_config accessory Quiver_TAZPro                             Goldenrod_HardenedExtruder
 build_config standard  Quiver_TAZPro                             Quiver_DualExtruder
+build_config standard  Quiver_TAZPro                             Lutefisk_M175
 build_config custom    Quiver_TAZProBLTouch                      CecropiaSilk_SingleExtruderAeroV2
 
 build_config standard  Redgum_TAZWorkhorse                       Goldenrod_HardenedExtruder
@@ -156,6 +160,7 @@ build_config accessory Redgum_TAZWorkhorse                       BandedTiger_Har
 build_config accessory Redgum_TAZWorkhorse                       DingyCutworm_HardenedSteelPlus
 build_config accessory Redgum_TAZWorkhorse                       Yellowfin_DualExtruderV3
 build_config accessory Redgum_TAZWorkhorse                       E3D_Hermera
+build_config accessory Redgum_TAZWorkhorse                       Lutefisk_M175
 build_config custom    Redgum_TAZWorkhorseArchim                 Goldenrod_HardenedExtruder
 build_config custom    Redgum_TAZWorkhorseArchim                 E3D_Hermera
 build_config custom    Redgum_TAZWorkhorseBLTouch                Goldenrod_HardenedExtruder
