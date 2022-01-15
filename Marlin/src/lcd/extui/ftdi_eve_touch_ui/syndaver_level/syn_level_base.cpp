@@ -280,7 +280,7 @@ void SynLevelUI::draw_title(PolyUI::poly_reader_t poly, const char *message) {
   }
 }
 
-void SynLevelUI::draw_title(PolyUI::poly_reader_t poly, progmem_str message) {
+void SynLevelUI::draw_title(PolyUI::poly_reader_t poly, FSTR_P message) {
   if (mode & BACKGROUND) {
     int16_t x, y, w, h;
     bounds(poly, x, y, w, h);
@@ -348,7 +348,7 @@ void SynLevelUI::draw_time(PolyUI::poly_reader_t poly) {
   }
 }
 
-void SynLevelUI::draw_tile(PolyUI::poly_reader_t poly, uint8_t tag, progmem_str label, bool enabled) {
+void SynLevelUI::draw_tile(PolyUI::poly_reader_t poly, uint8_t tag, FSTR_P label, bool enabled) {
   if (mode & FOREGROUND) {
     int16_t x, y, w, h;
     bounds(poly, x, y, w, h);
@@ -372,7 +372,7 @@ void SynLevelUI::draw_tile(PolyUI::poly_reader_t poly, uint8_t tag, progmem_str 
 }
 
 
-void SynLevelUI::draw_button(PolyUI::poly_reader_t poly, progmem_str label) {
+void SynLevelUI::draw_button(PolyUI::poly_reader_t poly, FSTR_P label) {
   if (mode & FOREGROUND) {
     int16_t x, y, w, h;
     bounds(poly, x, y, w, h);

@@ -80,7 +80,7 @@ void MoveScreen::draw_overlay_icons(draw_mode_t what) {
   ui.button(16, POLY(home_all), style);
 }
 
-void MoveScreen::draw_adjuster(draw_mode_t what, uint8_t tag, progmem_str label, float value, int16_t x, int16_t y, int16_t w, int16_t h) {
+void MoveScreen::draw_adjuster(draw_mode_t what, uint8_t tag, FSTR_P label, float value, int16_t x, int16_t y, int16_t w, int16_t h) {
   #define SUB_COLS 10
   #define SUB_ROWS 1
 

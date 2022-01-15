@@ -60,7 +60,7 @@ void PrintingScreen::onRedraw(draw_mode_t what) {
   }
 }
 
-void PrintingScreen::setStatusMessage(progmem_str message) {
+void PrintingScreen::setStatusMessage(FSTR_P message) {
   char buff[strlen_P((const char * const)message)+1];
   strcpy_P(buff, (const char * const) message);
   setStatusMessage((const char *) buff);
@@ -131,7 +131,7 @@ void PrintingScreen::pausePrint() {
   if (ExtUI::isPrintingFromMedia())
     ExtUI::pausePrint();
   #ifdef ACTION_ON_PAUSE
-    else host_action_pause();
+    else hostui.pause();
   #endif
 }
 
@@ -142,7 +142,7 @@ void PrintingScreen::resumePrint() {
   else if (ExtUI::isPrintingFromMedia())
     ExtUI::resumePrint();
   #ifdef ACTION_ON_RESUME
-    else host_action_resume();
+    else hostui.resume();
   #endif
 }
 

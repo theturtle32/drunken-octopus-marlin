@@ -233,7 +233,7 @@ void HotendScreen::onIdle() {
 void HotendScreen::loadFilament() {
   SpinnerDialogBox::show(GET_TEXT_F(MSG_PLEASE_WAIT));
   #ifdef MOVE_TO_FIL_CHG_COMMANDS
-    gcode.process_subcommands_now_P(PSTR(MOVE_TO_FIL_CHG_COMMANDS));
+    gcode.process_subcommands_now(F(MOVE_TO_FIL_CHG_COMMANDS));
   #endif
   const float oldFr = getAxisMaxFeedrate_mm_s(E0);
   setAxisMaxFeedrate_mm_s(MMM_TO_MMS(1000), E0);
@@ -246,7 +246,7 @@ void HotendScreen::loadFilament() {
 void HotendScreen::unloadFilament() {
   SpinnerDialogBox::show(GET_TEXT_F(MSG_PLEASE_WAIT));
   #ifdef MOVE_TO_FIL_CHG_COMMANDS
-    gcode.process_subcommands_now_P(PSTR(MOVE_TO_FIL_CHG_COMMANDS));
+    gcode.process_subcommands_now(F(MOVE_TO_FIL_CHG_COMMANDS));
   #endif
   const float oldFr = getAxisMaxFeedrate_mm_s(E0);
   setAxisMaxFeedrate_mm_s(MMM_TO_MMS(1000), E0);

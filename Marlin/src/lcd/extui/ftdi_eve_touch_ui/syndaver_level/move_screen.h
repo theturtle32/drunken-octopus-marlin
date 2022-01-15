@@ -36,7 +36,7 @@ class MoveScreen : public BaseScreen, public CachedScreen<MOVE_SCREEN_CACHE> {
     static void draw_arrows(draw_mode_t);
     static void draw_buttons(draw_mode_t);
     static void draw_overlay_icons(draw_mode_t);
-    static void draw_adjuster(draw_mode_t, uint8_t tag, progmem_str label, float value, int16_t x, int16_t y, int16_t w, int16_t h);
+    static void draw_adjuster(draw_mode_t, uint8_t tag, FSTR_P label, float value, int16_t x, int16_t y, int16_t w, int16_t h);
     static void draw_disabled(draw_mode_t, int16_t x, int16_t y, int16_t w, int16_t h) ;
     static void draw_increments(draw_mode_t, int16_t x, int16_t y, int16_t w, int16_t h);
     static float get_increment();

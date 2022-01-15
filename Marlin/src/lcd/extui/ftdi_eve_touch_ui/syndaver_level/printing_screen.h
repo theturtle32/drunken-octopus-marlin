@@ -33,7 +33,7 @@ class PrintingScreen : public SynLevelBase, public CachedScreen<PRINTING_SCREEN_
     static void bedHeight();
   public:
     static void setStatusMessage(const char *);
-    static void setStatusMessage(progmem_str);
+    static void setStatusMessage(FSTR_P);
     static void onEntry();
     static void onRedraw(draw_mode_t);
     static bool onTouchEnd(uint8_t tag);

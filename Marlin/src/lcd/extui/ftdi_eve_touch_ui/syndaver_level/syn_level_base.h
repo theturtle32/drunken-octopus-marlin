@@ -46,11 +46,11 @@ class SynLevelUI : public PolyUI {
     void draw_encl(poly_reader_t, uint32_t color = -1u, uint8_t tag = 7);
     void draw_lamp(poly_reader_t, uint32_t color = -1u, uint8_t tag = 8);
     void draw_title(poly_reader_t, const char * const);
-    void draw_title(poly_reader_t, progmem_str message);
+    void draw_title(poly_reader_t, FSTR_P message);
     void draw_file(poly_reader_t);
     void draw_back(poly_reader_t);
-    void draw_button(poly_reader_t, progmem_str label);
-    void draw_tile(poly_reader_t, uint8_t tag, progmem_str label, bool enabled = true);
+    void draw_button(poly_reader_t, FSTR_P label);
+    void draw_tile(poly_reader_t, uint8_t tag, FSTR_P label, bool enabled = true);
     void restore_bitmaps();
 };
 

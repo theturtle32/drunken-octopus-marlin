@@ -27,7 +27,7 @@
 class StatusScreen : public SynLevelBase, public CachedScreen<STATUS_SCREEN_CACHE,STATUS_SCREEN_DL_SIZE> {
   public:
     static void setStatusMessage(const char *);
-    static void setStatusMessage(progmem_str);
+    static void setStatusMessage(FSTR_P);
     static void onRedraw(draw_mode_t);
     static void onEntry();
     static void onStartup();
