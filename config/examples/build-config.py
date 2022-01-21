@@ -198,6 +198,10 @@ def make_config(PRINTER, TOOLHEAD):
     #    https://github.com/MarlinFirmware/Marlin/issues/17920
     MARLIN["CLASSIC_JERK"]                               = True
 
+    # Disable THERMAL_PROTECTION_VARIANCE_MONITOR since it seems to be causing
+    # frequent erros on the Archim
+    MARLIN["THERMAL_PROTECTION_VARIANCE_MONITOR"]        = False
+
 ######################## PRINTER MODEL CHARACTERISTICS ########################
 
     if "Gladiola_Mini" in PRINTER:
