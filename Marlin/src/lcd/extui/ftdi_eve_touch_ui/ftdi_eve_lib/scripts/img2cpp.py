@@ -51,6 +51,20 @@ class WriteSource:
     value = (color[0] & 0xE0) + ((color[1] & 0xE0) >> 3) + ((color[2] & 0xC0) >> 6)
     self.values.append(value);
 
+  def append_argb2(self, color):
+    value = (color[3] & 0xC0) + ((color[0] & 0xC0) >> 2) + ((color[1] & 0xC0) >> 4) + ((color[2] & 0xC0) >> 6)
+    self.values.append(value);
+
+  def append_argb4(self, color):
+    value = ((color[3] & 0xF0) << 8) + ((color[0] & 0xF0) << 4) + (color[1] & 0xF0) + ((color[2] & 0xF0) >> 4)
+    self.values.append((value & 0x00FF) >> 0);
+    self.values.append((value & 0xFF00) >> 8);
+
+  def append_argb1555(self, color):
+    value = ((color[3] & 0x80) << 8) + ((color[0] & 0xF8) << 7) + ((color[1] & 0xF8) << 2) + ((color[2] & 0xF8) >> 3)
+    self.values.append((value & 0x00FF) >> 0);
+    self.values.append((value & 0xFF00) >> 8);
+
   def append_grayscale(self, color, bits):
     luminance = int(0.2126 * color[0] + 0.7152 * color[1] + 0.0722 * color[2])
     self.add_bits_to_byte(luminance >> (8 - bits), bits)
@@ -71,6 +85,12 @@ class WriteSource:
       self.append_rgb565(color)
     elif self.mode == "rgb332":
       self.append_rgb332(color)
+    elif self.mode == "argb2":
+      self.append_argb2(color)
+    elif self.mode == "argb4":
+      self.append_argb4(color)
+    elif self.mode == "argb1555":
+      self.append_argb1555(color)
 
   def end_row(self, y):
     if self.mode in ["l1", "l2", "l3"]:
@@ -96,7 +116,7 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser(description='Converts a bitmap into a C array')
   parser.add_argument("input")
   parser.add_argument("-d", "--deflate", action="store_true", help="Packs the data using the deflate algorithm")
-  parser.add_argument("-m", "--mode", default="l1", help="Mode, can be l1, l2, l4, l8, rgb332 or rgb565")
+  parser.add_argument("-m", "--mode", default="l1", help="Mode, can be l1, l2, l4, l8, rgb332, rgb565, argb2, argb4 or argb1555")
   args = parser.parse_args()
 
   varname = os.path.splitext(os.path.basename(args.input))[0];
@@ -104,6 +124,7 @@ if __name__ == "__main__":
   writer = WriteSource(args.mode)
 
   img = Image.open(args.input)
+  img = img.convert('RGBA')
   print("Image height: ", img.height, file=sys.stderr)
   print("Image width:  ", img.width,  file=sys.stderr)
   for y in range(img.height):
