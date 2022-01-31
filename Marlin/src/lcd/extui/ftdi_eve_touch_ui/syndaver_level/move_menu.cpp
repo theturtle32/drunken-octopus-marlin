@@ -24,12 +24,12 @@
 
 #ifdef SYNDAVER_LEVEL_MOVE_MENU
 
-#include "autogen/move_menu.h"
-#include "autogen/layout_5_icons.h"
-
 using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
+
+#include "autogen/move_menu.h"
+#include "autogen/layout_5_icons.h"
 
 void MoveMenu::onEntry() {
   SynLevelUI::load_background(move_menu, sizeof(move_menu));
@@ -39,7 +39,7 @@ void MoveMenu::onRedraw(draw_mode_t what) {
   CommandProcessor cmd;
   SynLevelUI ui(cmd, what);
   ui.draw_start();
-  ui.draw_bkgnd();
+  ui.draw_bkgnd(move_menu_Info);
   ui.draw_title( POLY(status_text), F("Move Menu"));
   ui.draw_tile(  POLY(icon_1), 1,   F("")); // Home (All)
   ui.draw_tile(  POLY(icon_2), 2,   F("")); // Top

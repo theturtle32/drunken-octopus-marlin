@@ -24,19 +24,21 @@
 
 #ifdef SYNDAVER_LEVEL_SETTINGS_MENU
 
+using namespace FTDI;
+using namespace Theme;
+using namespace ExtUI;
+
 #if ENABLED(TOUCH_UI_SYNDAVER_LEVELUP)
   #include "autogen/settings_with_wifi_menu.h"
   #include "autogen/layout_5_icons.h"
   #define BACKGROUND settings_with_wifi_menu
+  #define BACKGROUND_INFO settings_with_wifi_menu_Info
 #else
   #include "autogen/settings_wo_wifi_menu.h"
   #include "autogen/layout_4_icons.h"
   #define BACKGROUND settings_wo_wifi_menu
+  #define BACKGROUND_INFO settings_wo_wifi_menu_Info
 #endif
-
-using namespace FTDI;
-using namespace Theme;
-using namespace ExtUI;
 
 void SettingsMenu::onEntry() {
   SynLevelUI::load_background(BACKGROUND, sizeof(BACKGROUND));
@@ -46,7 +48,7 @@ void SettingsMenu::onRedraw(draw_mode_t what) {
   CommandProcessor cmd;
   SynLevelUI ui(cmd, what);
   ui.draw_start( );
-  ui.draw_bkgnd( );
+  ui.draw_bkgnd(BACKGROUND_INFO);
   ui.draw_title( POLY(status_text), F("Settings Menu"));
   ui.draw_tile(  POLY(icon_1), 1,   F("")); // About
   ui.draw_tile(  POLY(icon_2), 2,   F(""), ENABLED(HAS_BED_PROBE)); // Z Offset

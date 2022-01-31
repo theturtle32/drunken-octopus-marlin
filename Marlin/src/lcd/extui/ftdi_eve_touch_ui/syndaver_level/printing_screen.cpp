@@ -24,13 +24,13 @@
 
 #ifdef SYNDAVER_LEVEL_PRINTING_SCREEN
 
-#include "../../../../feature/host_actions.h"
-#include "autogen/printing_screen.h"
-#include "autogen/layout_4_icons.h"
-
 using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
+
+#include "../../../../feature/host_actions.h"
+#include "autogen/printing_screen.h"
+#include "autogen/layout_4_icons.h"
 
 void PrintingScreen::onEntry() {
   SynLevelUI::load_background(printing_screen, sizeof(printing_screen));
@@ -45,7 +45,7 @@ void PrintingScreen::onRedraw(draw_mode_t what) {
     CommandProcessor cmd;
     SynLevelUI ui(cmd, what);
     ui.draw_start();
-    ui.draw_bkgnd();
+    ui.draw_bkgnd(printing_screen_Info);
     ui.draw_tile(  POLY(icon_1), 1, F(""), sdOrHostPrinting); // Pause/Resume
     ui.draw_tile(  POLY(icon_2), 2, F(""), sdOrHostPrinting); // Cancel
     ui.draw_tile(  POLY(icon_3), 3, F(""), ENABLED(HAS_BED_PROBE)); // Z Offset
@@ -80,7 +80,7 @@ void PrintingScreen::setStatusMessage(const char *message) {
      .cmd(CLEAR(true,true,true));
 
   SynLevelUI ui(cmd, BACKGROUND);
-  ui.draw_bkgnd();
+  ui.draw_bkgnd(printing_screen_Info);
   ui.draw_title( POLY(status_text), message);
   ui.draw_prog( POLY(file_name));
   ui.draw_time( POLY(print_time));

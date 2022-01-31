@@ -25,13 +25,13 @@
 
 #ifdef SYNDAVER_LEVEL_STATUS_SCREEN
 
-#include "../archim2-flash/flash_storage.h"
-#include "autogen/status_screen.h"
-#include "autogen/layout_4_icons.h"
-
 using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
+
+#include "../archim2-flash/flash_storage.h"
+#include "autogen/status_screen.h"
+#include "autogen/layout_4_icons.h"
 
 void StatusScreen::onStartup() {
   UIFlashStorage::initialize();
@@ -82,7 +82,7 @@ void StatusScreen::setStatusMessage(const char *message) {
      .cmd(CLEAR(true,true,true));
 
   SynLevelUI ui(cmd, BACKGROUND);
-  ui.draw_bkgnd();
+  ui.draw_bkgnd(status_screen_Info);
   ui.draw_title( POLY(status_text), message);
   ui.draw_prog(  POLY(file_name));
   ui.draw_time(  POLY(print_time));

@@ -28,11 +28,7 @@ using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
 
-// Format for background image
-
-constexpr uint8_t  format   = RGB332;
-constexpr uint16_t bitmap_w = 480;
-constexpr uint16_t bitmap_h = 272;
+#include "autogen/lightbulb.h"
 
 #define ICON_POS(x,y,w,h) x,     y,     h, h
 #define TEXT_POS(x,y,w,h) x + h, y, w - h, h
@@ -71,7 +67,7 @@ void SynLevelUI::getTempColor(uint16_t temp, uint32_t &fg_col, uint32_t &rgb_col
 
   // Compute a contrasting text color
   fg_col = mix;
-  rgb_col = mix.luminance() > 160 ? 0x000000 : 0xFFFFFF; 
+  rgb_col = mix.luminance() > 160 ? 0x000000 : 0xFFFFFF;
 }
 
 void SynLevelUI::_format_time(char *outstr, uint32_t time) {
@@ -218,16 +214,8 @@ void SynLevelUI::draw_encl(PolyUI::poly_reader_t poly, uint32_t color, uint8_t t
 }
 
 void SynLevelUI::draw_lamp(poly_reader_t poly, uint32_t color, uint8_t tag) {
-  PolyUI ui(cmd, mode);
-  int16_t x, y, w, h;
-  ui.bounds(poly, x, y, w, h);
-
   if (mode & BACKGROUND) {
-    // Hotspot for lamp toggle
-    cmd.tag(tag)
-       .cmd(COLOR_MASK(0,0,0,0))
-       .rectangle(x, y, w, h)
-       .cmd(COLOR_MASK(1,1,1,1));
+    draw_icon(poly, lightbulb_Info, tag);
   }
 }
 
@@ -237,30 +225,21 @@ void SynLevelUI::draw_prog(PolyUI::poly_reader_t poly) {
 
   if (mode & FOREGROUND) {
     const uint16_t bar_width = w * getProgress_percent() / 100;
-    cmd.tag(8)
+    cmd.tag(0)
        .cmd(COLOR_RGB(accent_color_5))
        .rectangle(x, y, bar_width, h);
   }
 }
 
-void SynLevelUI::draw_bkgnd() {
+void SynLevelUI::draw_bkgnd(const bitmap_info_t &info) {
   if (mode & BACKGROUND) {
-    constexpr float scale_w = float(FTDI::display_width)/bitmap_w;
-    constexpr float scale_h = float(FTDI::display_height)/bitmap_h;
-    uint16_t linestride;
-    uint32_t color;
-    switch(format) {
-      case RGB565: linestride = bitmap_w * 2; color = 0xFFFFFF; break;
-      case RGB332: linestride = bitmap_w    ; color = 0xFFFFFF; break;
-      case L1:     linestride = bitmap_w/8  ; color = 0x000000; break;
-      case L2:     linestride = bitmap_w/4  ; color = 0x000000; break;
-      case L4:     linestride = bitmap_w/2  ; color = 0x000000; break;
-      case L8:     linestride = bitmap_w    ; color = 0x000000; break;
-    }
+    const float scale_w = float(FTDI::display_width)/info.width;
+    const float scale_h = float(FTDI::display_height)/info.height;
+    const uint32_t color = info.format == L1 || info.format == L2 || info.format == L4 || info.format == L8 ? 0x000000 : 0xFFFFFF;
     cmd.cmd(COLOR_RGB(color))
-       .cmd(BITMAP_SOURCE(BACKGROUND_OFFSET))
-       .bitmap_layout(format, linestride, bitmap_h)
-       .bitmap_size(BILINEAR, BORDER, BORDER, bitmap_w*scale_w, bitmap_h*scale_h)
+       .cmd(BITMAP_SOURCE(info.RAMG_offset))
+       .bitmap_layout(info.format, info.linestride, info.height)
+       .bitmap_size(info.filter, info.wrapx, info.wrapy, FTDI::display_width, FTDI::display_height)
        .cmd(BITMAP_TRANSFORM_A(uint32_t(float(256)/scale_w)))
        .cmd(BITMAP_TRANSFORM_E(uint32_t(float(256)/scale_h)))
        .cmd(BEGIN(BITMAPS))
@@ -269,6 +248,26 @@ void SynLevelUI::draw_bkgnd() {
        .cmd(BITMAP_TRANSFORM_E(256))
        .cmd(COLOR_RGB(bg_text_enabled));
     }
+}
+
+void SynLevelUI::draw_icon(PolyUI::poly_reader_t poly, const bitmap_info_t &info, uint8_t tag) {
+  if (mode & BACKGROUND) {
+    int16_t x, y, w, h;
+    bounds(poly, x, y, w, h);
+    const float scale = min(w/info.width,h/info.height);
+    const uint32_t color = (info.format == L1 || info.format == L2 || info.format == L4 || info.format == L8) ? 0x000000 : 0xFFFFFF;
+    cmd.cmd(COLOR_RGB(color))
+       .cmd(BITMAP_SOURCE(info.RAMG_offset))
+       .bitmap_layout(info.format, info.linestride, info.height)
+       .icon(x, y, w, h, info, scale)
+       .cmd(COLOR_RGB(bg_text_enabled));
+
+    // Draw the tag
+    cmd.tag(tag)
+       .cmd(COLOR_MASK(0,0,0,0))
+       .rectangle(x, y, w, h)
+       .cmd(COLOR_MASK(1,1,1,1));
+  }
 }
 
 void SynLevelUI::draw_title(PolyUI::poly_reader_t poly, const char *message) {
@@ -352,7 +351,7 @@ void SynLevelUI::draw_tile(PolyUI::poly_reader_t poly, uint8_t tag, FSTR_P label
   if (mode & FOREGROUND) {
     int16_t x, y, w, h;
     bounds(poly, x, y, w, h);
-      
+
     cmd.cmd(TAG(enabled ? tag : 0))
        .cmd(COLOR_RGB(0));
     draw_text_box(cmd, x, y, w, h, label, OPT_CENTERX | OPT_BOTTOMY, font_xsmall);
@@ -411,6 +410,14 @@ void SynLevelBase::loadBitmaps() {
   CLCD::mem_write_xbm(base + Extruder_Icon_Info.RAMG_offset, Extruder_Icon, sizeof(Extruder_Icon));
   CLCD::mem_write_xbm(base + Bed_Heat_Icon_Info.RAMG_offset, Bed_Heat_Icon, sizeof(Bed_Heat_Icon));
   CLCD::mem_write_xbm(base + Fan_Icon_Info.RAMG_offset,      Fan_Icon,      sizeof(Fan_Icon));
+
+  // Load the lamp icon
+
+  CommandProcessor cmd;
+  cmd.inflate(LIGHTBULB_OFFSET)
+     .execute();
+  SynLevelUI::send_buffer(cmd, lightbulb, sizeof(lightbulb));
+  cmd.wait();
 
   // Load fonts for internationalization
   #if ENABLED(TOUCH_UI_USE_UTF8)

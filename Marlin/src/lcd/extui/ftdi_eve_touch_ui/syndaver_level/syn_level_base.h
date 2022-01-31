@@ -28,16 +28,17 @@
 class SynLevelUI : public PolyUI {
   private:
     static void _format_time(char *outstr, uint32_t time);
-    static void send_buffer(CommandProcessor &cmd, const void *data, uint16_t len);
   public:
     SynLevelUI(CommandProcessor &cmd, draw_mode_t what = BOTH) : PolyUI(cmd, what) {}
 
+    static void send_buffer(CommandProcessor &cmd, const void *data, uint16_t len);
     static void load_background(const void *data, uint16_t len);
     static bool isFileSelected();
     static void getTempColor(uint16_t temp, uint32_t &fg_col, uint32_t &rgb_col);
 
     void draw_start();
-    void draw_bkgnd();
+    void draw_bkgnd(const FTDI::bitmap_info_t &);
+    void draw_icon(poly_reader_t, const FTDI::bitmap_info_t &, uint8_t tag);
     void draw_time(poly_reader_t);
     void draw_prog(poly_reader_t);
     void draw_fan(poly_reader_t);
