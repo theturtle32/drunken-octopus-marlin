@@ -22,13 +22,15 @@ import textwrap
 import os
 import sys
 import zlib
+import math
 
 class WriteSource:
-  def __init__(self, mode):
+  def __init__(self, img, mode):
     self.values      = []
     self.mode        = mode
     self.offset      = 8
     self.byte        = 0
+    self.img         = img
 
   def finish_byte(self):
     if self.offset != 8:
@@ -96,19 +98,63 @@ class WriteSource:
     if self.mode in ["l1", "l2", "l3"]:
        self.finish_byte()
 
-  def write(self, varname, deflate):
-    print("Length of uncompressed data: ", len(self.values), file=sys.stderr)
+  def get_line_stride(self):
+    if self.mode == "l1":
+      bbp = 1
+    elif self.mode == "l2":
+      bbp = 2
+    elif self.mode == "l4":
+      bbp = 4
+    elif self.mode == "l8":
+      bbp = 8
+    elif self.mode == "rgb565":
+      bbp = 16
+    elif self.mode == "rgb332":
+      bbp = 8
+    elif self.mode == "argb2":
+      bbp = 8
+    elif self.mode == "argb4":
+      bbp = 16
+    elif self.mode == "argb1555":
+      bbp = 16
+    return int(math.ceil(self.img.width * bbp / 8))
+
+  def write_info(self, varname, args):
+    print("constexpr PROGMEM bitmap_info_t " + varname + "_Info = {")
+    print("  .format        = " + self.mode.upper() + ",")
+    print("  .width         = " + format(self.img.width) + ",")
+    print("  .height        = " + format(self.img.height) + ",")
+    print("  .linestride    = " + format(self.get_line_stride()) + ",")
+    if mode in ["argb2", "argb4", "argb1555"]:
+      print("  .filter        = NEAREST,")
+    else:
+      print("  .filter        = BILINEAR,")
+    print("  .wrapx         = BORDER,")
+    print("  .wrapy         = BORDER,")
+    print("  .inflated_size = " + format(self.uncompressed_size) + ",")
+    if args.offset:
+      print("  .RAMG_offset   = " + format(args.offset) + ",")
+    print("};")
+    print()
+
+  def write(self, varname, args):
+    self.uncompressed_size = len(self.values)
+    print("Length of uncompressed data: ", self.uncompressed_size, file=sys.stderr)
     data = bytes(bytearray(self.values))
-    if deflate:
+    if args.deflate:
       data = self.deflate(data)
-      print("Length of data after compression: ", len(data), file=sys.stderr)
+      self.compressed_size = len(data)
+      print("Length of data after compression: ", self.compressed_size, file=sys.stderr)
+    else:
+      self.compressed_size = 0
     data = bytearray(data)
-    data = list(map(lambda a: "0x" + format(a, '02x'), data))
+    data = list(map(lambda a: "0x" + format(a, '02X'), data))
     nElements = len(data)
     data = ', '.join(data)
     data = textwrap.fill(data, 75, initial_indent = '  ', subsequent_indent = '  ')
 
-    print("const unsigned char " + varname + "[" + format(nElements) + "] PROGMEM = {")
+    self.write_info(varname, args)
+    print("constexpr PROGMEM unsigned char " + varname + "[" + format(nElements) + "] = {")
     print(data)
     print("};")
 
@@ -117,18 +163,19 @@ if __name__ == "__main__":
   parser.add_argument("input")
   parser.add_argument("-d", "--deflate", action="store_true", help="Packs the data using the deflate algorithm")
   parser.add_argument("-m", "--mode", default="l1", help="Mode, can be l1, l2, l4, l8, rgb332, rgb565, argb2, argb4 or argb1555")
+  parser.add_argument("-o", "--offset", default="0", help="If provided, will write an offset to the information block")
   args = parser.parse_args()
 
   varname = os.path.splitext(os.path.basename(args.input))[0];
-
-  writer = WriteSource(args.mode)
 
   img = Image.open(args.input)
   img = img.convert('RGBA')
   print("Image height: ", img.height, file=sys.stderr)
   print("Image width:  ", img.width,  file=sys.stderr)
+  writer = WriteSource(img, args.mode)
+
   for y in range(img.height):
     for x in range(img.width):
       writer.add_pixel(img.getpixel((x,y)))
     writer.end_row(y)
-  writer.write(varname, args.deflate)
+  writer.write(varname, args)

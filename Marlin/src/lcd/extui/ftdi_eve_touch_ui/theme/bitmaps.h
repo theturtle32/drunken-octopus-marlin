@@ -26,14 +26,15 @@ namespace Theme {
   using namespace FTDI;
 
   constexpr PROGMEM bitmap_info_t Extruder_Icon_Info = {
-    .format       = L1,
-    .linestride   = 3,
-    .filter       = BILINEAR,
-    .wrapx        = BORDER,
-    .wrapy        = BORDER,
-    .RAMG_offset  = 8000,
-    .width        = 24,
-    .height       = 23,
+    .format        = L1,
+    .width         = 24,
+    .height        = 23,
+    .linestride    = 3,
+    .filter        = BILINEAR,
+    .wrapx         = BORDER,
+    .wrapy         = BORDER,
+    .inflated_size = 0,
+    .RAMG_offset   = 8000,
   };
 
   constexpr PROGMEM unsigned char Extruder_Icon[69] = {
@@ -63,14 +64,15 @@ namespace Theme {
   };
 
   constexpr PROGMEM bitmap_info_t Bed_Heat_Icon_Info = {
-    .format       = L1,
-    .linestride   = 4,
-    .filter       = BILINEAR,
-    .wrapx        = BORDER,
-    .wrapy        = BORDER,
-    .RAMG_offset  = 8069,
-    .width        = 32,
-    .height       = 23,
+    .format        = L1,
+    .width         = 32,
+    .height        = 23,
+    .linestride    = 4,
+    .filter        = BILINEAR,
+    .wrapx         = BORDER,
+    .wrapy         = BORDER,
+    .inflated_size = 0,
+    .RAMG_offset   = 8069,
   };
 
   constexpr PROGMEM unsigned char Bed_Heat_Icon[92] = {
@@ -100,14 +102,15 @@ namespace Theme {
   };
 
   constexpr PROGMEM bitmap_info_t Fan_Icon_Info = {
-    .format       = L1,
-    .linestride   = 4,
-    .filter       = BILINEAR,
-    .wrapx        = BORDER,
-    .wrapy        = BORDER,
-    .RAMG_offset  = 8161,
-    .width        = 32,
-    .height       = 32,
+    .format        = L1,
+    .width         = 32,
+    .height        = 32,
+    .linestride    = 4,
+    .filter        = BILINEAR,
+    .wrapx         = BORDER,
+    .wrapy         = BORDER,
+    .inflated_size = 0,
+    .RAMG_offset   = 8161,
   };
 
   constexpr PROGMEM unsigned char Fan_Icon[128] = {
@@ -146,14 +149,15 @@ namespace Theme {
   };
 
   constexpr PROGMEM bitmap_info_t TD_Icon_Info = {
-    .format       = L1,
-    .linestride   = 7,
-    .filter       = BILINEAR,
-    .wrapx        = BORDER,
-    .wrapy        = BORDER,
-    .RAMG_offset  = 8289,
-    .width        = 50,
-    .height       = 20,
+    .format        = L1,
+    .width         = 50,
+    .height        = 20,
+    .linestride    = 7,
+    .filter        = BILINEAR,
+    .wrapx         = BORDER,
+    .wrapy         = BORDER,
+    .inflated_size = 0,
+    .RAMG_offset   = 8289,
   };
 
   constexpr PROGMEM unsigned char TD_Icon[140] = {
@@ -180,14 +184,15 @@ namespace Theme {
   };
 
   constexpr PROGMEM bitmap_info_t File_Icon_Info = {
-    .format       = L1,
-    .linestride   = 4,
-    .filter       = BILINEAR,
-    .wrapx        = BORDER,
-    .wrapy        = BORDER,
-    .RAMG_offset  = 8429,
-    .width        = 25,
-    .height       = 32,
+    .format        = L1,
+    .width         = 25,
+    .height        = 32,
+    .linestride    = 4,
+    .filter        = BILINEAR,
+    .wrapx         = BORDER,
+    .wrapy         = BORDER,
+    .inflated_size = 0,
+    .RAMG_offset   = 8429,
   };
 
   const unsigned char File_Icon[128] PROGMEM = {
@@ -205,14 +210,15 @@ namespace Theme {
   };
 
   constexpr PROGMEM bitmap_info_t Clock_Icon_Info = {
-    .format       = L1,
-    .linestride   = 4,
-    .filter       = BILINEAR,
-    .wrapx        = BORDER,
-    .wrapy        = BORDER,
-    .RAMG_offset  = 8557,
-    .width        = 32,
-    .height       = 32,
+    .format        = L1,
+    .width         = 32,
+    .height        = 32,
+    .linestride    = 4,
+    .filter        = BILINEAR,
+    .wrapx         = BORDER,
+    .wrapy         = BORDER,
+    .inflated_size = 0,
+    .RAMG_offset   = 8557,
   };
 
   const unsigned char Clock_Icon[128] PROGMEM = {
@@ -230,14 +236,15 @@ namespace Theme {
   };
 
   constexpr PROGMEM bitmap_info_t Light_Bulb_Info = {
-    .format       = L1,
-    .linestride   = 4,
-    .filter       = BILINEAR,
-    .wrapx        = BORDER,
-    .wrapy        = BORDER,
-    .RAMG_offset  = 8685,
-    .width        = 31,
-    .height       = 32,
+    .format        = L1,
+    .width         = 31,
+    .height        = 32,
+    .linestride    = 4,
+    .filter        = BILINEAR,
+    .wrapx         = BORDER,
+    .wrapy         = BORDER,
+    .inflated_size = 0,
+    .RAMG_offset   = 8685,
   };
 
   const unsigned char Light_Bulb[128] PROGMEM = {
@@ -255,14 +262,15 @@ namespace Theme {
   };
 
   constexpr PROGMEM bitmap_info_t Chamber_Icon_Info = {
-    .format       = L1,
-    .linestride   = 4,
-    .filter       = BILINEAR,
-    .wrapx        = BORDER,
-    .wrapy        = BORDER,
-    .RAMG_offset  = 8813,
-    .width        = 32,
-    .height       = 32,
+    .format        = L1,
+    .width         = 32,
+    .height        = 32,
+    .linestride    = 4,
+    .filter        = BILINEAR,
+    .wrapx         = BORDER,
+    .wrapy         = BORDER,
+    .inflated_size = 0,
+    .RAMG_offset   = 8813,
   };
 
   const unsigned char Chamber_Icon[128] PROGMEM = {
@@ -281,4 +289,5 @@ namespace Theme {
 
   constexpr PROGMEM uint32_t UTF8_FONT_OFFSET  = 10000;
   constexpr PROGMEM uint32_t BACKGROUND_OFFSET = 40000;
+  constexpr PROGMEM uint32_t LIGHTBULB_OFFSET  = 180000;
 } // namespace Theme
