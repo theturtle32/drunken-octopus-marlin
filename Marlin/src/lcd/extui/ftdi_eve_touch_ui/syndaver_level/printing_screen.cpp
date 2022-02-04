@@ -127,7 +127,7 @@ void PrintingScreen::pauseResumePrint() {
 }
 
 void PrintingScreen::pausePrint() {
-  sound.play(twinkle, PLAY_ASYNCHRONOUS);
+  setStatusMessage(GET_TEXT_F(MSG_PAUSING));
   if (ExtUI::isPrintingFromMedia())
     ExtUI::pausePrint();
   #ifdef ACTION_ON_PAUSE
@@ -136,7 +136,7 @@ void PrintingScreen::pausePrint() {
 }
 
 void PrintingScreen::resumePrint() {
-  sound.play(twinkle, PLAY_ASYNCHRONOUS);
+  setStatusMessage(GET_TEXT_F(MSG_FILAMENT_CHANGE_RESUME));
   if (ExtUI::awaitingUserConfirm())
     ExtUI::setUserConfirmed();
   else if (ExtUI::isPrintingFromMedia())

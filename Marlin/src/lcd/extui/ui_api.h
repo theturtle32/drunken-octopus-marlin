@@ -402,6 +402,9 @@ namespace ExtUI {
   void onFilamentRunout(const extruder_t extruder);
   void onUserConfirmRequired(const char * const msg);
   void onUserConfirmRequired(FSTR_P const fstr);
+  #if ENABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
+  void onPrintPaused(FSTR_P const fstr);
+  #endif
   void onStatusChanged(const char * const msg);
   void onStatusChanged(FSTR_P const fstr);
   void onHomingStart();

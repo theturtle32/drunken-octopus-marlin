@@ -139,7 +139,9 @@ static bool ensure_safe_temperature(const bool wait=true, const PauseMode mode=P
       thermalManager.setTargetHotend(thermalManager.extrude_min_temp, active_extruder);
   #endif
 
+  #if DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
   ui.pause_show_message(PAUSE_MESSAGE_HEATING, mode); UNUSED(mode);
+  #endif
 
   if (wait) return thermalManager.wait_for_hotend(active_extruder);
 
@@ -494,9 +496,9 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
 
   bool nozzle_timed_out = false;
 
+  #if DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
   show_continue_prompt(is_reload);
 
-  #if DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
   first_impatient_beep(max_beep_count);
   #endif
 
@@ -515,7 +517,7 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
   KEEPALIVE_STATE(PAUSED_FOR_USER);
   TERN_(HOST_PROMPT_SUPPORT, hostui.prompt_do(PROMPT_USER_CONTINUE, GET_TEXT_F(MSG_NOZZLE_PARKED), FPSTR(CONTINUE_STR)));
   #if ENABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
-  TERN_(EXTENSIBLE_UI, ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_PRINT_PAUSED)));
+  TERN_(EXTENSIBLE_UI, ExtUI::onPrintPaused(GET_TEXT_F(MSG_PRINT_PAUSED)));
   #else
   TERN_(EXTENSIBLE_UI, ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_NOZZLE_PARKED)));
   #endif
@@ -532,7 +534,9 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
     // Wait for the user to press the button to re-heat the nozzle, then
     // re-heat the nozzle, re-show the continue prompt, restart idle timers, start over
     if (nozzle_timed_out) {
+      #if DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
       ui.pause_show_message(PAUSE_MESSAGE_HEAT);
+      #endif
       SERIAL_ECHO_MSG(_PMSG(STR_FILAMENT_CHANGE_HEAT));
 
       TERN_(HOST_PROMPT_SUPPORT, hostui.prompt_do(PROMPT_USER_CONTINUE, GET_TEXT_F(MSG_HEATER_TIMEOUT), GET_TEXT_F(MSG_REHEAT)));
@@ -553,8 +557,10 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
       // Wait for the heaters to reach the target temperatures
       ensure_safe_temperature(false);
 
+      #if DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
       // Show the prompt to continue
       show_continue_prompt(is_reload);
+      #endif
 
       // Start the heater idle timers
       const millis_t nozzle_timeout = SEC_TO_MS(PAUSE_PARK_NOZZLE_TIMEOUT);
@@ -562,13 +568,17 @@ void wait_for_confirmation(const bool is_reload/*=false*/, const int8_t max_beep
       HOTEND_LOOP() thermalManager.heater_idle[e].start(nozzle_timeout);
 
       TERN_(HOST_PROMPT_SUPPORT, hostui.prompt_do(PROMPT_USER_CONTINUE, GET_TEXT_F(MSG_REHEATDONE), FPSTR(CONTINUE_STR)));
+      #if DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
       TERN_(EXTENSIBLE_UI, ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_REHEATDONE)));
+      #endif
       TERN_(DWIN_CREALITY_LCD_ENHANCED, LCD_MESSAGE(MSG_REHEATDONE));
 
       IF_DISABLED(PAUSE_REHEAT_FAST_RESUME, wait_for_user = true);
 
       nozzle_timed_out = false;
+      #if DISABLED(TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS)
       first_impatient_beep(max_beep_count);
+      #endif
     }
     idle_no_sleep();
   }
