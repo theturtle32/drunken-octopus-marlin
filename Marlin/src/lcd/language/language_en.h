@@ -459,7 +459,11 @@ namespace Language_en {
   LSTR MSG_PRINTING                       = _UxGT("Printing...");
   LSTR MSG_STOPPING                       = _UxGT("Stopping...");
   LSTR MSG_REMAINING_TIME                 = _UxGT("Remaining");
+  #if ENABLED(TOUCH_UI_SYNDAVER_LEVEL) || ENABLED(TOUCH_UI_SYNDAVER_LEVELUP) || ENABLED(TOUCH_UI_ROYAL_THEME)
+  LSTR MSG_PRINT_ABORTED                  = _UxGT("Print Cancelled");
+  #else
   LSTR MSG_PRINT_ABORTED                  = _UxGT("Print Aborted");
+  #endif
   LSTR MSG_PRINT_DONE                     = _UxGT("Print Done");
   LSTR MSG_NO_MOVE                        = _UxGT("No Move.");
   LSTR MSG_KILLED                         = _UxGT("KILLED. ");
