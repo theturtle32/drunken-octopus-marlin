@@ -1705,7 +1705,7 @@ def make_config(PRINTER, TOOLHEAD):
             # General probing grid parameters
             MARLIN["GRID_MAX_POINTS_X"]                  = 5
             MARLIN["GRID_MAX_POINTS_Y"]                  = 5
-            MARLIN["UBL_HILBERT_CURVE"]                  = USE_ARCHIM2
+            MARLIN["UBL_HILBERT_CURVE"]                  = True
             if USE_REPRAP_LCD_DISPLAY or USE_TOUCH_UI:
                 MARLIN["AUTO_BED_LEVELING_UBL"]          = True
             else:
