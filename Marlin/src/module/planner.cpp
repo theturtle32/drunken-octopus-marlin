@@ -703,7 +703,7 @@ void Planner::init() {
     // All other 32-bit MPUs can easily do inverse using hardware division,
     // so we don't need to reduce precision or to use assembly language at all.
     // This routine, for all other archs, returns 0x100000000 / d ~= 0xFFFFFFFF / d
-    FORCE_INLINE static uint32_t get_period_inverse(const uint32_t d) {
+    static FORCE_INLINE uint32_t get_period_inverse(const uint32_t d) {
       return d ? 0xFFFFFFFF / d : 0xFFFFFFFF;
     }
   #endif
@@ -1244,6 +1244,10 @@ void Planner::recalculate() {
   recalculate_trapezoids();
 }
 
+#if HAS_FAN && DISABLED(LASER_SYNCHRONOUS_M106_M107)
+  #define HAS_TAIL_FAN_SPEED 1
+#endif
+
 /**
  * Apply fan speeds
  */
@@ -1260,7 +1264,7 @@ void Planner::recalculate() {
     #if ENABLED(FAN_SOFT_PWM)
       #define _FAN_SET(F) thermalManager.soft_pwm_amount_fan[F] = CALC_FAN_SPEED(F);
     #else
-      #define _FAN_SET(F) hal.set_pwm_duty(pin_t(FAN##F##_PIN), CALC_FAN_SPEED(F));
+      #define _FAN_SET(F) set_pwm_duty(pin_t(FAN##F##_PIN), CALC_FAN_SPEED(F));
     #endif
     #define FAN_SET(F) do{ kickstart_fan(fan_speed, ms, F); _FAN_SET(F); }while(0)
 
@@ -1304,9 +1308,8 @@ void Planner::check_axes_activity() {
     xyze_bool_t axis_active = { false };
   #endif
 
-  #if HAS_FAN && DISABLED(LASER_SYNCHRONOUS_M106_M107)
-    #define HAS_TAIL_FAN_SPEED 1
-    static uint8_t tail_fan_speed[FAN_COUNT] = ARRAY_N_1(FAN_COUNT, 128);
+  #if HAS_TAIL_FAN_SPEED
+    static uint8_t tail_fan_speed[FAN_COUNT] = ARRAY_N_1(FAN_COUNT, 255);
     bool fans_need_update = false;
   #endif
 
@@ -1397,8 +1400,8 @@ void Planner::check_axes_activity() {
   TERN_(AUTOTEMP, autotemp_task());
 
   #if ENABLED(BARICUDA)
-    TERN_(HAS_HEATER_1, hal.set_pwm_duty(pin_t(HEATER_1_PIN), tail_valve_pressure));
-    TERN_(HAS_HEATER_2, hal.set_pwm_duty(pin_t(HEATER_2_PIN), tail_e_to_p_pressure));
+    TERN_(HAS_HEATER_1, set_pwm_duty(pin_t(HEATER_1_PIN), tail_valve_pressure));
+    TERN_(HAS_HEATER_2, set_pwm_duty(pin_t(HEATER_2_PIN), tail_e_to_p_pressure));
   #endif
 }
 
@@ -1505,7 +1508,7 @@ void Planner::check_axes_activity() {
     volumetric_extruder_feedrate_limit[e] = (lim && siz) ? lim / CIRCLE_AREA(siz * 0.5f) : 0;
   }
   void Planner::calculate_volumetric_extruder_limits() {
-    EXTRUDER_LOOP() calculate_volumetric_extruder_limit(e);
+    LOOP_L_N(e, EXTRUDERS) calculate_volumetric_extruder_limit(e);
   }
 
 #endif
@@ -1706,8 +1709,7 @@ void Planner::endstop_triggered(const AxisEnum axis) {
 }
 
 float Planner::triggered_position_mm(const AxisEnum axis) {
-  const float result = DIFF_TERN(BACKLASH_COMPENSATION, stepper.triggered_position(axis), backlash.get_applied_steps(axis));
-  return result * mm_per_step[axis];
+  return stepper.triggered_position(axis) * mm_per_step[axis];
 }
 
 void Planner::finish_and_disable() {
@@ -1729,8 +1731,8 @@ float Planner::get_axis_position_mm(const AxisEnum axis) {
       // Protect the access to the position.
       const bool was_enabled = stepper.suspend();
 
-      const int32_t p1 = DIFF_TERN(BACKLASH_COMPENSATION, stepper.position(CORE_AXIS_1), backlash.get_applied_steps(CORE_AXIS_1)),
-                    p2 = DIFF_TERN(BACKLASH_COMPENSATION, stepper.position(CORE_AXIS_2), backlash.get_applied_steps(CORE_AXIS_2));
+      const int32_t p1 = stepper.position(CORE_AXIS_1),
+                    p2 = stepper.position(CORE_AXIS_2);
 
       if (was_enabled) stepper.wake_up();
 
@@ -1739,7 +1741,7 @@ float Planner::get_axis_position_mm(const AxisEnum axis) {
       axis_steps = (axis == CORE_AXIS_2 ? CORESIGN(p1 - p2) : p1 + p2) * 0.5f;
     }
     else
-      axis_steps = DIFF_TERN(BACKLASH_COMPENSATION, stepper.position(axis), backlash.get_applied_steps(axis));
+      axis_steps = stepper.position(axis);
 
   #elif EITHER(MARKFORGED_XY, MARKFORGED_YX)
 
@@ -1756,12 +1758,11 @@ float Planner::get_axis_position_mm(const AxisEnum axis) {
       axis_steps = ((axis == CORE_AXIS_1) ? p1 - p2 : p2);
     }
     else
-      axis_steps = DIFF_TERN(BACKLASH_COMPENSATION, stepper.position(axis), backlash.get_applied_steps(axis));
+      axis_steps = stepper.position(axis);
 
   #else
 
     axis_steps = stepper.position(axis);
-    TERN_(BACKLASH_COMPENSATION, axis_steps -= backlash.get_applied_steps(axis));
 
   #endif
 
@@ -2811,13 +2812,9 @@ bool Planner::_populate_block(block_t * const block, bool split_move,
 
   position = target;  // Update the position
 
-  #if ENABLED(POWER_LOSS_RECOVERY)
-    block->sdpos = recovery.command_sdpos();
-    block->start_position = position_float.asLogical();
-  #endif
-
   TERN_(HAS_POSITION_FLOAT, position_float = target_float);
   TERN_(GRADIENT_MIX, mixer.gradient_control(target_float.z));
+  TERN_(POWER_LOSS_RECOVERY, block->sdpos = recovery.command_sdpos());
 
   return true;        // Movement was accepted
 
@@ -2843,9 +2840,6 @@ void Planner::buffer_sync_block(TERN_(LASER_SYNCHRONOUS_M106_M107, uint8_t sync_
   block->flag = sync_flag;
 
   block->position = position;
-  #if ENABLED(BACKLASH_COMPENSATION)
-    LOOP_LINEAR_AXES(axis) block->position[axis] += backlash.get_applied_steps((AxisEnum)axis);
-  #endif
 
   #if BOTH(HAS_FAN, LASER_SYNCHRONOUS_M106_M107)
     FANS_LOOP(i) block->fan_speed[i] = thermalManager.fan_speed[i];
@@ -3113,21 +3107,13 @@ void Planner::set_machine_position_mm(const abce_pos_t &abce) {
       LROUND(abce.k * settings.axis_steps_per_mm[K_AXIS])
     )
   );
-
   if (has_blocks_queued()) {
     //previous_nominal_speed_sqr = 0.0; // Reset planner junction speeds. Assume start from rest.
     //previous_speed.reset();
     buffer_sync_block();
   }
-  else {
-    #if ENABLED(BACKLASH_COMPENSATION)
-      abce_long_t stepper_pos = position;
-      LOOP_LINEAR_AXES(axis) stepper_pos[axis] += backlash.get_applied_steps((AxisEnum)axis);
-      stepper.set_position(stepper_pos);
-    #else
-      stepper.set_position(position);
-    #endif
-  }
+  else
+    stepper.set_position(position);
 }
 
 void Planner::set_position_mm(const xyze_pos_t &xyze) {

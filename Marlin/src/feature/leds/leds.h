@@ -157,12 +157,12 @@ public:
     static void update() { set_color(color); }
   #endif
 
-  #if LED_POWEROFF_TIMEOUT > 0
+  #ifdef LED_BACKLIGHT_TIMEOUT
     private:
       static millis_t led_off_time;
     public:
       static void reset_timeout(const millis_t &ms) {
-        led_off_time = ms + LED_POWEROFF_TIMEOUT;
+        led_off_time = ms + LED_BACKLIGHT_TIMEOUT;
         if (!lights_on) update();
       }
       static void update_timeout(const bool power_on);

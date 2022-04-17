@@ -26,7 +26,7 @@
 
 #include "../../inc/MarlinConfigPre.h"
 
-#if HAS_MARLINUI_MENU
+#if HAS_LCD_MENU
 
 #define LARGE_AREA_TEST ((X_BED_SIZE) >= 1000 || (Y_BED_SIZE) >= 1000 || (Z_MAX_POS) >= 1000)
 
@@ -484,4 +484,4 @@ void menu_motion() {
   END_MENU();
 }
 
-#endif // HAS_MARLINUI_MENU
+#endif // HAS_LCD_MENU

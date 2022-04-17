@@ -82,6 +82,10 @@
 
 #define MACHINE_SIZE STRINGIFY(X_BED_SIZE) "x" STRINGIFY(Y_BED_SIZE) "x" STRINGIFY(Z_MAX_POS)
 
+#ifndef CORP_WEBSITE
+   #define CORP_WEBSITE WEBSITE_URL
+ #endif
+
 #define DWIN_FONT_MENU font8x16
 #define DWIN_FONT_STAT font10x20
 #define DWIN_FONT_HEAD font10x20
@@ -958,8 +962,8 @@ void CrealityDWINClass::Update_Status_Bar(bool refresh/*=false*/) {
   static bool new_msg;
   static uint8_t msgscrl = 0;
   static char lastmsg[64];
-  if (strcmp(lastmsg, statusmsg) != 0 || refresh) {
-    strcpy(lastmsg, statusmsg);
+  if (strcmp_P(lastmsg, statusmsg) != 0 || refresh) {
+    strcpy_P(lastmsg, statusmsg);
     msgscrl = 0;
     new_msg = true;
   }
@@ -4695,7 +4699,10 @@ void CrealityDWINClass::Modify_Option(uint8_t value, const char * const * option
 /* Main Functions */
 
 void CrealityDWINClass::Update_Status(const char * const text) {
-  if (strncmp_P(text, PSTR("<F>"), 3) == 0) {
+  char header[4];
+  LOOP_L_N(i, 3) header[i] = text[i];
+  header[3] = '\0';
+  if (strcmp_P(header, PSTR("<F>")) == 0) {
     LOOP_L_N(i, _MIN((size_t)LONG_FILENAME_LENGTH, strlen(text))) filename[i] = text[i + 3];
     filename[_MIN((size_t)LONG_FILENAME_LENGTH - 1, strlen(text))] = '\0';
     Draw_Print_Filename(true);
@@ -4719,10 +4726,10 @@ void CrealityDWINClass::Start_Print(bool sd) {
           card.selectFileByName(fname);
         }
       #endif
-      strcpy(filename, card.longest_filename());
+      strcpy_P(filename, card.longest_filename());
     }
     else
-      strcpy_P(filename, PSTR("Host Print"));
+      strcpy_P(filename, "Host Print");
     TERN_(LCD_SET_PROGRESS_MANUALLY, ui.set_progress(0));
     TERN_(USE_M73_REMAINING_TIME, ui.set_remaining_time(0));
     Draw_Print_Screen();
@@ -4917,10 +4924,18 @@ void CrealityDWINClass::Screen_Update() {
 }
 
 void CrealityDWINClass::AudioFeedback(const bool success/*=true*/) {
-  if (ui.buzzer_enabled)
-    DONE_BUZZ(success);
+  if (success) {
+    if (ui.buzzer_enabled) {
+      BUZZ(100, 659);
+      BUZZ( 10,   0);
+      BUZZ(100, 698);
+    }
+    else Update_Status("Success");
+  }
+  else if (ui.buzzer_enabled)
+    BUZZ(40, 440);
   else
-    Update_Status(success ? "Success" : "Failed");
+    Update_Status("Failed");
 }
 
 void CrealityDWINClass::Save_Settings(char *buff) {
@@ -4965,7 +4980,7 @@ void CrealityDWINClass::Reset_Settings() {
   Redraw_Screen();
 }
 
-void MarlinUI::init_lcd() {
+void MarlinUI::init() {
   delay(800);
   SERIAL_ECHOPGM("\nDWIN handshake ");
   if (DWIN_Handshake()) SERIAL_ECHOLNPGM("ok."); else SERIAL_ECHOLNPGM("error.");
@@ -4978,8 +4993,6 @@ void MarlinUI::init_lcd() {
     DWIN_UpdateLCD();
     delay(20);
   }
-
-  DWIN_JPG_ShowAndCache(3);
   DWIN_JPG_CacheTo1(Language_English);
   CrealityDWIN.Redraw_Screen();
 }

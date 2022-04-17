@@ -74,8 +74,8 @@
   #include "lcd/e3v2/common/encoder.h"
   #if ENABLED(DWIN_CREALITY_LCD)
     #include "lcd/e3v2/creality/dwin.h"
-  #elif ENABLED(DWIN_LCD_PROUI)
-    #include "lcd/e3v2/proui/dwin.h"
+  #elif ENABLED(DWIN_CREALITY_LCD_ENHANCED)
+    #include "lcd/e3v2/enhanced/dwin.h"
   #elif ENABLED(DWIN_CREALITY_LCD_JYERSUI)
     #include "lcd/e3v2/jyersui/dwin.h"
   #endif
@@ -145,7 +145,7 @@
   #include "feature/encoder_i2c.h"
 #endif
 
-#if (HAS_TRINAMIC_CONFIG || HAS_TMC_SPI) && DISABLED(PSU_DEFAULT_OFF)
+#if HAS_TRINAMIC_CONFIG && DISABLED(PSU_DEFAULT_OFF)
   #include "feature/tmc_util.h"
 #endif
 
@@ -476,7 +476,7 @@ inline void manage_inactivity(const bool no_stepper_sleep=false) {
   #endif
 
   #if HAS_FREEZE_PIN
-    stepper.frozen = READ(FREEZE_PIN) == FREEZE_STATE;
+    Stepper::frozen = !READ(FREEZE_PIN);
   #endif
 
   #if HAS_HOME
@@ -506,7 +506,7 @@ inline void manage_inactivity(const bool no_stepper_sleep=false) {
           next_cub_ms_##N = ms + CUB_DEBOUNCE_DELAY_##N;               \
           CODE;                                                        \
           queue.inject(F(BUTTON##N##_GCODE));                     \
-          TERN_(HAS_MARLINUI_MENU, ui.quick_feedback());                    \
+          TERN_(HAS_LCD_MENU, ui.quick_feedback());                    \
         }                                                              \
       }                                                                \
     }while(0)
@@ -790,7 +790,7 @@ void idle(bool no_stepper_sleep/*=false*/) {
   #endif
 
   // Run HAL idle tasks
-  hal.idletask();
+  TERN_(HAL_IDLETASK, HAL_idletask());
 
   // Check network connection
   TERN_(HAS_ETHERNET, ethernet.check());
@@ -822,7 +822,7 @@ void idle(bool no_stepper_sleep/*=false*/) {
   TERN_(USE_BEEPER, buzzer.tick());
 
   // Handle UI input / draw events
-  TERN(DWIN_CREALITY_LCD, DWIN_Update(), ui.update());
+  TERN(HAS_DWIN_E3V2_BASIC, DWIN_Update(), ui.update());
 
   // Run i2c Position Encoders
   #if ENABLED(I2C_POSITION_ENCODERS)
@@ -878,7 +878,7 @@ void kill(FSTR_P const lcd_error/*=nullptr*/, FSTR_P const lcd_component/*=nullp
   // Echo the LCD message to serial for extra context
   if (lcd_error) { SERIAL_ECHO_START(); SERIAL_ECHOLNF(lcd_error); }
 
-  #if EITHER(HAS_DISPLAY, DWIN_LCD_PROUI)
+  #if EITHER(HAS_DISPLAY, DWIN_CREALITY_LCD_ENHANCED)
     ui.kill_screen(lcd_error ?: GET_TEXT_F(MSG_KILLED), lcd_component ?: FPSTR(NUL_STR));
   #else
     UNUSED(lcd_error); UNUSED(lcd_component);
@@ -929,7 +929,7 @@ void minkill(const bool steppers_off/*=false*/) {
       watchdog_refresh();
 
     // Reboot the board
-    hal.reboot();
+    HAL_reboot();
 
   #else
 
@@ -1041,7 +1041,7 @@ inline void tmc_standby_setup() {
  *    • L64XX Stepper Drivers (SPI)
  *    • Stepper Driver Reset: DISABLE
  *    • TMC Stepper Drivers (SPI)
- *    • Run hal.init_board() for additional pins setup
+ *    • Run BOARD_INIT if defined
  *    • ESP WiFi
  *  - Get the Reset Reason and report it
  *  - Print startup messages and diagnostics
@@ -1119,8 +1119,8 @@ void setup() {
   tmc_standby_setup();  // TMC Low Power Standby pins must be set early or they're not usable
 
   // Check startup - does nothing if bootloader sets MCUSR to 0
-  const byte mcu = hal.get_reset_source();
-  hal.clear_reset_source();
+  const byte mcu = HAL_get_reset_source();
+  HAL_clear_reset_source();
 
   #if ENABLED(MARLIN_DEV_MODE)
     auto log_current_ms = [&](PGM_P const msg) {
@@ -1166,13 +1166,9 @@ void setup() {
     #endif
   #endif
 
-  #if ENABLED(FREEZE_FEATURE)
+  #if HAS_FREEZE_PIN
     SETUP_LOG("FREEZE_PIN");
-    #if FREEZE_STATE
-      SET_INPUT_PULLDOWN(FREEZE_PIN);
-    #else
-      SET_INPUT_PULLUP(FREEZE_PIN);
-    #endif
+    SET_INPUT_PULLUP(FREEZE_PIN);
   #endif
 
   #if HAS_SUICIDE
@@ -1185,20 +1181,23 @@ void setup() {
     JTAGSWD_RESET();
   #endif
 
-  // Disable any hardware debug to free up pins for IO
-  #if ENABLED(DISABLE_DEBUG) && defined(JTAGSWD_DISABLE)
+  #if EITHER(DISABLE_DEBUG, DISABLE_JTAG)
     delay(10);
-    SETUP_LOG("JTAGSWD_DISABLE");
-    JTAGSWD_DISABLE();
-  #elif ENABLED(DISABLE_JTAG) && defined(JTAG_DISABLE)
-    delay(10);
-    SETUP_LOG("JTAG_DISABLE");
-    JTAG_DISABLE();
+    // Disable any hardware debug to free up pins for IO
+    #if ENABLED(DISABLE_DEBUG) && defined(JTAGSWD_DISABLE)
+      SETUP_LOG("JTAGSWD_DISABLE");
+      JTAGSWD_DISABLE();
+    #elif defined(JTAG_DISABLE)
+      SETUP_LOG("JTAG_DISABLE");
+      JTAG_DISABLE();
+    #else
+      #error "DISABLE_(DEBUG|JTAG) is not supported for the selected MCU/Board."
+    #endif
   #endif
 
   TERN_(DYNAMIC_VECTORTABLE, hook_cpu_exceptions()); // If supported, install Marlin exception handlers at runtime
 
-  SETUP_RUN(hal.init());
+  SETUP_RUN(HAL_init());
 
   // Init and disable SPI thermocouples; this is still needed
   #if TEMP_SENSOR_0_IS_MAX_TC || (TEMP_SENSOR_REDUNDANT_IS_MAX_TC && REDUNDANT_TEMP_MATCH(SOURCE, E0))
@@ -1244,16 +1243,19 @@ void setup() {
     SETUP_RUN(tmc_init_cs_pins());
   #endif
 
-  SETUP_RUN(hal.init_board());
+  #ifdef BOARD_INIT
+    SETUP_LOG("BOARD_INIT");
+    BOARD_INIT();
+  #endif
 
   SETUP_RUN(esp_wifi_init());
 
   // Report Reset Reason
-  if (mcu & RST_POWER_ON)  SERIAL_ECHOLNPGM(STR_POWERUP);
-  if (mcu & RST_EXTERNAL)  SERIAL_ECHOLNPGM(STR_EXTERNAL_RESET);
+  if (mcu & RST_POWER_ON) SERIAL_ECHOLNPGM(STR_POWERUP);
+  if (mcu & RST_EXTERNAL) SERIAL_ECHOLNPGM(STR_EXTERNAL_RESET);
   if (mcu & RST_BROWN_OUT) SERIAL_ECHOLNPGM(STR_BROWNOUT_RESET);
-  if (mcu & RST_WATCHDOG)  SERIAL_ECHOLNPGM(STR_WATCHDOG_RESET);
-  if (mcu & RST_SOFTWARE)  SERIAL_ECHOLNPGM(STR_SOFTWARE_RESET);
+  if (mcu & RST_WATCHDOG) SERIAL_ECHOLNPGM(STR_WATCHDOG_RESET);
+  if (mcu & RST_SOFTWARE) SERIAL_ECHOLNPGM(STR_SOFTWARE_RESET);
 
   // Identify myself as Marlin x.x.x
   SERIAL_ECHOLNPGM("Marlin " SHORT_BUILD_VERSION);
@@ -1264,7 +1266,7 @@ void setup() {
     );
   #endif
   SERIAL_ECHO_MSG(" Compiled: " __DATE__);
-  SERIAL_ECHO_MSG(STR_FREE_MEMORY, hal.freeMemory(), STR_PLANNER_BUFFER_BYTES, sizeof(block_t) * (BLOCK_BUFFER_SIZE));
+  SERIAL_ECHO_MSG(STR_FREE_MEMORY, freeMemory(), STR_PLANNER_BUFFER_BYTES, sizeof(block_t) * (BLOCK_BUFFER_SIZE));
 
   // Some HAL need precise delay adjustment
   calibrate_delay_loop();
@@ -1292,7 +1294,16 @@ void setup() {
   // UI must be initialized before EEPROM
   // (because EEPROM code calls the UI).
 
-  SETUP_RUN(ui.init());
+  #if HAS_DWIN_E3V2_BASIC
+    SETUP_RUN(DWIN_Startup());
+  #else
+    SETUP_RUN(ui.init());
+    #if BOTH(HAS_WIRED_LCD, SHOW_BOOTSCREEN)
+      SETUP_RUN(ui.show_bootscreen());
+      const millis_t bootscreen_ms = millis();
+    #endif
+    SETUP_RUN(ui.reset_status());     // Load welcome message early. (Retained if no errors exist.)
+  #endif
 
   #if PIN_EXISTS(SAFE_POWER)
     #if HAS_DRIVER_SAFE_POWER_PROTECT
@@ -1303,21 +1314,16 @@ void setup() {
     #endif
   #endif
 
+  #if ENABLED(PROBE_TARE)
+    SETUP_RUN(probe.tare_init());
+  #endif
+
   #if BOTH(SDSUPPORT, SDCARD_EEPROM_EMULATION)
     SETUP_RUN(card.mount());          // Mount media with settings before first_load
   #endif
 
   SETUP_RUN(settings.first_load());   // Load data from EEPROM if available (or use defaults)
                                       // This also updates variables in the planner, elsewhere
-
-  #if BOTH(HAS_WIRED_LCD, SHOW_BOOTSCREEN)
-    SETUP_RUN(ui.show_bootscreen());
-    const millis_t bootscreen_ms = millis();
-  #endif
-
-  #if ENABLED(PROBE_TARE)
-    SETUP_RUN(probe.tare_init());
-  #endif
 
   #if HAS_ETHERNET
     SETUP_RUN(ethernet.init());
@@ -1336,10 +1342,6 @@ void setup() {
   SETUP_RUN(print_job_timer.init());  // Initial setup of print job timer
 
   SETUP_RUN(endstops.init());         // Init endstops and pullups
-
-  #if ENABLED(DELTA) && !HAS_SOFTWARE_ENDSTOPS
-    SETUP_RUN(refresh_delta_clip_start_height()); // Init safe delta height without soft endstops
-  #endif
 
   SETUP_RUN(stepper.init());          // Init stepper. This enables interrupts!
 
@@ -1544,7 +1546,7 @@ void setup() {
   #endif
 
   #if ENABLED(USE_WATCHDOG)
-    SETUP_RUN(watchdog_init());       // Reinit watchdog after hal.get_reset_source call
+    SETUP_RUN(watchdog_init());       // Reinit watchdog after HAL_get_reset_source call
   #endif
 
   #if ENABLED(EXTERNAL_CLOSED_LOOP_CONTROLLER)
@@ -1579,7 +1581,11 @@ void setup() {
   #endif
 
   #if HAS_DWIN_E3V2_BASIC
-    SETUP_RUN(DWIN_InitScreen());
+    SETUP_LOG("E3V2 Init");
+    Encoder_Configuration();
+    HMI_Init();
+    HMI_SetLanguageCache();
+    HMI_StartFrame(true);
   #endif
 
   #if HAS_SERVICE_INTERVALS && !HAS_DWIN_E3V2_BASIC
@@ -1613,7 +1619,7 @@ void setup() {
     SETUP_RUN(password.lock_machine());      // Will not proceed until correct password provided
   #endif
 
-  #if BOTH(HAS_MARLINUI_MENU, TOUCH_SCREEN_CALIBRATION) && EITHER(TFT_CLASSIC_UI, TFT_COLOR_UI)
+  #if BOTH(HAS_LCD_MENU, TOUCH_SCREEN_CALIBRATION) && EITHER(TFT_CLASSIC_UI, TFT_COLOR_UI)
     SETUP_RUN(ui.check_touch_calibration());
   #endif
 

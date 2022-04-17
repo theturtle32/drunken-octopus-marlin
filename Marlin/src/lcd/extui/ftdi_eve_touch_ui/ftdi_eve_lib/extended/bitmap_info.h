@@ -34,14 +34,13 @@ namespace FTDI {
 
    typedef struct {
      const uint8_t  format;
-     const uint16_t width;
-     const uint16_t height;
      const uint16_t linestride;
      const uint8_t  filter;
      const uint8_t  wrapx;
      const uint8_t  wrapy;
-     const size_t   inflated_size; // If non-zero, size of data when uncompressed
      const uint32_t RAMG_offset;
+     const uint16_t width;
+     const uint16_t height;
    } bitmap_info_t;
 
    FORCEDINLINE uint32_t BITMAP_SOURCE (const bitmap_info_t& info) {return BITMAP_SOURCE (ftdi_memory_map::RAM_G + info.RAMG_offset);};

@@ -189,7 +189,7 @@ bool Stepper::abort_current_block;
 uint32_t Stepper::acceleration_time, Stepper::deceleration_time;
 uint8_t Stepper::steps_per_isr;
 
-#if ENABLED(FREEZE_FEATURE)
+#if HAS_FREEZE_PIN
   bool Stepper::frozen; // = false
 #endif
 
@@ -497,9 +497,6 @@ void Stepper::enable_axis(const AxisEnum axis) {
 
 bool Stepper::disable_axis(const AxisEnum axis) {
   mark_axis_disabled(axis);
-
-  TERN_(DWIN_LCD_PROUI, set_axis_untrusted(axis)); // MRISCOC workaround: https://github.com/MarlinFirmware/Marlin/issues/23095
-
   // If all the axes that share the enabled bit are disabled
   const bool can_disable = can_axis_disable(axis);
   if (can_disable) {
@@ -1477,7 +1474,7 @@ void Stepper::isr() {
   #ifndef __AVR__
     // Disable interrupts, to avoid ISR preemption while we reprogram the period
     // (AVR enters the ISR with global interrupts disabled, so no need to do it here)
-    hal.isr_off();
+    DISABLE_ISRS();
   #endif
 
   // Program timer compare for the maximum period, so it does NOT
@@ -1495,7 +1492,7 @@ void Stepper::isr() {
   hal_timer_t min_ticks;
   do {
     // Enable ISRs to reduce USART processing latency
-    hal.isr_on();
+    ENABLE_ISRS();
 
     if (!nextMainISR) pulse_phase_isr();                            // 0 = Do coordinated axes Stepper pulses
 
@@ -1579,7 +1576,7 @@ void Stepper::isr() {
      * is less than the current count due to something preempting between the
      * read and the write of the new period value).
      */
-    hal.isr_off();
+    DISABLE_ISRS();
 
     /**
      * Get the current tick value + margin
@@ -1614,7 +1611,7 @@ void Stepper::isr() {
   HAL_timer_set_compare(MF_TIMER_STEP, hal_timer_t(next_isr_ticks));
 
   // Don't forget to finally reenable interrupts
-  hal.isr_on();
+  ENABLE_ISRS();
 }
 
 #if MINIMUM_STEPPER_PULSE || MAXIMUM_STEPPER_RATE
@@ -1643,7 +1640,7 @@ void Stepper::pulse_phase_isr() {
   if (!current_block) return;
 
   // Skipping step processing causes motion to freeze
-  if (TERN0(FREEZE_FEATURE, frozen)) return;
+  if (TERN0(HAS_FREEZE_PIN, frozen)) return;
 
   // Count of pending loops and events for this iteration
   const uint32_t pending_events = step_event_count - step_events_completed;
@@ -2154,10 +2151,7 @@ uint32_t Stepper::block_phase_isr() {
         cutter.apply_power(current_block->cutter_power);
       #endif
 
-      #if ENABLED(POWER_LOSS_RECOVERY)
-        recovery.info.sdpos = current_block->sdpos;
-        recovery.info.current_position = current_block->start_position;
-      #endif
+      TERN_(POWER_LOSS_RECOVERY, recovery.info.sdpos = current_block->sdpos);
 
       #if ENABLED(DIRECT_STEPPING)
         if (IS_PAGE(current_block)) {
@@ -3263,33 +3257,33 @@ void Stepper::report_positions() {
 
       #elif HAS_MOTOR_CURRENT_PWM
 
-        #define _WRITE_CURRENT_PWM(P) hal.set_pwm_duty(pin_t(MOTOR_CURRENT_PWM_## P ##_PIN), 255L * current / (MOTOR_CURRENT_PWM_RANGE))
+        #define _WRITE_CURRENT_PWM_DUTY(P) set_pwm_duty(pin_t(MOTOR_CURRENT_PWM_## P ##_PIN), 255L * current / (MOTOR_CURRENT_PWM_RANGE))
         switch (driver) {
           case 0:
             #if PIN_EXISTS(MOTOR_CURRENT_PWM_X)
-              _WRITE_CURRENT_PWM(X);
+              _WRITE_CURRENT_PWM_DUTY(X);
             #endif
             #if PIN_EXISTS(MOTOR_CURRENT_PWM_Y)
-              _WRITE_CURRENT_PWM(Y);
+              _WRITE_CURRENT_PWM_DUTY(Y);
             #endif
             #if PIN_EXISTS(MOTOR_CURRENT_PWM_XY)
-              _WRITE_CURRENT_PWM(XY);
+              _WRITE_CURRENT_PWM_DUTY(XY);
             #endif
             break;
           case 1:
             #if PIN_EXISTS(MOTOR_CURRENT_PWM_Z)
-              _WRITE_CURRENT_PWM(Z);
+              _WRITE_CURRENT_PWM_DUTY(Z);
             #endif
             break;
           case 2:
             #if PIN_EXISTS(MOTOR_CURRENT_PWM_E)
-              _WRITE_CURRENT_PWM(E);
+              _WRITE_CURRENT_PWM_DUTY(E);
             #endif
             #if PIN_EXISTS(MOTOR_CURRENT_PWM_E0)
-              _WRITE_CURRENT_PWM(E0);
+              _WRITE_CURRENT_PWM_DUTY(E0);
             #endif
             #if PIN_EXISTS(MOTOR_CURRENT_PWM_E1)
-              _WRITE_CURRENT_PWM(E1);
+              _WRITE_CURRENT_PWM_DUTY(E1);
             #endif
             break;
         }
@@ -3311,7 +3305,7 @@ void Stepper::report_positions() {
         #ifdef __SAM3X8E__
           #define _RESET_CURRENT_PWM_FREQ(P) NOOP
         #else
-          #define _RESET_CURRENT_PWM_FREQ(P) hal.set_pwm_frequency(pin_t(P), MOTOR_CURRENT_PWM_FREQUENCY)
+          #define _RESET_CURRENT_PWM_FREQ(P) set_pwm_frequency(pin_t(P), MOTOR_CURRENT_PWM_FREQUENCY)
         #endif
         #define INIT_CURRENT_PWM(P) do{ SET_PWM(MOTOR_CURRENT_PWM_## P ##_PIN); _RESET_CURRENT_PWM_FREQ(MOTOR_CURRENT_PWM_## P ##_PIN); }while(0)
 

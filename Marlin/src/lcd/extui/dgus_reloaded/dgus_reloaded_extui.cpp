@@ -83,8 +83,8 @@ namespace ExtUI {
   }
 
   void onHomingStart() {}
-  void onHomingDone() {}
-  void onPrintDone() {}
+  void onHomingComplete() {}
+  void onPrintFinished() {}
 
   void onFactoryReset() {
     dgus_screen_handler.SettingsReset();
@@ -109,8 +109,7 @@ namespace ExtUI {
   }
 
   #if HAS_MESH
-    void onLevelingStart() {}
-    void onLevelingDone() {}
+    void onMeshLevelingStart() {}
 
     void onMeshUpdate(const int8_t xpos, const int8_t ypos, const_float_t zval) {
       dgus_screen_handler.MeshUpdate(xpos, ypos);

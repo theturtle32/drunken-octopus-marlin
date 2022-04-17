@@ -29,8 +29,9 @@
 #include "stepper.h"
 #include "planner.h"
 #include "temperature.h"
+
 #include "../gcode/gcode.h"
-#include "../lcd/marlinui.h"
+
 #include "../inc/MarlinConfig.h"
 
 #if IS_SCARA
@@ -48,6 +49,10 @@
 
 #if ENABLED(BLTOUCH)
   #include "../feature/bltouch.h"
+#endif
+
+#if HAS_STATUS_MESSAGE
+  #include "../lcd/marlinui.h"
 #endif
 
 #if HAS_FILAMENT_SENSOR
@@ -120,7 +125,9 @@ xyze_pos_t destination; // {0}
     );
     // Transpose from [XYZ][HOTENDS] to [HOTENDS][XYZ]
     HOTEND_LOOP() LOOP_ABC(a) hotend_offset[e][a] = tmp[a][e];
-    TERN_(DUAL_X_CARRIAGE, hotend_offset[1].x = _MAX(X2_HOME_POS, X2_MAX_POS));
+    #if ENABLED(DUAL_X_CARRIAGE)
+      hotend_offset[1].x = _MAX(X2_HOME_POS, X2_MAX_POS);
+    #endif
   }
 #endif
 
@@ -736,7 +743,7 @@ void restore_feedrate_and_scaling() {
           delta_max_radius_2 = sq(delta_max_radius);
           break;
         case Z_AXIS:
-          refresh_delta_clip_start_height();
+          delta_clip_start_height = soft_endstop.max[axis] - delta_safe_distance_from_top();
         default: break;
       }
 
@@ -1109,15 +1116,16 @@ FORCE_INLINE void segment_idle(millis_t &next_idle_ms) {
   bool idex_mirrored_mode                = false;                         // Used in mode 3
 
   float x_home_pos(const uint8_t extruder) {
-    if (extruder == 0) return X_HOME_POS;
-
-    /**
-     * In dual carriage mode the extruder offset provides an override of the
-     * second X-carriage position when homed - otherwise X2_HOME_POS is used.
-     * This allows soft recalibration of the second extruder home position
-     * (with M218 T1 Xn) without firmware reflash.
-     */
-    return hotend_offset[1].x > 0 ? hotend_offset[1].x : X2_HOME_POS;
+    if (extruder == 0)
+      return X_HOME_POS;
+    else
+      /**
+       * In dual carriage mode the extruder offset provides an override of the
+       * second X-carriage position when homed - otherwise X2_HOME_POS is used.
+       * This allows soft recalibration of the second extruder home position
+       * without firmware reflash (through the M218 command).
+       */
+      return hotend_offset[1].x > 0 ? hotend_offset[1].x : X2_HOME_POS;
   }
 
   void idex_set_mirrored_mode(const bool mirr) {
@@ -1320,7 +1328,7 @@ void prepare_line_to_destination() {
       );
       SERIAL_ECHO_START();
       SERIAL_ECHOLN(msg);
-      ui.set_status(msg);
+      TERN_(HAS_STATUS_MESSAGE, ui.set_status(msg));
       return true;
     }
     return false;
@@ -1354,7 +1362,9 @@ void prepare_line_to_destination() {
         #if X_SENSORLESS
           case X_AXIS:
             stealth_states.x = tmc_enable_stallguard(stepperX);
-            TERN_(X2_SENSORLESS, stealth_states.x2 = tmc_enable_stallguard(stepperX2));
+            #if AXIS_HAS_STALLGUARD(X2)
+              stealth_states.x2 = tmc_enable_stallguard(stepperX2);
+            #endif
             #if ANY(CORE_IS_XY, MARKFORGED_XY, MARKFORGED_YX) && Y_SENSORLESS
               stealth_states.y = tmc_enable_stallguard(stepperY);
             #elif CORE_IS_XZ && Z_SENSORLESS
@@ -1365,7 +1375,9 @@ void prepare_line_to_destination() {
         #if Y_SENSORLESS
           case Y_AXIS:
             stealth_states.y = tmc_enable_stallguard(stepperY);
-            TERN_(Y2_SENSORLESS, stealth_states.y2 = tmc_enable_stallguard(stepperY2));
+            #if AXIS_HAS_STALLGUARD(Y2)
+              stealth_states.y2 = tmc_enable_stallguard(stepperY2);
+            #endif
             #if ANY(CORE_IS_XY, MARKFORGED_XY, MARKFORGED_YX) && X_SENSORLESS
               stealth_states.x = tmc_enable_stallguard(stepperX);
             #elif CORE_IS_YZ && Z_SENSORLESS
@@ -1376,9 +1388,15 @@ void prepare_line_to_destination() {
         #if Z_SENSORLESS
           case Z_AXIS:
             stealth_states.z = tmc_enable_stallguard(stepperZ);
-            TERN_(Z2_SENSORLESS, stealth_states.z2 = tmc_enable_stallguard(stepperZ2));
-            TERN_(Z3_SENSORLESS, stealth_states.z3 = tmc_enable_stallguard(stepperZ3));
-            TERN_(Z4_SENSORLESS, stealth_states.z4 = tmc_enable_stallguard(stepperZ4));
+            #if AXIS_HAS_STALLGUARD(Z2)
+              stealth_states.z2 = tmc_enable_stallguard(stepperZ2);
+            #endif
+            #if AXIS_HAS_STALLGUARD(Z3)
+              stealth_states.z3 = tmc_enable_stallguard(stepperZ3);
+            #endif
+            #if AXIS_HAS_STALLGUARD(Z4)
+              stealth_states.z4 = tmc_enable_stallguard(stepperZ4);
+            #endif
             #if CORE_IS_XZ && X_SENSORLESS
               stealth_states.x = tmc_enable_stallguard(stepperX);
             #elif CORE_IS_YZ && Y_SENSORLESS
@@ -1430,7 +1448,9 @@ void prepare_line_to_destination() {
         #if X_SENSORLESS
           case X_AXIS:
             tmc_disable_stallguard(stepperX, enable_stealth.x);
-            TERN_(X2_SENSORLESS, tmc_disable_stallguard(stepperX2, enable_stealth.x2));
+            #if AXIS_HAS_STALLGUARD(X2)
+              tmc_disable_stallguard(stepperX2, enable_stealth.x2);
+            #endif
             #if ANY(CORE_IS_XY, MARKFORGED_XY, MARKFORGED_YX) && Y_SENSORLESS
               tmc_disable_stallguard(stepperY, enable_stealth.y);
             #elif CORE_IS_XZ && Z_SENSORLESS
@@ -1441,7 +1461,9 @@ void prepare_line_to_destination() {
         #if Y_SENSORLESS
           case Y_AXIS:
             tmc_disable_stallguard(stepperY, enable_stealth.y);
-            TERN_(Y2_SENSORLESS, tmc_disable_stallguard(stepperY2, enable_stealth.y2));
+            #if AXIS_HAS_STALLGUARD(Y2)
+              tmc_disable_stallguard(stepperY2, enable_stealth.y2);
+            #endif
             #if ANY(CORE_IS_XY, MARKFORGED_XY, MARKFORGED_YX) && X_SENSORLESS
               tmc_disable_stallguard(stepperX, enable_stealth.x);
             #elif CORE_IS_YZ && Z_SENSORLESS
@@ -1452,9 +1474,15 @@ void prepare_line_to_destination() {
         #if Z_SENSORLESS
           case Z_AXIS:
             tmc_disable_stallguard(stepperZ, enable_stealth.z);
-            TERN_(Z2_SENSORLESS, tmc_disable_stallguard(stepperZ2, enable_stealth.z2));
-            TERN_(Z3_SENSORLESS, tmc_disable_stallguard(stepperZ3, enable_stealth.z3));
-            TERN_(Z4_SENSORLESS, tmc_disable_stallguard(stepperZ4, enable_stealth.z4));
+            #if AXIS_HAS_STALLGUARD(Z2)
+              tmc_disable_stallguard(stepperZ2, enable_stealth.z2);
+            #endif
+            #if AXIS_HAS_STALLGUARD(Z3)
+              tmc_disable_stallguard(stepperZ3, enable_stealth.z3);
+            #endif
+            #if AXIS_HAS_STALLGUARD(Z4)
+              tmc_disable_stallguard(stepperZ4, enable_stealth.z4);
+            #endif
             #if CORE_IS_XZ && X_SENSORLESS
               tmc_disable_stallguard(stepperX, enable_stealth.x);
             #elif CORE_IS_YZ && Y_SENSORLESS

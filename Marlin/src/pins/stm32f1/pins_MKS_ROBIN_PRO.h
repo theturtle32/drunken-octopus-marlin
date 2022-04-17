@@ -185,9 +185,7 @@
 //
 #if ENABLED(MKS_PWC)
   #if ENABLED(TFT_LVGL_UI)
-    #if ENABLED(PSU_CONTROL)
-      #error "PSU_CONTROL is incompatible with MKS_PWC plus TFT_LVGL_UI."
-    #endif
+    #undef PSU_CONTROL
     #undef MKS_PWC
     #define SUICIDE_PIN                     PG11
     #define SUICIDE_PIN_STATE               LOW

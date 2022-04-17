@@ -126,8 +126,10 @@ void safe_delay(millis_t ms) {
         #if ABL_PLANAR
           SERIAL_ECHOPGM("ABL Adjustment");
           LOOP_LINEAR_AXES(a) {
+            const float v = planner.get_axis_position_mm(AxisEnum(a)) - current_position[a];
             SERIAL_CHAR(' ', AXIS_CHAR(a));
-            serial_offset(planner.get_axis_position_mm(AxisEnum(a)) - current_position[a]);
+            if (v > 0) SERIAL_CHAR('+');
+            SERIAL_DECIMAL(v);
           }
         #else
           #if ENABLED(AUTO_BED_LEVELING_UBL)

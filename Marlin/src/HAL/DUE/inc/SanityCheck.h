@@ -59,7 +59,3 @@
 #if HAS_TMC_SW_SERIAL
   #error "TMC220x Software Serial is not supported on the DUE platform."
 #endif
-
-#if USING_PULLDOWNS
-  #error "PULLDOWN pin mode is not available on DUE boards."
-#endif

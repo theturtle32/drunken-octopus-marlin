@@ -152,7 +152,6 @@ namespace Language_en {
   LSTR MSG_BED_LEVELING                   = _UxGT("Bed Leveling");
   LSTR MSG_LEVEL_BED                      = _UxGT("Level Bed");
   LSTR MSG_BED_TRAMMING                   = _UxGT("Bed Tramming");
-  LSTR MSG_BED_TRAMMING_MANUAL            = _UxGT("Manual Tramming");
   LSTR MSG_BED_TRAMMING_RAISE             = _UxGT("Adjust bed until the probe triggers.");
   LSTR MSG_BED_TRAMMING_IN_RANGE          = _UxGT("Corners within tolerance. Bed trammed.");
   LSTR MSG_BED_TRAMMING_GOOD_POINTS       = _UxGT("Good Points: ");
@@ -405,8 +404,6 @@ namespace Language_en {
   LSTR MSG_ADVANCE_K_E                    = _UxGT("Advance K *");
   LSTR MSG_CONTRAST                       = _UxGT("LCD Contrast");
   LSTR MSG_BRIGHTNESS                     = _UxGT("LCD Brightness");
-  LSTR MSG_LCD_BKL_TIMEOUT                = _UxGT("LCD Timeout (s)");
-  LSTR MSG_BRIGHTNESS_OFF                 = _UxGT("Backlight Off");
   LSTR MSG_STORE_EEPROM                   = _UxGT("Store Settings");
   LSTR MSG_LOAD_EEPROM                    = _UxGT("Load Settings");
   LSTR MSG_RESTORE_DEFAULTS               = _UxGT("Restore Defaults");
@@ -433,8 +430,6 @@ namespace Language_en {
   LSTR MSG_BUTTON_RESET                   = _UxGT("Reset");
   LSTR MSG_BUTTON_IGNORE                  = _UxGT("Ignore");
   LSTR MSG_BUTTON_CANCEL                  = _UxGT("Cancel");
-  LSTR MSG_BUTTON_CONFIRM                 = _UxGT("Confirm");
-  LSTR MSG_BUTTON_CONTINUE                = _UxGT("Continue");
   LSTR MSG_BUTTON_DONE                    = _UxGT("Done");
   LSTR MSG_BUTTON_BACK                    = _UxGT("Back");
   LSTR MSG_BUTTON_PROCEED                 = _UxGT("Proceed");
@@ -444,7 +439,6 @@ namespace Language_en {
   LSTR MSG_BUTTON_PAUSE                   = _UxGT("Pause");
   LSTR MSG_BUTTON_RESUME                  = _UxGT("Resume");
   LSTR MSG_BUTTON_ADVANCED                = _UxGT("Advanced");
-  LSTR MSG_BUTTON_SAVE                    = _UxGT("Save");
   LSTR MSG_PAUSING                        = _UxGT("Pausing...");
   LSTR MSG_PAUSE_PRINT                    = _UxGT("Pause Print");
   LSTR MSG_ADVANCED_PAUSE                 = _UxGT("Advanced Pause");
@@ -465,11 +459,7 @@ namespace Language_en {
   LSTR MSG_PRINTING                       = _UxGT("Printing...");
   LSTR MSG_STOPPING                       = _UxGT("Stopping...");
   LSTR MSG_REMAINING_TIME                 = _UxGT("Remaining");
-  #if ENABLED(TOUCH_UI_SYNDAVER_LEVEL) || ENABLED(TOUCH_UI_SYNDAVER_LEVELUP) || ENABLED(TOUCH_UI_ROYAL_THEME)
-  LSTR MSG_PRINT_ABORTED                  = _UxGT("Print Cancelled");
-  #else
   LSTR MSG_PRINT_ABORTED                  = _UxGT("Print Aborted");
-  #endif
   LSTR MSG_PRINT_DONE                     = _UxGT("Print Done");
   LSTR MSG_NO_MOVE                        = _UxGT("No Move.");
   LSTR MSG_KILLED                         = _UxGT("KILLED. ");
@@ -621,7 +611,6 @@ namespace Language_en {
     LSTR MSG_COLORS_RED                   = _UxGT("Red");
     LSTR MSG_COLORS_GREEN                 = _UxGT("Green");
     LSTR MSG_COLORS_BLUE                  = _UxGT("Blue");
-    LSTR MSG_COLORS_WHITE                 = _UxGT("White");
     LSTR MSG_UI_LANGUAGE                  = _UxGT("UI Language");
     LSTR MSG_SOUND_ENABLE                 = _UxGT("Enable sound");
     LSTR MSG_LOCKSCREEN                   = _UxGT("Lock Screen");
@@ -767,7 +756,7 @@ namespace Language_en {
   LSTR MSG_LEVEL_X_AXIS                   = _UxGT("Level X Axis");
   LSTR MSG_AUTO_CALIBRATE                 = _UxGT("Auto Calibrate");
   #if ENABLED(TOUCH_UI_FTDI_EVE)
-    LSTR MSG_HEATER_TIMEOUT               = _UxGT("Idle timeout, temperature decreased. Press Okay to reheat and resume.");
+    LSTR MSG_HEATER_TIMEOUT               = _UxGT("Idle timeout, temperature decreased. Press Okay and then resume to reheat. Please then wait in order to resume the print once the reheat is complete.");
   #else
     LSTR MSG_HEATER_TIMEOUT               = _UxGT("Heater Timeout");
   #endif

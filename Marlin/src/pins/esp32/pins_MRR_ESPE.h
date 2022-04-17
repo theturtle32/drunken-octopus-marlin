@@ -55,9 +55,7 @@
 #define I2S_WS                                26
 #define I2S_BCK                               25
 #define I2S_DATA                              27
-#if ENABLED(LIN_ADVANCE)
-  #error "I2S stream is currently incompatible with LIN_ADVANCE."
-#endif
+#undef LIN_ADVANCE                                // Currently, I2S stream does not work with linear advance
 
 //
 // Steppers

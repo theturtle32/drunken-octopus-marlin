@@ -57,16 +57,14 @@ namespace ExtUI {
 
   void onPrintTimerStarted() { Chiron.TimerEvent(AC_timer_started); }
   void onPrintTimerPaused()  { Chiron.TimerEvent(AC_timer_paused);  }
-  void onPrintTimerStopped() { Chiron.TimerEvent(AC_timer_stopped); }
-  void onPrintDone() {}
-
+  void onPrintTimerStopped()                         { Chiron.TimerEvent(AC_timer_stopped); }
   void onFilamentRunout(const extruder_t)            { Chiron.FilamentRunout();             }
-
   void onUserConfirmRequired(const char * const msg) { Chiron.ConfirmationRequest(msg);     }
   void onStatusChanged(const char * const msg)       { Chiron.StatusChange(msg);            }
 
   void onHomingStart() {}
-  void onHomingDone() {}
+  void onHomingComplete() {}
+  void onPrintFinished() {}
 
   void onFactoryReset() {}
 
@@ -105,8 +103,7 @@ namespace ExtUI {
   }
 
   #if HAS_MESH
-    void onLevelingStart() {}
-    void onLevelingDone() {}
+    void onMeshLevelingStart() {}
 
     void onMeshUpdate(const int8_t xpos, const int8_t ypos, const_float_t zval) {
       // Called when any mesh points are updated

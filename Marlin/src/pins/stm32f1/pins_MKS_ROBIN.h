@@ -125,7 +125,7 @@
 //#define TEMP_0_CS_PIN                     PE6   // TC2 - CS2
 
 //
-// Filament Runout Sensor
+// Filament runout sensor
 //
 #define FIL_RUNOUT_PIN                      PF11  // MT_DET
 

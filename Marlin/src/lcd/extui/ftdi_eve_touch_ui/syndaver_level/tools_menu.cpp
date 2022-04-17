@@ -24,12 +24,12 @@
 
 #ifdef SYNDAVER_LEVEL_TOOLS_MENU
 
+#include "autogen/tools_menu.h"
+#include "autogen/layout_3_icons.h"
+
 using namespace FTDI;
 using namespace Theme;
 using namespace ExtUI;
-
-#include "autogen/tools_menu.h"
-#include "autogen/layout_3_icons.h"
 
 void ToolsMenu::onEntry() {
   SynLevelUI::load_background(tools_menu, sizeof(tools_menu));
@@ -39,7 +39,7 @@ void ToolsMenu::onRedraw(draw_mode_t what) {
   CommandProcessor cmd;
   SynLevelUI ui(cmd, what);
   ui.draw_start();
-  ui.draw_bkgnd(tools_menu_Info);
+  ui.draw_bkgnd();
   ui.draw_title( POLY(status_text), F("Tools Menu"));
   ui.draw_tile(  POLY(icon_1), 1,   F(""), !isPrinting()); // Move Axis
   ui.draw_tile(  POLY(icon_2), 2,   F(""), !isPrinting()); // Leveling

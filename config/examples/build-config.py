@@ -1705,7 +1705,7 @@ def make_config(PRINTER, TOOLHEAD):
             # General probing grid parameters
             MARLIN["GRID_MAX_POINTS_X"]                  = 5
             MARLIN["GRID_MAX_POINTS_Y"]                  = 5
-            MARLIN["UBL_HILBERT_CURVE"]                  = True
+            MARLIN["UBL_HILBERT_CURVE"]                  = USE_ARCHIM2
             if USE_REPRAP_LCD_DISPLAY or USE_TOUCH_UI:
                 MARLIN["AUTO_BED_LEVELING_UBL"]          = True
             else:
@@ -1962,7 +1962,6 @@ def make_config(PRINTER, TOOLHEAD):
             MARLIN["FIL_RUNOUT_ENABLED_DEFAULT"]         = "false"
         MARLIN["ACTION_ON_FILAMENT_RUNOUT"]              = C_STRING("pause: filament_runout")
         MARLIN["TOUCH_UI_FILAMENT_RUNOUT_WORKAROUNDS"]   = USE_TOUCH_UI
-        MARLIN["PAUSE_REHEAT_FAST_RESUME"]               = True
         MARLIN["CURA_LE_RUNOUT_HANDLING_WORKAROUND"]     = True
 
 ############################## MOTOR DRIVER TYPE ##############################

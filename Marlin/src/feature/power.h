@@ -25,7 +25,7 @@
  * power.h - power control
  */
 
-#if EITHER(AUTO_POWER_CONTROL, POWER_OFF_TIMER)
+#if ENABLED(AUTO_POWER_CONTROL)
   #include "../core/millis_t.h"
 #endif
 

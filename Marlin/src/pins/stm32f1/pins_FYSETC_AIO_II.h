@@ -166,7 +166,9 @@
     #endif
 
     //#define LCD_CONTRAST_INIT              190
-    //#define LCD_SCREEN_ROTATE              180  // 0, 90, 180, 270
+    //#define LCD_SCREEN_ROT_90
+    //#define LCD_SCREEN_ROT_180
+    //#define LCD_SCREEN_ROT_270
 
   #endif
 

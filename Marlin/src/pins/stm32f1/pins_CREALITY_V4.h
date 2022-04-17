@@ -22,7 +22,7 @@
 #pragma once
 
 /**
- * Creality 4.2.x (STM32F103RE / STM32F103RC) board pin assignments
+ * Creality 4.2.x (STM32F103RET6) board pin assignments
  */
 
 #include "env_validate.h"
@@ -72,9 +72,7 @@
 //
 #define X_STOP_PIN                          PA5
 #define Y_STOP_PIN                          PA6
-#ifndef Z_STOP_PIN
-  #define Z_STOP_PIN                        PA7
-#endif
+#define Z_STOP_PIN                          PA7
 
 #ifndef Z_MIN_PROBE_PIN
   #define Z_MIN_PROBE_PIN                   PB1   // BLTouch IN
@@ -152,6 +150,8 @@
 //
 #define SD_DETECT_PIN                       PC7
 #define SDCARD_CONNECTION                ONBOARD
+#define ONBOARD_SPI_DEVICE                     1
+#define ONBOARD_SD_CS_PIN                   PA4   // SDSS
 #define SDIO_SUPPORT
 #define NO_SD_HOST_DRIVE                          // This board's SD is only seen by the printer
 
@@ -187,7 +187,7 @@
     #error "Define RET6_12864_LCD or VET6_12864_LCD to select pins for CR10_STOCKDISPLAY with the Creality V4 controller."
   #endif
 
-#elif HAS_DWIN_E3V2 || IS_DWIN_MARLINUI
+#elif EITHER(HAS_DWIN_E3V2, IS_DWIN_MARLINUI)
 
   // RET6 DWIN ENCODER LCD
   #define BTN_ENC                           PB14

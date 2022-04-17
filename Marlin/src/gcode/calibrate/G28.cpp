@@ -51,8 +51,8 @@
   #include "../../lcd/extui/ui_api.h"
 #elif ENABLED(DWIN_CREALITY_LCD)
   #include "../../lcd/e3v2/creality/dwin.h"
-#elif ENABLED(DWIN_LCD_PROUI)
-  #include "../../lcd/e3v2/proui/dwin.h"
+#elif ENABLED(DWIN_CREALITY_LCD_ENHANCED)
+  #include "../../lcd/e3v2/enhanced/dwin.h"
 #endif
 
 #if HAS_L64XX                         // set L6470 absolute position registers to counts
@@ -76,33 +76,40 @@
 
     const int x_axis_home_dir = TOOL_X_HOME_DIR(active_extruder);
 
-    // Use a higher diagonal feedrate so axes move at homing speed
-    const float minfr = _MIN(homing_feedrate(X_AXIS), homing_feedrate(Y_AXIS)),
-                fr_mm_s = HYPOT(minfr, minfr);
+    const float mlx = max_length(X_AXIS),
+                mly = max_length(Y_AXIS),
+                mlratio = mlx > mly ? mly / mlx : mlx / mly,
+                fr_mm_s = _MIN(homing_feedrate(X_AXIS), homing_feedrate(Y_AXIS)) * SQRT(sq(mlratio) + 1.0);
 
     #if ENABLED(SENSORLESS_HOMING)
       sensorless_t stealth_states {
-        LINEAR_AXIS_LIST(
-          TERN0(X_SENSORLESS, tmc_enable_stallguard(stepperX)),
-          TERN0(Y_SENSORLESS, tmc_enable_stallguard(stepperY)),
-          false, false, false, false
-        )
-        , TERN0(X2_SENSORLESS, tmc_enable_stallguard(stepperX2))
-        , TERN0(Y2_SENSORLESS, tmc_enable_stallguard(stepperY2))
+          LINEAR_AXIS_LIST(tmc_enable_stallguard(stepperX), tmc_enable_stallguard(stepperY), false, false, false, false)
+        , false
+          #if AXIS_HAS_STALLGUARD(X2)
+            || tmc_enable_stallguard(stepperX2)
+          #endif
+        , false
+          #if AXIS_HAS_STALLGUARD(Y2)
+            || tmc_enable_stallguard(stepperY2)
+          #endif
       };
     #endif
 
-    do_blocking_move_to_xy(1.5 * max_length(X_AXIS) * x_axis_home_dir, 1.5 * max_length(Y_AXIS) * Y_HOME_DIR, fr_mm_s);
+    do_blocking_move_to_xy(1.5 * mlx * x_axis_home_dir, 1.5 * mly * Y_HOME_DIR, fr_mm_s);
 
     endstops.validate_homing_move();
 
     current_position.set(0.0, 0.0);
 
     #if ENABLED(SENSORLESS_HOMING) && DISABLED(ENDSTOPS_ALWAYS_ON_DEFAULT)
-      TERN_(X_SENSORLESS, tmc_disable_stallguard(stepperX, stealth_states.x));
-      TERN_(X2_SENSORLESS, tmc_disable_stallguard(stepperX2, stealth_states.x2));
-      TERN_(Y_SENSORLESS, tmc_disable_stallguard(stepperY, stealth_states.y));
-      TERN_(Y2_SENSORLESS, tmc_disable_stallguard(stepperY2, stealth_states.y2));
+      tmc_disable_stallguard(stepperX, stealth_states.x);
+      tmc_disable_stallguard(stepperY, stealth_states.y);
+      #if AXIS_HAS_STALLGUARD(X2)
+        tmc_disable_stallguard(stepperX2, stealth_states.x2);
+      #endif
+      #if AXIS_HAS_STALLGUARD(Y2)
+        tmc_disable_stallguard(stepperY2, stealth_states.y2);
+      #endif
     #endif
   }
 
@@ -207,6 +214,8 @@ void GcodeSuite::G28() {
 
   TERN_(LASER_MOVE_G28_OFF, cutter.set_inline_enabled(false));  // turn off laser
 
+  TERN_(FULL_REPORT_TO_HOST_FEATURE, set_and_report_grblstate(M_HOMING));
+
   #if ENABLED(DUAL_X_CARRIAGE)
     bool IDEX_saved_duplication_state = extruder_duplication_enabled;
     DualXMode IDEX_saved_mode = dual_x_carriage_mode;
@@ -228,12 +237,7 @@ void GcodeSuite::G28() {
     return;
   }
 
-  #if ENABLED(FULL_REPORT_TO_HOST_FEATURE)
-    const M_StateEnum old_grblstate = M_State_grbl;
-    set_and_report_grblstate(M_HOMING);
-  #endif
-
-  TERN_(HAS_DWIN_E3V2_BASIC, DWIN_HomingStart());
+  TERN_(HAS_DWIN_E3V2_BASIC, DWIN_StartHoming());
   TERN_(EXTENSIBLE_UI, ExtUI::onHomingStart());
 
   planner.synchronize();          // Wait for planner moves to finish!
@@ -391,10 +395,9 @@ void GcodeSuite::G28() {
 
     TERN_(HOME_Z_FIRST, if (doZ) homeaxis(Z_AXIS));
 
-    const bool seenR = parser.seenval('R');
-    const float z_homing_height = seenR ? parser.value_linear_units() : Z_HOMING_HEIGHT;
+    const float z_homing_height = parser.seenval('R') ? parser.value_linear_units() : Z_HOMING_HEIGHT;
 
-    if (z_homing_height && (seenR || LINEAR_AXIS_GANG(doX, || doY, || TERN0(Z_SAFE_HOMING, doZ), || doI, || doJ, || doK))) {
+    if (z_homing_height && (LINEAR_AXIS_GANG(doX, || doY, || TERN0(Z_SAFE_HOMING, doZ), || doI, || doJ, || doK))) {
       // Raise Z before homing any other axes and z is not already high enough (never lower z)
       if (DEBUGGING(LEVELING)) DEBUG_ECHOLNPGM("Raise Z (before homing) by ", z_homing_height);
       do_z_clearance(z_homing_height);
@@ -448,11 +451,7 @@ void GcodeSuite::G28() {
           stepper.set_separate_multi_axis(false);
         #endif
 
-        #if ENABLED(Z_SAFE_HOMING)
-          if (TERN1(POWER_LOSS_RECOVERY, !parser.seen_test('H'))) home_z_safely(); else homeaxis(Z_AXIS);
-        #else
-          homeaxis(Z_AXIS);
-        #endif
+        TERN(Z_SAFE_HOMING, home_z_safely(), homeaxis(Z_AXIS));
         probe.move_z_after_homing();
       }
     #endif
@@ -546,15 +545,15 @@ void GcodeSuite::G28() {
 
   ui.refresh();
 
-  TERN_(HAS_DWIN_E3V2_BASIC, DWIN_HomingDone());
-  TERN_(EXTENSIBLE_UI, ExtUI::onHomingDone());
+  TERN_(HAS_DWIN_E3V2_BASIC, DWIN_CompletedHoming());
+  TERN_(EXTENSIBLE_UI, ExtUI::onHomingComplete());
 
   report_current_position();
 
   if (ENABLED(NANODLP_Z_SYNC) && (doZ || ENABLED(NANODLP_ALL_AXIS)))
     SERIAL_ECHOLNPGM(STR_Z_MOVE_COMP);
 
-  TERN_(FULL_REPORT_TO_HOST_FEATURE, set_and_report_grblstate(old_grblstate));
+  TERN_(FULL_REPORT_TO_HOST_FEATURE, set_and_report_grblstate(M_IDLE));
 
   #if HAS_L64XX
     // Set L6470 absolute position registers to counts
