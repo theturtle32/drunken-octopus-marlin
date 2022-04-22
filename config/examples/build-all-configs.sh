@@ -120,6 +120,7 @@ build_config accessory Oliveoil_TAZ6                             DingyCutworm_Ha
 build_config accessory Oliveoil_TAZ6                             Goldenrod_HardenedExtruder
 build_config custom    Oliveoil_TAZ6                             E3D_Hermera
 build_config custom    Oliveoil_TAZ6                             Lutefisk_M175
+build_config custom    Oliveoil_TAZ6                             RTD_Pt1000Aero
 build_config custom    Oliveoil_TAZ6Archim                       Opah_Moarstruder
 build_config custom    Oliveoil_TAZ6Archim                       Longfin_FlexyDually
 build_config custom    Oliveoil_TAZ6Archim                       Tilapia_SingleExtruder

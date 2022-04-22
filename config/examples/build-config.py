@@ -61,7 +61,8 @@ TOOLHEAD_CHOICES = [
     "KangarooPaw_SingleExtruder",
     "Lutefisk_M175",
     "E3D_Hermera",
-    "SynDaver_Level"
+    "SynDaver_Level",
+    "RTD_Pt1000Aero"
 ]
 
 usage = (
@@ -980,12 +981,22 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
-    if TOOLHEAD in ["Angelfish_Aerostruder"]:
+    if TOOLHEAD in ["Angelfish_Aerostruder"] :
         TOOLHEAD_TYPE                                    = "Aerostruder"
         TOOLHEAD_BLOCK                                   = "E3D_Titan_Aero_V6"
         MOTOR_CURRENT_E                                  = 875 # mA
         E_STEPS                                          = 420
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Aerostruder")
+        #         16 chars max                                       ^^^^^^^^^^^^^^^
+        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
+
+    if TOOLHEAD in ["RTD_Pt1000Aero"] :
+        TOOLHEAD_TYPE                                    = "Aerostruder"
+        TOOLHEAD_BLOCK                                   = "RTD_Pt1000"
+        MOTOR_CURRENT_E                                  = 875 # mA
+        E_STEPS                                          = 420
+        MARLIN["TOOLHEAD_NAME"]                          = C_STRING("RTD Pt1000 Aero")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
@@ -1265,7 +1276,15 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["PREVENT_COLD_EXTRUSION"]                 = True
         MARLIN["EXTRUDE_MINTEMP"]                        = 120
 
-    if "Buda_SingleExtruder" in TOOLHEAD:
+    if "RTD_Pt1000" in TOOLHEAD_BLOCK:
+        MARLIN["TEMP_SENSOR_0"]                          = 1047
+        MARLIN["TEMP_RESIDENCY_TIME"]                    = 1
+        MARLIN["TEMP_WINDOW"]                            = 10
+        MARLIN["TEMP_HYSTERESIS"]                        = 10
+        MARLIN["HEATER_0_MAXTEMP"]                       = 505
+        MARLIN["THERMAL_PROTECTION_PERIOD"]              = 15  # Seconds
+        MARLIN["THERMAL_PROTECTION_HYSTERESIS"]          = 30  # Degrees Celsius    
+    elif "Buda_SingleExtruder" in TOOLHEAD:
         MARLIN["TEMP_SENSOR_0"]                          = 7
         MARLIN["TEMP_RESIDENCY_TIME"]                    = 10
         MARLIN["TEMP_WINDOW"]                            = 1
