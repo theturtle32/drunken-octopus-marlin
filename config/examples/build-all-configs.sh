@@ -137,6 +137,7 @@ build_config custom    Oliveoil_TAZ6BLTouch                      E3D_Hermera
 build_config custom    Oliveoil_TAZ6BLTouch                      Lutefisk_M175
 build_config custom    Oliveoil_TAZ6BLTouch                      Yellowfin_DualExtruderV3
 build_config custom    Oliveoil_TAZ6BLTouchHallEffect            Yellowfin_DualExtruderV3
+build_config custom    Oliveoil_TAZ6ArchimBLTouch                Opah_Moarstruder
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                Tilapia_SingleExtruder
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                CecropiaSilk_SingleExtruderAeroV2
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                Angelfish_Aerostruder
