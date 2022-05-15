@@ -1280,37 +1280,35 @@
   #define FEEDRATE_CHANGE_BEEP_FREQUENCY 440
 #endif
 
+#if HAS_BED_PROBE && EITHER(HAS_MARLINUI_MENU, HAS_TFT_LVGL_UI)
+  //#define PROBE_OFFSET_WIZARD       // Add a Probe Z Offset calibration option to the LCD menu
+  #if ENABLED(PROBE_OFFSET_WIZARD)
+    /**
+     * Enable to init the Probe Z-Offset when starting the Wizard.
+     * Use a height slightly above the estimated nozzle-to-probe Z offset.
+     * For example, with an offset of -5, consider a starting height of -4.
+     */
+    //#define PROBE_OFFSET_WIZARD_START_Z -4.0
+
+    // Set a convenient position to do the calibration (probing point and nozzle/bed-distance)
+    //#define PROBE_OFFSET_WIZARD_XY_POS { X_CENTER, Y_CENTER }
+  #endif
+#endif
+
 #if HAS_MARLINUI_MENU
 
-  // Add Probe Z Offset calibration to the Z Probe Offsets menu
-  #if HAS_BED_PROBE
-    //#define PROBE_OFFSET_WIZARD
-    #if ENABLED(PROBE_OFFSET_WIZARD)
-      //
-      // Enable to init the Probe Z-Offset when starting the Wizard.
-      // Use a height slightly above the estimated nozzle-to-probe Z offset.
-      // For example, with an offset of -5, consider a starting height of -4.
-      //
-      //#define PROBE_OFFSET_WIZARD_START_Z -4.0
-
-      // Set a convenient position to do the calibration (probing point and nozzle/bed-distance)
-      //#define PROBE_OFFSET_WIZARD_XY_POS { X_CENTER, Y_CENTER }
-    #endif
-
-    #if ENABLED(AUTO_BED_LEVELING_BILINEAR)
-      // Add a calibration procedure in the Probe Offsets menu
-      // to compensate for twist in the X-axis.
-      //#define X_AXIS_TWIST_COMPENSATION
-      #if ENABLED(X_AXIS_TWIST_COMPENSATION)
-        /**
-         * Enable to init the Probe Z-Offset when starting the Wizard.
-         * Use a height slightly above the estimated nozzle-to-probe Z offset.
-         * For example, with an offset of -5, consider a starting height of -4.
-         */
-        #define XATC_START_Z 0.0
-        #define XATC_MAX_POINTS 3             // Number of points to probe in the wizard
-        #define XATC_Y_POSITION Y_CENTER      // (mm) Y position to probe
-      #endif
+  #if BOTH(HAS_BED_PROBE, AUTO_BED_LEVELING_BILINEAR)
+    // Add calibration in the Probe Offsets menu to compensate for X-axis twist.
+    //#define X_AXIS_TWIST_COMPENSATION
+    #if ENABLED(X_AXIS_TWIST_COMPENSATION)
+      /**
+       * Enable to init the Probe Z-Offset when starting the Wizard.
+       * Use a height slightly above the estimated nozzle-to-probe Z offset.
+       * For example, with an offset of -5, consider a starting height of -4.
+       */
+      #define XATC_START_Z 0.0
+      #define XATC_MAX_POINTS 3             // Number of points to probe in the wizard
+      #define XATC_Y_POSITION Y_CENTER      // (mm) Y position to probe
     #endif
   #endif
 
@@ -1322,32 +1320,6 @@
 
   // BACK menu items keep the highlight at the top
   //#define TURBO_BACK_MENU_ITEM
-
-  /**
-   * LED Control Menu
-   * Add LED Control to the LCD menu
-   */
-  //#define LED_CONTROL_MENU
-  #if ENABLED(LED_CONTROL_MENU)
-    #define LED_COLOR_PRESETS                 // Enable the Preset Color menu option
-    //#define NEO2_COLOR_PRESETS              // Enable a second NeoPixel Preset Color menu option
-    #if ENABLED(LED_COLOR_PRESETS)
-      #define LED_USER_PRESET_RED        255  // User defined RED value
-      #define LED_USER_PRESET_GREEN      128  // User defined GREEN value
-      #define LED_USER_PRESET_BLUE         0  // User defined BLUE value
-      #define LED_USER_PRESET_WHITE      255  // User defined WHITE value
-      #define LED_USER_PRESET_BRIGHTNESS 255  // User defined intensity
-      //#define LED_USER_PRESET_STARTUP       // Have the printer display the user preset color on startup
-    #endif
-    #if ENABLED(NEO2_COLOR_PRESETS)
-      #define NEO2_USER_PRESET_RED        255  // User defined RED value
-      #define NEO2_USER_PRESET_GREEN      128  // User defined GREEN value
-      #define NEO2_USER_PRESET_BLUE         0  // User defined BLUE value
-      #define NEO2_USER_PRESET_WHITE      255  // User defined WHITE value
-      #define NEO2_USER_PRESET_BRIGHTNESS 255  // User defined intensity
-      //#define NEO2_USER_PRESET_STARTUP       // Have the printer display the user preset color on startup for the second strip
-    #endif
-  #endif
 
   // Insert a menu for preheating at the top level to allow for quick access
   //#define PREHEAT_SHORTCUT_MENU_ITEM
@@ -1380,6 +1352,33 @@
 
   // Show the E position (filament used) during printing
   //#define LCD_SHOW_E_TOTAL
+
+  /**
+   * LED Control Menu
+   * Add LED Control to the LCD menu
+   */
+  //#define LED_CONTROL_MENU
+  #if ENABLED(LED_CONTROL_MENU)
+    #define LED_COLOR_PRESETS                 // Enable the Preset Color menu option
+    //#define NEO2_COLOR_PRESETS              // Enable a second NeoPixel Preset Color menu option
+    #if ENABLED(LED_COLOR_PRESETS)
+      #define LED_USER_PRESET_RED        255  // User defined RED value
+      #define LED_USER_PRESET_GREEN      128  // User defined GREEN value
+      #define LED_USER_PRESET_BLUE         0  // User defined BLUE value
+      #define LED_USER_PRESET_WHITE      255  // User defined WHITE value
+      #define LED_USER_PRESET_BRIGHTNESS 255  // User defined intensity
+      //#define LED_USER_PRESET_STARTUP       // Have the printer display the user preset color on startup
+    #endif
+    #if ENABLED(NEO2_COLOR_PRESETS)
+      #define NEO2_USER_PRESET_RED        255  // User defined RED value
+      #define NEO2_USER_PRESET_GREEN      128  // User defined GREEN value
+      #define NEO2_USER_PRESET_BLUE         0  // User defined BLUE value
+      #define NEO2_USER_PRESET_WHITE      255  // User defined WHITE value
+      #define NEO2_USER_PRESET_BRIGHTNESS 255  // User defined intensity
+      //#define NEO2_USER_PRESET_STARTUP       // Have the printer display the user preset color on startup for the second strip
+    #endif
+  #endif
+
 #endif
 
 // LCD Print Progress options
@@ -1646,6 +1645,15 @@
  * storage device. This option hides the SD card from the host PC.
  */
 //#define NO_SD_HOST_DRIVE   // Disable SD Card access over USB (for security).
+
+/**
+ * By default the framework is responsible for the shared media I/O.
+ * Enable this if you need Marlin to take care of the shared media I/O.
+ * Useful if shared media isn't working properly on some boards.
+ */
+#if ENABLED(SDSUPPORT) && DISABLED(NO_SD_HOST_DRIVE)
+  //#define DISKIO_HOST_DRIVE
+#endif
 
 /**
  * Additional options for Graphical Displays
@@ -2421,7 +2429,7 @@
   #if ENABLED(TOOLCHANGE_FILAMENT_SWAP)
     // Load / Unload
     #define TOOLCHANGE_FS_LENGTH              12  // (mm) Load / Unload length
-    #define TOOLCHANGE_FS_EXTRA_RESUME_LENGTH  0  // (mm) Extra length for better restart, fine tune by LCD/Gcode)
+    #define TOOLCHANGE_FS_EXTRA_RESUME_LENGTH  0  // (mm) Extra length for better restart. Adjust with LCD or M217 B.
     #define TOOLCHANGE_FS_RETRACT_SPEED   (50*60) // (mm/min) (Unloading)
     #define TOOLCHANGE_FS_UNRETRACT_SPEED (25*60) // (mm/min) (On SINGLENOZZLE or Bowden loading must be slowed down)
 
@@ -2435,12 +2443,12 @@
     #define TOOLCHANGE_FS_FAN_SPEED          255  // 0-255
     #define TOOLCHANGE_FS_FAN_TIME            10  // (seconds)
 
-    // Swap uninitialized extruder with TOOLCHANGE_FS_PRIME_SPEED for all lengths (recover + prime)
+    // Swap uninitialized extruder (using TOOLCHANGE_FS_PRIME_SPEED feedrate)
     // (May break filament if not retracted beforehand.)
     //#define TOOLCHANGE_FS_INIT_BEFORE_SWAP
 
-    // Prime on the first T0 (If other, TOOLCHANGE_FS_INIT_BEFORE_SWAP applied)
-    // Enable it (M217 V[0/1]) before printing, to avoid unwanted priming on host connect
+    // Prime on the first T0 (For other tools use TOOLCHANGE_FS_INIT_BEFORE_SWAP)
+    // Enable with M217 V1 before printing to avoid unwanted priming on host connect
     //#define TOOLCHANGE_FS_PRIME_FIRST_USED
 
     /**
@@ -3966,10 +3974,13 @@
  */
 //#define HOST_ACTION_COMMANDS
 #if ENABLED(HOST_ACTION_COMMANDS)
-  //#define HOST_PAUSE_M76
-  //#define HOST_PROMPT_SUPPORT
-  //#define HOST_START_MENU_ITEM      // Add a menu item that tells the host to start
-  //#define HOST_SHUTDOWN_MENU_ITEM   // Add a menu item that tells the host to shut down
+  //#define HOST_PAUSE_M76                // Tell the host to pause in response to M76
+  //#define HOST_PROMPT_SUPPORT           // Initiate host prompts to get user feedback
+  #if ENABLED(HOST_PROMPT_SUPPORT)
+    //#define HOST_STATUS_NOTIFICATIONS   // Send some status messages to the host as notifications
+  #endif
+  //#define HOST_START_MENU_ITEM          // Add a menu item that tells the host to start
+  //#define HOST_SHUTDOWN_MENU_ITEM       // Add a menu item that tells the host to shut down
 #endif
 
 /**
