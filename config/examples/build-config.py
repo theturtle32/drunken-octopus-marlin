@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 
 # Portions (C) 2020, Marcio Teixeira
 # Portions (C) 2019, AlephObjects, Inc.
@@ -991,16 +991,6 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
 
-    if TOOLHEAD in ["RTD_Pt1000Aero"] :
-        TOOLHEAD_TYPE                                    = "Aerostruder"
-        TOOLHEAD_BLOCK                                   = "RTD_Pt1000"
-        MOTOR_CURRENT_E                                  = 875 # mA
-        E_STEPS                                          = 420
-        MARLIN["TOOLHEAD_NAME"]                          = C_STRING("RTD Pt1000 Aero")
-        #         16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
-        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
-
     if TOOLHEAD in ["Kanyu_Flexystruder"]:
         TOOLHEAD_TYPE                                    = "Flexystruder"
         TOOLHEAD_BLOCK                                   = "AO_Hexagon"
@@ -1107,9 +1097,19 @@ def make_config(PRINTER, TOOLHEAD):
                     "BandedTiger_HardenedSteel",
                     "DingyCutworm_HardenedSteelPlus",
                     "Goldenrod_HardenedExtruder",
-                    "Lutefisk_M175"]:
+                    "Lutefisk_M175",
+                    "RTD_Pt1000Aero"]:
         MOTOR_CURRENT_E                                  = 960 # mA
 
+    if TOOLHEAD in ["RTD_Pt1000Aero"] :
+        TOOLHEAD_TYPE                                    = "SingleExtruderAeroV2"
+        TOOLHEAD_BLOCK                                   = "RTD_Pt1000"
+        E_STEPS                                          = 420
+        MARLIN["TOOLHEAD_NAME"]                          = C_STRING("RTD Pt1000 Aero")
+        #         16 chars max                                       ^^^^^^^^^^^^^^^
+        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
+        
     if TOOLHEAD in ["CecropiaSilk_SingleExtruderAeroV2"]:
         TOOLHEAD_TYPE                                    = "SingleExtruderAeroV2"
         TOOLHEAD_BLOCK                                   = "E3D_Titan_Aero_V6"
@@ -1182,7 +1182,8 @@ def make_config(PRINTER, TOOLHEAD):
         "Quiver_DualExtruder",
         "KangarooPaw_SingleExtruder",
         "Lutefisk_M175",
-        "E3D_Hermera"
+        "E3D_Hermera",
+        "RTD_Pt1000Aero"
     ]
 
     if TOOLHEAD_IS_UNIVERSAL and USE_Z_SCREW:
@@ -2142,7 +2143,7 @@ def make_config(PRINTER, TOOLHEAD):
 
         # In order to prevent jams on the Aero toolheads,
         # do a purge prior to unload
-        if "Aero" in TOOLHEAD_BLOCK:
+        if "Aero" in TOOLHEAD_BLOCK or "RTD_Pt1000" in TOOLHEAD_BLOCK:
             MARLIN["FILAMENT_UNLOAD_PURGE_RETRACT"]      = 0
             MARLIN["FILAMENT_UNLOAD_PURGE_DELAY"]        = 0
             MARLIN["FILAMENT_UNLOAD_PURGE_LENGTH"]       = 6
