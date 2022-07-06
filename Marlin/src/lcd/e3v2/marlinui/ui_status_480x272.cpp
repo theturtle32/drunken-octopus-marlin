@@ -72,32 +72,30 @@ FORCE_INLINE void _draw_axis_value(const AxisEnum axis, const char *value, const
 
     uint8_t vallen = utf8_strlen(value);
     if (!ui.did_first_redraw) {
-      dwin_string.set();
-      dwin_string.add('X' + axis);
+      dwin_string.set('X' + axis);
       DWIN_Draw_String(true, font16x32, Color_IconBlue, Color_Bg_Black, x + (vallen * 14 - 14) / 2, y + 2, S(dwin_string.string()));
     }
 
     dwin_string.set();
     if (blink)
       dwin_string.add(value);
-    else if (!TEST(axis_homed, axis))
+    else if (!TEST(axes_homed, axis))
       while (const char c = *value++) dwin_string.add(c <= '.' ? c : '?');
-    else if (NONE(HOME_AFTER_DEACTIVATE, DISABLE_REDUCED_ACCURACY_WARNING) && !TEST(axis_trusted, axis))
+    else if (NONE(HOME_AFTER_DEACTIVATE, DISABLE_REDUCED_ACCURACY_WARNING) && !TEST(axes_trusted, axis))
       dwin_string.add(TERN1(DWIN_MARLINUI_PORTRAIT, axis == Z_AXIS) ? PSTR("       ") : PSTR("    "));
     else
       dwin_string.add(value);
 
     // For E_TOTAL there may be some characters to cover up
     if (BOTH(DWIN_MARLINUI_PORTRAIT, LCD_SHOW_E_TOTAL) && axis == X_AXIS)
-      dwin_string.add("   ");
+      dwin_string.add(F("   "));
 
     DWIN_Draw_String(true, font14x28, Color_White, Color_Bg_Black, x, y + 32, S(dwin_string.string()));
 
   #else // !DWIN_MARLINUI_PORTRAIT
 
     if (!ui.did_first_redraw || ui.old_is_printing != print_job_timer.isRunning()) {
-      dwin_string.set();
-      dwin_string.add('X' + axis);
+      dwin_string.set('X' + axis);
       DWIN_Draw_String(true, font16x32, Color_IconBlue, Color_Bg_Black, x, y, S(dwin_string.string()));
     }
 
@@ -105,11 +103,11 @@ FORCE_INLINE void _draw_axis_value(const AxisEnum axis, const char *value, const
     if (blink)
       dwin_string.add(value);
     else {
-      if (!TEST(axis_homed, axis))
+      if (!TEST(axes_homed, axis))
         while (const char c = *value++) dwin_string.add(c <= '.' ? c : '?');
       else {
         #if NONE(HOME_AFTER_DEACTIVATE, DISABLE_REDUCED_ACCURACY_WARNING)
-          if (!TEST(axis_trusted, axis))
+          if (!TEST(axes_trusted, axis))
             dwin_string.add(TERN1(DWIN_MARLINUI_PORTRAIT, axis == Z_AXIS) ? PSTR("       ") : PSTR("    "));
           else
         #endif
@@ -119,7 +117,7 @@ FORCE_INLINE void _draw_axis_value(const AxisEnum axis, const char *value, const
 
     // For E_TOTAL there may be some characters to cover up
     if (ENABLED(LCD_SHOW_E_TOTAL) && (!ui.did_first_redraw  || ui.old_is_printing != print_job_timer.isRunning()) && axis == X_AXIS)
-      dwin_string.add("   ");
+      dwin_string.add(F("   "));
 
     DWIN_Draw_String(true, font14x28, Color_White, Color_Bg_Black, x + 32, y + 4, S(dwin_string.string()));
 
@@ -135,7 +133,7 @@ FORCE_INLINE void _draw_axis_value(const AxisEnum axis, const char *value, const
 
       if (!ui.did_first_redraw) {
         // Extra spaces to erase previous value
-        dwin_string.set("E         ");
+        dwin_string.set(F("E         "));
         DWIN_Draw_String(true, font16x32, Color_IconBlue, Color_Bg_Black, x + (4 * 14 / 2) - 7, y + 2, S(dwin_string.string()));
       }
 
@@ -148,7 +146,7 @@ FORCE_INLINE void _draw_axis_value(const AxisEnum axis, const char *value, const
     #else // !DWIN_MARLINUI_PORTRAIT
 
       if (!ui.did_first_redraw || ui.old_is_printing != print_job_timer.isRunning()) {
-        dwin_string.set("E ");
+        dwin_string.set(F("E "));
         DWIN_Draw_String(true, font16x32, Color_IconBlue, Color_Bg_Black, x, y, S(dwin_string.string()));
       }
 
@@ -178,7 +176,7 @@ FORCE_INLINE void _draw_fan_status(const uint16_t x, const uint16_t y) {
   else {
     DWIN_ICON_AnimationControl(0x0000); // disable all icon animations (this is the only one)
     DWIN_ICON_Show(ICON, ICON_Fan0, x + fanx, y);
-    dwin_string.set(PSTR("    "));
+    dwin_string.set(F("    "));
     DWIN_Draw_String(true, font14x28, Color_White, Color_Bg_Black, x, y + STATUS_FAN_HEIGHT, S(dwin_string.string()));
   }
 }
@@ -193,16 +191,16 @@ FORCE_INLINE void _draw_heater_status(const heater_id_t heater, const uint16_t x
       #define HOTEND_STATS 3
     #elif HOTENDS > 1
       #define HOTEND_STATS 2
-    #elif HAS_HOTEND
+    #else
       #define HOTEND_STATS 1
     #endif
-    static celsius_t old_temp[HOTEND_STATS] = ARRAY_N_1(HOTEND_STATS, 500),
-                     old_target[HOTEND_STATS] = ARRAY_N_1(HOTEND_STATS, 500);
-    static bool old_on[HOTEND_STATS] = ARRAY_N_1(HOTEND_STATS, false);
+    static celsius_t old_temp[HOTEND_STATS] = { 0 },
+                   old_target[HOTEND_STATS] = { 0 };
+    static bool old_on[HOTEND_STATS] = { false };
   #endif
 
   #if HAS_HEATED_BED
-    static celsius_t old_bed_temp = 500, old_bed_target = 500;
+    static celsius_t old_bed_temp = 0, old_bed_target = 0;
     static bool old_bed_on = false;
     #if HAS_LEVELING
       static bool old_leveling_on = false;
@@ -210,25 +208,27 @@ FORCE_INLINE void _draw_heater_status(const heater_id_t heater, const uint16_t x
   #endif
 
   #if HAS_HOTEND && HAS_HEATED_BED
+    float tc, tt;
+    bool c_draw, t_draw, i_draw, ta;
     const bool isBed = heater < 0;
-    const float tc = isBed ? thermalManager.degBed() : thermalManager.degHotend(heater),
-                tt = isBed ? thermalManager.degTargetBed() : thermalManager.degTargetHotend(heater);
-    const bool ta = isBed ? thermalManager.isHeatingBed() : thermalManager.isHeatingHotend(heater);
-
-    bool c_draw = tc != (isBed ? old_bed_temp : old_temp[heater]),
-         t_draw = tt != (isBed ? old_bed_target : old_target[heater]),
-         i_draw = ta != (isBed ? old_bed_on : old_on[heater]);
-
     if (isBed) {
-      #if HAS_LEVELING
-        if (!i_draw && planner.leveling_active != old_leveling_on) i_draw = true;
-        old_leveling_on = planner.leveling_active;
-      #endif
+      tc = thermalManager.degBed();
+      tt = thermalManager.degTargetBed();
+      ta = thermalManager.isHeatingBed();
+      c_draw = tc != old_bed_temp;
+      t_draw = tt != old_bed_target;
+      i_draw = ta != old_bed_on;
       old_bed_temp = tc;
       old_bed_target = tt;
       old_bed_on = ta;
     }
     else {
+      tc = thermalManager.degHotend(heater);
+      tt = thermalManager.degTargetHotend(heater);
+      ta = thermalManager.isHeatingHotend(heater);
+      c_draw = tc != old_temp[heater];
+      t_draw = tt != old_target[heater];
+      i_draw = ta != old_on[heater];
       old_temp[heater] = tc;
       old_target[heater] = tt;
       old_on[heater] = ta;
@@ -237,31 +237,41 @@ FORCE_INLINE void _draw_heater_status(const heater_id_t heater, const uint16_t x
     constexpr bool isBed = false;
     const float tc = thermalManager.degHotend(heater), tt = thermalManager.degTargetHotend(heater);
     const uint8_t ta = thermalManager.isHeatingHotend(heater);
-    const bool c_draw = tc != old_bed_temp, t_draw = tt != old_bed_target, i_draw = ta != old_bed_on;
+    bool c_draw = tc != old_temp[heater], t_draw = tt != old_target[heater], i_draw = ta != old_on[heater];
     old_temp[heater] = tc; old_target[heater] = tt; old_on[heater] = ta;
   #elif HAS_HEATED_BED
     constexpr bool isBed = true;
     const float tc = thermalManager.degBed(), tt = thermalManager.degTargetBed();
     const uint8_t ta = thermalManager.isHeatingBed();
-    bool c_draw = tc != old_temp[heater], t_draw = tt != old_target[heater], i_draw = ta != old_on[heater];
-    #if HAS_LEVELING
-      if (!idraw && planner.leveling_active != old_leveling_on) i_draw = true;
-      old_leveling_on = tl;
-    #endif
+    bool c_draw = tc != old_bed_temp, t_draw = tt != old_bed_target, i_draw = ta != old_bed_on;
     old_bed_temp = tc; old_bed_target = tt; old_bed_on = ta;
+  #else
+    bool c_draw = false, t_draw = false, i_draw = false;
+    constexpr float tc = 0, tt = 0;
+    constexpr uint8_t ta = 0;
   #endif
 
+  #if HAS_HEATED_BED && HAS_LEVELING
+    if (isBed) {
+      i_draw |= (planner.leveling_active != old_leveling_on);
+      old_leveling_on = planner.leveling_active;
+    }
+  #endif
+
+  // Draw target temperature, if needed
   if (!ui.did_first_redraw || t_draw) {
     dwin_string.set(i16tostr3rj(tt + 0.5));
     dwin_string.add(LCD_STR_DEGREE);
     DWIN_Draw_String(true, font14x28, Color_White, Color_Bg_Black, x, y, S(dwin_string.string()));
   }
 
-  if (!ui.did_first_redraw || i_draw){
+  // Draw heater icon with on / off / leveled states
+  if (!ui.did_first_redraw || i_draw) {
     const uint8_t ico = isBed ? (TERN0(HAS_LEVELING, planner.leveling_active) ? ICON_BedLevelOff : ICON_BedOff) : ICON_HotendOff;
     DWIN_ICON_Show(ICON, ico + ta, x, y + STATUS_CHR_HEIGHT + 2);
   }
 
+  // Draw current temperature, if needed
   if (!ui.did_first_redraw || c_draw) {
     dwin_string.set(i16tostr3rj(tc + 0.5));
     dwin_string.add(LCD_STR_DEGREE);
@@ -279,7 +289,7 @@ FORCE_INLINE void _draw_feedrate_status(const char *value, uint16_t x, uint16_t 
   }
 
   dwin_string.set(value);
-  dwin_string.add(PSTR("%"));
+  dwin_string.add('%');
   DWIN_Draw_String(true, font14x28, Color_White, Color_Bg_Black, x + 14, y, S(dwin_string.string()));
 }
 
@@ -379,14 +389,14 @@ void MarlinUI::draw_status_screen() {
     time.toDigital(buffer);
     dwin_string.add(prefix);
     dwin_string.add(buffer);
-    DWIN_Draw_String(true, font14x28, Color_White, Color_Bg_Black, (LCD_PIXEL_WIDTH - ((dwin_string.length() + 1) * 14)), 290, S(dwin_string.string()));
+    DWIN_Draw_String(true, font14x28, Color_White, Color_Bg_Black, (LCD_PIXEL_WIDTH - ((dwin_string.length + 1) * 14)), 290, S(dwin_string.string()));
 
   #else
 
     // landscape mode shows both elapsed and remaining (if SHOW_REMAINING_TIME)
     time = print_job_timer.duration();
     time.toDigital(buffer);
-    dwin_string.set(" ");
+    dwin_string.set(' ');
     dwin_string.add(buffer);
     DWIN_Draw_String(true, font14x28, Color_White, Color_Bg_Black, 230, 170, S(dwin_string.string()));
 
@@ -395,7 +405,7 @@ void MarlinUI::draw_status_screen() {
         time = get_remaining_time();
         DWIN_Draw_String(true, font14x28, Color_IconBlue, Color_Bg_Black, 336, 170, S(" R "));
         if (print_job_timer.isPaused() && blink)
-          dwin_string.set("     ");
+          dwin_string.set(F("     "));
         else {
           time.toDigital(buffer);
           dwin_string.set(buffer);
@@ -403,7 +413,7 @@ void MarlinUI::draw_status_screen() {
         DWIN_Draw_String(true, font14x28, Color_White, Color_Bg_Black, 378, 170, S(dwin_string.string()));
       }
       else if (!ui.did_first_redraw || ui.old_is_printing != print_job_timer.isRunning()) {
-        dwin_string.set("        ");
+        dwin_string.set(F("        "));
         DWIN_Draw_String(true, font14x28, Color_IconBlue, Color_Bg_Black, 336, 170, S(dwin_string.string()));
       }
     #endif
@@ -412,43 +422,45 @@ void MarlinUI::draw_status_screen() {
   //
   // Progress Bar
   //
-  constexpr int16_t pb_margin = 5,
-                    pb_left = pb_margin + TERN(DWIN_MARLINUI_PORTRAIT, 0, 90),
-                    pb_height = TERN(DWIN_MARLINUI_PORTRAIT, 60, 20),
-                    pb_right = LCD_PIXEL_WIDTH - pb_margin,
-                    pb_bottom = TERN(DWIN_MARLINUI_PORTRAIT, 410, 220),
-                    pb_top = pb_bottom - pb_height,
-                    pb_width = pb_right - pb_left;
+  #if HAS_PRINT_PROGRESS
+    constexpr int16_t pb_margin = 5,
+                      pb_left = pb_margin + TERN(DWIN_MARLINUI_PORTRAIT, 0, 90),
+                      pb_height = TERN(DWIN_MARLINUI_PORTRAIT, 60, 20),
+                      pb_right = LCD_PIXEL_WIDTH - pb_margin,
+                      pb_bottom = TERN(DWIN_MARLINUI_PORTRAIT, 410, 220),
+                      pb_top = pb_bottom - pb_height,
+                      pb_width = pb_right - pb_left;
 
-  const progress_t progress = TERN(HAS_PRINT_PROGRESS_PERMYRIAD, get_progress_permyriad, get_progress_percent)();
+    const progress_t progress = TERN(HAS_PRINT_PROGRESS_PERMYRIAD, get_progress_permyriad, get_progress_percent)();
 
-  if (!ui.did_first_redraw)
-    DWIN_Draw_Rectangle(0, Select_Color, pb_left, pb_top, pb_right, pb_bottom);   // Outline
+    if (!ui.did_first_redraw)
+      DWIN_Draw_Rectangle(0, Select_Color, pb_left, pb_top, pb_right, pb_bottom);   // Outline
 
-  static uint16_t old_solid = 50;
-  const uint16_t pb_solid = (pb_width - 2) * (progress / (PROGRESS_SCALE)) * 0.01f;
-  const bool p_draw = !ui.did_first_redraw || old_solid != pb_solid;
+    static uint16_t old_solid = 50;
+    const uint16_t pb_solid = (pb_width - 2) * (progress / (PROGRESS_SCALE)) * 0.01f;
+    const bool p_draw = !ui.did_first_redraw || old_solid != pb_solid;
 
-  if (p_draw) {
-    //if (pb_solid)
-      DWIN_Draw_Rectangle(1, Select_Color, pb_left + 1, pb_top + 1, pb_left + pb_solid, pb_bottom - 1); // Fill the solid part
+    if (p_draw) {
+      //if (pb_solid)
+        DWIN_Draw_Rectangle(1, Select_Color, pb_left + 1, pb_top + 1, pb_left + pb_solid, pb_bottom - 1); // Fill the solid part
 
-    //if (pb_solid < old_solid)
-      DWIN_Draw_Rectangle(1, Color_Bg_Black, pb_left + 1 + pb_solid, pb_top + 1, pb_right - 1, pb_bottom - 1); // Erase the rest
+      //if (pb_solid < old_solid)
+        DWIN_Draw_Rectangle(1, Color_Bg_Black, pb_left + 1 + pb_solid, pb_top + 1, pb_right - 1, pb_bottom - 1); // Erase the rest
 
-    #if ENABLED(SHOW_SD_PERCENT)
-      dwin_string.set(TERN(PRINT_PROGRESS_SHOW_DECIMALS, permyriadtostr4(progress), ui8tostr3rj(progress / (PROGRESS_SCALE))));
-      dwin_string.add(PSTR("%"));
-      DWIN_Draw_String(
-        false, font16x32, Percent_Color, Color_Bg_Black,
-        pb_left + (pb_width - dwin_string.length() * 16) / 2,
-        pb_top + (pb_height - 32) / 2,
-        S(dwin_string.string())
-      );
-    #endif
+      #if ENABLED(SHOW_SD_PERCENT)
+        dwin_string.set(TERN(PRINT_PROGRESS_SHOW_DECIMALS, permyriadtostr4(progress), ui8tostr3rj(progress / (PROGRESS_SCALE))));
+        dwin_string.add('%');
+        DWIN_Draw_String(
+          false, font16x32, Percent_Color, Color_Bg_Black,
+          pb_left + (pb_width - dwin_string.length * 16) / 2,
+          pb_top + (pb_height - 32) / 2,
+          S(dwin_string.string())
+        );
+      #endif
 
-    old_solid = pb_solid;
-  }
+      old_solid = pb_solid;
+    }
+  #endif // HAS_PRINT_PROGRESS
 
   //
   // Status Message

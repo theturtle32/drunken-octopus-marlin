@@ -22,12 +22,10 @@
 #pragma once
 
 /**
- * DWIN UI Enhanced implementation
+ * DWIN Enhanced implementation for PRO UI
  * Author: Miguel A. Risco-Castillo (MRISCOC)
- * Version: 3.8.1
- * Date: 2021/11/09
- *
- * Based on the original code provided by Creality under GPL
+ * Version: 3.10.1
+ * Date: 2022/03/06
  */
 
 #include "../common/dwin_api.h"

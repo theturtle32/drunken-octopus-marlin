@@ -587,6 +587,10 @@
   #define HAS_PRINT_PROGRESS 1
 #endif
 
+#if STATUS_MESSAGE_TIMEOUT_SEC > 0
+  #define HAS_STATUS_MESSAGE_TIMEOUT 1
+#endif
+
 #if ENABLED(SDSUPPORT) && SD_PROCEDURE_DEPTH
   #define HAS_MEDIA_SUBCALLS 1
 #endif
@@ -624,13 +628,20 @@
 #if ALL(HAS_RESUME_CONTINUE, PRINTER_EVENT_LEDS, SDSUPPORT)
   #define HAS_LEDS_OFF_FLAG 1
 #endif
+#ifdef DISPLAY_SLEEP_MINUTES
+  #define HAS_DISPLAY_SLEEP 1
+#endif
+#if HAS_DISPLAY_SLEEP || LCD_BACKLIGHT_TIMEOUT
+  #define HAS_GCODE_M255 1
+#endif
 
 #if EITHER(DIGIPOT_MCP4018, DIGIPOT_MCP4451)
   #define HAS_MOTOR_CURRENT_I2C 1
 #endif
 
 #if ENABLED(Z_STEPPER_AUTO_ALIGN)
-  #if ENABLED(Z_STEPPER_ALIGN_KNOWN_STEPPER_POSITIONS)
+  #ifdef Z_STEPPER_ALIGN_STEPPER_XY
+    #define HAS_Z_STEPPER_ALIGN_STEPPER_XY 1
     #undef Z_STEPPER_ALIGN_AMP
   #endif
   #ifndef Z_STEPPER_ALIGN_AMP
@@ -639,31 +650,18 @@
 #endif
 
 // Multiple Z steppers
-#ifndef NUM_Z_STEPPER_DRIVERS
-  #define NUM_Z_STEPPER_DRIVERS 1
-#endif
-
-// Fallback Stepper Driver types that depend on Configuration_adv.h
-#if EITHER(DUAL_X_CARRIAGE, X_DUAL_STEPPER_DRIVERS)
-  #define HAS_X2_STEPPER 1
-#else
-  #undef X2_DRIVER_TYPE
-#endif
-#if DISABLED(Y_DUAL_STEPPER_DRIVERS)
-  #undef Y2_DRIVER_TYPE
-#endif
-
-#if NUM_Z_STEPPER_DRIVERS < 4
-  #undef Z4_DRIVER_TYPE
+#if NUM_Z_STEPPERS < 4
   #undef INVERT_Z4_VS_Z_DIR
-  #if NUM_Z_STEPPER_DRIVERS < 3
-    #undef Z3_DRIVER_TYPE
+  #if NUM_Z_STEPPERS < 3
     #undef INVERT_Z3_VS_Z_DIR
-    #if NUM_Z_STEPPER_DRIVERS < 2
-      #undef Z2_DRIVER_TYPE
+    #if NUM_Z_STEPPERS < 2
       #undef INVERT_Z2_VS_Z_DIR
     #endif
   #endif
+#endif
+
+#if defined(X2_DRIVER_TYPE) && DISABLED(DUAL_X_CARRIAGE)
+  #define HAS_DUAL_X_STEPPERS 1
 #endif
 
 //
@@ -694,6 +692,10 @@
 #else
   // SERIAL_XON_XOFF not supported on USB-native devices
   #undef SERIAL_XON_XOFF
+#endif
+
+#if ENABLED(HOST_PROMPT_SUPPORT) && DISABLED(EMERGENCY_PARSER)
+  #define HAS_GCODE_M876 1
 #endif
 
 #if ENABLED(HOST_ACTION_COMMANDS)
@@ -909,30 +911,45 @@
 #endif
 
 // Remove unused STEALTHCHOP flags
-#if LINEAR_AXES < 6
-  #undef STEALTHCHOP_K
-  #undef CALIBRATION_MEASURE_KMIN
-  #undef CALIBRATION_MEASURE_KMAX
-  #if LINEAR_AXES < 5
-    #undef STEALTHCHOP_J
-    #undef CALIBRATION_MEASURE_JMIN
-    #undef CALIBRATION_MEASURE_JMAX
-    #if LINEAR_AXES < 4
-      #undef STEALTHCHOP_I
-      #undef CALIBRATION_MEASURE_IMIN
-      #undef CALIBRATION_MEASURE_IMAX
-      #if LINEAR_AXES < 3
-        #undef Z_IDLE_HEIGHT
-        #undef STEALTHCHOP_Z
-        #undef Z_PROBE_SLED
-        #undef Z_SAFE_HOMING
-        #undef HOME_Z_FIRST
-        #undef HOMING_Z_WITH_PROBE
-        #undef ENABLE_LEVELING_FADE_HEIGHT
-        #undef NUM_Z_STEPPER_DRIVERS
-        #undef CNC_WORKSPACE_PLANES
-        #if LINEAR_AXES < 2
-          #undef STEALTHCHOP_Y
+#if NUM_AXES < 9
+  #undef STEALTHCHOP_W
+  #undef CALIBRATION_MEASURE_WMIN
+  #undef CALIBRATION_MEASURE_WMAX
+  #if NUM_AXES < 8
+    #undef STEALTHCHOP_V
+    #undef CALIBRATION_MEASURE_VMIN
+    #undef CALIBRATION_MEASURE_VMAX
+    #if NUM_AXES < 7
+      #undef STEALTHCHOP_U
+      #undef CALIBRATION_MEASURE_UMIN
+      #undef CALIBRATION_MEASURE_UMAX
+      #if NUM_AXES < 6
+        #undef STEALTHCHOP_K
+        #undef CALIBRATION_MEASURE_KMIN
+        #undef CALIBRATION_MEASURE_KMAX
+        #if NUM_AXES < 5
+          #undef STEALTHCHOP_J
+          #undef CALIBRATION_MEASURE_JMIN
+          #undef CALIBRATION_MEASURE_JMAX
+          #if NUM_AXES < 4
+            #undef STEALTHCHOP_I
+            #undef CALIBRATION_MEASURE_IMIN
+            #undef CALIBRATION_MEASURE_IMAX
+            #if NUM_AXES < 3
+              #undef Z_IDLE_HEIGHT
+              #undef STEALTHCHOP_Z
+              #undef Z_PROBE_SLED
+              #undef Z_SAFE_HOMING
+              #undef HOME_Z_FIRST
+              #undef HOMING_Z_WITH_PROBE
+              #undef ENABLE_LEVELING_FADE_HEIGHT
+              #undef NUM_Z_STEPPERS
+              #undef CNC_WORKSPACE_PLANES
+              #if NUM_AXES < 2
+                #undef STEALTHCHOP_Y
+              #endif
+            #endif
+          #endif
         #endif
       #endif
     #endif
@@ -967,7 +984,7 @@
 #endif
 
 // Flag whether hex_print.cpp is used
-#if ANY(AUTO_BED_LEVELING_UBL, M100_FREE_MEMORY_WATCHER, DEBUG_GCODE_PARSER, TMC_DEBUG, MARLIN_DEV_MODE)
+#if ANY(AUTO_BED_LEVELING_UBL, M100_FREE_MEMORY_WATCHER, DEBUG_GCODE_PARSER, TMC_DEBUG, MARLIN_DEV_MODE, DEBUG_CARDREADER)
   #define NEED_HEX_PRINT 1
 #endif
 
@@ -986,7 +1003,7 @@
 #endif
 
 // Flag whether least_squares_fit.cpp is used
-#if ANY(AUTO_BED_LEVELING_UBL, AUTO_BED_LEVELING_LINEAR, Z_STEPPER_ALIGN_KNOWN_STEPPER_POSITIONS)
+#if ANY(AUTO_BED_LEVELING_UBL, AUTO_BED_LEVELING_LINEAR, HAS_Z_STEPPER_ALIGN_STEPPER_XY)
   #define NEED_LSF 1
 #endif
 
@@ -995,6 +1012,24 @@
   #define HAS_USER_ITEM(V...) DO(HAS,||,V)
 #else
   #define HAS_USER_ITEM(N) 0
+#endif
+
+/**
+ * LCD_SERIAL_PORT must be defined ahead of HAL.h
+ */
+#ifndef LCD_SERIAL_PORT
+  #if HAS_DWIN_E3V2 || IS_DWIN_MARLINUI || HAS_DGUS_LCD
+    #if MB(BTT_SKR_MINI_E3_V1_0, BTT_SKR_MINI_E3_V1_2, BTT_SKR_MINI_E3_V2_0, BTT_SKR_MINI_E3_V3_0, BTT_SKR_E3_TURBO)
+      #define LCD_SERIAL_PORT 1
+    #elif MB(CREALITY_V24S1_301, CREALITY_V24S1_301F4, CREALITY_V423, MKS_ROBIN)
+      #define LCD_SERIAL_PORT 2 // Creality Ender3S1, MKS Robin
+    #else
+      #define LCD_SERIAL_PORT 3 // Other boards
+    #endif
+  #endif
+  #ifdef LCD_SERIAL_PORT
+    #define AUTO_ASSIGNED_LCD_SERIAL 1
+  #endif
 #endif
 
 #if !HAS_MULTI_SERIAL
@@ -1008,4 +1043,8 @@
 #if ENABLED(CONFIGURATION_EMBEDDING) && !defined(FORCE_CONFIG_EMBED) && (defined(__AVR__) || DISABLED(SDSUPPORT) || EITHER(SDCARD_READONLY, DISABLE_M503))
   #undef CONFIGURATION_EMBEDDING
   #define CANNOT_EMBED_CONFIGURATION defined(__AVR__)
+#endif
+
+#if ANY(DISABLE_INACTIVE_X, DISABLE_INACTIVE_Y, DISABLE_INACTIVE_Z, DISABLE_INACTIVE_I, DISABLE_INACTIVE_J, DISABLE_INACTIVE_K, DISABLE_INACTIVE_U, DISABLE_INACTIVE_V, DISABLE_INACTIVE_W, DISABLE_INACTIVE_E)
+  #define HAS_DISABLE_INACTIVE_AXIS 1
 #endif

@@ -22,32 +22,18 @@
 #pragma once
 
 /**
- * Enhanced DWIN implementation
+ * DWIN Enhanced implementation for PRO UI
  * Author: Miguel A. Risco-Castillo (MRISCOC)
- * Version: 3.9.2
- * date: 2021/11/21
- *
- * Based on the original code provided by Creality under GPL
+ * Version: 3.17.2
+ * Date: 2022/04/08
  */
 
-#include "../../../inc/MarlinConfigPre.h"
+#include "dwin_defines.h"
 #include "dwinui.h"
 #include "../common/encoder.h"
 #include "../../../libs/BL24CXX.h"
 
-#if ANY(AUTO_BED_LEVELING_BILINEAR, AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_3POINT) && DISABLED(PROBE_MANUALLY)
-  #define HAS_ONESTEP_LEVELING 1
-#endif
-
-#if !HAS_BED_PROBE && ENABLED(BABYSTEPPING)
-  #define JUST_BABYSTEP 1
-#endif
-
-#if ANY(BABYSTEPPING, HAS_BED_PROBE, HAS_WORKSPACE_OFFSET)
-  #define HAS_ZOFFSET_ITEM 1
-#endif
-
-#include "dwin_defines.h"
+#include "../../../inc/MarlinConfig.h"
 
 enum processID : uint8_t {
   // Process ID
@@ -60,23 +46,16 @@ enum processID : uint8_t {
   SetPFloat,
   SelectFile,
   PrintProcess,
-  PrintDone,
-  PwrlossRec,
-  Reboot,
-  Info,
-  ConfirmToPrint,
-
-  // Popup Windows
-  Homing,
+  Popup,
   Leveling,
-  PidProcess,
-  ESDiagProcess,
-  PrintStatsProcess,
-  PauseOrStop,
-  FilamentPurge,
-  WaitResponse,
   Locked,
-  NothingToDo,
+  Reboot,
+  PrintDone,
+  ESDiagProcess,
+  WaitResponse,
+  Homing,
+  PidProcess,
+  NothingToDo
 };
 
 enum pidresult_t : uint8_t {
@@ -93,24 +72,19 @@ enum pidresult_t : uint8_t {
 
 typedef struct {
   int8_t Color[3];                    // Color components
-  uint16_t pidgrphpoints  = 0;
   pidresult_t pidresult   = PID_DONE;
-  int8_t Preheat          = 0;        // Material Select 0: PLA, 1: ABS, 2: Custom
+  uint8_t Select          = 0;        // Auxiliary selector variable
   AxisEnum axis           = X_AXIS;   // Axis Select
-  int32_t MaxValue        = 0;        // Auxiliar max integer/scaled float value
-  int32_t MinValue        = 0;        // Auxiliar min integer/scaled float value
-  int8_t dp               = 0;        // Auxiliar decimal places
-  int32_t Value           = 0;        // Auxiliar integer / scaled float value
-  int16_t *P_Int          = nullptr;  // Auxiliar pointer to 16 bit integer variable
-  float *P_Float          = nullptr;  // Auxiliar pointer to float variable
-  void (*Apply)()         = nullptr;  // Auxiliar apply function
-  void (*LiveUpdate)()    = nullptr;  // Auxiliar live update function
 } HMI_value_t;
 
 typedef struct {
   uint8_t language;
+  bool percent_flag:1;  // percent was override by M73
+  bool remain_flag:1;   // remain was override by M73
   bool pause_flag:1;    // printing is paused
   bool pause_action:1;  // flag a pause action
+  bool abort_flag:1;    // printing is aborting
+  bool abort_action:1;  // flag a aborting action
   bool print_finish:1;  // print was finished
   bool select_flag:1;   // Popup button selected
   bool home_flag:1;     // homing in course
@@ -126,16 +100,57 @@ extern millis_t dwin_heat_time;
 #if HAS_HOTEND || HAS_HEATED_BED
   void DWIN_Popup_Temperature(const bool toohigh);
 #endif
-#if HAS_HOTEND
-  void Popup_Window_ETempTooLow();
-#endif
 #if ENABLED(POWER_LOSS_RECOVERY)
   void Popup_PowerLossRecovery();
 #endif
 
-// SD Card
-void HMI_SDCardInit();
-void HMI_SDCardUpdate();
+// Tool Functions
+#if ENABLED(EEPROM_SETTINGS)
+  void WriteEeprom();
+  void ReadEeprom();
+  void ResetEeprom();
+  #if HAS_MESH
+    void SaveMesh();
+  #endif
+#endif
+void RebootPrinter();
+void DisableMotors();
+void AutoLev();
+void AutoHome();
+#if HAS_PREHEAT
+  void DoPreheat0();
+  void DoPreheat1();
+  void DoPreheat2();
+#endif
+void DoCoolDown();
+#if HAS_HOTEND
+  void HotendPID();
+#endif
+#if HAS_HEATED_BED
+  void BedPID();
+#endif
+#if ENABLED(BAUD_RATE_GCODE)
+  void HMI_SetBaudRate();
+  void SetBaud115K();
+  void SetBaud250K();
+#endif
+#if HAS_LCD_BRIGHTNESS
+  void TurnOffBacklight();
+#endif
+void ApplyExtMinT();
+void ParkHead();
+#if HAS_ONESTEP_LEVELING
+  void Trammingwizard();
+#endif
+#if BOTH(LED_CONTROL_MENU, HAS_COLOR_LEDS)
+  void ApplyLEDColor();
+#endif
+#if ENABLED(AUTO_BED_LEVELING_UBL)
+  void UBLTiltMesh();
+  bool UBLValidMesh();
+  void UBLSaveMesh();
+  void UBLLoadMesh();
+#endif
 
 // Other
 void Goto_PrintProcess();
@@ -143,50 +158,54 @@ void Goto_Main_Menu();
 void Goto_Info_Menu();
 void Goto_PowerLossRecovery();
 void Goto_ConfirmToPrint();
-void Draw_Status_Area(const bool with_update); // Status Area
-void Draw_Main_Area();      // Redraw main area;
-void DWIN_Redraw_screen();  // Redraw all screen elements
-void HMI_StartFrame(const bool with_update);   // Prepare the menu view
+void DWIN_Draw_Dashboard(const bool with_update); // Status Area
+void Draw_Main_Area();      // Redraw main area
+void DWIN_DrawStatusLine(const char *text); // Draw simple status text
+void DWIN_DrawStatusLine(FSTR_P fstr);
+void DWIN_RedrawDash();     // Redraw Dash and Status line
+void DWIN_RedrawScreen();   // Redraw all screen elements
 void HMI_MainMenu();        // Main process screen
 void HMI_SelectFile();      // File page
 void HMI_Printing();        // Print page
 void HMI_ReturnScreen();    // Return to previous screen before popups
-void ApplyExtMinT();
-void HMI_SetLanguageCache(); // Set the languaje image cache
-
-void HMI_Init();
-void HMI_Popup();
+void HMI_WaitForUser();
 void HMI_SaveProcessID(const uint8_t id);
-void HMI_AudioFeedback(const bool success=true);
+void HMI_SDCardInit();
+void HMI_SDCardUpdate();
 void EachMomentUpdate();
 void update_variable();
+void DWIN_InitScreen();
 void DWIN_HandleScreen();
-void DWIN_Update();
 void DWIN_CheckStatusMessage();
-void DWIN_StartHoming();
-void DWIN_CompletedHoming();
+void DWIN_HomingStart();
+void DWIN_HomingDone();
 #if HAS_MESH
-  void DWIN_MeshUpdate(const int8_t xpos, const int8_t ypos, const float zval);
+  void DWIN_MeshUpdate(const int8_t xpos, const int8_t ypos, const_float_t zval);
 #endif
-void DWIN_MeshLevelingStart();
-void DWIN_CompletedLeveling();
+void DWIN_LevelingStart();
+void DWIN_LevelingDone();
 void DWIN_PidTuning(pidresult_t result);
-void DWIN_Print_Started(const bool sd = false);
+void DWIN_Print_Started(const bool sd=false);
+void DWIN_Print_Pause();
+void DWIN_Print_Resume();
 void DWIN_Print_Finished();
+void DWIN_Print_Aborted();
 #if HAS_FILAMENT_SENSOR
   void DWIN_FilamentRunout(const uint8_t extruder);
 #endif
-void DWIN_Progress_Update();
+void DWIN_M73();
 void DWIN_Print_Header(const char *text);
 void DWIN_SetColorDefaults();
-void DWIN_StoreSettings(char *buff);
-void DWIN_LoadSettings(const char *buff);
+void DWIN_ApplyColor();
+void DWIN_CopySettingsTo(char * const buff);
+void DWIN_CopySettingsFrom(const char * const buff);
 void DWIN_SetDataDefaults();
 void DWIN_RebootScreen();
 
 #if ENABLED(ADVANCED_PAUSE_FEATURE)
+  void DWIN_Popup_Pause(FSTR_P const fmsg, uint8_t button=0);
   void Draw_Popup_FilamentPurge();
-  void DWIN_Popup_FilamentPurge();
+  void Goto_FilamentPurge();
   void HMI_FilamentPurge();
 #endif
 
@@ -207,14 +226,6 @@ void HMI_LockScreen();
   void Draw_PrintStats();
 #endif
 
-// HMI user control functions
-void HMI_Menu();
-void HMI_SetInt();
-void HMI_SetPInt();
-void HMI_SetIntNoDraw();
-void HMI_SetFloat();
-void HMI_SetPFloat();
-
 // Menu drawing functions
 void Draw_Control_Menu();
 void Draw_AdvancedSettings_Menu();
@@ -227,9 +238,7 @@ void Draw_Tramming_Menu();
 #if HAS_BED_PROBE
   void Draw_ProbeSet_Menu();
 #endif
-#if HAS_FILAMENT_SENSOR
-  void Draw_FilSet_Menu();
-#endif
+void Draw_FilSet_Menu();
 #if ENABLED(NOZZLE_PARK_FEATURE)
   void Draw_ParkPos_Menu();
 #endif
@@ -271,4 +280,13 @@ void Draw_Steps_Menu();
 #endif
 #if ENABLED(INDIVIDUAL_AXIS_HOMING_SUBMENU)
   void Draw_Homing_Menu();
+#endif
+#if ENABLED(FWRETRACT)
+  void Draw_FWRetract_Menu();
+#endif
+#if HAS_MESH
+  void Draw_MeshSet_Menu();
+  #if ENABLED(MESH_EDIT_MENU)
+    void Draw_EditMesh_Menu();
+  #endif
 #endif

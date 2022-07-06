@@ -80,6 +80,9 @@ typedef struct {
        filenameIsDir:1,
        workDirIsRoot:1,
        abort_sd_printing:1
+       #if DO_LIST_BIN_FILES
+         , filenameIsBin:1
+       #endif
        #if ENABLED(BINARY_FILE_TRANSFER)
          , binary_mode:1
        #endif
@@ -218,6 +221,10 @@ public:
     static void removeJobRecoveryFile();
   #endif
 
+  // Binary flag for the current file
+  static bool fileIsBinary() { return TERN0(DO_LIST_BIN_FILES, flag.filenameIsBin); }
+  static void setBinFlag(const bool bin) { TERN(DO_LIST_BIN_FILES, flag.filenameIsBin = bin, UNUSED(bin)); }
+
   // Current Working Dir - Set by cd, cdup, cdroot, and diveToFile(true, ...)
   static char* getWorkDirName()  { workDir.getDosName(filename); return filename; }
   static SdFile& getWorkDir()    { return workDir.isOpen() ? workDir : root; }
@@ -355,7 +362,7 @@ private:
 
 #if ENABLED(USB_FLASH_DRIVE_SUPPORT)
   #define IS_SD_INSERTED() DiskIODriver_USBFlash::isInserted()
-#elif PIN_EXISTS(SD_DETECT)
+#elif HAS_SD_DETECT
   #define IS_SD_INSERTED() (READ(SD_DETECT_PIN) == SD_DETECT_STATE)
 #else
   // No card detect line? Assume the card is inserted.

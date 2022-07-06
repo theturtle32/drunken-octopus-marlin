@@ -123,7 +123,7 @@ void cubic_b_spline(
 
   for (float t = 0; t < 1;) {
 
-    thermalManager.manage_heater();
+    thermalManager.task();
     millis_t now = millis();
     if (ELAPSED(now, next_idle_ms)) {
       next_idle_ms = now + 200UL;
@@ -188,7 +188,10 @@ void cubic_b_spline(
       interp(position.z, target.z, t),  // FIXME. Wrong, since t is not linear in the distance.
       interp(position.i, target.i, t),  // FIXME. Wrong, since t is not linear in the distance.
       interp(position.j, target.j, t),  // FIXME. Wrong, since t is not linear in the distance.
-      interp(position.k, target.k, t)   // FIXME. Wrong, since t is not linear in the distance.
+      interp(position.k, target.k, t),  // FIXME. Wrong, since t is not linear in the distance.
+      interp(position.u, target.u, t),  // FIXME. Wrong, since t is not linear in the distance.
+      interp(position.v, target.v, t),  // FIXME. Wrong, since t is not linear in the distance.
+      interp(position.w, target.w, t)   // FIXME. Wrong, since t is not linear in the distance.
     );
     apply_motion_limits(new_bez);
     bez_target = new_bez;

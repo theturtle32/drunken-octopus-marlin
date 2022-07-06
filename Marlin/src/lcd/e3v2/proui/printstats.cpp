@@ -21,21 +21,20 @@
  */
 
 /**
- * DWIN Print Stats page
+ * Print Stats page for PRO UI
  * Author: Miguel A. Risco-Castillo (MRISCOC)
- * Version: 1.1
- * Date: 2022/01/09
- *
- * Based on the original code provided by Creality under GPL
+ * Version: 1.3.0
+ * Date: 2022/02/24
  */
 
 #include "../../../inc/MarlinConfigPre.h"
 
-#if BOTH(DWIN_CREALITY_LCD_ENHANCED, PRINTCOUNTER)
+#if BOTH(DWIN_LCD_PROUI, PRINTCOUNTER)
 
 #include "printstats.h"
 
 #include "../../../core/types.h"
+#include "../../../MarlinCore.h"
 #include "../../marlinui.h"
 #include "../../../module/printcounter.h"
 #include "dwin_lcd.h"
@@ -51,9 +50,9 @@ void PrintStatsClass::Draw() {
   constexpr int8_t MRG = 30;
 
   Title.ShowCaption(GET_TEXT_F(MSG_INFO_STATS_MENU));
-  DWINUI::ClearMenuArea();
+  DWINUI::ClearMainArea();
   Draw_Popup_Bkgd();
-  DWINUI::Draw_Icon(ICON_Continue_E, 86, 250);
+  DWINUI::Draw_Button(BTN_Continue, 86, 250);
   printStatistics ps = print_job_timer.getStats();
 
   sprintf_P(buf, PSTR(S_FMT ": %i"), GET_TEXT(MSG_INFO_PRINT_COUNT), ps.totalPrints);
@@ -72,7 +71,12 @@ void PrintStatsClass::Draw() {
 
 void PrintStatsClass::Reset() {
   print_job_timer.initStats();
-  HMI_AudioFeedback();
+  DONE_BUZZ(true);
 }
 
-#endif // DWIN_CREALITY_LCD_ENHANCED && PRINTCOUNTER
+void Goto_PrintStats() {
+  PrintStats.Draw();
+  HMI_SaveProcessID(WaitResponse);
+}
+
+#endif // DWIN_LCD_PROUI && PRINTCOUNTER

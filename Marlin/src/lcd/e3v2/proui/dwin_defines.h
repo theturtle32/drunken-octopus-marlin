@@ -22,18 +22,25 @@
 #pragma once
 
 /**
- * DWIN general defines and data structs
+ * DWIN general defines and data structs for PRO UI
  * Author: Miguel A. Risco-Castillo (MRISCOC)
- * Version: 3.9.2
- * Date: 2021/11/21
- *
- * Based on the original code provided by Creality under GPL
+ * Version: 3.11.2
+ * Date: 2022/02/28
  */
 
-//#define NEED_HEX_PRINT 1
 //#define DEBUG_DWIN 1
+//#define NEED_HEX_PRINT 1
 
-#include "../../../core/types.h"
+#include "../../../inc/MarlinConfigPre.h"
+#include <stddef.h>
+
+#define HAS_ESDIAG 1
+#define HAS_PIDPLOT 1
+#define HAS_GCODE_PREVIEW 1
+#if defined(__STM32F1__) || defined(STM32F1)
+  #define DASH_REDRAW 1
+#endif
+
 #include "../common/dwin_color.h"
 #if ENABLED(LED_CONTROL_MENU)
   #include "../../../feature/leds/leds.h"
@@ -57,12 +64,12 @@
 #define Def_Barfill_Color     BarFill_Color
 #define Def_Indicator_Color   Color_White
 #define Def_Coordinate_Color  Color_White
+#define Def_Button_Color      RGB( 0, 23, 16)
 
-//#define HAS_GCODE_PREVIEW 1
 #define HAS_ESDIAG 1
 
-#if ENABLED(LED_CONTROL_MENU, HAS_COLOR_LEDS)
-  #define Def_Leds_Color      LEDColorWhite()
+#if BOTH(LED_CONTROL_MENU, HAS_COLOR_LEDS)
+  #define Def_Leds_Color 0xFFFFFFFF
 #endif
 #if ENABLED(CASELIGHT_USES_BRIGHTNESS)
   #define Def_CaseLight_Brightness 255
@@ -101,15 +108,21 @@ typedef struct {
   #if ENABLED(PREVENT_COLD_EXTRUSION)
     int16_t ExtMinT = EXTRUDE_MINTEMP;
   #endif
-  // Led
-  #if BOTH(LED_CONTROL_MENU, HAS_COLOR_LEDS)
-    LEDColor Led_Color = Def_Leds_Color;
+  #if BOTH(HAS_HEATED_BED, PREHEAT_BEFORE_LEVELING)
+    int16_t BedLevT = LEVELING_BED_TEMP;
   #endif
-  // Case Light
-  #if ENABLED(CASELIGHT_USES_BRIGHTNESS)
-    uint8_t CaseLight_Brightness = Def_CaseLight_Brightness;
+  #if ENABLED(BAUD_RATE_GCODE)
+    bool Baud115K = false;
+  #endif
+  bool FullManualTramming = false;
+  // Led
+  #if ENABLED(MESH_BED_LEVELING)
+    float ManualZOffset = 0;
+  #endif
+  #if BOTH(LED_CONTROL_MENU, HAS_COLOR_LEDS)
+    uint32_t LED_Color = Def_Leds_Color;
   #endif
 } HMI_data_t;
 
-static constexpr size_t eeprom_data_size = 64;
+static constexpr size_t eeprom_data_size = sizeof(HMI_data_t);
 extern HMI_data_t HMI_data;

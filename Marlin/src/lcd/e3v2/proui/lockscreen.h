@@ -22,12 +22,10 @@
 #pragma once
 
 /**
- * Lock screen implementation for DWIN UI Enhanced implementation
+ * Lock screen implementation for PRO UI
  * Author: Miguel A. Risco-Castillo (MRISCOC)
- * Version: 2.1
- * Date: 2021/11/09
- *
- * Based on the original code provided by Creality under GPL
+ * Version: 2.2.0
+ * Date: 2022/04/11
  */
 
 #include "../common/encoder.h"

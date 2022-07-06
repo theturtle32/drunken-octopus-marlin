@@ -21,17 +21,15 @@
  */
 
 /**
- * DWIN UI Enhanced implementation
+ * DWIN Enhanced implementation for PRO UI
  * Author: Miguel A. Risco-Castillo (MRISCOC)
- * Version: 3.8.1
- * Date: 2021/11/09
- *
- * Based on the original code provided by Creality under GPL
+ * Version: 3.10.1
+ * Date: 2022/03/06
  */
 
 #include "../../../inc/MarlinConfigPre.h"
 
-#if ENABLED(DWIN_CREALITY_LCD_ENHANCED)
+#if ENABLED(DWIN_LCD_PROUI)
 
 #include "../../../inc/MarlinConfig.h"
 
@@ -149,7 +147,7 @@ void DWIN_SRAMToPic(uint8_t picID) {
 
 //--------------------------Test area -------------------------
 
-//void DWIN_ReadSRAM(uint16_t addr, uint8_t length, const char * const data) {
+//void DWIN_ReadSRAM(uint16_t addr, const uint8_t length, const char * const data) {
 //  size_t i = 0;
 //  DWIN_Byte(i, 0x32);
 //  DWIN_Byte(i, 0x5A);  // 0x5A Read from SRAM - 0xA5 Read from Flash
@@ -159,4 +157,4 @@ void DWIN_SRAMToPic(uint8_t picID) {
 //  DWIN_Send(i);
 //}
 
-#endif // DWIN_CREALITY_LCD_ENHANCED
+#endif // DWIN_LCD_PROUI

@@ -22,17 +22,26 @@
 #pragma once
 
 /**
- * Creality V24S1_301 (STM32F103RE / STM32F103RC) board pin assignments as found on Ender 3 S1
+ * Creality V24S1_301 (STM32F103RE / STM32F103RC) board pin assignments as found on Ender 3 S1.
+ * Also supports the STM32F4 version of the board with identical pin mapping.
  */
 
 #include "env_validate.h"
 
 #if HAS_MULTI_HOTEND || E_STEPPERS > 1
-  #error "Creality V4 only supports one hotend / E-stepper. Comment out this line to continue."
+  #error "Creality v24S1 only supports 1 hotend / E stepper."
 #endif
 
-#define BOARD_INFO_NAME      "Creality V24S1-301"
-#define DEFAULT_MACHINE_NAME "Ender 3 S1"
+#if BOTH(BLTOUCH, Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN)
+  #error "Disable Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN when using BLTOUCH with Creality V24S1-301."
+#endif
+
+#ifndef BOARD_INFO_NAME
+  #define BOARD_INFO_NAME      "Creality V24S1-301"
+#endif
+#ifndef DEFAULT_MACHINE_NAME
+  #define DEFAULT_MACHINE_NAME "Ender 3 S1"
+#endif
 
 //
 // Servos
@@ -44,7 +53,7 @@
 //
 // Limit Switches
 //
-#define Z_STOP_PIN                          PC14
+#define Z_STOP_PIN                          PA15
 
 #ifndef Z_MIN_PROBE_PIN
   #define Z_MIN_PROBE_PIN                   PC14  // BLTouch IN
@@ -62,5 +71,24 @@
 //
 #define HEATER_BED_PIN                      PA7   // HOT BED
 #define FAN1_PIN                            PC0   // extruder fan
+
+//
+// SD Card
+//
+#define ONBOARD_SPI_DEVICE                     1
+#define ONBOARD_SD_CS_PIN                   PA4   // SDSS
+
+//
+// M3/M4/M5 - Spindle/Laser Control
+//
+#if HAS_CUTTER
+  //#define HEATER_0_PIN                    -1
+  //#define HEATER_BED_PIN                  -1
+  #define FAN_PIN                           -1
+  #define SPINDLE_LASER_ENA_PIN             PC0   // FET 1
+  #define SPINDLE_LASER_PWM_PIN             PC0   // Bed FET
+  #define SPINDLE_DIR_PIN                   PC0   // FET 4
+  #define LASER_SOFT_PWM_PIN                PC0
+#endif
 
 #include "pins_CREALITY_V4.h"
