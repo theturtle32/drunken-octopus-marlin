@@ -15,7 +15,7 @@
 #
 
 fetch_default_config() {
-    CONF_URL=https://raw.githubusercontent.com/MarlinFirmware/Configurations/bugfix-2.0.x/config/default
+    CONF_URL=https://raw.githubusercontent.com/MarlinFirmware/Configurations/bugfix-2.1.x/config/default
     CONF_DIR=../default
     (wget $CONF_URL/Configuration.h -O $CONF_DIR/Configuration.h &&
     wget $CONF_URL/Configuration_adv.h -O $CONF_DIR/Configuration_adv.h &&

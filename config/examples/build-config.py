@@ -1809,7 +1809,7 @@ def make_config(PRINTER, TOOLHEAD):
 
         if USE_DUAL_Z_STEPPERS:
             MARLIN["Z_STEPPER_AUTO_ALIGN"]                   = True
-            MARLIN["NUM_Z_STEPPER_DRIVERS"]                  = 2
+            #MARLIN["NUM_Z_STEPPER_DRIVERS"]                  = 2
 
         if IS_MINI:
             AXIS_LEVELING_COMMANDS = (
