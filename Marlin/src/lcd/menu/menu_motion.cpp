@@ -326,7 +326,7 @@ void menu_motion() {
   // Level X Axis
   //
   #if defined(AXIS_LEVELING_COMMANDS)
-    GCODES_ITEM(MSG_LEVEL_X_AXIS, PSTR(AXIS_LEVELING_COMMANDS));
+    GCODES_ITEM(MSG_LEVEL_X_AXIS, FPSTR(AXIS_LEVELING_COMMANDS));
   #endif
 
   //
