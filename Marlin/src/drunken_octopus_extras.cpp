@@ -81,7 +81,7 @@
 /************************** INDEPENDENT Z AUTO-DETECT **************************/
 
 #if ENABLED(Z2_PRESENCE_CHECK)
-    #if NUM_Z_STEPPER_DRIVERS != 2
+    #ifndef Z2_DRIVER_TYPE
       #error Z2_PRESENCE_CHECK requires two Z stepper drivers
     #endif
     #ifndef AXIS_LEVELING_COMMANDS
