@@ -153,6 +153,7 @@ build_config accessory Quiver_TAZPro                             DingyCutworm_Ha
 build_config accessory Quiver_TAZPro                             Goldenrod_HardenedExtruder
 build_config accessory Quiver_TAZPro                             Lutefisk_M175
 build_config standard  Quiver_TAZPro                             Quiver_DualExtruder
+build_config custom    Quiver_TAZProBLTouch                      Lutefisk_M175
 build_config custom    Quiver_TAZProBLTouch                      CecropiaSilk_SingleExtruderAeroV2
 
 build_config standard  Redgum_TAZWorkhorse                       Goldenrod_HardenedExtruder
