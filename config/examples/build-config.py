@@ -298,6 +298,7 @@ def make_config(PRINTER, TOOLHEAD):
         USE_MIN_ENDSTOPS                                 = True
         USE_MAX_ENDSTOPS                                 = True
         USE_HOME_BUTTON                                  = False if PROBE_STYLE == "BLTouch" else True
+        USE_REPRAP_LCD_DISPLAY                           = False
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ 6")
         if USE_ARCHIM2:
             # Must use 12 character USB product name to prevent board lockups
@@ -307,7 +308,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("845f003c-aebd-4e53-a6b9-7d0984fde609")
-        MARLIN["SDSUPPORT"]                              = True
+        MARLIN["SDSUPPORT"]                              = False
         # Specify pin for bed washers. If commented out,
         # bed washers will use Z_MIN pin (i.e. bed washers
         # and homing button wired together)
@@ -316,7 +317,7 @@ def make_config(PRINTER, TOOLHEAD):
         if USE_ARCHIM2:
             MARLIN["STEALTHCHOP_XY"]                     = False
             MARLIN["STEALTHCHOP_Z"]                      = False
-            MARLIN["STEALTHCHOP_E"]                      = True
+            MARLIN["STEALTHCHOP_E"]                      = False
             MARLIN["HYBRID_THRESHOLD"]                   = False
 
     if "Hibiscus_Mini2" in PRINTER:
@@ -1284,7 +1285,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TEMP_HYSTERESIS"]                        = 10
         MARLIN["HEATER_0_MAXTEMP"]                       = 505
         MARLIN["THERMAL_PROTECTION_PERIOD"]              = 15  # Seconds
-        MARLIN["THERMAL_PROTECTION_HYSTERESIS"]          = 30  # Degrees Celsius    
+        MARLIN["THERMAL_PROTECTION_HYSTERESIS"]          = 30  # Degrees Celsius
     elif "Buda_SingleExtruder" in TOOLHEAD:
         MARLIN["TEMP_SENSOR_0"]                          = 7
         MARLIN["TEMP_RESIDENCY_TIME"]                    = 10
@@ -2041,6 +2042,10 @@ def make_config(PRINTER, TOOLHEAD):
         # { <off_time[1..15]>, <hysteresis_end[-3..12]>, hysteresis_start[1..8] }
         if USE_BTT_002 or "Guava_TAZ4" in PRINTER:
             MARLIN["CHOPPER_TIMING"]                     = "CHOPPER_DEFAULT_24V"
+        elif "Oliveoil_TAZ6" in PRINTER:
+            # For Turtlebot with his 0.9deg steppers from StepperOnline
+            # https://github.com/MarlinFirmware/Marlin/issues/18542#issuecomment-654535317
+            MARLIN["CHOPPER_TIMING"]                     = "CHOPPER_09STEP_24V"
         else:
             MARLIN["CHOPPER_TIMING"]                     = [ 3, -2, 6 ]
 
@@ -2496,7 +2501,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     # Values for XYZ vary by printer model, values for E vary by toolhead.
 
-    XY_STEPS                                             = 100
+    XY_STEPS                                             = 200
 
     if IS_MINI:
         if ENABLED("JUNCTION_DEVIATION"):
