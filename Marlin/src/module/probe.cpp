@@ -44,6 +44,10 @@
   #include "../feature/bedlevel/bedlevel.h"
 #endif
 
+#if ENABLED(BD_SENSOR)
+  #include "../feature/bedlevel/bdl/bdl.h"
+#endif
+
 #if ENABLED(DELTA)
   #include "delta.h"
 #endif
@@ -53,7 +57,7 @@
   float largest_sensorless_adj = 0;
 #endif
 
-#if ANY(HAS_QUIET_PROBING, USE_SENSORLESS)
+#if EITHER(HAS_QUIET_PROBING, USE_SENSORLESS)
   #include "stepper/indirection.h"
   #if BOTH(HAS_QUIET_PROBING, PROBING_ESTEPPERS_OFF)
     #include "stepper.h"
@@ -264,7 +268,57 @@ xyz_pos_t Probe::offset; // Initialized by settings.load()
     #endif
   }
 
-#endif // Z_PROBE_ALLEN_KEY
+#elif ENABLED(MAG_MOUNTED_PROBE)
+
+  typedef struct { float fr_mm_min; xyz_pos_t where; } mag_probe_move_t;
+
+  inline void run_deploy_moves_script() {
+    #ifdef MAG_MOUNTED_DEPLOY_1
+      constexpr mag_probe_move_t deploy_1 = MAG_MOUNTED_DEPLOY_1;
+      do_blocking_move_to(deploy_1.where, MMM_TO_MMS(deploy_1.fr_mm_min));
+    #endif
+    #ifdef MAG_MOUNTED_DEPLOY_2
+      constexpr mag_probe_move_t deploy_2 = MAG_MOUNTED_DEPLOY_2;
+      do_blocking_move_to(deploy_2.where, MMM_TO_MMS(deploy_2.fr_mm_min));
+    #endif
+    #ifdef MAG_MOUNTED_DEPLOY_3
+      constexpr mag_probe_move_t deploy_3 = MAG_MOUNTED_DEPLOY_3;
+      do_blocking_move_to(deploy_3.where, MMM_TO_MMS(deploy_3.fr_mm_min));
+    #endif
+    #ifdef MAG_MOUNTED_DEPLOY_4
+      constexpr mag_probe_move_t deploy_4 = MAG_MOUNTED_DEPLOY_4;
+      do_blocking_move_to(deploy_4.where, MMM_TO_MMS(deploy_4.fr_mm_min));
+    #endif
+    #ifdef MAG_MOUNTED_DEPLOY_5
+      constexpr mag_probe_move_t deploy_5 = MAG_MOUNTED_DEPLOY_5;
+      do_blocking_move_to(deploy_5.where, MMM_TO_MMS(deploy_5.fr_mm_min));
+    #endif
+  }
+
+  inline void run_stow_moves_script() {
+    #ifdef MAG_MOUNTED_STOW_1
+      constexpr mag_probe_move_t stow_1 = MAG_MOUNTED_STOW_1;
+      do_blocking_move_to(stow_1.where, MMM_TO_MMS(stow_1.fr_mm_min));
+    #endif
+    #ifdef MAG_MOUNTED_STOW_2
+      constexpr mag_probe_move_t stow_2 = MAG_MOUNTED_STOW_2;
+      do_blocking_move_to(stow_2.where, MMM_TO_MMS(stow_2.fr_mm_min));
+    #endif
+    #ifdef MAG_MOUNTED_STOW_3
+      constexpr mag_probe_move_t stow_3 = MAG_MOUNTED_STOW_3;
+      do_blocking_move_to(stow_3.where, MMM_TO_MMS(stow_3.fr_mm_min));
+    #endif
+    #ifdef MAG_MOUNTED_STOW_4
+      constexpr mag_probe_move_t stow_4 = MAG_MOUNTED_STOW_4;
+      do_blocking_move_to(stow_4.where, MMM_TO_MMS(stow_4.fr_mm_min));
+    #endif
+    #ifdef MAG_MOUNTED_STOW_5
+      constexpr mag_probe_move_t stow_5 = MAG_MOUNTED_STOW_5;
+      do_blocking_move_to(stow_5.where, MMM_TO_MMS(stow_5.fr_mm_min));
+    #endif
+  }
+
+#endif // MAG_MOUNTED_PROBE
 
 #if HAS_QUIET_PROBING
 
@@ -350,7 +404,7 @@ FORCE_INLINE void probe_specific_action(const bool deploy) {
 
     servo[Z_PROBE_SERVO_NR].move(servo_angles[Z_PROBE_SERVO_NR][deploy ? 0 : 1]);
 
-  #elif EITHER(TOUCH_MI_PROBE, Z_PROBE_ALLEN_KEY)
+  #elif ANY(TOUCH_MI_PROBE, Z_PROBE_ALLEN_KEY, MAG_MOUNTED_PROBE)
 
     deploy ? run_deploy_moves_script() : run_stow_moves_script();
 
@@ -827,6 +881,10 @@ float Probe::probe_at_point(const_float_t rx, const_float_t ry, const ProbePtRai
 
   // Move the probe to the starting XYZ
   do_blocking_move_to(npos, feedRate_t(XY_PROBE_FEEDRATE_MM_S));
+
+  #if ENABLED(BD_SENSOR)
+    return current_position.z - bdl.read(); // Difference between Z-home-relative Z and sensor reading
+  #endif
 
   float measured_z = NAN;
   if (!deploy()) {

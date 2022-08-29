@@ -255,6 +255,7 @@ namespace Language_en {
   LSTR MSG_UBL_SMART_FILLIN               = _UxGT("Smart Fill-in");
   LSTR MSG_UBL_FILLIN_MESH                = _UxGT("Fill-in Mesh");
   LSTR MSG_UBL_MESH_FILLED                = _UxGT("Missing Points Filled");
+  LSTR MSG_UBL_MESH_INVALID               = _UxGT("Invalid Mesh");
   LSTR MSG_UBL_INVALIDATE_ALL             = _UxGT("Invalidate All");
   LSTR MSG_UBL_INVALIDATE_CLOSEST         = _UxGT("Invalidate Closest");
   LSTR MSG_UBL_FINE_TUNE_ALL              = _UxGT("Fine Tune All");
@@ -423,7 +424,6 @@ namespace Language_en {
   LSTR MSG_ADVANCE_K_E                    = _UxGT("Advance K *");
   LSTR MSG_CONTRAST                       = _UxGT("LCD Contrast");
   LSTR MSG_BRIGHTNESS                     = _UxGT("LCD Brightness");
-  LSTR MSG_LCD_TIMEOUT_SEC                = _UxGT("LCD Timeout (s)");
   LSTR MSG_SCREEN_TIMEOUT                 = _UxGT("LCD Timeout (m)");
   LSTR MSG_BRIGHTNESS_OFF                 = _UxGT("Backlight Off");
   LSTR MSG_STORE_EEPROM                   = _UxGT("Store Settings");

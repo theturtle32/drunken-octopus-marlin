@@ -121,17 +121,9 @@ constexpr uint8_t epps = ENCODER_PULSES_PER_STEP;
   bool MarlinUI::sound_on = ENABLED(SOUND_ON_DEFAULT);
 #endif
 
-#if EITHER(PCA9632_BUZZER, HAS_BEEPER)
-  #if ENABLED(PCA9632_BUZZER)
-    #include "../feature/leds/pca9632.h"
-  #endif
+#if ENABLED(PCA9632_BUZZER)
   void MarlinUI::buzz(const long duration, const uint16_t freq) {
-    if (!sound_on) return;
-    #if ENABLED(PCA9632_BUZZER)
-      PCA9632_buzz(duration, freq);
-    #elif HAS_BEEPER
-      buzzer.tone(duration, freq);
-    #endif
+    if (sound_on) PCA9632_buzz(duration, freq);
   }
 #endif
 
@@ -182,22 +174,26 @@ constexpr uint8_t epps = ENCODER_PULSES_PER_STEP;
   volatile int8_t encoderDiff; // Updated in update_buttons, added to encoderPosition every LCD update
 #endif
 
-#if LCD_BACKLIGHT_TIMEOUT
+#if LCD_BACKLIGHT_TIMEOUT_MINS
 
-  uint16_t MarlinUI::lcd_backlight_timeout; // Initialized by settings.load()
+  constexpr uint8_t MarlinUI::backlight_timeout_min, MarlinUI::backlight_timeout_max;
+
+  uint8_t MarlinUI::backlight_timeout_minutes; // Initialized by settings.load()
   millis_t MarlinUI::backlight_off_ms = 0;
   void MarlinUI::refresh_backlight_timeout() {
-    backlight_off_ms = lcd_backlight_timeout ? millis() + lcd_backlight_timeout * 1000UL : 0;
+    backlight_off_ms = backlight_timeout_minutes ? millis() + backlight_timeout_minutes * 60UL * 1000UL : 0;
     WRITE(LCD_BACKLIGHT_PIN, HIGH);
   }
 
 #elif HAS_DISPLAY_SLEEP
 
+  constexpr uint8_t MarlinUI::sleep_timeout_min, MarlinUI::sleep_timeout_max;
+
   uint8_t MarlinUI::sleep_timeout_minutes; // Initialized by settings.load()
   millis_t MarlinUI::screen_timeout_millis = 0;
   void MarlinUI::refresh_screen_timeout() {
     screen_timeout_millis = sleep_timeout_minutes ? millis() + sleep_timeout_minutes * 60UL * 1000UL : 0;
-    sleep_off();
+    sleep_display(false);
   }
 
 #endif
@@ -685,7 +681,7 @@ void MarlinUI::init() {
       if (old_frm != new_frm) {
         feedrate_percentage = new_frm;
         encoderPosition = 0;
-        #if BOTH(HAS_BUZZER, BEEP_ON_FEEDRATE_CHANGE)
+        #if BOTH(HAS_SOUND, BEEP_ON_FEEDRATE_CHANGE)
           static millis_t next_beep;
           #ifndef GOT_MS
             const millis_t ms = millis();
@@ -743,11 +739,12 @@ void MarlinUI::init() {
       UNUSED(clear_buttons);
     #endif
 
-    #if HAS_CHIRP
-      chirp(); // Buzz and wait. Is the delay needed for buttons to settle?
-      #if BOTH(HAS_MARLINUI_MENU, HAS_BEEPER)
+    chirp();  // Buzz and wait. Is the delay needed for buttons to settle?
+
+    #if HAS_CHIRP && HAS_MARLINUI_MENU
+      #if HAS_BEEPER
         for (int8_t i = 5; i--;) { buzzer.tick(); delay(2); }
-      #elif HAS_MARLINUI_MENU
+      #else
         delay(10);
       #endif
     #endif
@@ -1066,7 +1063,7 @@ void MarlinUI::init() {
 
           reset_status_timeout(ms);
 
-          #if LCD_BACKLIGHT_TIMEOUT
+          #if LCD_BACKLIGHT_TIMEOUT_MINS
             refresh_backlight_timeout();
           #elif HAS_DISPLAY_SLEEP
             refresh_screen_timeout();
@@ -1176,14 +1173,14 @@ void MarlinUI::init() {
           return_to_status();
       #endif
 
-      #if LCD_BACKLIGHT_TIMEOUT
+      #if LCD_BACKLIGHT_TIMEOUT_MINS
         if (backlight_off_ms && ELAPSED(ms, backlight_off_ms)) {
           WRITE(LCD_BACKLIGHT_PIN, LOW); // Backlight off
           backlight_off_ms = 0;
         }
       #elif HAS_DISPLAY_SLEEP
         if (screen_timeout_millis && ELAPSED(ms, screen_timeout_millis))
-          sleep_on();
+          sleep_display();
       #endif
 
       // Change state of drawing flag between screen updates
