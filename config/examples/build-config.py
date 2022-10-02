@@ -1969,9 +1969,8 @@ def make_config(PRINTER, TOOLHEAD):
 
     # Enable linear advance, but leave K at zero so
     # it is not used unless the user requests it.
-    if not USE_LESS_MEMORY:
-        MARLIN["LIN_ADVANCE"]                            = True
-        MARLIN["LIN_ADVANCE_K"]                          = 0.0
+    MARLIN["LIN_ADVANCE"]                                = True
+    MARLIN["LIN_ADVANCE_K"]                              = 0.0
 
     if ENABLED("FILAMENT_RUNOUT_SENSOR"):
         MARLIN["NUM_RUNOUT_SENSORS"]                     = MARLIN["EXTRUDERS"]
