@@ -1970,7 +1970,7 @@ def make_config(PRINTER, TOOLHEAD):
     # Enable linear advance, but leave K at zero so
     # it is not used unless the user requests it.
     MARLIN["LIN_ADVANCE"]                                = True
-    MARLIN["LIN_ADVANCE_K"]                              = 0.0
+    MARLIN["ADVANCE_K"]                                  = 0.0
 
     if ENABLED("FILAMENT_RUNOUT_SENSOR"):
         MARLIN["NUM_RUNOUT_SENSORS"]                     = MARLIN["EXTRUDERS"]
@@ -2624,7 +2624,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["LCD_INFO_MENU"]                          = True
         MARLIN["ENCODER_PULSES_PER_STEP"]                = 2
         MARLIN["ENCODER_STEPS_PER_MENU_ITEM"]            = 1
-        MARLIN["LCD_SET_PROGRESS_MANUALLY"]              = True
+        MARLIN["SET_PROGRESS_MANUALLY"]                  = True
         MARLIN["SCROLL_LONG_FILENAMES"]                  = True
         MARLIN["STATUS_MESSAGE_SCROLLING"]               = True
         MARLIN["BABYSTEP_ZPROBE_GFX_OVERLAY"]            = True
@@ -2651,7 +2651,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["TOUCH_UI_UTF8_COPYRIGHT"]                = True
         MARLIN["TOUCH_UI_UTF8_SUPERSCRIPTS"]             = True
         MARLIN["TOUCH_UI_DEVELOPER_MENU"]                = not "SynDaver" in PRINTER
-        MARLIN["LCD_SET_PROGRESS_MANUALLY"]              = True
+        MARLIN["SET_PROGRESS_MANUALLY"]                  = True
         MARLIN["SCROLL_LONG_FILENAMES"]                  = True
         MARLIN["NO_TIME_AFTER_SD_PRINT"]                 = True
         MARLIN["LCD_TIMEOUT_TO_STATUS"]                  = 0

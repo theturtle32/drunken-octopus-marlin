@@ -3,6 +3,7 @@
 #define ADVANCED_OK
 #define ADVANCED_PAUSE_FEATURE
 #define ADVANCED_PAUSE_PURGE_FEEDRATE 1.0
+#define ADVANCE_K 0.0
 #define AUTO_BED_LEVELING_BILINEAR
 #define BABYSTEPPING
 #define BABYSTEP_ALWAYS_AVAILABLE
@@ -98,9 +99,7 @@
 #define INVERT_Y_DIR true
 #define INVERT_Z_DIR false
 #define LCD_INFO_MENU
-#define LCD_SET_PROGRESS_MANUALLY
 #define LIN_ADVANCE
-#define LIN_ADVANCE_K 0.0
 #define MACHINE_UUID "845f003c-aebd-4e53-a6b9-7d0984fde609"
 #define MANUAL_FEEDRATE {3000, 3000, 240, 60.0}
 #define MARLIN_BRICKOUT
@@ -154,6 +153,7 @@
 #define SD_SPI_SPEED SPI_FULL_SPEED
 #define SERIAL_PORT 0
 #define SERIAL_PORT_2 1
+#define SET_PROGRESS_MANUALLY
 #define SHOW_CUSTOM_BOOTSCREEN
 #define SOFT_PWM_SCALE 4
 #define SOURCE_CODE_URL "https://github.com/marciot/drunken-octopus-marlin"
