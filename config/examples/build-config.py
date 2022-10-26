@@ -2625,6 +2625,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["ENCODER_PULSES_PER_STEP"]                = 2
         MARLIN["ENCODER_STEPS_PER_MENU_ITEM"]            = 1
         MARLIN["SET_PROGRESS_MANUALLY"]                  = True
+        MARLIN["SET_PROGRESS_PERCENT"]                   = True
         MARLIN["SCROLL_LONG_FILENAMES"]                  = True
         MARLIN["STATUS_MESSAGE_SCROLLING"]               = True
         MARLIN["BABYSTEP_ZPROBE_GFX_OVERLAY"]            = True
