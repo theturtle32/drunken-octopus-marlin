@@ -60,7 +60,7 @@ TOOLHEAD_CHOICES = [
     "Quiver_DualExtruder",
     "KangarooPaw_SingleExtruder",
     "Lutefisk_M175",
-    "E3D_Hermera",
+    "H175_Hemera",
     "SynDaver_Level",
     "RTD_Pt1000Aero"
 ]
@@ -1182,7 +1182,7 @@ def make_config(PRINTER, TOOLHEAD):
         "Quiver_DualExtruder",
         "KangarooPaw_SingleExtruder",
         "Lutefisk_M175",
-        "E3D_Hermera",
+        "H175_Hemera",
         "RTD_Pt1000Aero"
     ]
 
@@ -1248,12 +1248,12 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]             = 30
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
 
-    if TOOLHEAD in ["E3D_Hermera"]:
+    if TOOLHEAD in ["H175_Hemera"]:
         TOOLHEAD_TYPE                                    = "Hermera"
         TOOLHEAD_BLOCK                                   = "E3D_Hermera_V6"
         E_STEPS                                          = 400
         MOTOR_CURRENT_E                                  = 960 # mA
-        MARLIN["TOOLHEAD_NAME"]                          = C_STRING("E3D Hermera")
+        MARLIN["TOOLHEAD_NAME"]                          = C_STRING("H175")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 1.75
@@ -1382,9 +1382,9 @@ def make_config(PRINTER, TOOLHEAD):
 
     elif TOOLHEAD_BLOCK == "E3D_Hermera_V6":
         # E3D Hermera with LulzBot V6 block
-        MARLIN["DEFAULT_Kp"]                             = 25.2
-        MARLIN["DEFAULT_Ki"]                             =  1.9
-        MARLIN["DEFAULT_Kd"]                             = 84.17
+        MARLIN["DEFAULT_Kp"]                             = 22.89
+        MARLIN["DEFAULT_Ki"]                             =  2.55
+        MARLIN["DEFAULT_Kd"]                             = 51.27
 
     elif TOOLHEAD_BLOCK == "E3D_Titan_Aero_Volcano":
         # E3D Titan Aero with Volcano block
