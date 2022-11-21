@@ -175,7 +175,6 @@
 #define SERIAL_PORT -1
 #define SERVO_DELAY {1000, 1000}
 #define SET_PROGRESS_MANUALLY
-#define SET_PROGRESS_PERCENT
 #define SHOW_CUSTOM_BOOTSCREEN
 #define SOFT_PWM_SCALE 4
 #define SOURCE_CODE_URL "https://github.com/marciot/drunken-octopus-marlin"
