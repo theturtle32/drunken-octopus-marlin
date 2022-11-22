@@ -1970,7 +1970,10 @@ def make_config(PRINTER, TOOLHEAD):
     # Enable linear advance, but leave K at zero so
     # it is not used unless the user requests it.
     MARLIN["LIN_ADVANCE"]                                = True
-    MARLIN["ADVANCE_K"]                                  = 0.0
+    if MARLIN["EXTRUDERS"] > 1 and ENABLED("DISTINCT_E_FACTORS"):
+        MARLIN["ADVANCE_K"]                              = [0.0,0.0]
+    else:
+        MARLIN["ADVANCE_K"]                              = 0.0
 
     if ENABLED("FILAMENT_RUNOUT_SENSOR"):
         MARLIN["NUM_RUNOUT_SENSORS"]                     = MARLIN["EXTRUDERS"]
