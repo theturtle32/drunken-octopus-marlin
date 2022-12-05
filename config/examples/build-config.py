@@ -2631,7 +2631,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["SET_PROGRESS_PERCENT"]                   = True
         MARLIN["SCROLL_LONG_FILENAMES"]                  = True
         MARLIN["STATUS_MESSAGE_SCROLLING"]               = True
-        MARLIN["BABYSTEP_ZPROBE_GFX_OVERLAY"]            = True
+        MARLIN["BABYSTEP_GFX_OVERLAY"]                   = True
         MARLIN["DOUBLECLICK_FOR_Z_BABYSTEPPING"]         = True
         MARLIN["SDSUPPORT"]                              = True
         MARLIN["INDIVIDUAL_AXIS_HOMING_MENU"]            = True
@@ -2695,7 +2695,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["PID_EDIT_MENU"]                          = False
     if USE_LESS_MEMORY >= 3:
         MARLIN["INDIVIDUAL_AXIS_HOMING_MENU"]            = False
-        MARLIN["BABYSTEP_ZPROBE_GFX_OVERLAY"]            = False
+        MARLIN["BABYSTEP_GFX_OVERLAY"]                   = False
         MARLIN["GCODE_MACROS"]                           = False
     if USE_LESS_MEMORY >= 4:
         MARLIN["PID_AUTOTUNE_MENU"]                      = False
