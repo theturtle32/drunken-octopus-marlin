@@ -61,6 +61,7 @@ TOOLHEAD_CHOICES = [
     "KangarooPaw_SingleExtruder",
     "Lutefisk_M175",
     "H175_Hemera",
+    "M175_Mosquito",
     "SynDaver_Level",
     "RTD_Pt1000Aero"
 ]
@@ -1098,6 +1099,7 @@ def make_config(PRINTER, TOOLHEAD):
                     "DingyCutworm_HardenedSteelPlus",
                     "Goldenrod_HardenedExtruder",
                     "Lutefisk_M175",
+                    "M175_Mosquito",
                     "RTD_Pt1000Aero"]:
         MOTOR_CURRENT_E                                  = 960 # mA
 
@@ -1166,7 +1168,18 @@ def make_config(PRINTER, TOOLHEAD):
         TOOLHEAD_X_MAX_ADJ                               = -6.5
         TOOLHEAD_Y_MIN_ADJ                               =  0.1
         TOOLHEAD_Y_MAX_ADJ                               = -13.5
-        MARLIN["TOOLHEAD_NAME"]                          = C_STRING("M175")
+        MARLIN["TOOLHEAD_NAME"]                          = C_STRING("M175 v1")
+        #         16 chars max                                       ^^^^^^^^^^^^^^^
+        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 1.75
+        MARLIN["FILAMENT_CHANGE_FAST_LOAD_LENGTH"]       = 65
+        MARLIN["INVERT_E0_DIR"]                          = 'true'
+
+    if TOOLHEAD in ["M175_Mosquito"]:
+        TOOLHEAD_TYPE                                    = "HardenedSteelPlus"
+        TOOLHEAD_BLOCK                                   = "SliceEngineering_Mosquito"
+        E_STEPS                                          = 415
+        MARLIN["TOOLHEAD_NAME"]                          = C_STRING("M175 v2")
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 1.75
@@ -1183,6 +1196,7 @@ def make_config(PRINTER, TOOLHEAD):
         "KangarooPaw_SingleExtruder",
         "Lutefisk_M175",
         "H175_Hemera",
+        "M175_Mosquito",
         "RTD_Pt1000Aero"
     ]
 

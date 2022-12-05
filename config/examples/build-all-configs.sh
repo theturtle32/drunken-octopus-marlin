@@ -52,7 +52,7 @@ build_config accessory Gladiola_Mini                             AchemonSphinx_S
 build_config accessory Gladiola_Mini                             BandedTiger_HardenedSteel
 build_config accessory Gladiola_Mini                             DingyCutworm_HardenedSteelPlus
 build_config accessory Gladiola_Mini                             Goldenrod_HardenedExtruder
-build_config accessory Gladiola_Mini                             Lutefisk_M175
+build_config accessory Gladiola_Mini                             M175_Mosquito
 
 build_config custom    Gladiola_MiniLCD                          Gladiola_SingleExtruder
 build_config custom    Gladiola_MiniLCD                          Finch_Aerostruder
@@ -62,7 +62,7 @@ build_config custom    Gladiola_MiniLCD                          AchemonSphinx_S
 build_config custom    Gladiola_MiniLCD                          BandedTiger_HardenedSteel
 build_config custom    Gladiola_MiniLCD                          DingyCutworm_HardenedSteelPlus
 build_config custom    Gladiola_MiniLCD                          Goldenrod_HardenedExtruder
-build_config custom    Gladiola_MiniLCD                          Lutefisk_M175
+build_config custom    Gladiola_MiniLCD                          M175_Mosquito
 build_config custom    Gladiola_MiniTouchUSB                     Gladiola_SingleExtruder
 build_config custom    Gladiola_MiniEinsyLCD                     Gladiola_SingleExtruder
 build_config custom    Gladiola_MiniEinsyLCD                     CecropiaSilk_SingleExtruderAeroV2
@@ -75,7 +75,7 @@ build_config standard  Hibiscus_Mini2                            CecropiaSilk_Si
 build_config accessory Hibiscus_Mini2                            BandedTiger_HardenedSteel
 build_config accessory Hibiscus_Mini2                            DingyCutworm_HardenedSteelPlus
 build_config accessory Hibiscus_Mini2                            Goldenrod_HardenedExtruder
-build_config accessory Hibiscus_Mini2                            Lutefisk_M175
+build_config accessory Hibiscus_Mini2                            M175_Mosquito
 build_config custom    Hibiscus_Mini2TouchSD                     CecropiaSilk_SingleExtruderAeroV2
 build_config custom    Hibiscus_Mini2TouchUSB                    CecropiaSilk_SingleExtruderAeroV2
 
@@ -96,7 +96,7 @@ build_config accessory Juniper_TAZ5                              AchemonSphinx_S
 build_config accessory Juniper_TAZ5                              BandedTiger_HardenedSteel
 build_config accessory Juniper_TAZ5                              DingyCutworm_HardenedSteelPlus
 build_config accessory Juniper_TAZ5                              Goldenrod_HardenedExtruder
-build_config accessory Juniper_TAZ5                              Lutefisk_M175
+build_config accessory Juniper_TAZ5                              M175_Mosquito
 build_config custom    Juniper_TAZ5Archim                        Tilapia_SingleExtruder
 build_config custom    Juniper_TAZ5Archim                        Angelfish_Aerostruder
 build_config custom    Juniper_TAZ5Archim                        Opah_Moarstruder
@@ -119,6 +119,7 @@ build_config accessory Oliveoil_TAZ6                             BandedTiger_Har
 build_config accessory Oliveoil_TAZ6                             DingyCutworm_HardenedSteelPlus
 build_config accessory Oliveoil_TAZ6                             Goldenrod_HardenedExtruder
 build_config custom    Oliveoil_TAZ6                             H175_Hemera
+build_config custom    Oliveoil_TAZ6                             M175_Mosquito
 build_config custom    Oliveoil_TAZ6                             Lutefisk_M175
 build_config custom    Oliveoil_TAZ6                             RTD_Pt1000Aero
 build_config custom    Oliveoil_TAZ6Archim                       Opah_Moarstruder
@@ -129,12 +130,12 @@ build_config custom    Oliveoil_TAZ6Archim                       CecropiaSilk_Si
 build_config custom    Oliveoil_TAZ6Archim                       Yellowfin_DualExtruderV3
 build_config custom    Oliveoil_TAZ6Archim                       Angelfish_Aerostruder
 build_config custom    Oliveoil_TAZ6Archim                       H175_Hemera
-build_config custom    Oliveoil_TAZ6Archim                       Lutefisk_M175
+build_config custom    Oliveoil_TAZ6Archim                       M175_Mosquito
 build_config custom    Oliveoil_TAZ6BLTouch                      CecropiaSilk_SingleExtruderAeroV2
 build_config custom    Oliveoil_TAZ6BLTouch                      Angelfish_Aerostruder
 build_config custom    Oliveoil_TAZ6BLTouch                      Tilapia_SingleExtruder
 build_config custom    Oliveoil_TAZ6BLTouch                      H175_Hemera
-build_config custom    Oliveoil_TAZ6BLTouch                      Lutefisk_M175
+build_config custom    Oliveoil_TAZ6BLTouch                      M175_Mosquito
 build_config custom    Oliveoil_TAZ6BLTouch                      Yellowfin_DualExtruderV3
 build_config custom    Oliveoil_TAZ6BLTouchHallEffect            Yellowfin_DualExtruderV3
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                Opah_Moarstruder
@@ -142,7 +143,7 @@ build_config custom    Oliveoil_TAZ6ArchimBLTouch                Tilapia_SingleE
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                CecropiaSilk_SingleExtruderAeroV2
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                Angelfish_Aerostruder
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                AchemonSphinx_SmallLayer
-build_config custom    Oliveoil_TAZ6ArchimBLTouch                Lutefisk_M175
+build_config custom    Oliveoil_TAZ6ArchimBLTouch                M175_Mosquito
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                H175_Hemera
 build_config custom    Oliveoil_TAZ6ArchimBLTouch                Yellowfin_DualExtruderV3
 
@@ -151,9 +152,9 @@ build_config accessory Quiver_TAZPro                             CecropiaSilk_Si
 build_config accessory Quiver_TAZPro                             BandedTiger_HardenedSteel
 build_config accessory Quiver_TAZPro                             DingyCutworm_HardenedSteelPlus
 build_config accessory Quiver_TAZPro                             Goldenrod_HardenedExtruder
-build_config accessory Quiver_TAZPro                             Lutefisk_M175
+build_config accessory Quiver_TAZPro                             M175_Mosquito
 build_config standard  Quiver_TAZPro                             Quiver_DualExtruder
-build_config custom    Quiver_TAZProBLTouch                      Lutefisk_M175
+build_config custom    Quiver_TAZProBLTouch                      M175_Mosquito
 build_config custom    Quiver_TAZProBLTouch                      H175_Hemera
 build_config custom    Quiver_TAZProBLTouch                      CecropiaSilk_SingleExtruderAeroV2
 
@@ -164,13 +165,13 @@ build_config accessory Redgum_TAZWorkhorse                       BandedTiger_Har
 build_config accessory Redgum_TAZWorkhorse                       DingyCutworm_HardenedSteelPlus
 build_config accessory Redgum_TAZWorkhorse                       Yellowfin_DualExtruderV3
 build_config accessory Redgum_TAZWorkhorse                       H175_Hemera
-build_config accessory Redgum_TAZWorkhorse                       Lutefisk_M175
+build_config accessory Redgum_TAZWorkhorse                       M175_Mosquito
 build_config custom    Redgum_TAZWorkhorseArchim                 Goldenrod_HardenedExtruder
 build_config custom    Redgum_TAZWorkhorseArchim                 H175_Hemera
-build_config custom    Redgum_TAZWorkhorseArchim                 Lutefisk_M175
+build_config custom    Redgum_TAZWorkhorseArchim                 M175_Mosquito
 build_config custom    Redgum_TAZWorkhorseBLTouch                Goldenrod_HardenedExtruder
 build_config custom    Redgum_TAZWorkhorseBLTouch                H175_Hemera
-build_config custom    Redgum_TAZWorkhorseBLTouch                Lutefisk_M175
+build_config custom    Redgum_TAZWorkhorseBLTouch                M175_Mosquito
 build_config custom    Redgum_TAZWorkhorseArchimBLTouch          Goldenrod_HardenedExtruder
 build_config custom    Redgum_TAZWorkhorseArchimBLTouch          H175_Hemera
 build_config custom    Redgum_TAZWorkhorseArchimTouchUSBBLTouch  H175_Hemera
