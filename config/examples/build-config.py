@@ -298,7 +298,7 @@ def make_config(PRINTER, TOOLHEAD):
         USE_NORMALLY_CLOSED_ENDSTOPS                     = True
         USE_MIN_ENDSTOPS                                 = True
         USE_MAX_ENDSTOPS                                 = True
-        USE_HOME_BUTTON                                  = False if PROBE_STYLE == "BLTouch" else True
+        USE_HOME_BUTTON                                  = True
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ 6")
         if USE_ARCHIM2:
             # Must use 12 character USB product name to prevent board lockups
@@ -606,10 +606,12 @@ def make_config(PRINTER, TOOLHEAD):
     if "BLTouch" in PRINTER:
         PROBE_STYLE                                      = "BLTouch"
         USE_BED_LEVELING                                 = True
+        USE_HOME_BUTTON                                  = False
 
     if "Inductive" in PRINTER:
         PROBE_STYLE                                      = "Inductive"
         USE_BED_LEVELING                                 = True
+        USE_HOME_BUTTON                                  = False
 
     if "HallEffect" in PRINTER:
         MARLIN["FILAMENT_MOTION_SENSOR"]                 = True
