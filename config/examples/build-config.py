@@ -1077,6 +1077,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["EXTRUDERS"]                              = 2
         MARLIN["TEMP_SENSOR_1"]                          = 5
         MARLIN["DISTINCT_E_FACTORS"]                     = True
+        MARLIN["PID_PARAMS_PER_HOTEND"]                  = True
         MARLIN["TOOLCHANGE_ZRAISE"]                      = 2
         MARLIN["INVERT_E1_DIR"]                          = 'false'
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
