@@ -32,6 +32,8 @@
 
 #if IS_SCARA
   #include "scara.h"
+#elif ENABLED(POLAR)
+  #include "polar.h"
 #endif
 
 // Error margin to work around float imprecision
@@ -344,7 +346,7 @@ inline void prepare_internal_move_to_destination(const_feedRate_t fr_mm_s=0.0f) 
 /**
  * Blocking movement and shorthand functions
  */
-void do_blocking_move_to(NUM_AXIS_ARGS(const float), const_feedRate_t fr_mm_s=0.0f);
+void do_blocking_move_to(NUM_AXIS_ARGS(const_float_t), const_feedRate_t fr_mm_s=0.0f);
 void do_blocking_move_to(const xy_pos_t &raw, const_feedRate_t fr_mm_s=0.0f);
 void do_blocking_move_to(const xyz_pos_t &raw, const_feedRate_t fr_mm_s=0.0f);
 void do_blocking_move_to(const xyze_pos_t &raw, const_feedRate_t fr_mm_s=0.0f);
@@ -461,7 +463,7 @@ inline bool all_axes_trusted()                        { return main_axes_mask ==
 void home_if_needed(const bool keeplev=false);
 
 #if ENABLED(NO_MOTION_BEFORE_HOMING)
-  #define MOTION_CONDITIONS (IsRunning() && !homing_needed_error())
+  #define MOTION_CONDITIONS (TERN(NO_MOTION_BEFORE_HOMING_WORKAROUND, parser.seen('U'), false) || (IsRunning() && !homing_needed_error()))
 #else
   #define MOTION_CONDITIONS IsRunning()
 #endif
@@ -616,7 +618,7 @@ void home_if_needed(const bool keeplev=false);
 #endif
 
 #if HAS_M206_COMMAND
-  void set_home_offset(const AxisEnum axis, const float v);
+  void set_home_offset(const AxisEnum axis, const_float_t v);
 #endif
 
 #if USE_SENSORLESS
