@@ -1621,7 +1621,7 @@ function make_config(PRINTER, TOOLHEAD) {
     MARLIN["SOFT_PWM_SCALE"]                             = 4
 
     MARLIN["ADAPTIVE_FAN_SLOWING"]                       = true
-    MARLIN["NO_FAN_SLOWING_IN_PID_TUNING"]               = true
+    MARLIN["TEMP_TUNING_MAINTAIN_FAN"]                   = true
 
     MARLIN["USE_CONTROLLER_FAN"]                         = true
     if (USE_EINSY_RETRO || USE_EINSY_RAMBO || USE_BTT_002) {
