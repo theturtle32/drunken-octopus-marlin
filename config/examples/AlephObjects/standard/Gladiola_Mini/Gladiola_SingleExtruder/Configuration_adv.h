@@ -21,7 +21,7 @@
  */
 #pragma once
 
-#define CONFIG_EXAMPLES_DIR "config/default"
+#define CONFIG_EXAMPLES_DIR "config/default" 
 
 /**
  * Configuration_adv.h
@@ -302,12 +302,12 @@
  * THERMAL_PROTECTION_HYSTERESIS and/or THERMAL_PROTECTION_PERIOD
  */
 #if ENABLED(THERMAL_PROTECTION_HOTENDS)
-  #define THERMAL_PROTECTION_PERIOD 15 // <-- changed:  Seconds
-  #define THERMAL_PROTECTION_HYSTERESIS 30 // <-- changed:  Degrees Celsius
+  #define THERMAL_PROTECTION_PERIOD 15        // <-- changed: Seconds
+  #define THERMAL_PROTECTION_HYSTERESIS 30     // <-- changed: Degrees Celsius
 
-  #define ADAPTIVE_FAN_SLOWING // <-- changed:  Slow part cooling fan if temperature drops
+  #define ADAPTIVE_FAN_SLOWING              // <-- changed: Slow part cooling fan if temperature drops
   #if BOTH(ADAPTIVE_FAN_SLOWING, PIDTEMP)
-    #define NO_FAN_SLOWING_IN_PID_TUNING // <-- changed:  Don't slow fan speed during M303
+    #define NO_FAN_SLOWING_IN_PID_TUNING    // <-- changed: Don't slow fan speed during M303
   #endif
 
   /**
@@ -322,7 +322,7 @@
    * and/or decrease WATCH_TEMP_INCREASE. WATCH_TEMP_INCREASE should not be set
    * below 2.
    */
-  #define WATCH_TEMP_PERIOD  20 // <-- changed:  Seconds
+  #define WATCH_TEMP_PERIOD  20               // <-- changed: Seconds
   #define WATCH_TEMP_INCREASE 2               // Degrees Celsius
 #endif
 
@@ -330,8 +330,8 @@
  * Thermal Protection parameters for the bed are just as above for hotends.
  */
 #if ENABLED(THERMAL_PROTECTION_BED)
-  #define THERMAL_PROTECTION_BED_PERIOD        15 // <-- changed:  Seconds
-  #define THERMAL_PROTECTION_BED_HYSTERESIS     10 // <-- changed:  Degrees Celsius
+  #define THERMAL_PROTECTION_BED_PERIOD        15 // <-- changed: Seconds
+  #define THERMAL_PROTECTION_BED_HYSTERESIS     10 // <-- changed: Degrees Celsius
 
   /**
    * As described above, except for the bed (M140/M190/M303).
@@ -539,13 +539,13 @@
  */
 #define USE_CONTROLLER_FAN // <-- changed
 #if ENABLED(USE_CONTROLLER_FAN)
-  #define CONTROLLER_FAN_PIN FAN1_PIN // <-- changed:  Set a custom pin for the controller fan
+  #define CONTROLLER_FAN_PIN FAN1_PIN           // <-- changed: Set a custom pin for the controller fan
   //#define CONTROLLER_FAN2_PIN -1          // Set a custom pin for second controller fan
   //#define CONTROLLER_FAN_USE_Z_ONLY       // With this option only the Z axis is considered
   //#define CONTROLLER_FAN_IGNORE_Z         // Ignore Z stepper. Useful when stepper timeout is disabled.
   #define CONTROLLERFAN_SPEED_MIN         0 // (0-255) Minimum speed. (If set below this value the fan is turned off.)
-  #define CONTROLLERFAN_SPEED_ACTIVE    120 // <-- changed:  (0-255) Active speed, used when any motor is enabled
-  #define CONTROLLERFAN_SPEED_IDLE        120 // <-- changed:  (0-255) Idle speed, used when motors are disabled
+  #define CONTROLLERFAN_SPEED_ACTIVE    120 // <-- changed: (0-255) Active speed, used when any motor is enabled
+  #define CONTROLLERFAN_SPEED_IDLE        120 // <-- changed: (0-255) Idle speed, used when motors are disabled
   #define CONTROLLERFAN_IDLE_TIME        60 // (seconds) Extra time to keep the fan running after disabling motors
 
   // Use TEMP_SENSOR_BOARD as a trigger for enabling the controller fan
@@ -563,7 +563,7 @@
  * gets it spinning reliably for a short time before setting the requested speed.
  * (Does not work on Sanguinololu with FAN_SOFT_PWM.)
  */
-#define FAN_KICKSTART_TIME  100 // <-- changed:  (ms)
+#define FAN_KICKSTART_TIME  100  // <-- changed: (ms)
 //#define FAN_KICKSTART_POWER 180  // 64-255
 
 // Some coolers may require a non-zero "off" state.
@@ -609,9 +609,9 @@
  *   PWM on pin OC2A. Only use this option if you don't need PWM on 0C2A. (Check your schematic.)
  *   USE_OCR2A_AS_TOP sacrifices duty cycle control resolution to achieve this broader range of frequencies.
  */
-#define FAST_PWM_FAN // <-- changed:  Increase the fan PWM frequency. Removes the PWM noise but increases heating in the FET/Arduino
+#define FAST_PWM_FAN    // <-- changed: Increase the fan PWM frequency. Removes the PWM noise but increases heating in the FET/Arduino
 #if ENABLED(FAST_PWM_FAN)
-  #define FAST_PWM_FAN_FREQUENCY 122 // <-- changed:  Define here to override the defaults below
+  #define FAST_PWM_FAN_FREQUENCY 122  // <-- changed: Define here to override the defaults below
   //#define USE_OCR2A_AS_TOP
   #ifndef FAST_PWM_FAN_FREQUENCY
     #ifdef __AVR__
@@ -882,10 +882,10 @@
 #define HOMING_BUMP_MM      { 5, 5, 2 }       // (linear=mm, rotational=°) Backoff from endstops after first bump
 #define HOMING_BUMP_DIVISOR { 2, 2, 4 }       // Re-Bump Speed Divisor (Divides the Homing Feedrate)
 
-#define HOMING_BACKOFF_POST_MM {5, 5, 2} // <-- changed:  (linear=mm, rotational=°) Backoff from endstops after homing
+#define HOMING_BACKOFF_POST_MM {5,5,2}  // <-- changed: (linear=mm, rotational=°) Backoff from endstops after homing
 //#define XY_COUNTERPART_BACKOFF_MM 0         // (mm) Backoff X after homing Y, and vice-versa
 
-#define QUICK_HOME // <-- changed:  If G28 contains XY do a diagonal move first
+#define QUICK_HOME                          // <-- changed: If G28 contains XY do a diagonal move first
 //#define HOME_Y_BEFORE_X                     // If G28 contains XY home Y before X
 //#define HOME_Z_FIRST                        // Home Z first. Requires a Z-MIN endstop (not a probe).
 //#define CODEPENDENT_XY_HOMING               // If X/Y can't home without homing Y/X first
@@ -1173,15 +1173,15 @@
 #if ENABLED(BACKLASH_COMPENSATION)
   // Define values for backlash distance and correction.
   // If BACKLASH_GCODE is enabled these values are the defaults.
-  #define BACKLASH_DISTANCE_MM {0, 0, 0} // <-- changed:  (linear=mm, rotational=°) One value for each linear axis
-  #define BACKLASH_CORRECTION    0.0       // 0.0 = no correction; 1.0 = full correction
+  #define BACKLASH_DISTANCE_MM {0,0,0} // <-- changed: (linear=mm, rotational=°) One value for each linear axis
+  #define BACKLASH_CORRECTION    0       // <-- changed: 0.0 = no correction; 1.0 = full correction
 
   // Add steps for motor direction changes on CORE kinematics
   //#define CORE_BACKLASH
 
   // Set BACKLASH_SMOOTHING_MM to spread backlash correction over multiple segments
   // to reduce print artifacts. (Enabling this is costly in memory and computation!)
-  #define BACKLASH_SMOOTHING_MM 3 // <-- changed:  (mm)
+  #define BACKLASH_SMOOTHING_MM 3 // <-- changed: (mm)
 
   // Add runtime configuration and tuning of backlash values (M425)
   #define BACKLASH_GCODE // <-- changed
@@ -1234,15 +1234,15 @@
   #define CALIBRATION_REPORTING // <-- changed
 
   // The true location and dimension the cube/bolt/washer on the bed.
-  #define CALIBRATION_OBJECT_CENTER     {169.5, 171.3, 0} // <-- changed:  mm
-  #define CALIBRATION_OBJECT_DIMENSIONS {22.0, 22.0, 1.5} // <-- changed:  mm
+  #define CALIBRATION_OBJECT_CENTER     {169.5,171.3,0} // <-- changed: mm
+  #define CALIBRATION_OBJECT_DIMENSIONS {22,22,1.5} // <-- changed: mm
 
   // Comment out any sides which are unreachable by the probe. For best
   // auto-calibration results, all sides must be reachable.
-  //#define CALIBRATION_MEASURE_RIGHT  // <-- changed
+  //#define CALIBRATION_MEASURE_RIGHT // <-- changed
   #define CALIBRATION_MEASURE_FRONT
   #define CALIBRATION_MEASURE_LEFT
-  //#define CALIBRATION_MEASURE_BACK  // <-- changed
+  //#define CALIBRATION_MEASURE_BACK // <-- changed
 
   //#define CALIBRATION_MEASURE_IMIN
   //#define CALIBRATION_MEASURE_IMAX
@@ -1312,7 +1312,7 @@
  *    M908 - BQ_ZUM_MEGA_3D, RAMBO, PRINTRBOARD_REVF, RIGIDBOARD_V2 & SCOOVO_X9H
  *    M909, M910 & LCD - only PRINTRBOARD_REVF & RIGIDBOARD_V2
  */
-#define PWM_MOTOR_CURRENT {1300, 1630, 1250} // <-- changed:  Values in milliamps
+#define PWM_MOTOR_CURRENT {1300,1630,1250}          // <-- changed: Values in milliamps
 //#define DIGIPOT_MOTOR_CURRENT { 135,135,135,135,135 }   // Values 0-255 (RAMBO 135 = ~0.75A, 185 = ~1A)
 //#define DAC_MOTOR_CURRENT_DEFAULT { 70, 80, 90, 80 }    // Default drive percent - X, Y, Z, E axis
 
@@ -2127,9 +2127,9 @@
 #define LIN_ADVANCE // <-- changed
 #if ENABLED(LIN_ADVANCE)
   #if ENABLED(DISTINCT_E_FACTORS)
-    #define ADVANCE_K 0.0 // <-- changed:  (mm) Compression length per 1mm/s extruder speed, per extruder
+    #define ADVANCE_K 0    // <-- changed: (mm) Compression length per 1mm/s extruder speed, per extruder
   #else
-    #define ADVANCE_K 0.0 // <-- changed:  (mm) Compression length applying to all extruders
+    #define ADVANCE_K 0        // <-- changed: (mm) Compression length applying to all extruders
   #endif
   //#define ADVANCE_K_EXTRA       // Add a second linear advance constant, configurable with M900 L.
   //#define LA_DEBUG              // Print debug information to serial during operation. Disable for production use.
@@ -2188,10 +2188,10 @@
  * the probe to be unable to reach any points.
  */
 #if PROBE_SELECTED && !IS_KINEMATIC
-  #define PROBING_MARGIN_LEFT 0.0 // <-- changed
-  #define PROBING_MARGIN_RIGHT -8.0 // <-- changed
-  #define PROBING_MARGIN_FRONT -4.0 // <-- changed
-  #define PROBING_MARGIN_BACK -13.0 // <-- changed
+  #define PROBING_MARGIN_LEFT 0 // <-- changed
+  #define PROBING_MARGIN_RIGHT -8 // <-- changed
+  #define PROBING_MARGIN_FRONT -4 // <-- changed
+  #define PROBING_MARGIN_BACK -13 // <-- changed
 #endif
 
 #if EITHER(MESH_BED_LEVELING, AUTO_BED_LEVELING_UBL)
@@ -2657,9 +2657,9 @@
   #define PAUSE_PARK_RETRACT_FEEDRATE         60  // (mm/s) Initial retract feedrate.
   #define PAUSE_PARK_RETRACT_LENGTH            2  // (mm) Initial retract.
                                                   // This short retract is done immediately, before parking the nozzle.
-  #define FILAMENT_CHANGE_UNLOAD_FEEDRATE     5 // <-- changed:  (mm/s) Unload filament feedrate. This can be pretty fast.
+  #define FILAMENT_CHANGE_UNLOAD_FEEDRATE     5  // <-- changed: (mm/s) Unload filament feedrate. This can be pretty fast.
   #define FILAMENT_CHANGE_UNLOAD_ACCEL        25  // (mm/s^2) Lower acceleration may allow a faster feedrate.
-  #define FILAMENT_CHANGE_UNLOAD_LENGTH      80 // <-- changed:  (mm) The length of filament for a complete unload.
+  #define FILAMENT_CHANGE_UNLOAD_LENGTH      80  // <-- changed: (mm) The length of filament for a complete unload.
                                                   //   For Bowden, the full length of the tube and nozzle.
                                                   //   For direct drive, the full length of the nozzle.
                                                   //   Set to 0 for manual unloading.
@@ -2668,7 +2668,7 @@
                                                   // 0 to disable start loading and skip to fast load only
   #define FILAMENT_CHANGE_FAST_LOAD_FEEDRATE   6  // (mm/s) Load filament feedrate. This can be pretty fast.
   #define FILAMENT_CHANGE_FAST_LOAD_ACCEL     25  // (mm/s^2) Lower acceleration may allow a faster feedrate.
-  #define FILAMENT_CHANGE_FAST_LOAD_LENGTH     40 // <-- changed:  (mm) Load length of filament, from extruder gear to nozzle.
+  #define FILAMENT_CHANGE_FAST_LOAD_LENGTH     40  // <-- changed: (mm) Load length of filament, from extruder gear to nozzle.
                                                   //   For Bowden, the full length of the tube and nozzle.
                                                   //   For direct drive, the full length of the nozzle.
   //#define ADVANCED_PAUSE_CONTINUOUS_PURGE       // Purge continuously up to the purge length until interrupted.
@@ -2686,7 +2686,7 @@
   #define FILAMENT_UNLOAD_PURGE_LENGTH         8  // (mm) An unretract is done, then this length is purged.
   #define FILAMENT_UNLOAD_PURGE_FEEDRATE      25  // (mm/s) feedrate to purge before unload
 
-  #define PAUSE_PARK_NOZZLE_TIMEOUT           300 // <-- changed:  (seconds) Time limit before the nozzle is turned off for safety.
+  #define PAUSE_PARK_NOZZLE_TIMEOUT           300  // <-- changed: (seconds) Time limit before the nozzle is turned off for safety.
   #define FILAMENT_CHANGE_ALERT_BEEPS         10  // Number of alert beeps to play when a response is needed.
   #define PAUSE_PARK_NO_STEPPER_TIMEOUT           // Enable for XYZ steppers to stay powered on during filament change.
   //#define FILAMENT_CHANGE_RESUME_ON_INSERT      // Automatically continue / load filament when runout sensor is triggered again.

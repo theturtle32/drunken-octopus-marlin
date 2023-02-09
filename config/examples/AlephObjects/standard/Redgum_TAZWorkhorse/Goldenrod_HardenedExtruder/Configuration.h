@@ -21,7 +21,7 @@
  */
 #pragma once
 
-#define CONFIG_EXAMPLES_DIR "config/default"
+#define CONFIG_EXAMPLES_DIR "config/default" 
 
 /**
  * Configuration.h
@@ -62,7 +62,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "(Drunken Octopus Marlin)" // <-- changed:  Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "(Drunken Octopus Marlin)" // <-- changed: Who made the changes.
 //#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 /**
@@ -232,7 +232,7 @@
 #define EXTRUDERS 1
 
 // Generally expected filament diameter (1.75, 2.85, 3.0, ...). Used for Volumetric, Filament Width Sensor, etc.
-#define DEFAULT_NOMINAL_FILAMENT_DIA 3.0 // <-- changed
+#define DEFAULT_NOMINAL_FILAMENT_DIA 3 // <-- changed
 
 // For Cyclops or any "multi-extruder" that shares a single nozzle.
 //#define SINGLENOZZLE
@@ -391,9 +391,9 @@
 // Offset of the extruders (uncomment if using more than one and relying on firmware to position when changing).
 // The offset has to be X=0, Y=0 for the extruder 0 hotend (default extruder).
 // For the other hotends it is their distance from the extruder 0 hotend.
-#define HOTEND_OFFSET_X {0.0, 0} // <-- changed:  (mm) relative X-offset for each nozzle
-#define HOTEND_OFFSET_Y {0.0, 0} // <-- changed:  (mm) relative Y-offset for each nozzle
-#define HOTEND_OFFSET_Z {0.0, 0} // <-- changed:  (mm) relative Z-offset for each nozzle
+#define HOTEND_OFFSET_X {0,0} // <-- changed: (mm) relative X-offset for each nozzle
+#define HOTEND_OFFSET_Y {0,0}  // <-- changed: (mm) relative Y-offset for each nozzle
+#define HOTEND_OFFSET_Z {0,0}  // <-- changed: (mm) relative Z-offset for each nozzle
 
 // @section psu control
 
@@ -572,15 +572,15 @@
 #endif
 
 #if HAS_E_TEMP_SENSOR
-  #define TEMP_RESIDENCY_TIME         1 // <-- changed:  (seconds) Time to wait for hotend to "settle" in M109
-  #define TEMP_WINDOW                  10 // <-- changed:  (°C) Temperature proximity for the "temperature reached" timer
-  #define TEMP_HYSTERESIS              10 // <-- changed:  (°C) Temperature proximity considered "close enough" to the target
+  #define TEMP_RESIDENCY_TIME         1  // <-- changed: (seconds) Time to wait for hotend to "settle" in M109
+  #define TEMP_WINDOW                  10  // <-- changed: (°C) Temperature proximity for the "temperature reached" timer
+  #define TEMP_HYSTERESIS              10  // <-- changed: (°C) Temperature proximity considered "close enough" to the target
 #endif
 
 #if TEMP_SENSOR_BED
-  #define TEMP_BED_RESIDENCY_TIME     1 // <-- changed:  (seconds) Time to wait for bed to "settle" in M190
-  #define TEMP_BED_WINDOW              5 // <-- changed:  (°C) Temperature proximity for the "temperature reached" timer
-  #define TEMP_BED_HYSTERESIS          5 // <-- changed:  (°C) Temperature proximity considered "close enough" to the target
+  #define TEMP_BED_RESIDENCY_TIME     1  // <-- changed: (seconds) Time to wait for bed to "settle" in M190
+  #define TEMP_BED_WINDOW              5  // <-- changed: (°C) Temperature proximity for the "temperature reached" timer
+  #define TEMP_BED_HYSTERESIS          5  // <-- changed: (°C) Temperature proximity considered "close enough" to the target
 #endif
 
 #if TEMP_SENSOR_CHAMBER
@@ -650,7 +650,7 @@
 
 // Enable PIDTEMP for PID control or MPCTEMP for Predictive Model.
 // temperature control. Disable both for bang-bang heating.
-#define PIDTEMP // <-- changed
+#define PIDTEMP          // See the PID Tuning Guide at https://reprap.org/wiki/PID_Tuning
 //#define MPCTEMP        // ** EXPERIMENTAL **
 
 #define BANG_MAX 255     // Limits current to nozzle while in bang-bang mode; 255=full current
@@ -669,7 +669,7 @@
     #define DEFAULT_Ki_LIST {   1.08,   1.08 }
     #define DEFAULT_Kd_LIST { 114.00, 114.00 }
   #else
-    #define DEFAULT_Kp  21.0 // <-- changed
+    #define DEFAULT_Kp  21 // <-- changed
     #define DEFAULT_Ki   1.78 // <-- changed
     #define DEFAULT_Kd 61.93 // <-- changed
   #endif
@@ -746,7 +746,7 @@
  * When set to any value below 255, enables a form of PWM to the bed that acts like a divider
  * so don't use it unless you are OK with PWM on your bed. (See the comment on enabling PIDTEMPBED)
  */
-#define MAX_BED_POWER 206 // <-- changed:  limits duty cycle to bed; 255=full current
+#define MAX_BED_POWER 206 // <-- changed: limits duty cycle to bed; 255=full current
 
 #if ENABLED(PIDTEMPBED)
   //#define MIN_BED_POWER 0
@@ -812,8 +812,8 @@
   #define PID_FUNCTIONAL_RANGE 10 // If the temperature difference between the target temperature and the actual temperature
                                   // is more than PID_FUNCTIONAL_RANGE then the PID will be shut off and the heater will be set to min/max.
 
-  #define PID_EDIT_MENU // <-- changed:  Add PID editing to the "Advanced Settings" menu. (~700 bytes of flash)
-  #define PID_AUTOTUNE_MENU // <-- changed:  Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of flash)
+  #define PID_EDIT_MENU         // <-- changed: Add PID editing to the "Advanced Settings" menu. (~700 bytes of flash)
+  #define PID_AUTOTUNE_MENU     // <-- changed: Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of flash)
 #endif
 
 // @section safety
@@ -1104,25 +1104,25 @@
 #endif
 
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
-#define X_MIN_ENDSTOP_INVERTING 0 // <-- changed:  Set to true to invert the logic of the endstop.
-#define Y_MIN_ENDSTOP_INVERTING 0 // <-- changed:  Set to true to invert the logic of the endstop.
-#define Z_MIN_ENDSTOP_INVERTING 1 // <-- changed:  Set to true to invert the logic of the endstop.
+#define X_MIN_ENDSTOP_INVERTING 0 // <-- changed: Set to true to invert the logic of the endstop.
+#define Y_MIN_ENDSTOP_INVERTING 0 // <-- changed: Set to true to invert the logic of the endstop.
+#define Z_MIN_ENDSTOP_INVERTING 1 // <-- changed: Set to true to invert the logic of the endstop.
 #define I_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define J_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define K_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define U_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define V_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define W_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define X_MAX_ENDSTOP_INVERTING 0 // <-- changed:  Set to true to invert the logic of the endstop.
-#define Y_MAX_ENDSTOP_INVERTING 0 // <-- changed:  Set to true to invert the logic of the endstop.
-#define Z_MAX_ENDSTOP_INVERTING 0 // <-- changed:  Set to true to invert the logic of the endstop.
+#define X_MAX_ENDSTOP_INVERTING 0 // <-- changed: Set to true to invert the logic of the endstop.
+#define Y_MAX_ENDSTOP_INVERTING 0 // <-- changed: Set to true to invert the logic of the endstop.
+#define Z_MAX_ENDSTOP_INVERTING 0 // <-- changed: Set to true to invert the logic of the endstop.
 #define I_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define J_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define K_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define U_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define V_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define W_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define Z_MIN_PROBE_ENDSTOP_INVERTING 1 // <-- changed:  Set to true to invert the logic of the probe.
+#define Z_MIN_PROBE_ENDSTOP_INVERTING 1 // <-- changed: Set to true to invert the logic of the probe.
 
 // Enable this feature if all enabled endstop pins are interrupt-capable.
 // This will remove the need to poll the interrupt pins, saving many CPU cycles.
@@ -1170,14 +1170,14 @@
  * Override with M92
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100, 100, 500, 420} // <-- changed
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,100,500,420} // <-- changed
 
 /**
  * Default Max Feed Rate (linear=mm/s, rotational=°/s)
  * Override with M203
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          {300, 300, 30, 25} // <-- changed
+#define DEFAULT_MAX_FEEDRATE          {300,300,30,25} // <-- changed
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -1190,7 +1190,7 @@
  * Override with M201
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      {9000, 9000, 200, 9000} // <-- changed
+#define DEFAULT_MAX_ACCELERATION      {9000,9000,200,9000} // <-- changed
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
@@ -1207,9 +1207,9 @@
  *   M204 I    Angular Acceleration
  *   M204 J    Angular Travel Acceleration
  */
-#define DEFAULT_ACCELERATION                  500 // <-- changed:  X, Y, Z ... and E acceleration for printing moves
+#define DEFAULT_ACCELERATION                  500  // <-- changed: X, Y, Z ... and E acceleration for printing moves
 #define DEFAULT_RETRACT_ACCELERATION          3000  // E acceleration for retracts
-#define DEFAULT_TRAVEL_ACCELERATION           500 // <-- changed:  X, Y, Z ... acceleration for travel (non printing) moves
+#define DEFAULT_TRAVEL_ACCELERATION           500  // <-- changed: X, Y, Z ... acceleration for travel (non printing) moves
 #if ENABLED(AXIS4_ROTATES)
   #define DEFAULT_ANGULAR_ACCELERATION        3000  // I, J, K acceleration for rotational-only printing moves
   #define DEFAULT_ANGULAR_TRAVEL_ACCELERATION 3000  // I, J, K acceleration for rotational-only travel (non printing) moves
@@ -1225,8 +1225,8 @@
  */
 #define CLASSIC_JERK // <-- changed
 #if ENABLED(CLASSIC_JERK)
-  #define DEFAULT_XJERK 8.0 // <-- changed
-  #define DEFAULT_YJERK 8.0 // <-- changed
+  #define DEFAULT_XJERK 8 // <-- changed
+  #define DEFAULT_YJERK 8 // <-- changed
   #define DEFAULT_ZJERK  0.4 // <-- changed
   //#define DEFAULT_IJERK  0.3
   //#define DEFAULT_JJERK  0.3
@@ -1243,7 +1243,7 @@
   #endif
 #endif
 
-#define DEFAULT_EJERK    10.0 // <-- changed:  May be used by Linear Advance
+#define DEFAULT_EJERK    10  // <-- changed: May be used by Linear Advance
 
 /**
  * Junction Deviation Factor
@@ -1491,7 +1491,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET {0, 0, -1.2} // <-- changed
+#define NOZZLE_TO_PROBE_OFFSET {0,0,-1.2} // <-- changed
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
@@ -1568,7 +1568,7 @@
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-#define Z_CLEARANCE_DEPLOY_PROBE   5 // <-- changed:  Z Clearance for Deploy/Stow
+#define Z_CLEARANCE_DEPLOY_PROBE   5 // <-- changed: Z Clearance for Deploy/Stow
 #define Z_CLEARANCE_BETWEEN_PROBES  5 // Z Clearance between probe points
 #define Z_CLEARANCE_MULTI_PROBE     5 // Z Clearance between multiple probes
 //#define Z_AFTER_PROBING           5 // Z position after probing is done
@@ -1600,9 +1600,9 @@
   //#define WAIT_FOR_BED_HEATER     // Wait for bed to heat back up between probes (to improve accuracy)
   //#define WAIT_FOR_HOTEND         // Wait for hotend to heat back up between probes (to improve accuracy & prevent cold extrude)
 #endif
-#define PROBING_FANS_OFF // <-- changed:  Turn fans off when probing
+#define PROBING_FANS_OFF          // <-- changed: Turn fans off when probing
 //#define PROBING_ESTEPPERS_OFF     // Turn all extruder steppers off when probing
-#define PROBING_STEPPERS_OFF // <-- changed:  Turn all steppers off (unless needed to hold position) when probing (including extruders)
+#define PROBING_STEPPERS_OFF      // <-- changed: Turn all steppers off (unless needed to hold position) when probing (including extruders)
 //#define DELAY_BEFORE_PROBING 200  // (ms) To prevent vibrations from triggering piezo sensors
 
 // Require minimum nozzle and/or bed temperature for probing
@@ -1672,8 +1672,8 @@
 
 // @section homing
 
-#define NO_MOTION_BEFORE_HOMING // <-- changed:  Inhibit movement until all axes have been homed. Also enable HOME_AFTER_DEACTIVATE for extra safety.
-#define HOME_AFTER_DEACTIVATE // <-- changed:  Require rehoming after steppers are deactivated. Also enable NO_MOTION_BEFORE_HOMING for extra safety.
+#define NO_MOTION_BEFORE_HOMING // <-- changed: Inhibit movement until all axes have been homed. Also enable HOME_AFTER_DEACTIVATE for extra safety.
+#define HOME_AFTER_DEACTIVATE   // <-- changed: Require rehoming after steppers are deactivated. Also enable NO_MOTION_BEFORE_HOMING for extra safety.
 
 /**
  * Set Z_IDLE_HEIGHT if the Z-Axis moves on its own when steppers are disabled.
@@ -1682,7 +1682,7 @@
  */
 //#define Z_IDLE_HEIGHT Z_HOME_POS
 
-#define Z_HOMING_HEIGHT  5 // <-- changed:  (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
+#define Z_HOMING_HEIGHT  5      // <-- changed: (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
                                   // Be sure to have this much clearance over your Z_MAX_POS to prevent grinding.
 
 //#define Z_AFTER_HOMING  10      // (mm) Height to move to after homing Z
@@ -1781,7 +1781,7 @@
  */
 #define FILAMENT_RUNOUT_SENSOR // <-- changed
 #if ENABLED(FILAMENT_RUNOUT_SENSOR)
-  #define FIL_RUNOUT_ENABLED_DEFAULT false // <-- changed:  Enable the sensor on startup. Override with M412 followed by M500.
+  #define FIL_RUNOUT_ENABLED_DEFAULT false // <-- changed: Enable the sensor on startup. Override with M412 followed by M500.
   #define NUM_RUNOUT_SENSORS   1          // Number of sensors, up to one per extruder. Define a FIL_RUNOUT#_PIN for each.
 
   #define FIL_RUNOUT_STATE     LOW        // Pin state indicating that filament is NOT present.
@@ -2000,7 +2000,7 @@
   //#define MESH_EDIT_GFX_OVERLAY   // Display a graphics overlay while editing the mesh
 
   #define MESH_INSET 1              // Set Mesh bounds as an inset region of the bed
-  #define GRID_MAX_POINTS_X 2 // <-- changed:  Don't use more than 15 points per axis, implementation limited.
+  #define GRID_MAX_POINTS_X 2      // <-- changed: Don't use more than 15 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y 2 // <-- changed
 
   //#define UBL_HILBERT_CURVE       // Use Hilbert distribution for less travel when probing multiple points
@@ -2020,7 +2020,7 @@
   //===========================================================================
 
   #define MESH_INSET 10          // Set Mesh bounds as an inset region of the bed
-  #define GRID_MAX_POINTS_X 2 // <-- changed:  Don't use more than 7 points per axis, implementation limited.
+  #define GRID_MAX_POINTS_X 2    // <-- changed: Don't use more than 7 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y 2 // <-- changed
 
   //#define MESH_G28_REST_ORIGIN // After homing all axes ('G28' or 'G28 XYZ') rest Z at Z_MIN_POS
@@ -2112,7 +2112,7 @@
 #endif
 
 // Homing speeds (linear=mm/min, rotational=°/min)
-#define HOMING_FEEDRATE_MM_M {3000, 3000, 1800} // <-- changed
+#define HOMING_FEEDRATE_MM_M {3000,3000,1800} // <-- changed
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
@@ -2190,12 +2190,12 @@
  *   M501 - Read settings from EEPROM. (i.e., Throw away unsaved changes)
  *   M502 - Revert settings to "factory" defaults. (Follow with M500 to init the EEPROM.)
  */
-#define EEPROM_SETTINGS // <-- changed:  Persistent storage with M500 and M501
+#define EEPROM_SETTINGS     // <-- changed: Persistent storage with M500 and M501
 //#define DISABLE_M503        // Saves ~2700 bytes of flash. Disable for release!
 #define EEPROM_CHITCHAT       // Give feedback on EEPROM commands. Disable to save PROGMEM.
 #define EEPROM_BOOT_SILENT    // Keep M503 quiet and only give errors during first load
 #if ENABLED(EEPROM_SETTINGS)
-  #define EEPROM_AUTO_INIT // <-- changed:  Init EEPROM automatically on any errors.
+  #define EEPROM_AUTO_INIT  // <-- changed: Init EEPROM automatically on any errors.
   //#define EEPROM_INIT_NOW   // Init EEPROM on first boot after a new build.
 #endif
 
@@ -2257,7 +2257,7 @@
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
-  #define NOZZLE_PARK_POINT {100, 298, 20} // <-- changed
+  #define NOZZLE_PARK_POINT {100,298,20} // <-- changed
   #define NOZZLE_PARK_MOVE          0   // Park motion: 0 = XY Move, 1 = X Only, 2 = Y Only, 3 = X before Y, 4 = Y before X
   #define NOZZLE_PARK_Z_RAISE_MIN   2   // (mm) Always raise Z by at least this distance
   #define NOZZLE_PARK_XY_FEEDRATE 100   // (mm/s) X and Y axes feedrate (also used for delta Z axis)
@@ -2312,8 +2312,8 @@
 
   // Specify positions for each tool as { { X, Y, Z }, { X, Y, Z } }
   // Dual hotend system may use { {  -20, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) },  {  420, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) }}
-  #define NOZZLE_CLEAN_START_POINT {{-17, 95, 1}} // <-- changed
-  #define NOZZLE_CLEAN_END_POINT   {{-17, 25, 1}} // <-- changed
+  #define NOZZLE_CLEAN_START_POINT {{-17,95,1}} // <-- changed
+  #define NOZZLE_CLEAN_END_POINT   {{-17,25,1}} // <-- changed
 
   // Circular pattern radius
   #define NOZZLE_CLEAN_CIRCLE_RADIUS 6.5
@@ -2323,7 +2323,7 @@
   #define NOZZLE_CLEAN_CIRCLE_MIDDLE NOZZLE_CLEAN_START_POINT
 
   // Move the nozzle to the initial position after cleaning
-  //#define NOZZLE_CLEAN_GOBACK  // <-- changed
+  //#define NOZZLE_CLEAN_GOBACK // <-- changed
 
   // For a purge/clean station that's always at the gantry height (thus no Z move)
   //#define NOZZLE_CLEAN_NO_Z
@@ -2336,7 +2336,7 @@
   //#define NOZZLE_CLEAN_HEATUP       // Heat up the nozzle instead of skipping wipe
 
   // Explicit wipe G-code script applies to a G12 with no arguments.
-  #define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nG0 X-10.0 Y-9.0M109 R160\nM107" // <-- changed
+  #define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nG0 X-10 Y-9\nM109 R160\nM107" // <-- changed
 
 #endif
 
@@ -2366,7 +2366,7 @@
  *   M76 - Pause the print job timer
  *   M77 - Stop the print job timer
  */
-//#define PRINTJOB_TIMER_AUTOSTART  // <-- changed
+//#define PRINTJOB_TIMER_AUTOSTART // <-- changed
 
 // @section stats
 
@@ -3370,7 +3370,7 @@
  * Set this manually if there are extra servos needing manual control.
  * Set to 0 to turn off servo support.
  */
-#define NUM_SERVOS 0 // <-- changed:  Note: Servo index starts with 0 for M280-M282 commands
+#define NUM_SERVOS 0 // <-- changed: Note: Servo index starts with 0 for M280-M282 commands
 
 // (ms) Delay before the next move will start, to give the servo time to reach its target angle.
 // 300ms is a good value but you can try less delay.
@@ -3393,7 +3393,7 @@
 //#define SHORT_BUILD_VERSION
 #define TOOLHEAD_NAME "HE 0.5mm" // <-- changed
 #define TOOLHEAD_TYPE "HardenedExtruder" // <-- changed
-#define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nG0 X-10.0 Y-9.0M109 R160\nM107" // <-- changed
+#define WIPE_SEQUENCE_COMMANDS "M117 Hot end heating...\nM104 S170\nG28 O1\nM117 Wiping nozzle\nT0\nG1 X-17 Y25 Z10 F4000\nM109 R170\nG1 Z1\nM114\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 X-17 Y25\nG1 X-17 Y95\nG1 Z15\nM400\nM106 S255\nG0 X-10 Y-9\nM109 R160\nM107" // <-- changed
 #define AXIS_LEVELING_COMMANDS "M117 Leveling X Axis\nG0 X150 F9999\nG28 Z0\nM117 Leveling done." // <-- changed
 //#define BED_LEVELING_COMMANDS
 //#define MANUAL_BED_LEVELING_COMMANDS
