@@ -29,7 +29,7 @@ build_config() {
   toolhead_name=$3
 
   echo ${vendor}/${group}/${printer_name}/${toolhead_name}
-  ./build-config.py $printer_name $toolhead_name -D ${vendor}/${group}/${printer_name}/${toolhead_name} --summary
+  node build-config.js $printer_name $toolhead_name -D ${vendor}/${group}/${printer_name}/${toolhead_name} --summary
 }
 
 if [ "$1" = "upgrade" ]; then
