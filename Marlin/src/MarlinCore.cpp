@@ -788,6 +788,11 @@ void idle(bool no_stepper_sleep/*=false*/) {
   // Bed Distance Sensor task
   TERN_(BD_SENSOR, bdl.process());
 
+  // CocoaPress additions
+  #if ENABLED(COCOA_PRESS_CYCLE_COOLER)
+     cycle_cooler_idle();
+  #endif
+
   // Core Marlin activities
   manage_inactivity(no_stepper_sleep);
 
@@ -1234,6 +1239,14 @@ void setup() {
   #endif
   #if TEMP_SENSOR_IS_MAX_TC(1) || (TEMP_SENSOR_IS_MAX_TC(REDUNDANT) && REDUNDANT_TEMP_MATCH(SOURCE, E1))
     OUT_WRITE(TEMP_1_CS_PIN, HIGH);
+  #endif
+
+  #if ENABLED(COCOA_PRESS_CYCLE_COOLER)
+     SETUP_RUN(cycle_cooler_init());
+  #endif
+
+  #if ENABLED(COCOA_PRESS_EXTRA_HEATER)
+     SETUP_RUN(check_extra_heater());
   #endif
 
   #if ENABLED(DUET_SMART_EFFECTOR) && PIN_EXISTS(SMART_EFFECTOR_MOD)

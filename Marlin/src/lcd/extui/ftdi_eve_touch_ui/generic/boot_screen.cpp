@@ -28,7 +28,9 @@
 
 #include "../archim2-flash/flash_storage.h"
 
-#if ENABLED(SHOW_CUSTOM_BOOTSCREEN)
+#if ENABLED(COCOA_PRESS_FIRMWARE) && DISABLED(TOUCH_UI_PORTRAIT)
+    #include "../cocoa_press/_bootscreen_landscape.h"
+#elif ENABLED(SHOW_CUSTOM_BOOTSCREEN)
   #if ENABLED(TOUCH_UI_PORTRAIT)
     #include "../theme/bootscreen_logo_portrait.h"
   #else

@@ -27,9 +27,17 @@ build_config() {
   group=$1
   printer_name=$2
   toolhead_name=$3
+  case $printer_name in
+    CocoaPress_Archim)
+      script="./build-config-cocoa-press.py"
+      ;;
+    *)
+      script="node build-config.js"
+      ;;
+  esac
 
   echo ${vendor}/${group}/${printer_name}/${toolhead_name}
-  node build-config.js $printer_name $toolhead_name -D ${vendor}/${group}/${printer_name}/${toolhead_name} --summary
+  $script $printer_name $toolhead_name -D ${vendor}/${group}/${printer_name}/${toolhead_name} --summary
 }
 
 if [ "$1" = "upgrade" ]; then
@@ -182,3 +190,7 @@ build_config standard  SynDaver_Axi                              H175_Hemera
 build_config standard  SynDaver_Axi_2                            H175_Hemera
 build_config custom    SynDaver_Level                            SynDaver_Level
 build_config custom    SynDaver_LevelUp                          SynDaver_Level
+
+vendor=CocoaPress
+
+build_config standard  CocoaPress_Archim                         CocoaPress_SingleExtruder

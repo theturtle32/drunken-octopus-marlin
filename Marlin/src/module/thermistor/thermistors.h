@@ -169,6 +169,9 @@ typedef struct { raw_adc_t value; celsius_t celsius; } temp_entry_t;
 #if ANY_THERMISTOR_IS(99) // 100k bed thermistor with a 10K pull-up resistor (on some Wanhao i3 models)
   #include "thermistor_99.h"
 #endif
+#if ANY_THERMISTOR_IS(100) // Custom CocoaPress thermistor table
+  #include "thermistor_100.h"
+#endif
 #if ANY_THERMISTOR_IS(110) // Pt100 with 1k0 pullup
   #include "thermistor_110.h"
 #endif

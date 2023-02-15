@@ -333,3 +333,37 @@
     #define DISABLE_DUE_SD_MMC
   #endif
 #endif
+
+/* CocoaPress modifications */
+
+#if ENABLED(COCOA_PRESS_FIRMWARE)
+    #undef SERVO1_PIN
+    #define SERVO1_PIN                            -1  // D21 PB13 (Header J20 19)
+
+    #define HEATER_0_PIN                           6  // D6 PC24 FET_PWM3 ("HTR1" header)
+    #define HEATER_1_PIN                           7  // D7 PC23 FET_PWM4 ("HTR2" header)
+    #define HEATER_2_PIN                           8  // D8 PC22 FET_PWM5 ("HTR3" header)
+    #define TEMP_2_PIN                             8  // D8 PB17 THERM AN4 *
+
+    #if ENABLED(COCOA_PRESS_CHAMBER_COOLER)
+        #undef TEMP_BED_PIN
+        #undef HEATER_BED_PIN
+        #undef TEMP_CHAMBER_PIN
+        #define TEMP_CHAMBER_PIN                      11  // D11 PB20 THERM AN3 *
+
+        #if ENABLED(COCOA_PRESS_CYCLE_COOLER)
+          #define HEATER_CHAMBER_PIN                  93  // D93 PB2 (Header J20 8)
+          #define HEATER_CHAMBER_CYCLE_PIN           103  // D103 PB3 J20 Pin 7
+        #else
+          #define HEATER_CHAMBER_PIN                 103  // D103 PB3 J20 Pin 7
+        #endif
+    #endif
+
+    #if ENABLED(CASE_LIGHT_ENABLE)
+        #undef HEATER_BED_PIN
+        #undef CASE_LIGHT_PIN
+        #define CASE_LIGHT_PIN                       9  // D9 PC21 BED_PWM ("HTBD" header)
+    #endif
+
+    #undef FAN_PIN
+#endif

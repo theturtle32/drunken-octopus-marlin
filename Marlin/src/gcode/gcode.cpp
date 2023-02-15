@@ -137,7 +137,11 @@ void GcodeSuite::say_units() {
 int8_t GcodeSuite::get_target_extruder_from_command() {
   if (parser.seenval('T')) {
     const int8_t e = parser.value_byte();
+    #ifdef COCOA_PRESS_EXTRUDER
+    if (e < HOTENDS) return e;
+    #else
     if (e < EXTRUDERS) return e;
+    #endif
     SERIAL_ECHO_START();
     SERIAL_CHAR('M'); SERIAL_ECHO(parser.codenum);
     SERIAL_ECHOLNPGM(" " STR_INVALID_EXTRUDER " ", e);
