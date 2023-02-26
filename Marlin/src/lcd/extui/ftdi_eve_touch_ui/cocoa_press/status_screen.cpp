@@ -216,7 +216,8 @@ void StatusScreen::draw_temperature(draw_mode_t what) {
 void StatusScreen::draw_buttons(draw_mode_t what) {
   int16_t x, y, w, h;
 
-  const bool can_print        = isMediaInserted() && !isPrintingFromMedia();
+  const bool can_print        = !isPrinting() && isMediaInserted() && isFileSelected();
+  const bool can_select       = !isPrinting() && isMediaInserted();
   const bool sdOrHostPrinting = ExtUI::isPrinting();
   const bool sdOrHostPaused   = ExtUI::isPrintingPaused();
 
@@ -238,7 +239,7 @@ void StatusScreen::draw_buttons(draw_mode_t what) {
   cmd.tag(4).button(x, y, w, h, GET_TEXT_F(MSG_BUTTON_MENU));
 
   ui.bounds(POLY(media_btn), x, y, w, h);
-  cmd.tag(5).button(x, y, w, h, GET_TEXT_F(MSG_BUTTON_MEDIA));
+  cmd.tag(5).enabled(can_select).button(x, y, w, h, GET_TEXT_F(MSG_BUTTON_MEDIA));
 
   ui.bounds(POLY(print_btn), x, y, w, h);
   cmd.tag(6).colors(action_btn).enabled(can_print).button(x, y, w, h, GET_TEXT_F(MSG_BUTTON_PRINT));
