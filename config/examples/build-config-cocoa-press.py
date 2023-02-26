@@ -222,7 +222,7 @@ def make_config(PRINTER, TOOLHEAD):
     MARLIN["COCOA_PRESS_PREHEAT_MILK_CHOCOLATE_EXT_SCRIPT"]  = C_STRING("M104 S327 T2")
     MARLIN["COCOA_PRESS_PREHEAT_WHITE_CHOCOLATE_EXT_SCRIPT"] = C_STRING("M104 S290 T2")
 
-    MARLIN["COCOA_PRESS_EXTRA_HEATER"]                   = True
+    MARLIN["COCOA_PRESS_EXTRA_HEATER"]                   = False
     MARLIN["SD_ABORT_NO_COOLDOWN"]                       = True
     MARLIN["EVENT_GCODE_SD_ABORT"]                       = C_STRING( "G0 X0 Y0")
 
@@ -317,7 +317,7 @@ def make_config(PRINTER, TOOLHEAD):
 
     MARLIN["X_CURRENT"]                              = 975 # mA
     MARLIN["Y_CURRENT"]                              = 975 # mA
-    MARLIN["Z_CURRENT"]                              = 975 # mA
+    MARLIN["Z_CURRENT"]                              = 600 # mA
 
 ################# ACCELERATION, FEEDRATES AND XYZ MOTOR STEPS #################
 

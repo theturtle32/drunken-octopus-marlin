@@ -39,42 +39,6 @@ using namespace Theme;
 
 constexpr static LoadChocolateScreenData &mydata = screen_data.LoadChocolateScreen;
 
-void LoadChocolateScreen::draw_syringe(draw_mode_t what) {
-  #if ENABLED(COCOA_PRESS_CHOCOLATE_LEVEL_SENSOR)
-    const float fill_level = get_chocolate_fill_level();
-  #else
-    constexpr float fill_level = 1.0f;
-  #endif
-
-  CommandProcessor cmd;
-  PolyUI ui(cmd, what);
-
-  if (what & BACKGROUND) {
-    // Paint the shadow for the syringe
-    ui.color(shadow_rgb);
-    ui.shadow(POLY(syringe_outline), shadow_depth);
-  }
-
-  if (what & FOREGROUND) {
-    int16_t x, y, h, v;
-
-    // Paint the syringe icon
-    ui.color(syringe_rgb);
-    ui.fill(POLY(syringe_outline));
-
-    ui.color(fluid_rgb);
-    ui.bounds(POLY(syringe_fluid), x, y, h, v);
-    cmd.cmd(SAVE_CONTEXT());
-    cmd.cmd(SCISSOR_XY(x,y + v * (1.0 - fill_level)));
-    cmd.cmd(SCISSOR_SIZE(h,  v *        fill_level));
-    ui.fill(POLY(syringe_fluid), false);
-    cmd.cmd(RESTORE_CONTEXT());
-
-    ui.color(stroke_rgb);
-    ui.fill(POLY(syringe));
-  }
-}
-
 void LoadChocolateScreen::draw_buttons(draw_mode_t what) {
   int16_t x, y, h, v;
 
@@ -136,7 +100,6 @@ void LoadChocolateScreen::onRedraw(draw_mode_t what) {
        .tag(0);
   }
 
-  draw_syringe(what);
   draw_arrows(what);
   draw_buttons(what);
   draw_text(what);
@@ -176,22 +139,12 @@ bool LoadChocolateScreen::onTouchHeld(uint8_t tag) {
   #define UI_INCREMENT_AXIS(axis) UI_INCREMENT(AxisPosition_mm, axis);
   #define UI_DECREMENT_AXIS(axis) UI_DECREMENT(AxisPosition_mm, axis);
   switch (tag) {
-    case 2: {
-      if (get_chocolate_fill_level() < 0.1) {
-        mydata.repeat_tag = 0;
-        return false;
-      }
+    case 2:
       UI_INCREMENT_AXIS(E0);
       break;
-    }
-    case 3: {
-      if (get_chocolate_fill_level() > 0.75) {
-        mydata.repeat_tag = 0;
-        return false;
-      }
+    case 3:
       UI_DECREMENT_AXIS(E0);
       break;
-    }
     case 4:
       UI_INCREMENT_AXIS(E0);
       break;
