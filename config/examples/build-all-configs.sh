@@ -29,7 +29,7 @@ build_config() {
   toolhead_name=$3
   case $printer_name in
     CocoaPress_Archim)
-      script="./build-config-cocoa-press.py"
+      script="node build-config-cocoa-press.js"
       ;;
     *)
       script="node build-config.js"
