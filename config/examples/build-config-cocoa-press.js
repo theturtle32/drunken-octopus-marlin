@@ -351,6 +351,7 @@ function make_config(PRINTER, TOOLHEAD) {
     MARLIN["SD_SPI_SPEED"]                               = 'SPI_SIXTEENTH_SPEED'
 
     MARLIN["LCD_TIMEOUT_TO_STATUS"]                      = 600000 // Ten Minutes
+    MARLIN["TOUCH_UI_VERSION"]                           = C_STRING('Version: BETA (\" __DATE__  \")');
     MARLIN["TOUCH_UI_FTDI_EVE"]                          = true
     MARLIN["TOUCH_UI_COCOA_THEME"]                       = true
     MARLIN["TOUCH_UI_COCOA_PRESS"]                       = true

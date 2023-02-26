@@ -133,7 +133,7 @@ void StatusScreen::draw_temperature(draw_mode_t what) {
     cmd.text(x, y, w, h, F("Set"));*/
 
     ui.bounds(POLY(chocolate_label), x, y, w, h);
-    cmd.text(x, y, w, h, GET_TEXT_F("CocoaPress"));
+    cmd.text(x, y, w, h, F("Cocoa Press"));
 
     ui.bounds(POLY(h0_label), x, y, w, h);
     cmd.text(x, y, w, h, GET_TEXT_F(MSG_NOZZLE));
