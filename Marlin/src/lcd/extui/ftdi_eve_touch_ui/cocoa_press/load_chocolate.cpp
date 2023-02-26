@@ -48,10 +48,10 @@ void LoadChocolateScreen::draw_buttons(draw_mode_t what) {
   cmd.font(font_medium).colors(normal_btn);
 
   ui.bounds(POLY(load_screen_unload_btn), x, y, h, v);
-  cmd.tag(2).button(x, y, h, v, GET_TEXT_F(MSG_FULL_UNLOAD));
+  cmd.tag(2).button(x, y, h, v, GET_TEXT_F(MSG_UNLOAD));
 
   ui.bounds(POLY(load_screen_load_btn), x, y, h, v);
-  cmd.tag(3).button(x, y, h, v, GET_TEXT_F(MSG_FULL_LOAD));
+  cmd.tag(3).button(x, y, h, v, GET_TEXT_F(MSG_LOAD));
 
   ui.bounds(POLY(load_screen_back_btn), x, y, h, v);
   cmd.tag(1).colors(action_btn).button(x, y, h, v, GET_TEXT_F(MSG_BUTTON_DONE));
