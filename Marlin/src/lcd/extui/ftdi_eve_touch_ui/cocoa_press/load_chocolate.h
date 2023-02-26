@@ -28,6 +28,7 @@
 
 struct LoadChocolateScreenData {
   uint8_t repeat_tag;
+  bool repeating;
 };
 
 class LoadChocolateScreen : public BaseScreen, public CachedScreen<LOAD_CHOCOLATE_SCREEN_CACHE> {
