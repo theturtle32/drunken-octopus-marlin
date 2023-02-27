@@ -146,6 +146,7 @@ namespace Language_en {
   LSTR MSG_PROBE_BED                = u8"Probe Mesh";
   LSTR MSG_PRINT_TEST               = u8"Print Test (PLA)";
   LSTR MSG_MOVE_Z_TO_TOP            = u8"Raise Z to Top";
+  LSTR MSG_MAX_SPEED_NO_UNITS       = u8"Max Speed";
 
   #if ENABLED(TOUCH_UI_LULZBOT_BIO)
     LSTR MSG_MOVE_TO_HOME           = u8"Move to Home";
