@@ -28,7 +28,7 @@ build_config() {
   printer_name=$2
   toolhead_name=$3
   case $printer_name in
-    CocoaPress_Archim)
+    CocoaPress_MiniChef)
       script="node build-config-cocoa-press.js"
       ;;
     *)
@@ -193,4 +193,4 @@ build_config custom    SynDaver_LevelUp                          SynDaver_Level
 
 vendor=CocoaPress
 
-build_config standard  CocoaPress_Archim                         CocoaPress_SingleExtruder
+build_config standard  CocoaPress_MiniChef                       CocoaPress_SingleExtruder

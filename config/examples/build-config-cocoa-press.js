@@ -22,7 +22,7 @@ const fs = fsOrig.promises;
 
 
 const PRINTER_CHOICES = [
-    "CocoaPress_Archim"
+    "CocoaPress_MiniChef"
 ]
 
 const TOOLHEAD_CHOICES = [
