@@ -23,7 +23,7 @@
 
 // Custom Cocoa Press thermistor table, based on thermistor table 1
 //multiplied by 10 for 10th degree accuracy
-const temp_entry_t temptable_100[] PROGMEM = {
+constexpr temp_entry_t temptable_100[] PROGMEM = {
 
 {OV(1),1530}, //just to add min bound
 {OV(34.7297),1500},
