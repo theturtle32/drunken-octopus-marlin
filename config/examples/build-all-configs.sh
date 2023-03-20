@@ -111,6 +111,7 @@ build_config custom    Juniper_TAZ5Archim                        Opah_Moarstrude
 build_config custom    Juniper_TAZ5Archim                        H175_Hemera
 build_config custom    Juniper_TAZ5BLTouch                       Tilapia_SingleExtruder
 build_config custom    Juniper_TAZ5BLTouch                       Angelfish_Aerostruder
+build_config custom    Juniper_TAZ5BLTouch                       Kanyu_Flexystruder
 build_config custom    Juniper_TAZ5ArchimBLTouch                 Tilapia_SingleExtruder
 build_config custom    Juniper_TAZ5ArchimBLTouch                 Angelfish_Aerostruder
 
