@@ -774,7 +774,7 @@ function make_config(PRINTER, TOOLHEAD) {
         MARLIN["SERIAL_PORT"]                            = 0
         if (USE_REPRAP_LCD_DISPLAY) {
             MARLIN["SERIAL_PORT_2"]                      = 1
-            USE_LESS_MEMORY                              = 1
+            USE_LESS_MEMORY                              = Math.max(1,USE_LESS_MEMORY)
         }
         MARLIN["SD_SPI_SPEED"]                           = 'SPI_FULL_SPEED'
     }
@@ -1429,6 +1429,11 @@ function make_config(PRINTER, TOOLHEAD) {
         MARLIN["TEMP_WINDOW"]                            = 1
         MARLIN["TEMP_HYSTERESIS"]                        = 3
         MARLIN["HEATER_0_MAXTEMP"]                       = 250
+        MARLIN["PREHEAT_2_LABEL"]                        = false
+        MARLIN["PREHEAT_2_TEMP_HOTEND"]                  = false
+        MARLIN["PREHEAT_2_TEMP_BED"]                     = false
+        MARLIN["PREHEAT_2_TEMP_CHAMBER"]                 = false
+        MARLIN["PREHEAT_2_FAN_SPEED"]                    = false
         MARLIN["BANG_MAX"]                               = 70
         MARLIN["PID_MAX"]                                = 74
         MARLIN["THERMAL_PROTECTION_PERIOD"]              = 40  // Seconds
