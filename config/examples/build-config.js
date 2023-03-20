@@ -774,7 +774,7 @@ function make_config(PRINTER, TOOLHEAD) {
         MARLIN["SERIAL_PORT"]                            = 0
         if (USE_REPRAP_LCD_DISPLAY) {
             MARLIN["SERIAL_PORT_2"]                      = 1
-            USE_LESS_MEMORY                              = 1
+            USE_LESS_MEMORY                              = Math.max(1,USE_LESS_MEMORY)
         }
         MARLIN["SD_SPI_SPEED"]                           = 'SPI_FULL_SPEED'
     }
