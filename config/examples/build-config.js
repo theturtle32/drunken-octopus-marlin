@@ -1002,7 +1002,7 @@ function make_config(PRINTER, TOOLHEAD) {
         }
     }
 
-    MARLIN["DISABLE_Z"]                                  = USE_Z_BELT ? 'false' : 'true'
+    MARLIN["DISABLE_INACTIVE_Z"]                         = USE_Z_BELT ? 'false' : 'true'
 
 /************************ COMMON TOOLHEADS PARAMETERS ************************/
 

@@ -42,7 +42,7 @@
 #define DEFAULT_bedKd 382
 #define DEFAULT_bedKi 65
 #define DEFAULT_bedKp 294
-#define DISABLE_Z true
+#define DISABLE_INACTIVE_Z true
 #define E0_DRIVER_TYPE A4988
 #define EEPROM_AUTO_INIT
 #define EEPROM_SETTINGS
