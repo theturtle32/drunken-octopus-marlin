@@ -189,8 +189,8 @@ vendor=SynDaver
 
 build_config standard  SynDaver_Axi                              H175_Hemera
 build_config standard  SynDaver_Axi_2                            H175_Hemera
-build_config custom    SynDaver_Level                            SynDaver_Level
-build_config custom    SynDaver_LevelUp                          SynDaver_Level
+#build_config custom    SynDaver_Level                            SynDaver_Level
+#build_config custom    SynDaver_LevelUp                          SynDaver_Level
 
 vendor=CocoaPress
 
