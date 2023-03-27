@@ -28,7 +28,7 @@ build_config() {
   printer_name=$2
   toolhead_name=$3
   case $printer_name in
-    CocoaPress_MiniChef)
+    CocoaPress_MiniChef | CocoaPress_MiniChefUSB)
       script="node build-config-cocoa-press.js"
       ;;
     *)
@@ -195,3 +195,4 @@ build_config standard  SynDaver_Axi_2                            H175_Hemera
 vendor=CocoaPress
 
 build_config standard  CocoaPress_MiniChef                       CocoaPress_SingleExtruder
+build_config standard  CocoaPress_MiniChefUSB                    CocoaPress_SingleExtruder

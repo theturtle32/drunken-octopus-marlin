@@ -80,12 +80,21 @@ function make_config(PRINTER, TOOLHEAD) {
     USE_COOLING_CHAMBER                                  = false
 
     MARLIN["SDSUPPORT"]                                  = true
-
+    MARLIN["USB_FLASH_DRIVE_SUPPORT"]                    = PRINTER.includes("USB")
+        
     MARLIN["LIN_ADVANCE"]                                = true
     MARLIN["ADVANCE_K"]                                  = 0.0
 
     MARLIN["MARLIN_DEV_MODE"]                            = false
     MARLIN["USE_WATCHDOG"]                               = true
+    if( ENABLED("USB_FLASH_DRIVE_SUPPORT") ) {
+        MARLIN["USB_FLASH_DRIVE_SUPPORT"]                = true
+        MARLIN["USE_UHS3_USB"]                           = false
+        MARLIN["AO_EXP2_PINMAP"]                         = true
+        MARLIN["USB_INTR_PIN"]                           = 'SD_DETECT_PIN'
+    } else {
+        MARLIN["AO_EXP1_PINMAP"]                         = true
+    }
 
 /*********************** PRINTER MODEL CHARACTERISTICS ***********************/
 
@@ -93,6 +102,7 @@ function make_config(PRINTER, TOOLHEAD) {
     MARLIN["EEPROM_SETTINGS"]                            = true // EW - Enabled
     MARLIN["PRINTCOUNTER"]                               = true // EW - Enabled
     MARLIN["CUSTOM_MACHINE_NAME"]                        = C_STRING("Cocoa Press")
+    MARLIN["USB_DEVICE_PRODUCT_NAME"]                    = C_STRING("Cocoa Press ")
     MARLIN["MACHINE_UUID"]                               = C_STRING("c51664e3-50b4-40fb-9bd0-63a8cd30df18")
     MARLIN["FILAMENT_RUNOUT_SENSOR"]                     = true
     MARLIN["COCOA_PRESS_CHAMBER_COOLER"]                 = false
@@ -110,10 +120,18 @@ function make_config(PRINTER, TOOLHEAD) {
 
     MARLIN["MOTHERBOARD"]                                = 'BOARD_ARCHIM2'
     MARLIN["SERIAL_PORT"]                                = -1
+    MARLIN["SERIAL_PORT_2"]                              = 0
 
-    // The host MMC bridge is impractically slow and should not be used
+    /* Force Archim to use same USB ID as Mini-Rambo and Rambo when flashed
+     * NOTE: While in "erase" (bootloader) mode, the ID will be 03eb:6124
+     */
+    MARLIN["USB_DEVICE_VENDOR_ID"]                   = '0x27b1'
+    MARLIN["USB_DEVICE_PRODUCT_ID"]                  = '0x0001'
+
+    /* The host MMC bridge is impractically slow and should not be used
+     */
     if (ENABLED("SDSUPPORT") || ENABLED("USB_FLASH_DRIVE_SUPPORT")) {
-        MARLIN["DISABLE_DUE_SD_MMC"]                     = true
+        MARLIN["DISABLE_DUE_SD_MMC"]                 = true
     }
 
 /*************************** ENDSTOP CONFIGURATION ***************************/
@@ -358,7 +376,6 @@ function make_config(PRINTER, TOOLHEAD) {
     //MARLIN["TOUCH_UI_SYNDAVER_LEVEL"]                    = true
     MARLIN["LCD_LULZBOT_CLCD_UI"]                        = true
     MARLIN["TOUCH_UI_800x480"]                           = true
-    MARLIN["AO_EXP1_PINMAP"]                             = true
     MARLIN["TOUCH_UI_USE_UTF8"]                          = true
     MARLIN["TOUCH_UI_UTF8_COPYRIGHT"]                    = true
     MARLIN["TOUCH_UI_UTF8_SUPERSCRIPTS"]                 = true
@@ -388,6 +405,10 @@ function make_config(PRINTER, TOOLHEAD) {
 
     if(!MARLIN["AO_EXP1_PINMAP"]) {
       MARLIN["ARCHIM2_SPI_FLASH_EEPROM_BACKUP_SIZE"]     = 1000
+    }
+
+    if (ENABLED("USB_FLASH_DRIVE_SUPPORT")) {
+        MARLIN["SDSUPPORT"]                              = true
     }
 
     MARLIN["SHOW_CUSTOM_BOOTSCREEN"]                     = true
@@ -513,6 +534,7 @@ function match_selection(str, list) {
                          .replace("LCD","")
                          .replace("TouchSD","")
                          .replace("TouchUSB","")
+                         .replace("USB","")
                          .replace("Einsy","")
                          .replace("Archim","")
                          .replace("BTT002",""))
