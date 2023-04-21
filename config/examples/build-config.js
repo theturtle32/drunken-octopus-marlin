@@ -1228,6 +1228,10 @@ function make_config(PRINTER, TOOLHEAD) {
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("SE 0.5mm AeroV2")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        if (IS_TAZ) {
+            // Reduce X-Max to 295 as reported by https://github.com/drunken-octopus/drunken-octopus-marlin/issues/37
+            TOOLHEAD_X_MAX_ADJ                           = -6.5
+        }
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
 
@@ -1298,6 +1302,8 @@ function make_config(PRINTER, TOOLHEAD) {
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("M175 v2")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        // Reduce X-Max to 284 as reported https://forums.drunkenoctop.us/t/lulzbot-archim2-bl-touch-m175v2-do-jamming-on-right-side/440
+        TOOLHEAD_X_MAX_ADJ                               = -17.5
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 1.75
         MARLIN["FILAMENT_CHANGE_FAST_LOAD_LENGTH"]       = 65
         MARLIN["INVERT_E0_DIR"]                          = 'true'
