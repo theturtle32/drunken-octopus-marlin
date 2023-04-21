@@ -146,7 +146,7 @@ function make_config(PRINTER, TOOLHEAD) {
     MARLIN["USE_YMAX_PLUG"]                              = true
     MARLIN["USE_ZMAX_PLUG"]                              = false
 
-    MARLIN["Y_MAX_ENDSTOP_INVERTING"]                    = 'false'
+    MARLIN["Y_MAX_ENDSTOP_HIT_STATE"]                    = 'HIGH'
 
     MARLIN["SD_ABORT_ON_ENDSTOP_HIT"]                    = ENABLED("SDSUPPORT")
     MARLIN["DIRECT_PIN_CONTROL"]                         = true

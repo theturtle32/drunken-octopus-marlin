@@ -786,8 +786,8 @@ function make_config(PRINTER, TOOLHEAD) {
 /*************************** ENDSTOP CONFIGURATION ***************************/
 
     // Whether endstops are inverting
-    NORMALLY_CLOSED_ENDSTOP                              = 0
-    NORMALLY_OPEN_ENDSTOP                                = 1
+    NORMALLY_CLOSED_ENDSTOP                              = "HIGH"
+    NORMALLY_OPEN_ENDSTOP                                = "LOW"
 
     if (USE_EINSY_RAMBO || USE_BTT_002) {
         MARLIN["Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN"]     = false
@@ -841,29 +841,29 @@ function make_config(PRINTER, TOOLHEAD) {
          * This is safer, as a loose connector or broken wire will halt
          * the axis
          */
-        MARLIN["X_MIN_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
-        MARLIN["Y_MIN_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MIN_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["Y_MIN_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
 
-        // LULZBOT_X_MAX_ENDSTOP_INVERTING varies by toolhead
-        MARLIN["Y_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
-        MARLIN["Z_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        // LULZBOT_X_MAX_ENDSTOP_HIT_STATE varies by toolhead
+        MARLIN["Y_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["Z_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
     }
     else if (USE_NORMALLY_OPEN_ENDSTOPS) {
-        MARLIN["X_MIN_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
-        MARLIN["Y_MIN_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["X_MIN_ENDSTOP_HIT_STATE"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["Y_MIN_ENDSTOP_HIT_STATE"]                = NORMALLY_OPEN_ENDSTOP
 
-        // LULZBOT_X_MAX_ENDSTOP_INVERTING varies by toolhead
-        MARLIN["Y_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
-        MARLIN["Z_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        // LULZBOT_X_MAX_ENDSTOP_HIT_STATE varies by toolhead
+        MARLIN["Y_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["Z_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_OPEN_ENDSTOP
     }
 
     // Electrical probing pins are always open until contact is made
     if (PROBE_STYLE == "BLTouch") {
-        MARLIN["Z_MIN_ENDSTOP_INVERTING"]                = 0
-        MARLIN["Z_MIN_PROBE_ENDSTOP_INVERTING"]          = 0
+        MARLIN["Z_MIN_ENDSTOP_HIT_STATE"]                = "HIGH"
+        MARLIN["Z_MIN_PROBE_ENDSTOP_HIT_STATE"]          = "HIGH"
     } else {
-        MARLIN["Z_MIN_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
-        MARLIN["Z_MIN_PROBE_ENDSTOP_INVERTING"]          = NORMALLY_OPEN_ENDSTOP
+        MARLIN["Z_MIN_ENDSTOP_HIT_STATE"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["Z_MIN_PROBE_ENDSTOP_HIT_STATE"]          = NORMALLY_OPEN_ENDSTOP
     }
 
     if (USE_Z_SCREW) {
@@ -955,13 +955,13 @@ function make_config(PRINTER, TOOLHEAD) {
 
     // Raise prior to homing to clear bed harware
     if (["BLTouch", "Inductive"].includes(PROBE_STYLE)) {
-        MARLIN["Z_HOMING_HEIGHT"]                        = 10
+        MARLIN["Z_CLEARANCE_FOR_HOMING"]                        = 10
     }
     else if (IS_MINI) {
-        MARLIN["Z_HOMING_HEIGHT"]                        = 4
+        MARLIN["Z_CLEARANCE_FOR_HOMING"]                        = 4
     }
     else {
-        MARLIN["Z_HOMING_HEIGHT"]                        = 5
+        MARLIN["Z_CLEARANCE_FOR_HOMING"]                        = 5
     }
 
     if (PRINTER.includes("SynDaver_Level")) {
@@ -987,7 +987,7 @@ function make_config(PRINTER, TOOLHEAD) {
 
 /************************* STEPPER INACTIVITY TIMEOUT ************************/
 
-    MARLIN["DEFAULT_STEPPER_DEACTIVE_TIME"]              = 600
+    MARLIN["DEFAULT_STEPPER_TIMEOUT_SEC"]              = 600
 
     if (!USE_MAX_ENDSTOPS) {
         MARLIN["HOME_AFTER_DEACTIVATE"]                  = true
@@ -1002,7 +1002,7 @@ function make_config(PRINTER, TOOLHEAD) {
         }
     }
 
-    MARLIN["DISABLE_INACTIVE_Z"]                         = USE_Z_BELT ? 'false' : 'true'
+    MARLIN["DISABLE_IDLE_Z"]                         = USE_Z_BELT ? 'false' : 'true'
 
 /************************ COMMON TOOLHEADS PARAMETERS ************************/
 
@@ -1029,7 +1029,7 @@ function make_config(PRINTER, TOOLHEAD) {
         E_STEPS                                          = 833
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Single Extruder")
         //         16 chars max                                      ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_OPEN_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
 
@@ -1039,7 +1039,7 @@ function make_config(PRINTER, TOOLHEAD) {
         E_STEPS                                          = 833
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Flexystruder")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_OPEN_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
 
@@ -1049,7 +1049,7 @@ function make_config(PRINTER, TOOLHEAD) {
         E_STEPS                                          = 420
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Aerostruder")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_OPEN_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
 
@@ -1062,7 +1062,7 @@ function make_config(PRINTER, TOOLHEAD) {
         E_STEPS                                          = 830
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Single Extruder")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
 
@@ -1073,7 +1073,7 @@ function make_config(PRINTER, TOOLHEAD) {
         E_STEPS                                          = 830
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Single Extruder")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
 
@@ -1084,7 +1084,7 @@ function make_config(PRINTER, TOOLHEAD) {
         E_STEPS                                          = 420
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Aerostruder")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
 
@@ -1099,7 +1099,7 @@ function make_config(PRINTER, TOOLHEAD) {
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Flexystruder")
         //        16 chars max                                      ^^^^^^^^^^^^^^^
         MARLIN["EXTRUDERS"]                              = 1
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_OPEN_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
 
@@ -1114,7 +1114,7 @@ function make_config(PRINTER, TOOLHEAD) {
         MARLIN["DEFAULT_ACCELERATION"]                   = 250
         MARLIN["DEFAULT_TRAVEL_ACCELERATION"]            = 250
         MARLIN["EXTRUDERS"]                              = 1
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_OPEN_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
 
@@ -1138,7 +1138,7 @@ function make_config(PRINTER, TOOLHEAD) {
         TOOLHEAD_WIPE_Y2_ADJ                             = 48
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Dual Extruder 2")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_OPEN_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
 
@@ -1149,7 +1149,7 @@ function make_config(PRINTER, TOOLHEAD) {
         TOOLHEAD_WIPE_Y2_ADJ                             = 48
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("FlexyDually v2")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_OPEN_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
 
@@ -1187,14 +1187,14 @@ function make_config(PRINTER, TOOLHEAD) {
             MARLIN["MANUAL_Z_HOME_POS"]                  = 5.5
             MARLIN["Z_SAFE_HOMING_X_POINT"]              = -26
             MARLIN["Z_SAFE_HOMING_Y_POINT"]              = 258
-            MARLIN["Z_HOMING_HEIGHT"]                    = 10
+            MARLIN["Z_CLEARANCE_FOR_HOMING"]                    = 10
             MARLIN["Z_CLEARANCE_DEPLOY_PROBE"]           = 10
             MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 10
         }
         if (PRINTER.includes("Oliveoil_TAZ6") || PRINTER.includes("Juniper_TAZ5") || PRINTER.includes("Guava_TAZ4")) {
             MARLIN["SWAP_E0_AND_E1"]                     = true
             MARLIN["SWAP_EXTRUDER_FANS"]                 = true // For backwards compatibility with TAZ 4
-            MARLIN["X_MAX_ENDSTOP_INVERTING"]            = NORMALLY_CLOSED_ENDSTOP
+            MARLIN["X_MAX_ENDSTOP_HIT_STATE"]            = NORMALLY_CLOSED_ENDSTOP
         }
     }
 
@@ -1217,7 +1217,7 @@ function make_config(PRINTER, TOOLHEAD) {
         E_STEPS                                          = 420
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("RTD Pt1000 Aero")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
         
@@ -1227,7 +1227,7 @@ function make_config(PRINTER, TOOLHEAD) {
         E_STEPS                                          = 420
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("SE 0.5mm AeroV2")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
         if (IS_TAZ) {
             // Reduce X-Max to 295 as reported by https://github.com/drunken-octopus/drunken-octopus-marlin/issues/37
             TOOLHEAD_X_MAX_ADJ                           = -6.5
@@ -1241,7 +1241,7 @@ function make_config(PRINTER, TOOLHEAD) {
         E_STEPS                                          = 420
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("HE 0.5mm")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
 
@@ -1252,7 +1252,7 @@ function make_config(PRINTER, TOOLHEAD) {
         MANUAL_FEEDRATE_E                                = 0.7 // mm/sec
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("SL 0.25mm Micro")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
         if (!["BLTouch", "Inductive"].includes(PROBE_STYLE)) {
           MARLIN["NOZZLE_TO_PROBE_OFFSET"]               = [0, 0, -1.24]
         }
@@ -1265,7 +1265,7 @@ function make_config(PRINTER, TOOLHEAD) {
         E_STEPS                                          = 420
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("HS 0.8mm")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
 
@@ -1275,7 +1275,7 @@ function make_config(PRINTER, TOOLHEAD) {
         E_STEPS                                          = 420
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("HS+ 1.2mm")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
     }
 
@@ -1289,7 +1289,7 @@ function make_config(PRINTER, TOOLHEAD) {
         TOOLHEAD_Y_MAX_ADJ                               = -13.5
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("M175 v1")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 1.75
         MARLIN["FILAMENT_CHANGE_FAST_LOAD_LENGTH"]       = 65
         MARLIN["INVERT_E0_DIR"]                          = 'true'
@@ -1301,7 +1301,7 @@ function make_config(PRINTER, TOOLHEAD) {
         E_STEPS                                          = 415
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("M175 v2")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
         // Reduce X-Max to 284 as reported https://forums.drunkenoctop.us/t/lulzbot-archim2-bl-touch-m175v2-do-jamming-on-right-side/440
         TOOLHEAD_X_MAX_ADJ                               = -17.5
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 1.75
@@ -1386,7 +1386,7 @@ function make_config(PRINTER, TOOLHEAD) {
         MARLIN["EXTRUDERS"]                              = 1
         MARLIN["Z_CLEARANCE_DEPLOY_PROBE"]               = 30
         MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]             = 30
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
     }
 
     if (["H175_Hemera"].includes(TOOLHEAD)) {
@@ -1396,7 +1396,7 @@ function make_config(PRINTER, TOOLHEAD) {
         MOTOR_CURRENT_E                                  = 960 // mA
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("H175")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 1.75
     }
 
@@ -1407,7 +1407,7 @@ function make_config(PRINTER, TOOLHEAD) {
         MOTOR_CURRENT_E                                  = 600 // mA
         MARLIN["TOOLHEAD_NAME"]                          = C_STRING("Single Extruder")
         //        16 chars max                                       ^^^^^^^^^^^^^^^
-        MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
+        MARLIN["X_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 1.75
     }
 
@@ -2369,8 +2369,8 @@ function make_config(PRINTER, TOOLHEAD) {
         MARLIN["USE_ZMIN_PLUG"]                          = true
         MARLIN["USE_ZMAX_PLUG"]                          = true
 
-        MARLIN["X_MIN_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
-        MARLIN["Y_MAX_ENDSTOP_INVERTING"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["X_MIN_ENDSTOP_HIT_STATE"]                = NORMALLY_OPEN_ENDSTOP
+        MARLIN["Y_MAX_ENDSTOP_HIT_STATE"]                = NORMALLY_OPEN_ENDSTOP
 
         // Quickhome does not work with sensorless homing
         MARLIN["QUICK_HOME"]                             = false
