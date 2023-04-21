@@ -229,10 +229,10 @@
 #define HEATER_BED_PIN                         9  // D9 PC21 BED_PWM  ("HTBD" header)
 
 #if defined(SWAP_EXTRUDER_FANS)
-  #define FAN_PIN                              8  // D8 PC22 FET_PWM5 ("HTR3" header)
+  #define FAN0_PIN                              8  // D8 PC22 FET_PWM5 ("HTR3" header)
   #define FAN1_PIN                             4  // D4 PC26 FET_PWM1 ("FAN1" header)
 #else
-  #define FAN_PIN                              4  // D4 PC26 FET_PWM1 ("FAN1" header)
+  #define FAN0_PIN                              4  // D4 PC26 FET_PWM1 ("FAN1" header)
   #ifndef FAN1_PIN
   #define FAN1_PIN                             8  // D8 PC22 FET_PWM5 ("HTR3" header)
   #endif
@@ -367,5 +367,5 @@
         #define CASE_LIGHT_PIN                       9  // D9 PC21 BED_PWM ("HTBD" header)
     #endif
 
-    #undef FAN_PIN
+    #undef FAN0_PIN
 #endif
