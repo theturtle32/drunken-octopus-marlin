@@ -39,6 +39,8 @@
 
 /**
  * Rambo pin assignments
+ * Schematic (1.1b): https://green-candy.osdn.jp/external/MarlinFW/board_schematics/RAMBo/Rambo1-1-schematic.png
+ * Origin (1.1b): https://www.reprap.org/wiki/File:Rambo1-1-schematic.png
  */
 
 #include "env_validate.h"
@@ -174,10 +176,10 @@
 #define HEATER_BED_PIN                         3
 
 #if defined(SWAP_EXTRUDER_FANS)
-  #define FAN_PIN                              6
+  #define FAN0_PIN                             6
   #define FAN1_PIN                             8
 #else
-  #define FAN_PIN                              8
+  #define FAN0_PIN                             8
   #define FAN1_PIN                             6
 #endif
 #ifndef FAN2_PIN
@@ -238,7 +240,7 @@
   #if IS_ULTIPANEL || TOUCH_UI_ULTIPANEL
 
     #define LCD_PINS_RS                       70
-    #define LCD_PINS_ENABLE                   71
+    #define LCD_PINS_EN                       71
     #define LCD_PINS_D4                       72
     #define LCD_PINS_D5                       73
     #define LCD_PINS_D6                       74
@@ -298,7 +300,7 @@
     //#define SHIFT_EN_PIN                    17
 
     #define LCD_PINS_RS                       75
-    #define LCD_PINS_ENABLE                   17
+    #define LCD_PINS_EN                       17
     #define LCD_PINS_D4                       23
     #define LCD_PINS_D5                       25
     #define LCD_PINS_D6                       27
