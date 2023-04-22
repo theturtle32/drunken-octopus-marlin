@@ -316,7 +316,7 @@ function make_config(PRINTER, TOOLHEAD) {
         USE_NORMALLY_CLOSED_ENDSTOPS                     = true
         USE_MIN_ENDSTOPS                                 = true
         USE_MAX_ENDSTOPS                                 = true
-        USE_HOME_BUTTON                                  = true
+        USE_HOME_BUTTON                                  = !PRINTER.includes("BLTouch")
         MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ 6")
         if (USE_ARCHIM2) {
             // Must use 12 character USB product name to prevent board lockups
@@ -1187,7 +1187,7 @@ function make_config(PRINTER, TOOLHEAD) {
             MARLIN["MANUAL_Z_HOME_POS"]                  = 5.5
             MARLIN["Z_SAFE_HOMING_X_POINT"]              = -26
             MARLIN["Z_SAFE_HOMING_Y_POINT"]              = 258
-            MARLIN["Z_CLEARANCE_FOR_HOMING"]                    = 10
+            MARLIN["Z_CLEARANCE_FOR_HOMING"]             = 10
             MARLIN["Z_CLEARANCE_DEPLOY_PROBE"]           = 10
             MARLIN["Z_CLEARANCE_BETWEEN_PROBES"]         = 10
         }
