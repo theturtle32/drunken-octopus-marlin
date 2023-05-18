@@ -298,17 +298,17 @@ def make_config(PRINTER, TOOLHEAD):
         USE_MIN_ENDSTOPS                                 = True
         USE_MAX_ENDSTOPS                                 = True
         USE_HOME_BUTTON                                  = False if PROBE_STYLE == "BLTouch" else True
-        USE_REPRAP_LCD_DISPLAY                           = False
-        MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TAZ 6")
+        USE_REPRAP_LCD_DISPLAY                           = True
+        MARLIN["CUSTOM_MACHINE_NAME"]                    = C_STRING("TurtleBot")
         if USE_ARCHIM2:
             # Must use 12 character USB product name to prevent board lockups
-            MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("TAZ 6       ")
+            MARLIN["USB_DEVICE_PRODUCT_NAME"]            = C_STRING("Turtlebot   ")
         MARLIN["BACKLASH_COMPENSATION"]                  = True
         MARLIN["ENDSTOPS_ALWAYS_ON_DEFAULT"]             = True
         MARLIN["BAUDRATE"]                               = 250000
         MARLIN["PRINTCOUNTER"]                           = True
         MARLIN["MACHINE_UUID"]                           = C_STRING("845f003c-aebd-4e53-a6b9-7d0984fde609")
-        MARLIN["SDSUPPORT"]                              = False
+        MARLIN["SDSUPPORT"]                              = True
         # Specify pin for bed washers. If commented out,
         # bed washers will use Z_MIN pin (i.e. bed washers
         # and homing button wired together)
@@ -1110,7 +1110,7 @@ def make_config(PRINTER, TOOLHEAD):
         #         16 chars max                                       ^^^^^^^^^^^^^^^
         MARLIN["X_MAX_ENDSTOP_INVERTING"]                = NORMALLY_CLOSED_ENDSTOP
         MARLIN["DEFAULT_NOMINAL_FILAMENT_DIA"]           = 3.0
-        
+
     if TOOLHEAD in ["CecropiaSilk_SingleExtruderAeroV2"]:
         TOOLHEAD_TYPE                                    = "SingleExtruderAeroV2"
         TOOLHEAD_BLOCK                                   = "E3D_Titan_Aero_V6"
@@ -2628,7 +2628,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["USE_SMALL_INFOFONT"]                     = True
         MARLIN["BOOT_MARLIN_LOGO_SMALL"]                 = True
         MARLIN["LCD_INFO_MENU"]                          = True
-        MARLIN["ENCODER_PULSES_PER_STEP"]                = 2
+        MARLIN["ENCODER_PULSES_PER_STEP"]                = 4
         MARLIN["ENCODER_STEPS_PER_MENU_ITEM"]            = 1
         MARLIN["LCD_SET_PROGRESS_MANUALLY"]              = True
         MARLIN["SCROLL_LONG_FILENAMES"]                  = True
@@ -2647,6 +2647,7 @@ def make_config(PRINTER, TOOLHEAD):
         MARLIN["MARLIN_SNAKE"]                           = True
         if IS_MINI or USE_ARCHIM2:
             MARLIN["REVERSE_ENCODER_DIRECTION"]          = True
+        MARLIN["REVERSE_ENCODER_DIRECTION"]              = False
 
     if ENABLED("LIGHTWEIGHT_UI"):
         MARLIN["STATUS_EXPIRE_SECONDS"]                  = 0
